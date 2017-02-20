@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-20T17:15:00Z</date>
+    <date>2017-02-20T17:40:41Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -23,6 +23,92 @@
                 </application>
             </applications>
             <items>
+                <item>
+                    <name>Server certificates expiry days</name>
+                    <type>0</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>daemon.cert.minexpiry</key>
+                    <delay>3600</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units>days</units>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Number of mails queued</name>
+                    <type>0</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>daemon.mail.queued</key>
+                    <delay>180</delay>
+                    <history>7</history>
+                    <trends>365</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>0</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
                 <item>
                     <name>Percentage of max files opened by process</name>
                     <type>0</type>
@@ -455,9 +541,25 @@
     </templates>
     <triggers>
         <trigger>
+            <expression>{Template OSSO Daemons:daemon.cert.minexpiry.last()}&lt;14</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Certificate(s) about to expire on {HOST.NAME}</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
             <expression>({Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0 or&#13;
  {Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:psdiff.extra.nodata(30m)}&lt;&gt;1</expression>
+{Template OSSO Daemons:psdiff.extra.nodata(30m)}=1</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE}</name>
@@ -475,7 +577,7 @@
         <trigger>
             <expression>({Template OSSO Daemons:psdiff.extra.strlen()}&lt;&gt;0 or&#13;
  {Template OSSO Daemons:psdiff.extra.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}&lt;&gt;1</expression>
+{Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}=1</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE} (deprecated)</name>
@@ -491,9 +593,41 @@
             <tags/>
         </trigger>
         <trigger>
+            <expression>{Template OSSO Daemons:daemon.mail.queued.last()}&gt;1000</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Mail queue on {HOST.NAME} is above threshold (1000)</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>5</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Template OSSO Daemons:daemon.mail.queued.last()}&gt;750</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Mail queue on {HOST.NAME} is nearing its threshold (1000)</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>4</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
             <expression>({Template OSSO Daemons:daemon.psdiff.missing.strlen()}&lt;&gt;0 or&#13;
  {Template OSSO Daemons:daemon.psdiff.missing.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:psdiff.missing.nodata(30m)}&lt;&gt;1</expression>
+{Template OSSO Daemons:psdiff.missing.nodata(30m)}=1</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Missing daemons on {HOST.NAME}: {ITEM.VALUE}</name>
@@ -511,7 +645,7 @@
         <trigger>
             <expression>({Template OSSO Daemons:psdiff.missing.strlen()}&lt;&gt;0 or&#13;
  {Template OSSO Daemons:psdiff.missing.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:daemon.psdiff.missing.nodata(30m)}&lt;&gt;1</expression>
+{Template OSSO Daemons:daemon.psdiff.missing.nodata(30m)}=1</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Missing daemons on {HOST.NAME}: {ITEM.VALUE} (deprecated)</name>

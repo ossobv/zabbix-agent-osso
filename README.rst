@@ -48,11 +48,14 @@ TODO
 
 * Create the debian-package :P
 
+* Still to do: cpu.conf, kernel.conf.
+
 * We need to fix the dependencies/suggestions/recommends.
 
 * We need to add the cron entries to cron.d.
 
 * Add iptables and ip6tables monitoring to kernel.* or firewall.*.
+
 
 Mostly done
 ~~~~~~~~~~~
