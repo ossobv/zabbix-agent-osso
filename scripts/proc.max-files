@@ -1,0 +1,17 @@
+#!/bin/sh
+# Return the process that is closest to reaching its open file limit.
+# Example:
+# 57 16674 /usr/lib/dovecot/imap-login
+# <Percentage> <pid> <binary>
+# For an explanation see:
+# http://wjd.nu/notes/2015#monitoring-process-open-files-limit
+for x in /proc/[0-9]*
+  do fds=0
+     max=`awk '/^Max open files/ {print $4}' $x/limits 2>/dev/null` &&
+       for t in $x/fd/*; do fds=$((fds+1)); done &&
+       test "${max:-0}" -gt 0 && echo $((fds*100/max)) ${x##*/}
+  done | sort -rn | while read l
+  do pid=${l##* }; echo "$l `readlink /proc/$pid/exe`"; break; done \
+  >/tmp/zabbix.proc.max-files.tmp
+chmod a+r /tmp/zabbix.proc.max-files.tmp
+mv /tmp/zabbix.proc.max-files.tmp /tmp/zabbix.proc.max-files
