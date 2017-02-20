@@ -27,10 +27,10 @@ Sources
 +-----------------------+----------------------------------------------------+
 | path                  | description                                        |
 +=======================+====================================================+
-| zabbix_agentd.d/      | The zabbix UserParameters as expected to be        |
+| ``zabbix_agentd.d/``  | The zabbix UserParameters as expected to be        |
 |                       | included through ``zabbix_agentd.conf``.           |
 +-----------------------+----------------------------------------------------+
-| scripts/              | The scripts directory mainly consists of scripts   |
+| ``scripts/``          | The scripts directory mainly consists of scripts   |
 |                       | that should be run periodically by the root user.  |
 |                       |                                                    |
 |                       | Most are not invoked by the zabbix                 |
@@ -38,7 +38,7 @@ Sources
 |                       | take too much time to run or because they          |
 |                       | require more permissions.                          |
 +-----------------------+----------------------------------------------------+
-| sudoers.d/            | Sudoers files for zabbix scripts that require more |
+| ``sudoers.d/``        | Sudoers files for zabbix scripts that require more |
 |                       | permissions.                                       |
 +-----------------------+----------------------------------------------------+
 
@@ -46,12 +46,17 @@ Sources
 TODO
 ----
 
-* We need to fix the dependencies/suggestions/recomments.
+* Create the debian-package :P
+
+* We need to fix the dependencies/suggestions/recommends.
 
 * We need to add the cron entries to cron.d.
 
-* We need to test these with the appropriate templates.
-
-* We also need the Zabbix templates here.
-
 * Add iptables and ip6tables monitoring to kernel.* or firewall.*.
+
+Mostly done
+~~~~~~~~~~~
+
+* We also need the Zabbix templates here. (Most done.)
+
+* We need to test these with the appropriate templates.

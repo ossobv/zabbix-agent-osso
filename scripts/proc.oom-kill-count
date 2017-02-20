@@ -1,5 +1,0 @@
-#!/bin/sh
-# Cronjob to detect if the oom-killer has been active recently.
-grep --count oom_kill_process /var/log/syslog >/tmp/zabbix.proc.oom-kill-count.tmp
-chmod a+r /tmp/zabbix.proc.oom-kill-count.tmp
-mv /tmp/zabbix.proc.oom-kill-count.tmp /tmp/zabbix.proc.oom-kill-count

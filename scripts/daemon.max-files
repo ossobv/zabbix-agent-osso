@@ -12,6 +12,6 @@ for x in /proc/[0-9]*
        test "${max:-0}" -gt 0 && echo $((fds*100/max)) ${x##*/}
   done | sort -rn | while read l
   do pid=${l##* }; echo "$l `readlink /proc/$pid/exe`"; break; done \
-  >/tmp/zabbix.proc.max-files.tmp
-chmod a+r /tmp/zabbix.proc.max-files.tmp
-mv /tmp/zabbix.proc.max-files.tmp /tmp/zabbix.proc.max-files
+  >/tmp/zabbix.daemon.max-files.tmp
+chmod a+r /tmp/zabbix.daemon.max-files.tmp
+mv /tmp/zabbix.daemon.max-files.tmp /tmp/zabbix.daemon.max-files
