@@ -26,8 +26,8 @@ cleanup:
 
 install:
 	# zabbix_agentd.d
-	install -d -o zabbix $(DESTDIR)/etc/zabbix/zabbix_agentd.d/
-	install -o zabbix -m 0400 -t $(DESTDIR)/etc/zabbix/zabbix_agentd.d/ \
+	install -d -o root $(DESTDIR)/etc/zabbix/zabbix_agentd.d/
+	install -o root -m 0444 -t $(DESTDIR)/etc/zabbix/zabbix_agentd.d/ \
 	  zabbix_agentd.d/*.conf
 	# scripts
 	install -d -o root $(DESTDIR)/etc/zabbix/scripts/

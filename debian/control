@@ -1,0 +1,15 @@
+Source: zabbix-agent-osso
+Maintainer: Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>
+Section: admin
+Priority: optional
+Standards-Version: 3.9.6
+Build-Depends: debhelper (>= 9)
+Build-Depends-Indep: python:any, python3:any, dh-python
+
+Package: zabbix-agent-osso
+Architecture: all
+Depends: ${misc:Depends}, zabbix-agent, update-notifier-common, vcutil
+Suggests: cron, gocollect, mail-transport-agent, postfix
+Description: OSSO zabbix-agent default scripts
+ The zabbix-agent OSSO scripts make default Debian/Ubuntu monitoring
+ easier.
