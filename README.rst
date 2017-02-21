@@ -50,8 +50,6 @@ TODO
 
 * Create the debian-package :P
 
-* Add kernelmisc template.
-
 * We need to fix the dependencies/suggestions/recommends.
 
 * We need to add the cron entries to cron.d.
