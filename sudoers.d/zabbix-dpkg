@@ -1,0 +1,4 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+# You need root to view updates-available.
+zabbix ALL=NOPASSWD: /bin/cat /var/lib/update-notifier/updates-available

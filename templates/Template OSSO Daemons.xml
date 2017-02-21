@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-20T17:40:41Z</date>
+    <date>2017-02-21T10:00:02Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -67,6 +67,135 @@
                     <logtimefmt/>
                 </item>
                 <item>
+                    <name>Daemon cron is running</name>
+                    <type>0</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>daemon.is_running[cron]</key>
+                    <delay>300</delay>
+                    <history>7</history>
+                    <trends>30</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>3</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Daemon gocollect is running</name>
+                    <type>0</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>daemon.is_running[gocollect]</key>
+                    <delay>300</delay>
+                    <history>7</history>
+                    <trends>30</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>3</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
+                    <name>Daemon postfix is running</name>
+                    <type>0</type>
+                    <snmp_community/>
+                    <multiplier>0</multiplier>
+                    <snmp_oid/>
+                    <key>daemon.is_running[master]</key>
+                    <delay>300</delay>
+                    <history>7</history>
+                    <trends>30</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <delta>0</delta>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <formula>1</formula>
+                    <delay_flex/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <data_type>3</data_type>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                </item>
+                <item>
                     <name>Number of mails queued</name>
                     <type>0</type>
                     <snmp_community/>
@@ -115,7 +244,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>daemon.max-files.percentage</key>
+                    <key>daemon.max_files.percentage</key>
                     <delay>60</delay>
                     <history>90</history>
                     <trends>365</trends>
@@ -158,7 +287,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>daemon.max-files.pid</key>
+                    <key>daemon.max_files.pid</key>
                     <delay>60</delay>
                     <history>90</history>
                     <trends>365</trends>
@@ -201,7 +330,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>daemon.max-files.process</key>
+                    <key>daemon.max_files.process</key>
                     <delay>60</delay>
                     <history>90</history>
                     <trends>0</trends>
@@ -244,7 +373,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>daemon.oom-kill.count</key>
+                    <key>daemon.oom_kill.count</key>
                     <delay>120</delay>
                     <history>7</history>
                     <trends>365</trends>
@@ -402,7 +531,11 @@
                     <port/>
                     <description>Checks whether running applications depend on deleted (updated) libraries.</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                 </item>
@@ -527,7 +660,11 @@
                     <port/>
                     <description>Checks whether running applications depend on deleted (updated) libraries.</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                 </item>
@@ -551,6 +688,72 @@
             <status>0</status>
             <priority>1</priority>
             <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Template OSSO Daemons:daemon.is_running[cron].last()}=0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Daemon cron is not running</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Template OSSO Daemons:daemon.is_running[master].last()}=0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Daemon gocollect is not running</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{Template OSSO Daemons:daemon.is_running[master].last()}=0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Daemon postfix is not running</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>({Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0 or&#13;
+ {Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}=1) and&#13;
+ {Template OSSO Daemons:psdiff.extra.nodata(30m)}=1</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE}</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description>Use `psdiff show` and `psdiff write` to update the DB.</description>
             <type>0</type>
             <manual_close>0</manual_close>
             <dependencies/>
@@ -693,9 +896,9 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.max-files.percentage.last(0)}&gt;60 and&#13;
- {Template OSSO Daemons:daemon.max-files.process.str('This is not a process name')}=0 and&#13;
- {Template OSSO Daemons:daemon.max-files.pid.last(0)}&gt;1)</expression>
+            <expression>({Template OSSO Daemons:daemon.max_files.percentage.last(0)}&gt;60 and&#13;
+ {Template OSSO Daemons:daemon.max_files.process.str('This is not a process name')}=0 and&#13;
+ {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}% of max).</name>
@@ -711,9 +914,9 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.max-files.percentage.last(0)}&gt;80 and&#13;
- {Template OSSO Daemons:daemon.max-files.process.str('This is not a process name')}=0 and&#13;
- {Template OSSO Daemons:daemon.max-files.pid.last(0)}&gt;1)</expression>
+            <expression>({Template OSSO Daemons:daemon.max_files.percentage.last(0)}&gt;80 and&#13;
+ {Template OSSO Daemons:daemon.max_files.process.str('This is not a process name')}=0 and&#13;
+ {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}% of max).</name>

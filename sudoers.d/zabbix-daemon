@@ -1,2 +1,7 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+zabbix ALL=NOPASSWD: /usr/bin/cert-expiry-finder
 zabbix ALL=NOPASSWD: /usr/bin/wcheckrestart
+#
+zabbix ALL=NOPASSWD: /usr/local/bin/cert-expiry-finder
 zabbix ALL=NOPASSWD: /usr/local/bin/wcheckrestart

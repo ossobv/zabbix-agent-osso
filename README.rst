@@ -1,7 +1,9 @@
-osso-zabbix-config
-==================
+zabbix-agent-osso - Zabbix Agent scripts
+========================================
 
-Common zabbix ``UserParameters`` that we generally need.
+Common zabbix ``UserParameters`` and the necessary support scripts.
+
+This package attempts to address our common zabbix configuration needs.
 
 
 Installation
@@ -48,18 +50,10 @@ TODO
 
 * Create the debian-package :P
 
-* Still to do: cpu.conf, kernel.conf.
+* Add kernelmisc template.
 
 * We need to fix the dependencies/suggestions/recommends.
 
 * We need to add the cron entries to cron.d.
 
-* Add iptables and ip6tables monitoring to kernel.* or firewall.*.
-
-
-Mostly done
-~~~~~~~~~~~
-
-* We also need the Zabbix templates here. (Most done.)
-
-* We need to test these with the appropriate templates.
+* Add asterisk monitoring?
