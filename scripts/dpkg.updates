@@ -1,0 +1,18 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# RECOMMENDS: update-notifier-common (not available in jessie+)
+#
+# Updates /var/lib/update-notifier/updates-available
+
+if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
+    /usr/lib/update-notifier/update-motd-updates-available --force >/dev/null
+else
+    # Fallback in case there is no update-notifier-common.
+    # Note that the "security updates" value is now bogus.
+    sleep $(( $(dd if=/dev/urandom bs=2 count=1 2> /dev/null | cksum | cut -d' ' -f1) % 300 ))
+    apt-get update >/dev/null 
+    mkdir -p /var/lib/update-notifier
+    LC_ALL=C apt-get -s dist-upgrade |
+      awk 'BEGIN{i=0} /^Inst /{i+=1} END{print i " packages can be updated.";print i " updates are security updates."}' \
+	  >/var/lib/update-notifier/updates-available
+fi

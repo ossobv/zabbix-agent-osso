@@ -18,9 +18,8 @@
     count=${count_pid% *}
     if test $count -ge 10; then
         pid=${count_pid#* }
-        lim=$(awk '/^Max open files/ {print $4}' /proc/$pid/limits
+        lim=$(awk '/^Max open files/ {print $4}' /proc/$pid/limits \
               2>/dev/null) &&
-          test ${lim:-0} -gt 0 &&
           max=$((count*1000/lim)) &&
           echo $max $pid
     fi

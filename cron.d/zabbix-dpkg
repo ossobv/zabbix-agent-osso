@@ -1,4 +1,4 @@
 # [This file is part of the zabbix-agent-osso package]
 
 # Hourly update the outstanding security and regular updates.
-35 *     * * *  root  [ -x /usr/lib/update-notifier/update-motd-updates-available ] && /usr/lib/update-notifier/update-motd-updates-available --force >/dev/null
+35 */3     * * *  root  [ -x /etc/zabbix/scripts/dpkg.updates ] && /etc/zabbix/scripts/dpkg.updates
