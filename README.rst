@@ -59,5 +59,8 @@ TODO
 ----
 
 * Add asterisk monitoring?
+* Remark how we shouldn't use 0.1~rcX for versioning, because we also append
+  ~deb8 to it, and the final release would come *before* the rc-release.
+  Use ~aX instead.
 * Add MySQL monitoring?
 * Add RANDOM-sleep to periodic cron jobs?

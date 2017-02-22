@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-22T14:02:20Z</date>
+    <date>2017-02-22T16:01:22Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -742,9 +742,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0 or&#13;
- {Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}=1) and&#13;
- {Template OSSO Daemons:psdiff.extra.nodata(30m)}=1</expression>
+            <expression>{Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE}</name>
@@ -760,27 +758,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0 or&#13;
- {Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:psdiff.extra.nodata(30m)}=1</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE}</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>1</priority>
-            <description>Use `psdiff show` and `psdiff write` to update the DB.</description>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
-            <expression>({Template OSSO Daemons:psdiff.extra.strlen()}&lt;&gt;0 or&#13;
- {Template OSSO Daemons:psdiff.extra.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:daemon.psdiff.extra.nodata(30m)}=1</expression>
+            <expression>{Template OSSO Daemons:psdiff.extra.strlen()}&lt;&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE} (deprecated)</name>
@@ -828,9 +806,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.psdiff.missing.strlen()}&lt;&gt;0 or&#13;
- {Template OSSO Daemons:daemon.psdiff.missing.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:psdiff.missing.nodata(30m)}=1</expression>
+            <expression>{Template OSSO Daemons:daemon.psdiff.missing.strlen()}&lt;&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Missing daemons on {HOST.NAME}: {ITEM.VALUE}</name>
@@ -846,9 +822,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:psdiff.missing.strlen()}&lt;&gt;0 or&#13;
- {Template OSSO Daemons:psdiff.missing.nodata(30m)}=1) and&#13;
-{Template OSSO Daemons:daemon.psdiff.missing.nodata(30m)}=1</expression>
+            <expression>{Template OSSO Daemons:psdiff.missing.strlen()}&lt;&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Missing daemons on {HOST.NAME}: {ITEM.VALUE} (deprecated)</name>

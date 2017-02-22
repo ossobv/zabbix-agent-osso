@@ -10,7 +10,7 @@ else
     # Fallback in case there is no update-notifier-common.
     # Note that the "security updates" value is now bogus.
     sleep $(( $(dd if=/dev/urandom bs=2 count=1 2> /dev/null | cksum | cut -d' ' -f1) % 300 ))
-    apt-get update >/dev/null 
+    apt-get update >/dev/null
     mkdir -p /var/lib/update-notifier
     LC_ALL=C apt-get -s dist-upgrade |
       awk 'BEGIN{i=0} /^Inst /{i+=1} END{print i " packages can be updated.";print i " updates are security updates."}' \
