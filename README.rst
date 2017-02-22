@@ -40,6 +40,8 @@ Sources
 |                       | take too much time to run or because they          |
 |                       | require more permissions.                          |
 +-----------------------+----------------------------------------------------+
+| ``cron.d/``           | Cron jobs for slow tasks.                          |
++-----------------------+----------------------------------------------------+
 | ``sudoers.d/``        | Sudoers files for zabbix scripts that require more |
 |                       | permissions.                                       |
 +-----------------------+----------------------------------------------------+
@@ -48,6 +50,6 @@ Sources
 TODO
 ----
 
-* We need to add the cron entries to cron.d.
-
 * Add asterisk monitoring?
+* Add MySQL monitoring?
+* Add RANDOM-sleep to periodic cron jobs?

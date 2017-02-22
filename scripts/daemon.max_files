@@ -2,20 +2,37 @@
 # [This file is part of the zabbix-agent-osso package]
 # Log the process that is closest to reaching its open file limit.
 #
+# We're running this from cron, because we want three values from it:
+# the promille, the pid and the binary. It's supposed to run way faster
+# than 1s, but it must be run as root.
+#
 # Example:
-#   57 16674 /usr/lib/dovecot/imap-login
-#   <percentage> <pid> <binary>
+#   573 16674 /usr/lib/dovecot/imap-login
+#   <promille> <pid> <binary>
 #
 # For an explanation see:
 #   http://wjd.nu/notes/2015#monitoring-process-open-files-limit
 #
-for x in /proc/[0-9]*
-  do fds=0
-     max=`awk '/^Max open files/ {print $4}' $x/limits 2>/dev/null` &&
-       for t in $x/fd/*; do fds=$((fds+1)); done &&
-       test "${max:-0}" -gt 0 && echo $((fds*100/max)) ${x##*/}
-  done | sort -rn | while read l
-  do pid=${l##* }; echo "$l `readlink /proc/$pid/exe`"; break; done \
-  >/tmp/zabbix.daemon.max_files.tmp
-chmod a+r /tmp/zabbix.daemon.max_files.tmp
-mv /tmp/zabbix.daemon.max_files.tmp /tmp/zabbix.daemon.max_files
+! find /proc/ -maxdepth 3 -type l -path '/proc/[0-9]*/fd/*' 2>/dev/null |
+        cut -d/ -f3 | uniq -c | while read count_pid; do
+    count=${count_pid% *}
+    if test $count -ge 10; then
+        pid=${count_pid#* }
+        lim=$(awk '/^Max open files/ {print $4}' /proc/$pid/limits
+              2>/dev/null) &&
+          max=$((count*1000/lim)) &&
+          echo $max $pid
+    fi
+done | sort -rn | while read pct_pid; do
+    pid=${pct_pid##* } &&
+      name=$(readlink /proc/$pid/exe 2>/dev/null) &&
+      echo $pct_pid $name &&
+      exit 1  # inverted by the '!' before find above
+done >/tmp/zabbix.daemon.max_files.tmp
+
+if test $? -eq 0; then
+    chmod a+r /tmp/zabbix.daemon.max_files.tmp
+    mv /tmp/zabbix.daemon.max_files.tmp /tmp/zabbix.daemon.max_files
+else
+    rm -f /tmp/zabbix.daemon.max_files.tmp /tmp/zabbix.daemon.max_files
+fi

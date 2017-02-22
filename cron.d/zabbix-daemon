@@ -1,0 +1,9 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# Continuously monitor max-open-files limits. We don't call this from
+# the UserParameter because we want to read 3 values from it.
+* *      * * *  root  [ -x /etc/zabbix/scripts/daemon.max_files ] && /etc/zabbix/scripts/daemon.max_files
+
+# Check whether there was an oom_kill recently. We don't call this from
+# the UserParameter, because it's a slow/heavy operation.
+11,41 *  * * *  root  [ -x /etc/zabbix/scripts/daemon.oom_kill ] && /etc/zabbix/scripts/daemon.oom_kill
