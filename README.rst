@@ -9,7 +9,10 @@ This package attempts to address our common zabbix configuration needs.
 Installation
 ------------
 
-* Install this onto the machine (FIXME: as a 'deb' obviously).
+* Install this onto the machine. Build a debian package or fetch a
+  pre-built one::
+
+    dpkg-buildpackage -us -uc -sa
 
 * Fix the ``zabbix_agentd.conf`` to include ``zabbix_agentd.d/*.conf``
   (possibly without ``*.conf`` for older zabbix agents; and not
@@ -21,6 +24,11 @@ Installation
     Server=zabbix.EXAMPLE.COM, zabbix-proxy1.EXAMPLE.COM, zabbix-proxy2.EXAMPLE.COM
     ServerActive=
     #DebugLevel=4
+
+* On your Zabbix server you'll want to import the provided `Zabbix
+  Templates`_.
+
+.. _`Zabbix Templates`: https://github.com/ossobv/zabbix-agent-osso/tree/master/templates
 
 
 Sources

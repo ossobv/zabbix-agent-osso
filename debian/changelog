@@ -1,5 +1,5 @@
-zabbix-agent-osso (0.1~rc1) UNRELEASED; urgency=low
+zabbix-agent-osso (0.1~rc2) UNRELEASED; urgency=low
 
   * Initial version.
 
- -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Tue, 21 Feb 2017 13:40:18 +0100
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Wed, 22 Feb 2017 11:27:52 +0100
