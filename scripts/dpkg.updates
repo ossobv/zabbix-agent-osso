@@ -1,18 +1,104 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
 # RECOMMENDS: update-notifier-common (not available in jessie+)
+# TODO: do we really want to prefer the update-notifier?
 #
 # Updates /var/lib/update-notifier/updates-available
 
+# If we have /usr/lib/update-notifier/update-motd-updates-available,
+# then we use that.
 if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
     /usr/lib/update-notifier/update-motd-updates-available --force >/dev/null
-else
-    # Fallback in case there is no update-notifier-common.
-    # Note that the "security updates" value is now bogus.
-    sleep $(( $(dd if=/dev/urandom bs=2 count=1 2> /dev/null | cksum | cut -d' ' -f1) % 300 ))
-    apt-get update >/dev/null
-    mkdir -p /var/lib/update-notifier
-    LC_ALL=C apt-get -s dist-upgrade |
-      awk 'BEGIN{i=0} /^Inst /{i+=1} END{print i " packages can be updated.";print i " updates are security updates."}' \
-	  >/var/lib/update-notifier/updates-available
+    exit $?
 fi
+
+
+# Fallback in case there is no update-notifier-common. This is
+# probably more intensive, so we'll introduce a sleep so not
+# every server hammers at the same time.
+mkdir -p /var/lib/update-notifier
+test "$1" != "--nosleep" && sleep $(( \
+      $(dd if=/dev/urandom bs=2 count=1 2> /dev/null |
+        cksum | cut -d' ' -f1) % 300 )) &&
+    apt-get update >/dev/null  # and update repo lists
+
+# Test a few prerequisites.
+echo | sed -re1q63 >/dev/null 2>&1
+test $? -eq 63 && sed_is_ok=1
+CODENAME=$(lsb_release --codename --short 2>/dev/null) && has_codename=1
+
+# Try to fetch codename and loop over the policies to find out if
+# this is a security thing or not. Don't go full-fledged parsing like in
+# https://github.com/ossobv/gocollect/blob/master/collectors/os.distro
+# -- if there is no lsb_release, we'll just fall back to "package_count
+# equals security_count".
+if test "$sed_is_ok" != 1 || test "$has_codename" != 1; then
+    LC_ALL=C apt-get -s dist-upgrade |
+        awk 'BEGIN{i=0} /^Inst /{i+=1}
+             END{print i " packages can be updated.";
+                 print i " updates are security updates."}' \
+            >/var/lib/update-notifier/updates-available
+    exit 0
+fi
+
+
+is_security() {
+# apt-cache policy PACKAGE; returns these:
+#
+# ssh:
+#   Installed: (none)
+#   Candidate: 1:6.7p1-5+deb8u3
+#   Version table:
+#      1:6.7p1-5+deb8u3 0
+#         500 http://apt.example.com/debian/ jessie/main amd64 Packages
+#         500 http://apt.example.com/debian-security/ jessie/updates/main amd..
+# zabbix-agent:
+#   Installed: 1:2.2.11-1+squeeze
+#   Candidate: 1:2.2.14-1+squeeze
+#   Version table:
+#      1:2.2.14-1+squeeze 0
+#         500 http://aptmirror.example.com/zabbix-2.2/ squeeze/main amd64 Pac..
+#  *** 1:2.2.11-1+squeeze 0
+#         100 /var/lib/dpkg/status
+#      1:1.8.2-1squeeze4 0
+#         500 http://security.debian.org/ squeeze/updates/main amd64 Packages
+# ssh:
+#   Installed: (none)
+#   Candidate: 1:7.2p2-4ubuntu2.1
+#   Version table:
+#      1:7.2p2-4ubuntu2.1 500
+#         500 http://apt.example.com/ubuntu xenial-updates/main amd64 Packages
+#         500 http://apt.example.com/ubuntu xenial-updates/main i386 Packages
+#         500 http://apt.example.com/ubuntu xenial-security/main amd64 Packages
+#         500 http://apt.example.com/ubuntu xenial-security/main i386 Packages
+#      1:7.2p2-4 500
+#         500 http://apt.example.com/ubuntu xenial/main amd64 Packages
+#         500 http://apt.example.com/ubuntu xenial/main i386 Packages
+#
+# We'll consider ".* squeeze/updates/" and " jessie/updates/" and
+# " xenial-security/" as security updates.
+#
+# Only if the first hit (the one that's going to be installed) has the
+# security tag, we'll consider this a security update.
+#
+    candidate=$(apt-cache policy "$1" |
+        sed -rne '/^\s+Candidate:/{s/^[^:]*: *//;s/([^0-9a-z])/\\\1/g;p;q}')
+    ! LC_ALL=C apt-cache policy "$1" | sed -nre "
+      /^ ... $candidate /,\${
+        2,/^ ... [^ ]/{
+          /^ *[0-9]+ ([^ ]+) ($CODENAME-security|$CODENAME\/updates)\//{q1}}}"
+}
+
+p=0
+s=0
+LC_ALL=C apt-get -s dist-upgrade |
+      sed -re '/^Inst /!d;s/^Inst ([^ ]+) .*/\1/' |
+      while read package; do
+    p=$((p+1))
+    is_security "$package" && s=$((s+1))
+    echo "$p;$s"
+done | awk -F';' 'BEGIN{p=0;s=0} {p=$1;s=$2} END{
+                   print p " packages can be updated.";
+                   print s " updates are security updates."}' \
+    >/var/lib/update-notifier/updates-available
+exit 0
