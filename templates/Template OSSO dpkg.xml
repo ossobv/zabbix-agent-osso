@@ -29,7 +29,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>dpkg.updates[packages]</key>
+                    <key>dpkg.updates[package]</key>
                     <delay>3600</delay>
                     <history>7</history>
                     <trends>90</trends>
@@ -119,7 +119,7 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO dpkg:dpkg.updates[packages].last(0)}&gt;0</expression>
+            <expression>{Template OSSO dpkg:dpkg.updates[package].last(0)}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>{ITEM.LASTVALUE} package update(s) available on {HOST.NAME}</name>

@@ -35,7 +35,7 @@ CODENAME=$(lsb_release --codename --short 2>/dev/null) && has_codename=1
 if test "$sed_is_ok" != 1 || test "$has_codename" != 1; then
     LC_ALL=C apt-get -s dist-upgrade |
         awk 'BEGIN{i=0} /^Inst /{i+=1}
-             END{print i " packages can be updated.";
+             END{print i " package(s) can be updated.";
                  print i " updates are security updates."}' \
             >/var/lib/update-notifier/updates-available
     exit 0
@@ -98,7 +98,7 @@ LC_ALL=C apt-get -s dist-upgrade |
     is_security "$package" && s=$((s+1))
     echo "$p;$s"
 done | awk -F';' 'BEGIN{p=0;s=0} {p=$1;s=$2} END{
-                   print p " packages can be updated.";
+                   print p " package(s) can be updated.";
                    print s " updates are security updates."}' \
     >/var/lib/update-notifier/updates-available
 exit 0
