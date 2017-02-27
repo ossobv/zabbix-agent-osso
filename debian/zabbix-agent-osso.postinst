@@ -2,6 +2,19 @@
 set -e
 
 if [ "$1" = configure ]; then
+    # Oooh. Ugly hacks here: some zabbix-agent packages contain a
+    # /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf file which
+    # (also) contains mysql.status, mysql.ping, etc..
+    # If it exists, disable the config so it doesn't cause duplicate
+    # key conflicts with our own mysql.conf.
+    if grep -q '^UserParameter=' \
+	    /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf \
+	    2>/dev/null; then
+        sed -i -e 's/^UserParameter=/#DISABLED_BY_zabbix-agent-osso#/' \
+	    /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf
+    fi
+
+    # Restart zabbix-agent if it was running.
     if systemctl status zabbix-agent >/dev/null 2>&1; then
 	systemctl restart zabbix-agent.service
     elif service zabbix-agent status >/dev/null 2>&1; then
