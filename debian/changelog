@@ -1,4 +1,11 @@
-zabbix-agent-osso (0.2) UNRELEASED; urgency=low
+zabbix-agent-osso (0.3) stable; urgency=low
+
+  * Add mysql.conf.
+  * Improve dpkg.updates.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Mon, 27 Feb 2017 12:57:04 +0100
+
+zabbix-agent-osso (0.2) stable; urgency=low
 
   * Initial real release.
 
