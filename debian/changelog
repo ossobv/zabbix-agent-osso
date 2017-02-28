@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.4) stable; urgency=low
+
+  * kernelmisc.conf sudoers file fix.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Tue, 28 Feb 2017 14:53:39 +0100
+
 zabbix-agent-osso (0.3) stable; urgency=low
 
   * Add mysql.conf.
