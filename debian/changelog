@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.6) stable; urgency=low
+
+  * Correct boolean value for mount points. Sometimes proc/mounts will
+    report the FS more than once. Take the most RO-value.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Fri,  3 Mar 2017 11:28:41 +0100
+
 zabbix-agent-osso (0.5) stable; urgency=low
 
   * Make psdiff output optional. If there is no psdiff.db, then
