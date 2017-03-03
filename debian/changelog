@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.5) stable; urgency=low
+
+  * Make psdiff output optional. If there is no psdiff.db, then
+    psdiff will report unsupported.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Fri,  3 Mar 2017 11:16:01 +0100
+
 zabbix-agent-osso (0.4) stable; urgency=low
 
   * kernelmisc.conf sudoers file fix.
