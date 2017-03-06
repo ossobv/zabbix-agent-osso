@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.7) stable; urgency=low
+
+  * Ignore ZFS for rw-mount checks.
+  * Ignore partitions for disk stats.
+  * These changes might ease the load on the Zabbix server a bit.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Mon,  6 Mar 2017 18:07:30 +0100
+
 zabbix-agent-osso (0.6) stable; urgency=low
 
   * Correct boolean value for mount points. Sometimes proc/mounts will
