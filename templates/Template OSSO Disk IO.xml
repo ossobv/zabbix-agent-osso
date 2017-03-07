@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-27T10:33:05Z</date>
+    <date>2017-03-07T11:32:30Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -70,7 +70,7 @@
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
-                            <status>0</status>
+                            <status>1</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>io</units>
@@ -114,7 +114,7 @@
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
-                            <status>0</status>
+                            <status>1</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>ms</units>
@@ -158,7 +158,7 @@
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
-                            <status>0</status>
+                            <status>1</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>Ops/s</units>
@@ -202,7 +202,7 @@
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
-                            <status>0</status>
+                            <status>1</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>ms</units>
@@ -334,7 +334,7 @@
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
-                            <status>0</status>
+                            <status>1</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>Ops/s</units>
@@ -378,7 +378,7 @@
                             <delay>60</delay>
                             <history>30</history>
                             <trends>365</trends>
-                            <status>0</status>
+                            <status>1</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>ms</units>
@@ -543,50 +543,6 @@
                                     <item>
                                         <host>Template OSSO Disk IO</host>
                                         <key>diskio.dev.write.sectors[{#DEVICENAME}]</key>
-                                    </item>
-                                </graph_item>
-                            </graph_items>
-                        </graph_prototype>
-                        <graph_prototype>
-                            <name>Disk {#DEVICENAME} - Merged</name>
-                            <width>900</width>
-                            <height>200</height>
-                            <yaxismin>0.0000</yaxismin>
-                            <yaxismax>100.0000</yaxismax>
-                            <show_work_period>1</show_work_period>
-                            <show_triggers>1</show_triggers>
-                            <type>0</type>
-                            <show_legend>1</show_legend>
-                            <show_3d>0</show_3d>
-                            <percent_left>0.0000</percent_left>
-                            <percent_right>0.0000</percent_right>
-                            <ymin_type_1>0</ymin_type_1>
-                            <ymax_type_1>0</ymax_type_1>
-                            <ymin_item_1>0</ymin_item_1>
-                            <ymax_item_1>0</ymax_item_1>
-                            <graph_items>
-                                <graph_item>
-                                    <sortorder>0</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>00C800</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template OSSO Disk IO</host>
-                                        <key>diskio.dev.read.merged[{#DEVICENAME}]</key>
-                                    </item>
-                                </graph_item>
-                                <graph_item>
-                                    <sortorder>1</sortorder>
-                                    <drawtype>0</drawtype>
-                                    <color>C80000</color>
-                                    <yaxisside>0</yaxisside>
-                                    <calc_fnc>2</calc_fnc>
-                                    <type>0</type>
-                                    <item>
-                                        <host>Template OSSO Disk IO</host>
-                                        <key>diskio.dev.write.merged[{#DEVICENAME}]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>

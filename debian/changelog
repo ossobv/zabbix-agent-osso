@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.9) stable; urgency=low
+
+  * Disable more diskio checks. Leave only the OPS and SECTOR counts.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Tue,  7 Mar 2017 12:33:30 +0100
+
 zabbix-agent-osso (0.8) stable; urgency=low
 
   * Make old diskio checks return not-supported so the items will be
