@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-03-07T13:25:59Z</date>
+    <date>2017-03-07T20:35:32Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -115,7 +115,7 @@
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
-                    <key>daemon.is_running[gocollect]</key>
+                    <key>daemon.is_running[gocollect,gocollect-fallback]</key>
                     <delay>300</delay>
                     <history>7</history>
                     <trends>30</trends>
@@ -586,7 +586,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template OSSO Daemons:daemon.is_running[master].last()}=0</expression>
+            <expression>{Template OSSO Daemons:daemon.is_running[gocollect,gocollect-fallback].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Daemon gocollect is not running</name>
