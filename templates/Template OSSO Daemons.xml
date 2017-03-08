@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-03-07T20:35:32Z</date>
+    <date>2017-03-08T09:40:01Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -573,7 +573,7 @@
             <expression>{Template OSSO Daemons:daemon.is_running[cron].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Daemon cron is not running</name>
+            <name>Daemon cron is not running on {HOST.NAME}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -589,7 +589,7 @@
             <expression>{Template OSSO Daemons:daemon.is_running[gocollect,gocollect-fallback].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Daemon gocollect is not running</name>
+            <name>Daemon gocollect is not running on {HOST.NAME}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -605,7 +605,7 @@
             <expression>{Template OSSO Daemons:daemon.is_running[master].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Daemon postfix is not running</name>
+            <name>Daemon postfix is not running on {HOST.NAME}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -685,7 +685,7 @@
             <expression>{Template OSSO Daemons:daemon.oom_kill.count.last()}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Recent OOM detected</name>
+            <name>Recent OOM detected on {HOST.NAME}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -701,7 +701,7 @@
             <expression>{Template OSSO Daemons:daemon.wcheckrestart.count.last()}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Services require restart on {HOST.NAME}: {ITEM.VALUE}</name>
+            <name>Services require restart on {HOST.NAME}: {ITEM.LASTVALUE}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
