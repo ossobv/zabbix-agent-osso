@@ -6,7 +6,9 @@
 # Updates /var/lib/update-notifier/updates-available
 
 # If we have /usr/lib/update-notifier/update-motd-updates-available,
-# then we use that.
+# then we use that. We assume another part of the system does a regular
+# apt-get update. So we won't need a sleep. Also, this command does not
+# choke on missing locks.
 if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
     /usr/lib/update-notifier/update-motd-updates-available --force >/dev/null
     exit $?
@@ -14,13 +16,25 @@ fi
 
 
 # Fallback in case there is no update-notifier-common. This is
-# probably more intensive, so we'll introduce a sleep so not
-# every server hammers at the same time.
+# probably more intensive, so we'll introduce a sleep to avoid
+# hammering the apt servers at the same time. Also, don't do this
+# at 6 (cron.daily) time.
 mkdir -p /var/lib/update-notifier
-test "$1" != "--nosleep" && sleep $(( \
+if test "$1" != "--nosleep" && test $(date +%H) -ne 6 then
+    sleep $(( \
       $(dd if=/dev/urandom bs=2 count=1 2> /dev/null |
-        cksum | cut -d' ' -f1) % 300 )) &&
-    apt-get update >/dev/null  # and update repo lists
+        cksum | cut -d' ' -f1) % 300 ))
+    ret=$(apt-get update 2>&1 >/dev/null)  # and update repo lists
+    if test $? -ne 0; then
+        # If the cause is a locked DB, then skip our work for now.
+        # Silently. Below we'll use Debug::NoLocking=1 to ignore
+        # any write locks.
+        if ! echo "$ret" | grep -q 'E: Could not get lock'; then
+            echo "$ret" 2>&1
+            exit 100
+        fi
+    fi
+fi
 
 # Test a few prerequisites.
 echo | sed -re1q63 >/dev/null 2>&1
@@ -33,7 +47,7 @@ CODENAME=$(lsb_release --codename --short 2>/dev/null) && has_codename=1
 # -- if there is no lsb_release, we'll just fall back to "package_count
 # equals security_count".
 if test "$sed_is_ok" != 1 || test "$has_codename" != 1; then
-    LC_ALL=C apt-get -s dist-upgrade |
+    LC_ALL=C apt-get -o Debug::NoLocking=1 -s dist-upgrade |
         awk 'BEGIN{i=0} /^Inst /{i+=1}
              END{print i " package(s) can be updated.";
                  print i " updates are security updates."}' \
@@ -91,7 +105,7 @@ is_security() {
 
 p=0
 s=0
-LC_ALL=C apt-get -s dist-upgrade |
+LC_ALL=C apt-get -o Debug::NoLocking=1 -s dist-upgrade |
       sed -re '/^Inst /!d;s/^Inst ([^ ]+) .*/\1/' |
       while read package; do
     p=$((p+1))
