@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-03-07T14:44:24Z</date>
+    <date>2017-04-12T08:05:11Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -31,7 +31,7 @@
                     <snmp_oid/>
                     <key>dpkg.updates[package]</key>
                     <delay>3600</delay>
-                    <history>7</history>
+                    <history>90</history>
                     <trends>90</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -56,7 +56,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>History (non-trend) set to 90 so we can look back with triggers</description>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
@@ -74,7 +74,7 @@
                     <snmp_oid/>
                     <key>dpkg.updates[security]</key>
                     <delay>3600</delay>
-                    <history>7</history>
+                    <history>90</history>
                     <trends>90</trends>
                     <status>0</status>
                     <value_type>3</value_type>
@@ -99,7 +99,7 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>History (non-trend) set to 90 so we can look back with triggers</description>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
@@ -123,11 +123,11 @@
 {Template OSSO dpkg:dpkg.updates[security].min(31d)}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>{ITEM.LASTVALUE1} security update(s) available on {HOST.NAME} for 31+d</name>
+            <name>{ITEM.LASTVALUE1} security update(s) available on {HOST.NAME} for 31+d (min={ITEM.VALUE2})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
-            <status>0</status>
+            <status>1</status>
             <priority>1</priority>
             <description/>
             <type>0</type>
