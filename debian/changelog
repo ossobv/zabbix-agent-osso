@@ -1,3 +1,29 @@
+zabbix-agent-osso (0.10) stable; urgency=low
+
+  * Additions:
+    - daemons: Check either for gocollect or gocollect-fallback. Having
+      either is fine.
+    - mysql: Given enough permissions, you can now monitor/graph row
+      counts/sizes for tables.
+  * Fixes:
+    - daemons: psdiff.missing/extra should not flip/flip to non-existent.
+    - diskio: Check RO/RW for not only the root-mount.
+    - dpkg: Attempt to avoid locking the DB during updates. This should
+      reduce spurious error mails.
+    - dpkg: Longer history for sec-updates, so we can trigger after a
+      month.
+  * Removals:
+    - daemons: Remove old (duplicate) deprecated psdiff from template.
+  * Trigger messages:
+    - add {HOST.NAME} to various triggers.
+  * Macro's added to disable checks:
+    - daemons: {$DISABLE_PSDIFF} can be set to 1 on your template or
+      host to disable psdiff triggers.
+    - kernelmisc: {$DISABLE_FIREWALL} can be set to 1 on your template
+      or host to disable firewall triggers.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Wed, 12 Apr 2017 09:42:12 +0200
+
 zabbix-agent-osso (0.9) stable; urgency=low
 
   * Disable more diskio checks. Leave only the OPS and SECTOR counts.
