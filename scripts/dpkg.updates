@@ -20,7 +20,7 @@ fi
 # hammering the apt servers at the same time. Also, don't do this
 # at 6 (cron.daily) time.
 mkdir -p /var/lib/update-notifier
-if test "$1" != "--nosleep" && test $(date +%H) -ne 6 then
+if test "$1" != "--nosleep" && test $(date +%H) -ne 6; then
     sleep $(( \
       $(dd if=/dev/urandom bs=2 count=1 2> /dev/null |
         cksum | cut -d' ' -f1) % 300 ))

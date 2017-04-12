@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.11) stable; urgency=low
+
+  * Fixes:
+    - dpkg: Fixed missing semicolon in ifthen.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Wed, 12 Apr 2017 13:18:00 +0200
+
 zabbix-agent-osso (0.10) stable; urgency=low
 
   * Additions:
