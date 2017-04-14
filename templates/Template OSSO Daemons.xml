@@ -621,7 +621,7 @@
             <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE}</name>
+            <name>Extra daemons on {HOST.NAME}: {ITEM.LASTVALUE}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -669,7 +669,7 @@
             <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {Template OSSO Daemons:daemon.psdiff.missing.strlen()}&lt;&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Missing daemons on {HOST.NAME}: {ITEM.VALUE}</name>
+            <name>Missing daemons on {HOST.NAME}: {ITEM.LASTVALUE}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -719,7 +719,7 @@
  {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>{ITEM.LASTVALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
+            <name>{ITEM.LASTVALUE2} (pid {ITEM.LASTVALUE3}) has too many files open on {HOST.NAME} ({ITEM.LASTVALUE1}%o of max).</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -737,7 +737,7 @@
  {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>{ITEM.LASTVALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
+            <name>{ITEM.LASTVALUE2} (pid {ITEM.LASTVALUE3}) has too many files open on {HOST.NAME} ({ITEM.LASTVALUE1}%o of max).</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>

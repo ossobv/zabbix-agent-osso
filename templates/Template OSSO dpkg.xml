@@ -123,7 +123,7 @@
 {Template OSSO dpkg:dpkg.updates[security].min(31d)}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>{ITEM.LASTVALUE1} security update(s) available on {HOST.NAME} for 31+d (min={ITEM.VALUE2})</name>
+            <name>{ITEM.LASTVALUE1} security update(s) available on {HOST.NAME} for 31+d</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
