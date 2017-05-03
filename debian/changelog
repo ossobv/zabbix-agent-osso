@@ -1,3 +1,16 @@
+zabbix-agent-osso (0.12~all) stable; urgency=low
+
+  * Additions:
+    - zfs: Add ZFS template and config files.
+  * Fixes:
+    - docs: Add ServerActive to default config.
+    - templates: Use LASTVALUE in most trigger names.
+  * Packaging:
+    - Add "~all" in the name, so our packaging system recognises that it
+      doesn't have to be repackaged for all individual distro's.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Wed, 03 May 2017 14:29:47 +0200
+
 zabbix-agent-osso (0.11) stable; urgency=low
 
   * Fixes:

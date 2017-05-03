@@ -22,7 +22,7 @@ Installation
 
     Hostname=walter-dev.EXAMPLE.COM
     Server=zabbix.EXAMPLE.COM, zabbix-proxy1.EXAMPLE.COM, zabbix-proxy2.EXAMPLE.COM
-    ServerActive=
+    ServerActive=zabbix-proxy1.EXAMPLE.COM
     #DebugLevel=4
 
 * On your Zabbix server you'll want to import the provided `Zabbix
