@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.13~all) stable; urgency=low
+
+  * Fixes:
+    - zfs: Return 0 if there is no ZFS arc_max option.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Wed, 03 May 2017 15:23:44 +0200
+
 zabbix-agent-osso (0.12~all) stable; urgency=low
 
   * Additions:
