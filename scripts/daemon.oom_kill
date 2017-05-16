@@ -2,6 +2,8 @@
 # [This file is part of the zabbix-agent-osso package]
 # Cron job to detect if the oom_killer has been active recently.
 #
-grep --count oom_kill_process /var/log/syslog >/tmp/zabbix.daemon.oom_kill.tmp
-chmod a+r /tmp/zabbix.daemon.oom_kill.tmp
-mv /tmp/zabbix.daemon.oom_kill.tmp /tmp/zabbix.daemon.oom_kill
+dest=/var/lib/zabbix/scripts/daemon.oom_kill
+temp=$(mktemp "$dest.XXXX")
+grep --count oom_kill_process /var/log/syslog >"$temp"
+chmod a+r "$temp"
+mv "$temp" "$dest"

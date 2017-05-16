@@ -13,6 +13,9 @@
 # For an explanation see:
 #   http://wjd.nu/notes/2015#monitoring-process-open-files-limit
 #
+dest=/var/lib/zabbix/scripts/daemon.max_files
+temp=$(mktemp "$dest.XXXX")
+
 ! find /proc/ -maxdepth 3 -type l -path '/proc/[0-9]*/fd/*' 2>/dev/null |
         cut -d/ -f3 | uniq -c | while read count_pid; do
     count=${count_pid% *}
@@ -28,11 +31,11 @@ done | sort -rn | while read pct_pid; do
       name=$(readlink /proc/$pid/exe 2>/dev/null) &&
       echo $pct_pid $name &&
       exit 1  # inverted by the '!' before find above
-done >/tmp/zabbix.daemon.max_files.tmp
+done >"$temp"
 
 if test $? -eq 0; then
-    chmod a+r /tmp/zabbix.daemon.max_files.tmp
-    mv /tmp/zabbix.daemon.max_files.tmp /tmp/zabbix.daemon.max_files
+    chmod a+r "$temp"
+    mv "$temp" "$dest"
 else
-    rm -f /tmp/zabbix.daemon.max_files.tmp /tmp/zabbix.daemon.max_files
+    rm -f "$temp" "$dest" 2>/dev/null
 fi
