@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-27T11:26:20Z</date>
+    <date>2017-05-16T14:45:40Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -25,7 +25,7 @@
             <items>
                 <item>
                     <name>Check cluster size</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -68,7 +68,7 @@
                 </item>
                 <item>
                     <name>Status of cluster component</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -111,7 +111,7 @@
                 </item>
                 <item>
                     <name>Connection with cluster</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -154,7 +154,7 @@
                 </item>
                 <item>
                     <name>Amount of lag between node and cluster</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -197,7 +197,7 @@
                 </item>
                 <item>
                     <name>Check cluster speed - data sent</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -240,7 +240,7 @@
                 </item>
                 <item>
                     <name>Check cluster speed - data in receive queue</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -283,7 +283,7 @@
                 </item>
                 <item>
                     <name>Check node speed - data in send queue</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -326,7 +326,7 @@
                 </item>
                 <item>
                     <name>Server accepts SQL load</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>

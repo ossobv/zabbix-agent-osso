@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-03-08T09:38:29Z</date>
+    <date>2017-05-16T14:59:10Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -34,7 +34,7 @@
             <items>
                 <item>
                     <name>Kernel entropy available</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -77,7 +77,7 @@
                 </item>
                 <item>
                     <name>Host has external IPv4 address</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -120,7 +120,7 @@
                 </item>
                 <item>
                     <name>Host has external IPv6 address</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -163,7 +163,7 @@
                 </item>
                 <item>
                     <name>CPU cores</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -208,7 +208,7 @@
             <discovery_rules>
                 <discovery_rule>
                     <name>Firewall IPv6 chains</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>net.ip6tables.discover_chains</key>
@@ -241,7 +241,7 @@
                     <item_prototypes>
                         <item_prototype>
                             <name>Firewall IPv6 {#CHAIN} policy (0=accept)</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -285,7 +285,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Firewall IPv6 {#CHAIN} rules</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -354,7 +354,7 @@
                 </discovery_rule>
                 <discovery_rule>
                     <name>Firewall IPv4 chains</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>net.iptables.discover_chains</key>
@@ -387,7 +387,7 @@
                     <item_prototypes>
                         <item_prototype>
                             <name>Firewall IPv4 {#CHAIN} policy (0=accept)</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -431,7 +431,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Firewall IPv4 {#CHAIN} rules</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>

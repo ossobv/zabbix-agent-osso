@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.0</version>
-    <date>2017-02-20T16:42:59Z</date>
+    <version>3.2</version>
+    <date>2017-05-16T15:00:03Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -25,7 +25,7 @@
             <items>
                 <item>
                     <name>SIP Server Name</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -68,6 +68,7 @@
                 </item>
             </items>
             <discovery_rules/>
+            <httptests/>
             <macros/>
             <templates/>
             <screens/>

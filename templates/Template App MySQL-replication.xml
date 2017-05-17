@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-27T11:22:45Z</date>
+    <date>2017-05-16T14:47:01Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -25,7 +25,7 @@
             <items>
                 <item>
                     <name>MySQL seconds behind master</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -68,7 +68,7 @@
                 </item>
                 <item>
                     <name>MySQL Slave IO Running</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -111,7 +111,7 @@
                 </item>
                 <item>
                     <name>MySQL Slave SQL Running</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>

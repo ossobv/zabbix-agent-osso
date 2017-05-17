@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-03-07T11:32:30Z</date>
+    <date>2017-05-16T14:55:51Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -29,7 +29,7 @@
             <discovery_rules>
                 <discovery_rule>
                     <name>Disk discovery</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>diskio.discover_disks</key>
@@ -62,7 +62,7 @@
                     <item_prototypes>
                         <item_prototype>
                             <name>Disk:$1:IO:Currently Active</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -106,7 +106,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:IO:ms</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -150,7 +150,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Read:Merged</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -194,7 +194,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Read:ms</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -238,7 +238,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Read:Ops per second</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -282,7 +282,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Read:Bytes/sec</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
@@ -326,7 +326,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Write:Merged</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -370,7 +370,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Write:ms</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -414,7 +414,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Write:Ops per second</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>
@@ -458,7 +458,7 @@
                         </item_prototype>
                         <item_prototype>
                             <name>Disk:$1:Write:Bytes/sec</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>1</multiplier>
                             <snmp_oid/>
@@ -596,7 +596,7 @@
                 </discovery_rule>
                 <discovery_rule>
                     <name>Mount discovery</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>diskio.discover_mounts</key>
@@ -629,7 +629,7 @@
                     <item_prototypes>
                         <item_prototype>
                             <name>Mount $1 is writable</name>
-                            <type>0</type>
+                            <type>7</type>
                             <snmp_community/>
                             <multiplier>0</multiplier>
                             <snmp_oid/>

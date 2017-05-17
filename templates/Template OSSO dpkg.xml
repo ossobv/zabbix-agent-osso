@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-04-12T08:05:11Z</date>
+    <date>2017-05-16T14:57:13Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -25,7 +25,7 @@
             <items>
                 <item>
                     <name>Package updates available</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -68,7 +68,7 @@
                 </item>
                 <item>
                     <name>Security updates available</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>

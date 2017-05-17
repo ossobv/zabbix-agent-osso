@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-02-27T11:22:13Z</date>
+    <date>2017-05-16T14:54:47Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -28,7 +28,7 @@
             <items>
                 <item>
                     <name>MySQL status</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -76,7 +76,7 @@
                 </item>
                 <item>
                     <name>MySQL bytes received per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -122,7 +122,7 @@ userparameter_mysql.conf.</description>
                 </item>
                 <item>
                     <name>MySQL bytes sent per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -167,7 +167,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL begin operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -210,7 +210,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL commit operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -253,7 +253,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL delete operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -296,7 +296,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL insert operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -339,7 +339,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL rollback operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -382,7 +382,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL select operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -425,7 +425,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL update operations per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -468,7 +468,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL queries per second</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -511,7 +511,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL slow queries</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -554,7 +554,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL number of threads connected</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -597,7 +597,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL uptime</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -640,7 +640,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL max. connections</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -683,7 +683,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                 </item>
                 <item>
                     <name>MySQL version</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <multiplier>0</multiplier>
                     <snmp_oid/>
@@ -728,7 +728,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
             <discovery_rules>
                 <discovery_rule>
                     <name>Mysql backup</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>backuped.mysql.discovery</key>
