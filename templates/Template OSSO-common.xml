@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>3.2</version>
+    <date>2017-05-16T14:51:26Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template OSSO-common</template>
+            <name>Template OSSO-common</name>
+            <description/>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <httptests/>
+            <macros/>
+            <templates>
+                <template>
+                    <name>Template OSSO Backup</name>
+                </template>
+                <template>
+                    <name>Template OSSO Daemons</name>
+                </template>
+                <template>
+                    <name>Template OSSO Disk IO</name>
+                </template>
+                <template>
+                    <name>Template OSSO dpkg</name>
+                </template>
+                <template>
+                    <name>Template OSSO Kernel Misc</name>
+                </template>
+            </templates>
+            <screens/>
+        </template>
+    </templates>
+</zabbix_export>
