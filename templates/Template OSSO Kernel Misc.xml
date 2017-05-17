@@ -168,7 +168,7 @@
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>system.cpu.cores</key>
-                    <delay>900</delay>
+                    <delay>3600</delay>
                     <history>7</history>
                     <trends>90</trends>
                     <status>0</status>

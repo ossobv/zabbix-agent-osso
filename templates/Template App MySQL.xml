@@ -732,7 +732,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                     <snmp_community/>
                     <snmp_oid/>
                     <key>backuped.mysql.discovery</key>
-                    <delay>30</delay>
+                    <delay>3600</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
