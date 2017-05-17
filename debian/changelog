@@ -1,3 +1,14 @@
+zabbix-agent-osso (0.15~all) stable; urgency=low
+
+  * Move state files from /tmp to /var/lib/zabbix/scripts.
+  * Prefer mktemp-generated files so there are no race conditions for
+    simultaneously run cron jobs.
+  * Alter most/all checks from "Zabbix Agent" to "Zabbix Agent (active)".
+  * Add active.conf where an Alias for the Active ping is added.
+  * Filter more ZFS filesystems from the RW/RO discovery.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Wed, 17 May 2017 11:42:13 +0200
+
 zabbix-agent-osso (0.14~all) stable; urgency=low
 
   * Fixes:
