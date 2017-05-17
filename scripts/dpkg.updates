@@ -15,12 +15,13 @@ if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
 fi
 
 
-# Fallback in case there is no update-notifier-common. This is
-# probably more intensive, so we'll introduce a sleep to avoid
-# hammering the apt servers at the same time. Also, don't do this
-# at 6 (cron.daily) time.
+# Fallback in case there is no update-notifier-common when called from a
+# cron-job (--cron). This is probably more intensive. Especially when we
+# also apt-get update, so we'll introduce a sleep to avoid hammering the
+# apt servers at the same time. Also, don't do this at 6 (cron.daily)
+# time.
 mkdir -p /var/lib/update-notifier
-if test "$1" != "--nosleep" && test $(date +%H) -ne 6; then
+if test "$1" = "--cron" && test $(date +%H) -ne 6; then
     sleep $(( \
       $(dd if=/dev/urandom bs=2 count=1 2> /dev/null |
         cksum | cut -d' ' -f1) % 300 ))
