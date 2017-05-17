@@ -618,7 +618,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {Template OSSO Daemons:daemon.psdiff.extra.strlen()}&lt;&gt;0</expression>
+            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {Template OSSO Daemons:daemon.psdiff.extra.strlen()}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Extra daemons on {HOST.NAME}: {ITEM.LASTVALUE}</name>
@@ -634,26 +634,10 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template OSSO Daemons:daemon.mail.queued.last()}&gt;1000</expression>
-            <recovery_mode>0</recovery_mode>
-            <recovery_expression/>
-            <name>Mail queue on {HOST.NAME} is above threshold (1000)</name>
-            <correlation_mode>0</correlation_mode>
-            <correlation_tag/>
-            <url/>
-            <status>0</status>
-            <priority>5</priority>
-            <description/>
-            <type>0</type>
-            <manual_close>0</manual_close>
-            <dependencies/>
-            <tags/>
-        </trigger>
-        <trigger>
             <expression>{Template OSSO Daemons:daemon.mail.queued.last()}&gt;750</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Mail queue on {HOST.NAME} is nearing its threshold (1000)</name>
+            <name>Mail queue on {HOST.NAME} is {ITEM.LASTVALUE} (&gt;750, near 1000)</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
@@ -666,7 +650,23 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {Template OSSO Daemons:daemon.psdiff.missing.strlen()}&lt;&gt;0</expression>
+            <expression>{Template OSSO Daemons:daemon.mail.queued.last()}&gt;1000</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Mail queue on {HOST.NAME} is {ITEM.LASTVALUE} (&gt;1000)</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>5</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {Template OSSO Daemons:daemon.psdiff.missing.strlen()}&gt;0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Missing daemons on {HOST.NAME}: {ITEM.LASTVALUE}</name>

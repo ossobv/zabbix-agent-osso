@@ -77,13 +77,19 @@
     <triggers>
         <trigger>
             <expression>{Template OSSO SIP:sip.server.diff(0)}&gt;0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
             <name>{HOSTNAME}: SIP Server has changed</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
             <url/>
             <status>0</status>
             <priority>2</priority>
             <description>SIP Server has changed (UAS/proxy upgrade?)</description>
             <type>0</type>
+            <manual_close>0</manual_close>
             <dependencies/>
+            <tags/>
         </trigger>
     </triggers>
 </zabbix_export>

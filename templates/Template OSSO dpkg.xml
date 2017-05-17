@@ -112,24 +112,40 @@
             </items>
             <discovery_rules/>
             <httptests/>
-            <macros/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_SEC_UPDATES}</macro>
+                    <value>0</value>
+                </macro>
+            </macros>
             <templates/>
             <screens/>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO dpkg:dpkg.updates[security].last(0)}&gt;0 and&#13;
-{Template OSSO dpkg:dpkg.updates[security].min(31d)}&gt;0</expression>
+            <expression>{$DISABLE_SEC_UPDATES}&lt;&gt;1 and&#13;
+{Template OSSO dpkg:dpkg.updates[security].last()}&gt;0 and&#13;
+{Template OSSO dpkg:dpkg.updates[security].min(31d)}&gt;0 and&#13;
+{Template OSSO dpkg:dpkg.updates[security].nodata(8h)}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>{ITEM.LASTVALUE1} security update(s) available on {HOST.NAME} for 31+d</name>
+            <name>{ITEM.LASTVALUE2} security update(s) available on {HOST.NAME} for 31+d</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
-            <status>1</status>
+            <status>0</status>
             <priority>1</priority>
-            <description/>
+            <description>We added the nodata-check so we don't get these next to the &quot;machine is unreachable&quot; messages.&#13;
+&#13;
+Unfortunately, ITEM.VALUE2 is not &quot;dpkg.updates[security].min(31d)&quot; but the &quot;value that dpkg.updates[security] had when the trigger got raised.&#13;
+&#13;
+And ITEM.LASTVALUE2 is the &quot;current&quot; value of &quot;dpkg.updates[security]&quot;.&#13;
+&#13;
+Getting the value of dpkg.updates[security].min(31d) into the trigger-name seems impossible.&#13;
+&#13;
+You *can* do the following, but not in the trigger-name, only in action-messages:&#13;
+  {{HOST.HOST}:{ITEM.KEY2}.min(31d)}</description>
             <type>0</type>
             <manual_close>0</manual_close>
             <dependencies/>

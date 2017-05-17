@@ -680,15 +680,15 @@
  {Template OSSO Disk IO:diskio.mount.writable[{#FSNAME}].last(0)}=0)</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
-                            <name>Mount {#FSNAME} changed rw state!</name>
+                            <name>Mount {#FSNAME} changed rw state on {HOST.NAME}!</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
                             <url/>
                             <status>0</status>
-                            <priority>4</priority>
+                            <priority>5</priority>
                             <description/>
                             <type>0</type>
-                            <manual_close>0</manual_close>
+                            <manual_close>1</manual_close>
                             <dependencies/>
                             <tags/>
                         </trigger_prototype>

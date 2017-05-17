@@ -116,7 +116,7 @@
                     <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>zfs.arc.max.syspromille</key>
-                    <delay>3600</delay>
+                    <delay>1800</delay>
                     <history>30</history>
                     <trends>90</trends>
                     <status>0</status>
@@ -1143,7 +1143,24 @@
                             <application_prototypes/>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes/>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template OSSO Disk ZFS:zfs.zpool.health[{#POOLNAME}].str(&quot;ONLINE&quot;)}&lt;&gt;1</expression>
+                            <recovery_mode>0</recovery_mode>
+                            <recovery_expression/>
+                            <name>Zpool {#POOLNAME} is {ITEM.VALUE} on {HOST.NAME}</name>
+                            <correlation_mode>0</correlation_mode>
+                            <correlation_tag/>
+                            <url/>
+                            <status>0</status>
+                            <priority>5</priority>
+                            <description/>
+                            <type>0</type>
+                            <manual_close>0</manual_close>
+                            <dependencies/>
+                            <tags/>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
                 </discovery_rule>
@@ -1159,13 +1176,13 @@
             <expression>{Template OSSO Disk ZFS:zfs.arc.max.file.last()}&lt;&gt;{Template OSSO Disk ZFS:zfs.arc.max.sys.last()}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>ZFS arc max config is not applied on {HOST.NAME} (conf={ITEM1.LASTVALUE}, sys={ITEM2.LASTVALUE})</name>
+            <name>ZFS arc max config is not applied on {HOST.NAME} (conf={ITEM.LASTVALUE1}, sys={ITEM.LASTVALUE2})</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
             <status>0</status>
             <priority>5</priority>
-            <description/>
+            <description>If the zfs_arc_max is not configured, it's 0 both in the config and the system. But that problem is picked up by the other trigger that wants the max between 3% and 85%.</description>
             <type>0</type>
             <manual_close>0</manual_close>
             <dependencies/>
@@ -1182,8 +1199,8 @@
             <url/>
             <status>0</status>
             <priority>5</priority>
-            <description>herman at 2017-05-03: &quot;&quot;&quot;sp servers hebben vaak tot 80% ofzo aan ARC.&#13;
-pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;&quot;&quot;</description>
+            <description>Herman says (2017-05-03): &quot;sp servers hebben vaak tot 80% ofzo aan ARC.&#13;
+pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</description>
             <type>0</type>
             <manual_close>0</manual_close>
             <dependencies/>
