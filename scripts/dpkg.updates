@@ -2,15 +2,18 @@
 # [This file is part of the zabbix-agent-osso package]
 # RECOMMENDS: update-notifier-common (not available in jessie+)
 # TODO: do we really want to prefer the update-notifier?
+# TODO: especially since it complains about nonsense..
 #
 # Updates /var/lib/update-notifier/updates-available
 
 # If we have /usr/lib/update-notifier/update-motd-updates-available,
 # then we use that. We assume another part of the system does a regular
 # apt-get update. So we won't need a sleep. Also, this command does not
-# choke on missing locks.
+# choke on missing locks. However, it does complain about excess
+# ucf-dist files in /etc/apt/apt.conf.d.
 if [ -x /usr/lib/update-notifier/update-motd-updates-available ]; then
-    /usr/lib/update-notifier/update-motd-updates-available --force >/dev/null
+    /usr/lib/update-notifier/update-motd-updates-available --force \
+      >/dev/null 2>&1
     exit $?
 fi
 
