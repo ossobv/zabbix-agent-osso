@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-05-16T14:59:10Z</date>
+    <date>2017-05-30T09:50:02Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -512,7 +512,7 @@
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO Kernel Misc:kernel.entropy.last(15m)}=0</expression>
+            <expression>{Template OSSO Kernel Misc:kernel.entropy.max(15m)}&lt;40</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Not enough kernel entropy on {HOST.NAME}</name>
