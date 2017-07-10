@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-05-16T14:47:01Z</date>
+    <date>2017-07-10T14:36:52Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -194,7 +194,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template App MySQL-Replication:mysql.slave_sql_running.last(0)}=0</expression>
+            <expression>{Template App MySQL-Replication:mysql.slave_sql_running.max(2m)}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>MySQL replication slave SQL is not running on {HOSTNAME}</name>
