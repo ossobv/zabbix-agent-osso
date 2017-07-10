@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.16~all) stable; urgency=low
+
+  * Ignore stderr of the update-notifier. Occasionally it would spam us with
+    cruft.
+  * Add Timeout=15 instead of the default of Timeout=3.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Mon, 10 Jul 2017 16:46:48 +0200
+
 zabbix-agent-osso (0.15~all) stable; urgency=low
 
   * Move state files from /tmp to /var/lib/zabbix/scripts.
