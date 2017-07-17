@@ -11,7 +11,7 @@ if [ "$1" = remove ] || [ "$1" = purge ]; then
     fi
 
     # Report that you may want to remove these:
-    find /var/lib/zabbix/scripts | sed -e 's/^/Please also remove: /'
+    find /var/lib/zabbix/scripts | sort -V | sed -e 's/^/Please also remove: /'
 fi
 
 # dh_installdeb will replace this with shell code automatically
