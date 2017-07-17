@@ -9,8 +9,8 @@ This package attempts to address our common zabbix configuration needs.
 Installation
 ------------
 
-* Install this onto the machine. Build a debian package or fetch a
-  pre-built one::
+* Install this onto the machine. Fetch a pre-built debian package from
+  somewhere or build one yourself::
 
     dpkg-buildpackage -us -uc -sa
 
