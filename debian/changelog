@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.17~all) stable; urgency=low
+
+  * Add S.M.A.R.T. monitoring for hardware nodes.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Mon, 17 Jul 2017 13:08:53 +0200
+
 zabbix-agent-osso (0.16~all) stable; urgency=low
 
   * Ignore stderr of the update-notifier. Occasionally it would spam us with
