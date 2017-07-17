@@ -27,6 +27,9 @@ if [ "$1" = configure ]; then
     elif /etc/init.d/zabbix-agent status >/dev/null 2>&1; then
 	/etc/init.d/zabbix-agent restart
     fi
+
+    # Run the update-cache script an initial time.
+    /etc/zabbix/scripts/smart.update_cache
 fi
 
 # dh_installdeb will replace this with shell code automatically
