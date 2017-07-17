@@ -29,12 +29,20 @@ create_cache_for_device() {
     cache="$(cachefile "$1")"
 
     # This probably fails for nvme devices. Unfortunately.
-    if timeout 60s /usr/sbin/smartctl -a "$device" >"$cache"; then
+    timeout 60s /usr/sbin/smartctl -a "$device" >"$cache"
+    ret=$?
+    case $ret in
+    1|2|124)
+        # 1: /dev/nvme0n1: Unable to detect device type
+        # 2: Smartctl open device: /dev/sdb1221 failed: No such device
+        # 124: timeout
+        rm "$cache" "${cache%.*}" 2>/dev/null
+        ;;
+    *)
         chmod 644 "$cache"
         mv "$cache" "${cache%.*}"
-    else
-        rm "$cache"
-    fi
+        ;;
+    esac
 }
 
 get_device_list() {
