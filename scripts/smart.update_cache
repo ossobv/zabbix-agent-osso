@@ -1,0 +1,50 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# RECOMMENDS: smartmontools (only on hardware nodes)
+#
+# Script to update S.M.A.R.T. data for use with smart.query.
+#
+# Run this through cron:
+#   */15 *   * * *  root  [ -x /etc/zabbix/scripts/smart.update_cache ] &&
+#     /etc/zabbix/scripts/smart.update_cache
+#
+# We expect smartctl to be installed by for instance gocollect-hardware.
+# This allows us to quickly bail on non-hardware nodes.
+test -x /usr/sbin/smartctl || exit 0
+
+CACHE_DIR=/var/lib/zabbix/scripts
+
+cachefile () {
+    mktemp "$CACHE_DIR/smart.cache.$1.XXXX"
+}
+
+rm_old_cachefiles() {
+    regex=$(get_device_list | tr '\n' '|' | sed -e 's/|$//;s/|/\\|/g')
+    find "$CACHE_DIR" -name 'smart.cache.*' '!' -name 'smart.cache.*.*' \
+      '!' -regex ".*/smart\.cache\.\($regex\)$" -delete
+}
+
+create_cache_for_device() {
+    device="/dev/$1"
+    cache="$(cachefile "$1")"
+
+    # This probably fails for nvme devices. Unfortunately.
+    if timeout 60s /usr/sbin/smartctl -a "$device" >"$cache"; then
+        chmod 644 "$cache"
+        mv "$cache" "${cache%.*}"
+    else
+        rm "$cache"
+    fi
+}
+
+get_device_list() {
+    lsblk -nd -o KNAME 2>/dev/null
+}
+
+# Create new files.
+for dev in $(get_device_list); do
+    create_cache_for_device "$dev"
+done
+
+# Drop old files.
+rm_old_cachefiles

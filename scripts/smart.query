@@ -1,0 +1,156 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# RECOMMENDS: smartmontools (only on hardware nodes)
+#
+# Script to fetch S.M.A.R.T. data with zabbix. See also smart.update_cache.
+#
+# Zabbix configuration:
+#   UserParameter=smart[*], /etc/zabbix/scripts/smart.query "$1" "$2" "$3"
+
+CACHE_DIR=/var/lib/zabbix/scripts
+
+show_help() {
+    name="$(basename "$0")"
+    cat << EOF
+Usage: $name <command> [opts]
+$name discovery
+      json encoded device information for item discovery in zabbix.
+$name discovery_sata
+      json encoded device information for item discovery in zabbix for SATA drives.
+$name discovery_sas
+      json encoded device information for item discovery in zabbix for SAS drives.
+$name discovery_ssd
+      json encoded device information for item discovery in zabbix for SSD drives.
+$name attr <device> <attr>
+      the device S.M.A.R.T. attribute by name
+$name attrid <device> <attrid>
+      the device S.M.A.R.T. attribute by id
+$name info <device> <name>
+      device information by name
+$name help
+
+Check $CACHE_DIR/smart.cache.DRIVE for available info and attrs.
+EOF
+}
+
+cachefile() {
+    echo "$CACHE_DIR/smart.cache.$1"
+}
+
+cachefiles() {
+    find "$CACHE_DIR" -name 'smart.cache.*' '!' -name 'smart.cache.*.*'
+}
+
+get_attr_value() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($2 == attr && NF >= 10) print $4 }' <"$cache"
+}
+get_attr_worst() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($2 == attr && NF >= 10) print $5 }' <"$cache"
+}
+get_attr_threshold() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($2 == attr && NF >= 10) print $6 }' <"$cache"
+}
+get_attr_raw() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($2 == attr && NF >= 10) print $10 }' <"$cache"
+}
+get_attrid_value() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($1 == attr && NF >= 10) print $4 }' <"$cache"
+}
+get_attrid_worst() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($1 == attr && NF >= 10) print $5 }' <"$cache"
+}
+get_attrid_threshold() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($1 == attr && NF >= 10) print $6 }' <"$cache"
+}
+get_attrid_raw() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($1 == attr && NF >= 10) print $10 }' <"$cache"
+}
+get_info() {
+    cache="$(cachefile "$1")"
+    sed -ne "/^$2:/{s/^[^:]*: *\(.*\)/\1/p;q}" <"$cache"
+}
+get_sas_uncorr() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($1 == attr && NF >= 8) print $8 }' <"$cache"
+}
+get_sas_corr() {
+    cache="$(cachefile "$1")"
+    awk -v attr="$2" '{ if ($1 == attr && NF >= 8) print $5 }' <"$cache"
+}
+
+case "$1" in
+    discovery)
+        cachefiles | awk -F. '
+          BEGIN{print "{\"data\":["}
+          {if(NR>1)printf ",";print "{\"{#DEVICE}\":\"" $NF "\"}"}
+          END{print "]}"}'
+        ;;
+    discovery_sas)
+        cachefiles | xargs -d\\n grep -l 'Transport protocol.*SAS' | awk -F. '
+          BEGIN{print "{\"data\":["}
+          {if(NR>1)printf ",";print "{\"{#DEVICE_SAS}\":\"" $NF "\"}"}
+          END{print "]}"}'
+        ;;
+    discovery_sata)
+        cachefiles | xargs -d\\n grep -l 'SATA' | awk -F. '
+          BEGIN{print "{\"data\":["}
+          {if(NR>1)printf ",";print "{\"{#DEVICE_SATA}\":\"" $NF "\"}"}
+          END{print "]}"}'
+        ;;
+    discovery_ssd)
+        cachefiles | xargs -d\\n grep -l 'Solid State Device' | awk -F. '
+          BEGIN{print "{\"data\":["}
+          {if(NR>1)printf ",";print "{\"{#DEVICE_SSD}\":\"" $NF "\"}"}
+          END{print "]}"}'
+        ;;
+    attr|attr_raw)
+        get_attr_raw "$2" "$3"
+        ;;
+    attr_value)
+        get_attr_value "$2" "$3"
+        ;;
+    attr_worst)
+        get_attr_worst "$2" "$3"
+        ;;
+    attr_threshold)
+        get_attr_threshold "$2" "$3"
+        ;;
+    attrid|attrid_raw)
+        get_attrid_raw "$2" "$3"
+        ;;
+    attrid_value)
+        get_attrid_value "$2" "$3"
+        ;;
+    attrid_worst)
+        get_attrid_worst "$2" "$3"
+        ;;
+    attrid_threshold)
+        get_attrid_threshold "$2" "$3"
+        ;;
+    info)
+        get_info "$2" "$3"
+        ;;
+    sas_uncorr)
+        get_sas_uncorr "$2" "$3"
+        ;;
+    sas_corr)
+        get_sas_corr "$2" "$3"
+        ;;
+    help)
+        show_help
+        ;;
+    *)
+        show_help
+        exit 1
+        ;;
+esac
+
+exit 0
