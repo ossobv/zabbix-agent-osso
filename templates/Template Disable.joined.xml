@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>3.2</version>
+    <date>2017-07-20T11:55:29Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Disable firewall</template>
+            <name>Template Disable firewall</name>
+            <description/>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_FIREWALL}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens/>
+        </template>
+        <template>
+            <template>Template Disable hardware needs template</template>
+            <name>Template Disable hardware needs template</name>
+            <description>Add this template to machines that incorrectly get matches as hardware machines and trigger because of a missing Template OSSO Hardware .</description>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_ZBXNOHW}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens/>
+        </template>
+        <template>
+            <template>Template Disable psdiff</template>
+            <name>Template Disable psdiff</name>
+            <description/>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_PSDIFF}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens/>
+        </template>
+        <template>
+            <template>Template Disable update notifications</template>
+            <name>Template Disable update notifications</name>
+            <description/>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_SEC_UPDATES}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens/>
+        </template>
+    </templates>
+</zabbix_export>
