@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.2</version>
-    <date>2017-05-16T14:45:40Z</date>
+    <date>2017-07-20T09:50:44Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -370,23 +370,28 @@
             </items>
             <discovery_rules/>
             <httptests/>
-            <macros/>
+            <macros>
+                <macro>
+                    <macro>{$GALERA_NODECOUNT}</macro>
+                    <value>3</value>
+                </macro>
+            </macros>
             <templates/>
             <screens/>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template App Galera:mysql.status_galera[wsrep_cluster_size].last()}&lt;3</expression>
+            <expression>{Template App Galera:mysql.status_galera[wsrep_cluster_size].last()}&lt;&gt;{$GALERA_NODECOUNT}</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
-            <name>Cluster size changed on {HOST.NAME}</name>
+            <name>Cluster size is not {$GALERA_NODECOUNT} on {HOST.NAME}</name>
             <correlation_mode>0</correlation_mode>
             <correlation_tag/>
             <url/>
             <status>0</status>
             <priority>5</priority>
-            <description>Cluster size changed. Either a node is missing from the cluster or a node has been added.</description>
+            <description>Cluster size is not {$GALERA_NODECOUNT}. Either a node is missing from the cluster or a node has been added.</description>
             <type>0</type>
             <manual_close>0</manual_close>
             <dependencies>
