@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.2</version>
-    <date>2017-07-20T11:56:44Z</date>
+    <version>3.4</version>
+    <date>2017-09-14T14:36:39Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -36,17 +36,15 @@
                     <name>Kernel entropy available</name>
                     <type>7</type>
                     <snmp_community/>
-                    <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>kernel.entropy</key>
-                    <delay>300</delay>
-                    <history>7</history>
-                    <trends>90</trends>
+                    <delay>270s</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -54,18 +52,15 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
-                    <data_type>0</data_type>
                     <authtype>0</authtype>
                     <username/>
                     <password/>
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>Kernel entropy interval must not be 5m (using 4.5m). On some systems (Debian Stretch? Kernel 4.9.0-3? Systemd 232-25+deb9u1?) the entropy is reset every 5 minutes. Unsure who causes this, but it appears to be a system daemon (systemd-* or kernel itself); as turning off as many daemons as possible did not stop the entropy drain/reset.</description>
                     <inventory_link>0</inventory_link>
                     <applications>
                         <application>
@@ -74,22 +69,23 @@
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
                 </item>
                 <item>
                     <name>Host has external IPv4 address</name>
                     <type>7</type>
                     <snmp_community/>
-                    <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>net.has_ext_ip4</key>
-                    <delay>300</delay>
-                    <history>7</history>
-                    <trends>30</trends>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>30d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -97,11 +93,8 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
-                    <data_type>3</data_type>
                     <authtype>0</authtype>
                     <username/>
                     <password/>
@@ -117,22 +110,28 @@
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
+                    <preprocessing>
+                        <step>
+                            <type>6</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                    <jmx_endpoint/>
+                    <master_item/>
                 </item>
                 <item>
                     <name>Host has external IPv6 address</name>
                     <type>7</type>
                     <snmp_community/>
-                    <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>net.has_ext_ip6</key>
-                    <delay>300</delay>
-                    <history>7</history>
-                    <trends>30</trends>
+                    <delay>5m</delay>
+                    <history>1w</history>
+                    <trends>30d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -140,11 +139,8 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
-                    <data_type>3</data_type>
                     <authtype>0</authtype>
                     <username/>
                     <password/>
@@ -160,22 +156,28 @@
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
+                    <preprocessing>
+                        <step>
+                            <type>6</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
+                    <jmx_endpoint/>
+                    <master_item/>
                 </item>
                 <item>
                     <name>CPU cores</name>
                     <type>7</type>
                     <snmp_community/>
-                    <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>system.cpu.cores</key>
-                    <delay>3600</delay>
-                    <history>7</history>
-                    <trends>90</trends>
+                    <delay>1h</delay>
+                    <history>1w</history>
+                    <trends>90d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units>cores</units>
-                    <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -183,11 +185,8 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
-                    <data_type>0</data_type>
                     <authtype>0</authtype>
                     <username/>
                     <password/>
@@ -203,22 +202,23 @@
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
                 </item>
                 <item>
                     <name>CPU model</name>
                     <type>7</type>
                     <snmp_community/>
-                    <multiplier>0</multiplier>
                     <snmp_oid/>
                     <key>system.hw.cpu[0,model]</key>
-                    <delay>43200</delay>
-                    <history>30</history>
+                    <delay>12h</delay>
+                    <history>30d</history>
                     <trends>0</trends>
                     <status>0</status>
                     <value_type>4</value_type>
                     <allowed_hosts/>
                     <units/>
-                    <delta>0</delta>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -226,11 +226,8 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <formula>1</formula>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
-                    <data_type>0</data_type>
                     <authtype>0</authtype>
                     <username/>
                     <password/>
@@ -246,6 +243,9 @@
                     </applications>
                     <valuemap/>
                     <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
                 </item>
             </items>
             <discovery_rules>
@@ -255,7 +255,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>net.ip6tables.discover_chains</key>
-                    <delay>900</delay>
+                    <delay>15m</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -265,7 +265,6 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
                     <authtype>0</authtype>
@@ -279,24 +278,22 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30</lifetime>
+                    <lifetime>30d</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
                             <name>Firewall IPv6 {#CHAIN} policy (0=accept)</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>net.ip6tables.policy[{#CHAIN}]</key>
-                            <delay>300</delay>
-                            <history>7</history>
-                            <trends>90</trends>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>ADR?</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -304,11 +301,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -324,23 +318,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Firewall IPv6 {#CHAIN} rules</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>net.ip6tables.rules[{#CHAIN}]</key>
-                            <delay>300</delay>
-                            <history>7</history>
-                            <trends>90</trends>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>rules</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -348,11 +343,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -368,7 +360,10 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -394,6 +389,7 @@
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
+                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>Firewall IPv4 chains</name>
@@ -401,7 +397,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>net.iptables.discover_chains</key>
-                    <delay>900</delay>
+                    <delay>15m</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -411,7 +407,6 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
                     <authtype>0</authtype>
@@ -425,24 +420,22 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>30</lifetime>
+                    <lifetime>30d</lifetime>
                     <description/>
                     <item_prototypes>
                         <item_prototype>
                             <name>Firewall IPv4 {#CHAIN} policy (0=accept)</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>net.iptables.policy[{#CHAIN}]</key>
-                            <delay>300</delay>
-                            <history>7</history>
-                            <trends>90</trends>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>ADR?</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -450,11 +443,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -470,23 +460,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Firewall IPv4 {#CHAIN} rules</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>net.iptables.rules[{#CHAIN}]</key>
-                            <delay>300</delay>
-                            <history>7</history>
-                            <trends>90</trends>
+                            <delay>5m</delay>
+                            <history>1w</history>
+                            <trends>90d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>rules</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -494,11 +485,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -514,7 +502,10 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -540,6 +531,7 @@
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
+                    <jmx_endpoint/>
                 </discovery_rule>
             </discovery_rules>
             <httptests/>
