@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.2</version>
-    <date>2017-07-20T11:55:29Z</date>
+    <version>3.4</version>
+    <date>2019-02-15T16:36:06Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -46,6 +46,28 @@
             <macros>
                 <macro>
                     <macro>{$DISABLE_ZBXNOHW}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens/>
+        </template>
+        <template>
+            <template>Template Disable ossec</template>
+            <name>Template Disable ossec</name>
+            <description/>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications/>
+            <items/>
+            <discovery_rules/>
+            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_OSSEC}</macro>
                     <value>1</value>
                 </macro>
             </macros>
