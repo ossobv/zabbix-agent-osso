@@ -1,3 +1,18 @@
+zabbix-agent-osso (0.19) stable; urgency=low
+
+  * galera: Add {$GALERA_NODECOUNT} macro to override the dflt 3 nodecount.
+  * templates: Add templates for checking the hardware template.
+  * templates: Lower entropy-check interval and document why:
+    Kernel entropy interval must not be 5m (using 4.5m). On some systems
+    (Debian Stretch? Kernel 4.9.0-3? Systemd 232-25+deb9u1?) the entropy
+    is reset every 5 minutes. Unsure who causes this, but it appears to be
+    a system daemon (systemd-* or kernel itself); as turning off as many
+    daemons as possible did not stop the entropy drain/reset.
+  * kernelmisc: Add net.tcpretranssegs and net.tcpsynretrans.
+  * templates: Update templates to Zabbix 3.4.
+
+ -- Walter Doekes <wjdoekes+zabbix-agent-osso@osso.nl>  Fri, 15 Feb 2019 17:58:34 +0100
+
 zabbix-agent-osso (0.18~all) stable; urgency=low
 
   * Fix S.M.A.R.T. monitoring bug where partial errors would yield no
