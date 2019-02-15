@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.2</version>
-    <date>2017-07-17T10:44:08Z</date>
+    <version>3.4</version>
+    <date>2019-02-15T16:52:05Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -30,7 +30,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>smart[discovery]</key>
-                    <delay>10800</delay>
+                    <delay>3h</delay>
                     <status>1</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -40,7 +40,6 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
                     <authtype>0</authtype>
@@ -54,12 +53,13 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>10</lifetime>
+                    <lifetime>10d</lifetime>
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes/>
                     <trigger_prototypes/>
                     <graph_prototypes/>
                     <host_prototypes/>
+                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>S.M.A.R.T. SAS device discovery</name>
@@ -67,7 +67,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>smart[discovery_sas]</key>
-                    <delay>10800</delay>
+                    <delay>3h</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -77,7 +77,6 @@
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
                     <authtype>0</authtype>
@@ -91,24 +90,22 @@
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>10</lifetime>
+                    <lifetime>10d</lifetime>
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>SAS drive temperature $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SAS},Current Drive Temperature]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -116,11 +113,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -136,23 +130,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SAS drive model $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SAS},Product]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -160,11 +155,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -180,23 +172,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SAS overall-health status $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SAS},SMART Health Status]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -204,11 +197,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -224,23 +214,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SAS corrected read errors $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[sas_corr,{#DEVICE_SAS},read]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -248,11 +239,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -268,23 +256,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SAS corrected write errors $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[sas_corr,{#DEVICE_SAS},write]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -292,11 +281,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -312,23 +298,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SAS uncorrected read errors $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>smart[sas_uncorr,{#DEVICE_SAS},read]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <key>smart[sas_uncorr,{#DEVICE_SAS},read:]</key>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -336,11 +323,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -356,23 +340,24 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SAS uncorrected write errors $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
-                            <key>smart[sas_uncorr,{#DEVICE_SAS},write]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <key>smart[sas_uncorr,{#DEVICE_SAS},write:]</key>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -380,11 +365,8 @@
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -400,7 +382,10 @@
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -422,7 +407,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template OSSO SMART:smart[sas_uncorr,{#DEVICE_SAS},read].last()}&gt;10</expression>
+                            <expression>{Template OSSO SMART:smart[sas_uncorr,{#DEVICE_SAS},read:].last()}&gt;10</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>SMART: {#DEVICE_SAS} uncorrected read error count is too high on {HOST.NAME}</name>
@@ -438,7 +423,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <tags/>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>{Template OSSO SMART:smart[sas_uncorr,{#DEVICE_SAS},write].last()}&gt;10</expression>
+                            <expression>{Template OSSO SMART:smart[sas_uncorr,{#DEVICE_SAS},write:].last()}&gt;10</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
                             <name>SMART: {#DEVICE_SAS} uncorrected write error count is too high on {HOST.NAME}</name>
@@ -456,6 +441,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
+                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>S.M.A.R.T. SATA device discovery</name>
@@ -463,7 +449,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <snmp_community/>
                     <snmp_oid/>
                     <key>smart[discovery_sata]</key>
-                    <delay>10800</delay>
+                    <delay>3h</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -473,7 +459,6 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
                     <authtype>0</authtype>
@@ -487,24 +472,22 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>10</lifetime>
+                    <lifetime>10d</lifetime>
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Current Pending Sector Count $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Current_Pending_Sector]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -512,11 +495,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -532,23 +512,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Uncorrectable Sector Count $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Offline_Uncorrectable]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -556,11 +537,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -576,23 +554,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Power on hours $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>1</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Power_On_Hours]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>s</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -600,11 +579,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>3600</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -620,23 +596,29 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing>
+                                <step>
+                                    <type>1</type>
+                                    <params>3600</params>
+                                </step>
+                            </preprocessing>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Reallocated Event Count $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Reallocated_Event_Count]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -644,11 +626,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -664,23 +643,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Reallocated Sectors Count $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Reallocated_Sector_Ct]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -688,11 +668,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -708,23 +685,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Reported Uncorrectable Errors $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Reported_Uncorrect]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -732,11 +710,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -752,23 +727,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Spin Retry Count $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Spin_Retry_Count]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -776,11 +752,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -796,23 +769,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Spin Up Time $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Spin_Up_Time]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -820,11 +794,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -840,23 +811,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Temperature $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SATA},Temperature_Celsius]</key>
-                            <delay>600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>10m</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>C</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -864,11 +836,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -884,23 +853,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>ATA Version $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},ATA Version is]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -908,11 +878,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -928,23 +895,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Device model $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},Device Model]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -952,11 +920,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -972,23 +937,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Firmware Version $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},Firmware Version]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -996,11 +962,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1016,23 +979,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>LU WWN Device Id $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},LU WWN Device Id]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1040,11 +1004,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1060,23 +1021,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SATA Version $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},SATA Version is]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1084,11 +1046,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1104,23 +1063,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Sector Size $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},Sector Size]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1128,11 +1088,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1148,23 +1105,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Serial Number $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},Serial Number]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1172,11 +1130,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1192,23 +1147,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>SMART overall-health status $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},SMART overall-health self-assessment test result]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1216,11 +1172,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1236,23 +1189,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>User Capacity $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[info,{#DEVICE_SATA},User Capacity]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
+                            <delay>1h</delay>
+                            <history>90d</history>
                             <trends>0</trends>
                             <status>0</status>
                             <value_type>1</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1260,11 +1214,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1280,7 +1231,10 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -1367,6 +1321,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
+                    <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
                     <name>S.M.A.R.T. SSD device discovery</name>
@@ -1374,7 +1329,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <snmp_community/>
                     <snmp_oid/>
                     <key>smart[discovery_ssd]</key>
-                    <delay>10800</delay>
+                    <delay>3h</delay>
                     <status>0</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
@@ -1384,7 +1339,6 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <snmpv3_authpassphrase/>
                     <snmpv3_privprotocol>0</snmpv3_privprotocol>
                     <snmpv3_privpassphrase/>
-                    <delay_flex/>
                     <params/>
                     <ipmi_sensor/>
                     <authtype>0</authtype>
@@ -1398,24 +1352,22 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                         <formula/>
                         <conditions/>
                     </filter>
-                    <lifetime>10</lifetime>
+                    <lifetime>10d</lifetime>
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>Temperature $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attr,{#DEVICE_SSD},Airflow_Temperature_Cel]</key>
-                            <delay>600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>10m</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units>C</units>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1423,11 +1375,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1443,23 +1392,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Wear leveling count $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attrid_value,{#DEVICE_SSD},177]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1467,11 +1417,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1487,23 +1434,24 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
                             <name>Media Wearout Indicator $2</name>
                             <type>7</type>
                             <snmp_community/>
-                            <multiplier>0</multiplier>
                             <snmp_oid/>
                             <key>smart[attrid_value,{#DEVICE_SSD},233]</key>
-                            <delay>3600</delay>
-                            <history>90</history>
-                            <trends>365</trends>
+                            <delay>1h</delay>
+                            <history>90d</history>
+                            <trends>365d</trends>
                             <status>0</status>
                             <value_type>3</value_type>
                             <allowed_hosts/>
                             <units/>
-                            <delta>0</delta>
                             <snmpv3_contextname/>
                             <snmpv3_securityname/>
                             <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -1511,11 +1459,8 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <snmpv3_authpassphrase/>
                             <snmpv3_privprotocol>0</snmpv3_privprotocol>
                             <snmpv3_privpassphrase/>
-                            <formula>1</formula>
-                            <delay_flex/>
                             <params/>
                             <ipmi_sensor/>
-                            <data_type>0</data_type>
                             <authtype>0</authtype>
                             <username/>
                             <password/>
@@ -1531,7 +1476,10 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             </applications>
                             <valuemap/>
                             <logtimefmt/>
+                            <preprocessing/>
+                            <jmx_endpoint/>
                             <application_prototypes/>
+                            <master_item_prototype/>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
@@ -1570,6 +1518,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     </trigger_prototypes>
                     <graph_prototypes/>
                     <host_prototypes/>
+                    <jmx_endpoint/>
                 </discovery_rule>
             </discovery_rules>
             <httptests/>
