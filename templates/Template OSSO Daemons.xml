@@ -530,6 +530,47 @@
                     <jmx_endpoint/>
                     <master_item/>
                 </item>
+                <item>
+                    <name>Gocollect config existence</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>vfs.file.exists[/etc/gocollect.conf]</key>
+                    <delay>30m</delay>
+                    <history>1w</history>
+                    <trends>30d</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
+                </item>
             </items>
             <discovery_rules/>
             <httptests/>
@@ -577,7 +618,7 @@
             <tags/>
         </trigger>
         <trigger>
-            <expression>{Template OSSO Daemons:daemon.is_running[gocollect,gocollect-fallback].last()}=0</expression>
+            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and {Template OSSO Daemons:daemon.is_running[gocollect,gocollect-fallback].last()}=0</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>Daemon gocollect is not running on {HOST.NAME}</name>
@@ -619,6 +660,22 @@
             <status>0</status>
             <priority>1</priority>
             <description>Use `psdiff show` and `psdiff write` to update the DB.</description>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+        <trigger>
+            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and {Template OSSO Daemons:vfs.file.exists[/etc/gocollect.conf].last()}=0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Gocollect config missing on {HOST.NAME}</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>1</priority>
+            <description/>
             <type>0</type>
             <manual_close>0</manual_close>
             <dependencies/>
