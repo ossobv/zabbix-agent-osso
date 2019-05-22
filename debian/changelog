@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.20) stable; urgency=low
+
+  * daemon: Add {$DISABLE_GOCOLLECT} macro to override gocollect monitoring.
+  * daemon: Add /var/spool/mail/ monitoring; should be empty. For the few
+    cases where it's supposed to be on local disk, you can disable the trigger
+    manually.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 22 May 2019 13:17:03 +0200
+
 zabbix-agent-osso (0.19) stable; urgency=low
 
   * galera: Add {$GALERA_NODECOUNT} macro to override the dflt 3 nodecount.
