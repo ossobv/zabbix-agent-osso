@@ -8,10 +8,10 @@ if [ "$1" = configure ]; then
     # If it exists, disable the config so it doesn't cause duplicate
     # key conflicts with our own mysql.conf.
     if grep -q '^UserParameter=' \
-	    /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf \
-	    2>/dev/null; then
+            /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf \
+                2>/dev/null; then
         sed -i -e 's/^UserParameter=/#DISABLED_BY_zabbix-agent-osso#/' \
-	    /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf
+            /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf
     fi
 
     # Make sure a lib directory exists, with zabbix permissions.
@@ -20,12 +20,20 @@ if [ "$1" = configure ]; then
     chown zabbix:zabbix /var/lib/zabbix/scripts || true
 
     # Restart zabbix-agent if it was running.
-    if systemctl status zabbix-agent >/dev/null 2>&1; then
-	systemctl restart zabbix-agent.service
+    if [ -d /run/systemd/system ]; then
+        # https://sources.debian.org/\
+        #   src/debhelper/10.2.5/autoscripts/postinst-systemd-restart/
+        deb-systemd-invoke try-restart zabbix-agent || echo "systemd fail?" >&2
+    elif [ -x /etc/init.d/zabbix-agent ]; then
+        # https://sources.debian.org/\
+        #  src/debhelper/10.2.5/autoscripts/postinst-init/
+        if invoke-rc.d zabbix-agent status >/dev/null 2>&1; then
+            invoke-rc.d zabbix-agent restart || echo "sysv fail?" >&2
+        fi
     elif service zabbix-agent status >/dev/null 2>&1; then
-	service zabbix-agent restart
-    elif /etc/init.d/zabbix-agent status >/dev/null 2>&1; then
-	/etc/init.d/zabbix-agent restart
+        service zabbix-agent restart || echo "upstart fail?" >&2
+    else
+        echo "(don't know how to restart zabbix-agent. *you* do it.)" >&2
     fi
 
     # Run the update-cache script an initial time.
