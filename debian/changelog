@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.21) stable; urgency=low
+
+  * Depend on sudo. We depend on it existing, but weren't aware that it was
+    installed on OSes without it (Debian).
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 03 Jun 2019 17:23:06 +0200
+
 zabbix-agent-osso (0.20) stable; urgency=low
 
   * daemon: Add {$DISABLE_GOCOLLECT} macro to override gocollect monitoring.

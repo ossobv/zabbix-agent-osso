@@ -8,7 +8,10 @@ Build-Depends-Indep: python:any, python3:any, dh-python
 
 Package: zabbix-agent-osso
 Architecture: all
-Depends: ${misc:Depends}, zabbix-agent, vcutil
+Depends: ${misc:Depends},
+ sudo,
+ vcutil,
+ zabbix-agent
 Recommends: update-notifier-common
 Suggests: cron, gocollect, mail-transport-agent, postfix
 Description: OSSO zabbix-agent default scripts
