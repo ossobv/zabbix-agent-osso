@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2019-02-15T16:42:15Z</date>
+    <date>2019-06-05T09:02:06Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -60,7 +60,7 @@
                     <description/>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Disk:$1:IO:Currently Active</name>
+                            <name>Disk:$1:IO:current</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -154,7 +154,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Read:Merged</name>
+                            <name>Disk:$1:R:merged</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -201,7 +201,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Read:ms</name>
+                            <name>Disk:$1:R:ms</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -248,7 +248,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Read:Ops per second</name>
+                            <name>Disk:$1:R:ops/s</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -295,7 +295,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Read:Bytes/sec</name>
+                            <name>Disk:$1:R:B/s</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -346,7 +346,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Write:Merged</name>
+                            <name>Disk:$1:W:merged</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -393,7 +393,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Write:ms</name>
+                            <name>Disk:$1:W:ms</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -440,7 +440,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Write:Ops per second</name>
+                            <name>Disk:$1:W:ops/s</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -487,7 +487,7 @@
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:Write:Bytes/sec</name>
+                            <name>Disk:$1:W:B/s</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -541,7 +541,7 @@
                     <trigger_prototypes/>
                     <graph_prototypes>
                         <graph_prototype>
-                            <name>Disk {#DEVICENAME} - Bytes/second</name>
+                            <name>Disk {#DEVICENAME} - B/s</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
@@ -585,7 +585,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
-                            <name>Disk {#DEVICENAME} - Ops/second</name>
+                            <name>Disk {#DEVICENAME} - ops/s</name>
                             <width>900</width>
                             <height>200</height>
                             <yaxismin>0.0000</yaxismin>
