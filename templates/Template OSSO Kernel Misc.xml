@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2019-06-05T10:23:48Z</date>
+    <date>2019-06-05T10:47:57Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -860,7 +860,7 @@
             <expression>{$DISABLE_ZBXNOHW}=0 and&#13;
 ({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and &#13;
  ({Template OSSO Kernel Misc:system.dmi.chassis.nodata(1d)}=1 or&#13;
-  {Template OSSO Kernel Misc:system.dmi.chassis.regexp(&quot;^QEMU&quot;)}=0))</expression>
+  {Template OSSO Kernel Misc:system.dmi.chassis.regexp(&quot;^QEMU|lxcfs-in-proc&quot;)}=0))</expression>
             <recovery_mode>0</recovery_mode>
             <recovery_expression/>
             <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>
