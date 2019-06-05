@@ -659,7 +659,14 @@
                     <filter>
                         <evaltype>0</evaltype>
                         <formula/>
-                        <conditions/>
+                        <conditions>
+                            <condition>
+                                <macro>{#FSNAME}</macro>
+                                <value>@Exclude filesystems for discovery</value>
+                                <operator>8</operator>
+                                <formulaid>A</formulaid>
+                            </condition>
+                        </conditions>
                     </filter>
                     <lifetime>1w</lifetime>
                     <description/>
