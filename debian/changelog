@@ -1,3 +1,14 @@
+zabbix-agent-osso (0.22) stable; urgency=low
+
+  * diskio: Also list FSTYPE in mount discovery. Allows us to filter certain
+    filesystems more easily once everyone has these updated parameters.
+  * kernelmisc: Improve hardware detection, by adding:
+    - system.dmi.bios
+    - system.dmi.chassis
+    - system.dmi.product
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 05 Jun 2019 12:53:17 +0200
+
 zabbix-agent-osso (0.21) stable; urgency=low
 
   * Depend on sudo. We depend on it existing, but weren't aware that it was
