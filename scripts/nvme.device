@@ -1,0 +1,66 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# RECOMMENDS: nvme-cli (only on hardware nodes)
+#
+# UserParameter=nvme.device.discover, /etc/zabbix/scripts/nvme.device --discover
+# UserParameter=nvme.device.smart[*], /etc/zabbix/scripts/nvme.device --smart "$1" "$2"
+#
+
+nvme_cli=/usr/sbin/nvme
+
+case $1 in
+--discover)
+    # {"data": [{"{#NVME}": "/dev/nvme0n1"}, {"{#NVME}": "/dev/nvme1n1"}]}
+    $nvme_cli list | awk '\
+    BEGIN { printf "{\"data\": [" }
+    /^\//{ if(i)printf ", "; ++i; printf "{\"{#NVME}\": \"" $1 "\"}"; }
+    END { print "]}" }'
+    ;;
+
+--smart)
+    dev=$2
+    attrib=$3
+    if test -z "$dev" || test -z "$attrib"; then
+        echo 'require DEVICE and ATTRIBUTE args' >&2
+        exit 1
+    fi
+    case $attrib in
+    crc_error_count|end_to_end_error_detection_count|erase_fail_count|\
+    pll_lock_loss_count|program_fail_count|retry_buffer_overflow_count|\
+    timed_workload_host_reads|timed_workload_media_wear)
+        subcmd='intel smart-log-add'
+        # program_fail_count              : 100%       0
+        # erase_fail_count                : 100%       0
+        # ...
+        #  ^-- take raw value
+        nth=2
+        ;;
+    wear_leveling)
+        subcmd='intel smart-log-add'
+        # wear_leveling                   : 100%       min: 0, max: 1, avg: 0
+        #  ^-- take 100%
+        nth=1
+        ;;
+    *)
+        subcmd=smart-log
+        # host_read_commands                  : 583,150
+        # host_write_commands                 : 4,438,702
+        # controller_busy_time                : 0
+        nth=1
+        ;;
+    esac
+    out=$($nvme_cli $subcmd $dev 2>&1)
+    if test $? -ne 0; then
+        echo "ERROR: $dev: $out" >&2
+        exit 1
+    fi
+    val=$(echo "$out" | sed -e '
+        /^'"$attrib"'[[:blank:]]*:/!d
+        s/^[^:]*:[[:blank:]]*//;s/[^0-9 .]//g' |
+        awk '{print int($'$nth')}')
+    if test -z "$val"; then
+        echo "ERROR: $dev: no attribute $attrib" >&2
+        exit 1
+    fi
+    echo "$val"
+esac
