@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.23) stable; urgency=low
+
+  * backup: Update template.
+  * kernelmisc: Fix XEN (VM) detection.
+  * nvme: Add nvme scripts.
+  * zfs: Update template.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 25 Nov 2019 17:44:06 +0100
+
 zabbix-agent-osso (0.22) stable; urgency=low
 
   * diskio: Also list FSTYPE in mount discovery. Allows us to filter certain
