@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2019-02-15T16:42:43Z</date>
+    <date>2019-11-25T16:45:38Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -749,7 +749,7 @@
                     <snmp_oid/>
                     <key>zfs.dataset.discovery</key>
                     <delay>12h</delay>
-                    <status>0</status>
+                    <status>1</status>
                     <allowed_hosts/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
@@ -771,7 +771,7 @@
                         <formula/>
                         <conditions>
                             <condition>
-                                <macro>{#FILESETNAME}</macro>
+                                <macro>{#DATASETNAME}</macro>
                                 <value>@ZFS fileset</value>
                                 <operator>8</operator>
                                 <formulaid>A</formulaid>
@@ -1119,7 +1119,7 @@
                             <expression>{Template OSSO Disk ZFS:zfs.zpool.health[{#POOLNAME}].str(&quot;ONLINE&quot;)}&lt;&gt;1</expression>
                             <recovery_mode>0</recovery_mode>
                             <recovery_expression/>
-                            <name>Zpool {#POOLNAME} is {ITEM.VALUE} on {HOST.NAME}</name>
+                            <name>Zpool {#POOLNAME} is {ITEM.LASTVALUE} on {HOST.NAME}</name>
                             <correlation_mode>0</correlation_mode>
                             <correlation_tag/>
                             <url/>
