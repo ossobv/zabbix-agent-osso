@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.25) stable; urgency=low
+
+  * nvme: Also detect missing nvme-cli
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 26 Nov 2019 22:39:30 +0100
+
 zabbix-agent-osso (0.24) stable; urgency=low
 
   * nvme: Handle older nvme-cli too.
