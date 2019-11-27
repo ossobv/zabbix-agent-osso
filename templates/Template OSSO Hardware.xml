@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2019-02-15T16:45:11Z</date>
+    <date>2019-11-27T21:36:43Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -30,6 +30,9 @@
             <templates>
                 <template>
                     <name>Template App mcelog</name>
+                </template>
+                <template>
+                    <name>Template OSSO NVMe</name>
                 </template>
                 <template>
                     <name>Template OSSO SMART</name>

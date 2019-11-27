@@ -20,8 +20,15 @@ get_smart_log_add() {
 
 
 case $1 in
+--has-disk)
+    if grep -q ' nvme' /proc/diskstats; then
+        echo 1
+    else
+        echo 0
+    fi
+    ;;
 --discover)
-    # {"data": [{"{#NVME}": "/dev/nvme0n1"}, {"{#NVME}": "/dev/nvme1n1"}]}a
+    # {"data": [{"{#NVME}": "/dev/nvme0n1"}, {"{#NVME}": "/dev/nvme1n1"}]}
     output=$($nvme_cli list 2>/dev/null)
     if test $? -eq 0; then
         # Might be empty. No problem.
