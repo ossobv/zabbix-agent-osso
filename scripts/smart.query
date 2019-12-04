@@ -13,8 +13,6 @@ show_help() {
     name="$(basename "$0")"
     cat << EOF
 Usage: $name <command> [opts]
-$name discovery
-      json encoded device information for item discovery in zabbix.
 $name discovery_sata
       json encoded device information for item discovery in zabbix for SATA drives.
 $name discovery_sas
@@ -87,12 +85,6 @@ get_sas_corr() {
 }
 
 case "$1" in
-    discovery)
-        cachefiles | awk -F. '
-          BEGIN{print "{\"data\":["}
-          {if(NR>1)printf ",";print "{\"{#DEVICE}\":\"" $NF "\"}"}
-          END{print "]}"}'
-        ;;
     discovery_sas)
         cachefiles | xargs -d\\n grep -l 'Transport protocol.*SAS' | awk -F. '
           BEGIN{print "{\"data\":["}

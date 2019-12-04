@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2019-02-15T16:52:05Z</date>
+    <date>2019-12-04T16:26:33Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -19,20 +19,23 @@
             </groups>
             <applications>
                 <application>
-                    <name>S.M.A.R.T.</name>
+                    <name>SMART</name>
                 </application>
             </applications>
-            <items/>
-            <discovery_rules>
-                <discovery_rule>
-                    <name>S.M.A.R.T. device discovery</name>
+            <items>
+                <item>
+                    <name>SMART: Has /usr/sbin/smartctl</name>
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>smart[discovery]</key>
-                    <delay>3h</delay>
-                    <status>1</status>
+                    <key>vfs.file.exists[/usr/sbin/smartctl]</key>
+                    <delay>1h</delay>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
                     <allowed_hosts/>
+                    <units/>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
@@ -48,21 +51,23 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <filter>
-                        <evaltype>0</evaltype>
-                        <formula/>
-                        <conditions/>
-                    </filter>
-                    <lifetime>10d</lifetime>
-                    <description>Discovery of S.M.A.R.T. devices.</description>
-                    <item_prototypes/>
-                    <trigger_prototypes/>
-                    <graph_prototypes/>
-                    <host_prototypes/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications>
+                        <application>
+                            <name>SMART</name>
+                        </application>
+                    </applications>
+                    <valuemap/>
+                    <logtimefmt/>
+                    <preprocessing/>
                     <jmx_endpoint/>
-                </discovery_rule>
+                    <master_item/>
+                </item>
+            </items>
+            <discovery_rules>
                 <discovery_rule>
-                    <name>S.M.A.R.T. SAS device discovery</name>
+                    <name>SMART SAS device discovery</name>
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -125,7 +130,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -167,7 +172,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -209,7 +214,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -251,7 +256,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -293,7 +298,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -335,7 +340,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -377,7 +382,7 @@
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -444,7 +449,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>S.M.A.R.T. SATA device discovery</name>
+                    <name>SMART SATA device discovery</name>
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -476,7 +481,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Current Pending Sector Count $2</name>
+                            <name>SATA current pending sector count $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -507,7 +512,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -518,7 +523,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Uncorrectable Sector Count $2</name>
+                            <name>SATA uncorrectable sector count $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -549,7 +554,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -560,7 +565,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Power on hours $2</name>
+                            <name>SATA power on hours $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -591,7 +596,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -607,7 +612,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Reallocated Event Count $2</name>
+                            <name>SATA reallocated event count $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -638,7 +643,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -649,7 +654,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Reallocated Sectors Count $2</name>
+                            <name>SATA reallocated sectors count $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -680,7 +685,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -691,7 +696,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Reported Uncorrectable Errors $2</name>
+                            <name>SATA reported uncorrectable errors $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -722,7 +727,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -733,7 +738,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Spin Retry Count $2</name>
+                            <name>SATA spin retry count $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -764,7 +769,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -775,7 +780,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Spin Up Time $2</name>
+                            <name>SATA spin up time $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -806,7 +811,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -817,7 +822,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Temperature $2</name>
+                            <name>SATA temperature $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -848,7 +853,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -859,7 +864,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>ATA Version $2</name>
+                            <name>SATA ATA version $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -890,7 +895,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -901,7 +906,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Device model $2</name>
+                            <name>SATA device model $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -932,7 +937,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -943,7 +948,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Firmware Version $2</name>
+                            <name>SATA firmware version $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -974,7 +979,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -985,7 +990,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>LU WWN Device Id $2</name>
+                            <name>SATA LU WWN device ID $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1016,7 +1021,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1027,7 +1032,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA Version $2</name>
+                            <name>SATA version $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1058,7 +1063,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1069,7 +1074,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Sector Size $2</name>
+                            <name>SATA sector size $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1100,7 +1105,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1111,7 +1116,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Serial Number $2</name>
+                            <name>SATA serial number $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1142,7 +1147,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1153,7 +1158,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>SMART overall-health status $2</name>
+                            <name>SATA SMART overall-health status $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1184,7 +1189,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1195,7 +1200,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>User Capacity $2</name>
+                            <name>SATA user capacity $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1226,7 +1231,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1324,7 +1329,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <jmx_endpoint/>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>S.M.A.R.T. SSD device discovery</name>
+                    <name>SMART SSD device discovery</name>
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
@@ -1356,7 +1361,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Temperature $2</name>
+                            <name>SSD temperature $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1387,7 +1392,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1398,7 +1403,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Wear leveling count $2</name>
+                            <name>SSD wear leveling count $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1429,7 +1434,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1440,7 +1445,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <master_item_prototype/>
                         </item_prototype>
                         <item_prototype>
-                            <name>Media Wearout Indicator $2</name>
+                            <name>SSD media wearout indicator $2</name>
                             <type>7</type>
                             <snmp_community/>
                             <snmp_oid/>
@@ -1471,7 +1476,7 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
                             <inventory_link>0</inventory_link>
                             <applications>
                                 <application>
-                                    <name>S.M.A.R.T.</name>
+                                    <name>SMART</name>
                                 </application>
                             </applications>
                             <valuemap/>
@@ -1527,4 +1532,22 @@ and {Template OSSO SMART:smart[info,{#DEVICE_SAS},SMART Health Status].strlen()}
             <screens/>
         </template>
     </templates>
+    <triggers>
+        <trigger>
+            <expression>{Template OSSO SMART:vfs.file.exists[/usr/sbin/smartctl].last()}=0</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>SMART: Missing smartmontools/smartctl on {HOST.NAME}</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>4</priority>
+            <description>Please install smartmontools</description>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+    </triggers>
 </zabbix_export>
