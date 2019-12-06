@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>3.4</version>
-    <date>2019-02-15T16:36:06Z</date>
+    <version>4.4</version>
+    <date>2019-12-06T12:14:03Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -11,24 +11,32 @@
         <template>
             <template>Template Disable firewall</template>
             <name>Template Disable firewall</name>
-            <description/>
             <groups>
                 <group>
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications/>
-            <items/>
-            <discovery_rules/>
-            <httptests/>
             <macros>
                 <macro>
                     <macro>{$DISABLE_FIREWALL}</macro>
                     <value>1</value>
                 </macro>
             </macros>
-            <templates/>
-            <screens/>
+        </template>
+        <template>
+            <template>Template Disable gocollect</template>
+            <name>Template Disable gocollect</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_GOCOLLECT}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
         </template>
         <template>
             <template>Template Disable hardware needs template</template>
@@ -39,84 +47,123 @@
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications/>
-            <items/>
-            <discovery_rules/>
-            <httptests/>
             <macros>
                 <macro>
                     <macro>{$DISABLE_ZBXNOHW}</macro>
                     <value>1</value>
                 </macro>
             </macros>
-            <templates/>
-            <screens/>
         </template>
         <template>
-            <template>Template Disable ossec</template>
-            <name>Template Disable ossec</name>
-            <description/>
+            <template>Template Disable memory messages</template>
+            <name>Template Disable memory messages</name>
+            <description>Want PointerBP docker swarm bende GAAT ALLEEN MAAR OOM DIKKE BENDE</description>
             <groups>
                 <group>
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications/>
-            <items/>
-            <discovery_rules/>
-            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_MEMORY}</macro>
+                    <value>1</value>
+                </macro>
+                <macro>
+                    <macro>{$DISABLE_OOM}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <template>Template Disable ossec</template>
+            <name>Template Disable ossec</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
             <macros>
                 <macro>
                     <macro>{$DISABLE_OSSEC}</macro>
                     <value>1</value>
                 </macro>
             </macros>
-            <templates/>
-            <screens/>
         </template>
         <template>
-            <template>Template Disable psdiff</template>
-            <name>Template Disable psdiff</name>
-            <description/>
+            <template>Template Disable postfix and localmail checks</template>
+            <name>Template Disable postfix and localmail checks</name>
             <groups>
                 <group>
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications/>
-            <items/>
-            <discovery_rules/>
-            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_LOCALMAIL}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <template>Template Disable processor load messages</template>
+            <name>Template Disable processor load messages</name>
+            <description>Want PointerBP docker swarm bende loopt alleen maar CPU te vreten!</description>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_CPU_LOAD}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <template>Template Disable psdiff</template>
+            <name>Template Disable psdiff</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
             <macros>
                 <macro>
                     <macro>{$DISABLE_PSDIFF}</macro>
                     <value>1</value>
                 </macro>
             </macros>
-            <templates/>
-            <screens/>
         </template>
         <template>
-            <template>Template Disable update notifications</template>
-            <name>Template Disable update notifications</name>
-            <description/>
+            <template>Template Disable RabbitMQ clustering</template>
+            <name>Template Disable RabbitMQ clustering</name>
             <groups>
                 <group>
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications/>
-            <items/>
-            <discovery_rules/>
-            <httptests/>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_RMQ_CLUSTERING}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <template>Template Disable update notifications</template>
+            <name>Template Disable update notifications</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
             <macros>
                 <macro>
                     <macro>{$DISABLE_SEC_UPDATES}</macro>
                     <value>1</value>
                 </macro>
             </macros>
-            <templates/>
-            <screens/>
         </template>
     </templates>
 </zabbix_export>

@@ -49,7 +49,7 @@ INSERT INTO `expressions` VALUES (8,7,'^/var/lib/lxd/containers/.*/rootfs/',4,',
 INSERT INTO `expressions` VALUES (9,7,'^/var/lib/docker/containers/.*/mounts/',4,',',0);
 INSERT INTO `expressions` VALUES (10,7,'^/var/lib/kubelet/plugins/',4,',',0);
 INSERT INTO `expressions` VALUES (11,7,'^/var/lib/kubelet/pods/',4,',',0);
-INSERT INTO `expressions` VALUES (15,2,'^(br-|docker|tap|tun|veth|vmbr)',4,',',1);
+INSERT INTO `expressions` VALUES (15,2,'^(br-|docker|tap|tun|veth|vmbr|cali)',4,',',1);
 INSERT INTO `expressions` VALUES (16,7,'^/var/lib/docker/overlay2/',4,',',0);
 UNLOCK TABLES;
 
