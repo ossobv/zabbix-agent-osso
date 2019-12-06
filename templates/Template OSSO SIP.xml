@@ -40,7 +40,7 @@
                     <triggers>
                         <trigger>
                             <expression>{diff(0)}&gt;0</expression>
-                            <name>{HOSTNAME}: SIP Server has changed</name>
+                            <name>{HOST.NAME}: SIP Server has changed</name>
                             <priority>WARNING</priority>
                             <description>SIP Server has changed (UAS/proxy upgrade?)</description>
                         </trigger>

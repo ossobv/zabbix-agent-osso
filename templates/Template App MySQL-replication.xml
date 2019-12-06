@@ -38,7 +38,7 @@
                     <triggers>
                         <trigger>
                             <expression>{last(0)}&gt;600</expression>
-                            <name>MySQL reached the replication delay threshold on {HOSTNAME}</name>
+                            <name>MySQL reached the replication delay threshold on {HOST.NAME}</name>
                             <priority>HIGH</priority>
                         </trigger>
                     </triggers>
@@ -64,7 +64,7 @@
                     <triggers>
                         <trigger>
                             <expression>{max(3m)}=0</expression>
-                            <name>MySQL replication slave IO is not running on {HOSTNAME}</name>
+                            <name>MySQL replication slave IO is not running on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                         </trigger>
                     </triggers>
@@ -90,7 +90,7 @@
                     <triggers>
                         <trigger>
                             <expression>{max(3m)}=0</expression>
-                            <name>MySQL replication slave SQL is not running on {HOSTNAME}</name>
+                            <name>MySQL replication slave SQL is not running on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                         </trigger>
                     </triggers>

@@ -492,7 +492,7 @@ and {strlen()}&gt;2</expression>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&lt;20</expression>
-                                    <name>SMART: {#DEVICE_SSD} SSD wear leveling count is low on {HOSTNAME}</name>
+                                    <name>SMART: {#DEVICE_SSD} SSD wear leveling count is low on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
@@ -511,7 +511,7 @@ and {strlen()}&gt;2</expression>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&lt;20</expression>
-                                    <name>SMART: {#DEVICE_SSD} SSD wearout indicator is low on {HOSTNAME}</name>
+                                    <name>SMART: {#DEVICE_SSD} SSD wearout indicator is low on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
