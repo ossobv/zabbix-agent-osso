@@ -28,20 +28,20 @@ case $1 in
     fi
     ;;
 --discover)
-    # {"data": [{"{#NVME}": "/dev/nvme0n1"}, {"{#NVME}": "/dev/nvme1n1"}]}
+    # [{"{#NVME}": "/dev/nvme0n1"}, {"{#NVME}": "/dev/nvme1n1"}]
     output=$($nvme_cli list 2>/dev/null)
     if test $? -eq 0; then
         # Might be empty. No problem.
         echo "$output" | awk '\
-        BEGIN { printf "{\"data\": [" }
+        BEGIN { printf "[" }
         /^\//{ if(i)printf ", "; ++i; printf "{\"{#NVME}\": \"" $1 "\"}"; }
-        END { print "]}" }'
+        END { print "]" }'
     elif ! test -x $nvme_cli; then
         if find /dev -maxdepth 1 -name 'nvme*' | grep -q ''; then
             echo 'ERROR: Found nvme devices, but no nvme-cli installed' >&2
             exit 1
         fi
-        echo '{"data": []}'
+        echo '[]'
     else
         echo "$output" 2>&1 # strange!
         exit 1

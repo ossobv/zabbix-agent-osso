@@ -87,21 +87,21 @@ get_sas_corr() {
 case "$1" in
     discovery_sas)
         cachefiles | xargs -d\\n grep -l 'Transport protocol.*SAS' | awk -F. '
-          BEGIN{print "{\"data\":["}
+          BEGIN{print "["}
           {if(NR>1)printf ",";print "{\"{#DEVICE_SAS}\":\"" $NF "\"}"}
-          END{print "]}"}'
+          END{print "]"}'
         ;;
     discovery_sata)
         cachefiles | xargs -d\\n grep -l 'SATA' | awk -F. '
-          BEGIN{print "{\"data\":["}
+          BEGIN{print "["}
           {if(NR>1)printf ",";print "{\"{#DEVICE_SATA}\":\"" $NF "\"}"}
-          END{print "]}"}'
+          END{print "]"}'
         ;;
     discovery_ssd)
         cachefiles | xargs -d\\n grep -l 'Solid State Device' | awk -F. '
-          BEGIN{print "{\"data\":["}
+          BEGIN{print "["}
           {if(NR>1)printf ",";print "{\"{#DEVICE_SSD}\":\"" $NF "\"}"}
-          END{print "]}"}'
+          END{print "]"}'
         ;;
     attr|attr_raw)
         get_attr_raw "$2" "$3"
