@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T12:17:03Z</date>
+    <date>2019-12-06T13:12:50Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -91,4 +91,12 @@
             </items>
         </template>
     </templates>
+    <triggers>
+        <trigger>
+            <expression>({Template OSSO Kubernetes ZFS:zfs.arc.max.syspromille.last()}&lt;100 or {Template OSSO Kubernetes ZFS:zfs.arc.max.syspromille.last()}&gt;850)</expression>
+            <name>ZFS arc max {ITEM.VALUE} not between 100 %o and 850 %o on {HOST.NAME}</name>
+            <priority>HIGH</priority>
+            <description>Clone of the 30%o trigger, for kubernetes we would like to have at least 10% of arc cache memory, leaving the upper max the same for sp nodes usecase</description>
+        </trigger>
+    </triggers>
 </zabbix_export>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T12:15:17Z</date>
+    <date>2019-12-06T13:13:17Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -74,13 +74,6 @@
                             <priority>DISASTER</priority>
                             <description>Herman says (2017-05-03): &quot;sp servers hebben vaak tot 80% ofzo aan ARC.&#13;
 pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</description>
-                        </trigger>
-                        <trigger>
-                            <expression>({last()}&lt;100 or&#13;
- {last()}&gt;850)</expression>
-                            <name>ZFS arc max {ITEM.VALUE} not between 100 %o and 850 %o on {HOST.NAME}</name>
-                            <priority>HIGH</priority>
-                            <description>Clone of the 30%o trigger, for kubernetes we would like to have at least 10% of arc cache memory, leaving the upper max the same for sp nodes usecase</description>
                         </trigger>
                     </triggers>
                 </item>
