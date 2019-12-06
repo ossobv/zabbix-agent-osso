@@ -340,7 +340,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Most recent mysqlbackup for $1</name>
+                            <name>Most recent mysqlbackup for {#BKNAME}</name>
                             <type>TRAP</type>
                             <key>mysqlbackup.get_latest[{#BKNAME}]</key>
                             <delay>0</delay>

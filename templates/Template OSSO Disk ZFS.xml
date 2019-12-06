@@ -85,7 +85,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     </triggers>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat data_size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[data_size]</key>
                     <delay>15m</delay>
@@ -100,7 +100,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat hits</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[hits]</key>
                     <delay>15m</delay>
@@ -120,7 +120,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat meta</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[meta]</key>
                     <delay>15m</delay>
@@ -135,7 +135,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat mfu_hits</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mfu_hits]</key>
                     <delay>15m</delay>
@@ -155,7 +155,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat mfu_size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mfu_size]</key>
                     <delay>15m</delay>
@@ -170,7 +170,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat misses</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[misses]</key>
                     <delay>15m</delay>
@@ -190,7 +190,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat mru_hits</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mru_hits]</key>
                     <delay>15m</delay>
@@ -210,7 +210,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat mru_size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mru_size]</key>
                     <delay>15m</delay>
@@ -225,7 +225,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>ZFS ARC stat &quot;$1&quot;</name>
+                    <name>ZFS ARC stat size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[size]</key>
                     <delay>15m</delay>

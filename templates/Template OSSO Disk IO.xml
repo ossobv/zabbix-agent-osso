@@ -32,7 +32,7 @@
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Disk:$1:IO:current</name>
+                            <name>Disk:{#DEVICENAME}:IO:current</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.io.active[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -53,7 +53,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:IO:ms</name>
+                            <name>Disk:{#DEVICENAME}:IO:ms</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.io.ms[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -74,7 +74,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:R:merged</name>
+                            <name>Disk:{#DEVICENAME}:R:merged</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.merged[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -95,7 +95,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:R:ms</name>
+                            <name>Disk:{#DEVICENAME}:R:ms</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.ms[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -116,7 +116,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:R:ops/s</name>
+                            <name>Disk:{#DEVICENAME}:R:ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.ops[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -136,7 +136,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:R:B/s</name>
+                            <name>Disk:{#DEVICENAME}:R:B/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.sectors[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -160,7 +160,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:W:merged</name>
+                            <name>Disk:{#DEVICENAME}:W:merged</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.write.merged[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -181,7 +181,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:W:ms</name>
+                            <name>Disk:{#DEVICENAME}:W:ms</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.write.ms[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -202,7 +202,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:W:ops/s</name>
+                            <name>Disk:{#DEVICENAME}:W:ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.write.ops[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -222,7 +222,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>Disk:$1:W:B/s</name>
+                            <name>Disk:{#DEVICENAME}:W:B/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.write.sectors[{#DEVICENAME}]</key>
                             <history>30d</history>
@@ -307,7 +307,7 @@
                     <lifetime>1w</lifetime>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Mount $1 is writable</name>
+                            <name>Mount {#FSNAME} is writable</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.mount.writable[{#FSNAME}]</key>
                             <delay>5m</delay>

@@ -55,7 +55,7 @@
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>SAS drive temperature $2</name>
+                            <name>SAS drive temperature {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SAS},Current Drive Temperature]</key>
                             <delay>1h</delay>
@@ -69,7 +69,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SAS drive model $2</name>
+                            <name>SAS drive model {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SAS},Product]</key>
                             <delay>1h</delay>
@@ -83,7 +83,7 @@
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SAS overall-health status $2</name>
+                            <name>SAS overall-health status {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SAS},SMART Health Status]</key>
                             <delay>1h</delay>
@@ -105,7 +105,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SAS corrected read errors $2</name>
+                            <name>SAS corrected read errors {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[sas_corr,{#DEVICE_SAS},read]</key>
                             <delay>1h</delay>
@@ -117,7 +117,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SAS corrected write errors $2</name>
+                            <name>SAS corrected write errors {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[sas_corr,{#DEVICE_SAS},write]</key>
                             <delay>1h</delay>
@@ -129,7 +129,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SAS uncorrected read errors $2</name>
+                            <name>SAS uncorrected read errors {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[sas_uncorr,{#DEVICE_SAS},read:]</key>
                             <delay>1h</delay>
@@ -148,7 +148,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SAS uncorrected write errors $2</name>
+                            <name>SAS uncorrected write errors {#DEVICE_SAS}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[sas_uncorr,{#DEVICE_SAS},write:]</key>
                             <delay>1h</delay>
@@ -178,7 +178,7 @@ and {strlen()}&gt;2</expression>
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>SATA current pending sector count $2</name>
+                            <name>SATA current pending sector count {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Current_Pending_Sector]</key>
                             <delay>1h</delay>
@@ -197,7 +197,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA uncorrectable sector count $2</name>
+                            <name>SATA uncorrectable sector count {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Offline_Uncorrectable]</key>
                             <delay>1h</delay>
@@ -216,7 +216,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA power on hours $2</name>
+                            <name>SATA power on hours {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Power_On_Hours]</key>
                             <delay>1h</delay>
@@ -235,7 +235,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA reallocated event count $2</name>
+                            <name>SATA reallocated event count {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Reallocated_Event_Count]</key>
                             <delay>1h</delay>
@@ -247,7 +247,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA reallocated sectors count $2</name>
+                            <name>SATA reallocated sectors count {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Reallocated_Sector_Ct]</key>
                             <delay>1h</delay>
@@ -266,7 +266,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA reported uncorrectable errors $2</name>
+                            <name>SATA reported uncorrectable errors {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Reported_Uncorrect]</key>
                             <delay>1h</delay>
@@ -285,7 +285,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA spin retry count $2</name>
+                            <name>SATA spin retry count {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Spin_Retry_Count]</key>
                             <delay>1h</delay>
@@ -297,7 +297,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA spin up time $2</name>
+                            <name>SATA spin up time {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Spin_Up_Time]</key>
                             <delay>1h</delay>
@@ -309,7 +309,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA temperature $2</name>
+                            <name>SATA temperature {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SATA},Temperature_Celsius]</key>
                             <delay>10m</delay>
@@ -322,7 +322,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA ATA version $2</name>
+                            <name>SATA ATA version {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},ATA Version is]</key>
                             <delay>1h</delay>
@@ -336,7 +336,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA device model $2</name>
+                            <name>SATA device model {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},Device Model]</key>
                             <delay>1h</delay>
@@ -350,7 +350,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA firmware version $2</name>
+                            <name>SATA firmware version {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},Firmware Version]</key>
                             <delay>1h</delay>
@@ -364,7 +364,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA LU WWN device ID $2</name>
+                            <name>SATA LU WWN device ID {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},LU WWN Device Id]</key>
                             <delay>1h</delay>
@@ -378,7 +378,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA version $2</name>
+                            <name>SATA version {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},SATA Version is]</key>
                             <delay>1h</delay>
@@ -392,7 +392,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA sector size $2</name>
+                            <name>SATA sector size {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},Sector Size]</key>
                             <delay>1h</delay>
@@ -406,7 +406,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA serial number $2</name>
+                            <name>SATA serial number {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},Serial Number]</key>
                             <delay>1h</delay>
@@ -420,7 +420,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA SMART overall-health status $2</name>
+                            <name>SATA SMART overall-health status {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},SMART overall-health self-assessment test result]</key>
                             <delay>1h</delay>
@@ -441,7 +441,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SATA user capacity $2</name>
+                            <name>SATA user capacity {#DEVICE_SATA}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[info,{#DEVICE_SATA},User Capacity]</key>
                             <delay>1h</delay>
@@ -466,7 +466,7 @@ and {strlen()}&gt;2</expression>
                     <description>Discovery of S.M.A.R.T. devices.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>SSD temperature $2</name>
+                            <name>SSD temperature {#DEVICE_SSD}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attr,{#DEVICE_SSD},Airflow_Temperature_Cel]</key>
                             <delay>10m</delay>
@@ -479,7 +479,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                         </item_prototype>
                         <item_prototype>
-                            <name>SSD wear leveling count $2</name>
+                            <name>SSD wear leveling count {#DEVICE_SSD}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attrid_value,{#DEVICE_SSD},177]</key>
                             <delay>1h</delay>
@@ -498,7 +498,7 @@ and {strlen()}&gt;2</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>SSD media wearout indicator $2</name>
+                            <name>SSD media wearout indicator {#DEVICE_SSD}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>smart[attrid_value,{#DEVICE_SSD},233]</key>
                             <delay>1h</delay>
