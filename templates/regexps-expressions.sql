@@ -16,7 +16,7 @@ LOCK TABLES `regexps` WRITE;
 INSERT INTO `regexps` VALUES (1,'File systems for discovery','ext3');
 INSERT INTO `regexps` VALUES (2,'Network interfaces for discovery','eth0');
 INSERT INTO `regexps` VALUES (3,'Storage devices for SNMP discovery','/boot');
-INSERT INTO `regexps` VALUES (4,'ZFS dataset discovery','');
+INSERT INTO `regexps` VALUES (4,'ZFS dataset discovery','rpool/ROOT/ubuntu/0b7c168417af5b8448fb17988e23f534fe464715fd4b35aa36ca3eaf234d66af');
 INSERT INTO `regexps` VALUES (7,'Exclude filesystems for discovery','');
 INSERT INTO `regexps` VALUES (9,'RabbitMQ vhost discovery','');
 UNLOCK TABLES;
@@ -48,7 +48,7 @@ INSERT INTO `expressions` VALUES (10,7,'^/var/lib/kubelet/plugins/',4,',',0);
 INSERT INTO `expressions` VALUES (11,7,'^/var/lib/kubelet/pods/',4,',',0);
 INSERT INTO `expressions` VALUES (15,2,'^(br-|docker|tap|tun|veth|vmbr|cali)',4,',',1);
 INSERT INTO `expressions` VALUES (16,7,'^/var/lib/docker/overlay2/',4,',',0);
-INSERT INTO `expressions` VALUES (18,4,'^.*/[0-9a-f]{64}(-init)$',4,',',0);
+INSERT INTO `expressions` VALUES (18,4,'^.*/[0-9a-f]{64}(-init)?$',4,',',1);
 INSERT INTO `expressions` VALUES (19,9,'.',3,',',0);
 UNLOCK TABLES;
 
