@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T13:13:17Z</date>
+    <date>2020-01-29T13:31:54Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -323,18 +323,17 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.dataset.discovery</key>
                     <delay>12h</delay>
-                    <status>DISABLED</status>
                     <filter>
                         <conditions>
                             <condition>
                                 <macro>{#DATASETNAME}</macro>
-                                <value>@ZFS fileset</value>
+                                <value>@ZFS dataset discovery</value>
                                 <formulaid>A</formulaid>
                             </condition>
                         </conditions>
                     </filter>
                     <lifetime>1w</lifetime>
-                    <description>Discover ZFS datasets. Dataset names must contain a &quot;/&quot; else it's a zpool root.</description>
+                    <description>Discover ZFS datasets. Dataset names must contain a &quot;/&quot; else it's a zpool root. And we skip 64-byte docker filesets. See the &quot;@ZFS dataset discovery&quot; regex.</description>
                     <item_prototypes>
                         <item_prototype>
                             <name>ZFS dataset {#DATASETNAME} refer</name>
