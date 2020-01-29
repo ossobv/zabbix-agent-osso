@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.26) stable; urgency=low
+
+  * cleanup: Updates for Zabbix 3.4 to 4.4
+  * zfs: Fix awk/gawk/mawk regex mismatch
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 29 Jan 2020 14:37:29 +0100
+
 zabbix-agent-osso (0.25) stable; urgency=low
 
   * nvme: Also detect missing nvme-cli
