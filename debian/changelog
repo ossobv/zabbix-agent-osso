@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.27) stable; urgency=low
+
+  * daemon: Add daemon.systemd.failed
+  * zfs: Some cleanups
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 17 Feb 2020 16:06:49 +0100
+
 zabbix-agent-osso (0.26) stable; urgency=low
 
   * cleanup: Updates for Zabbix 3.4 to 4.4
