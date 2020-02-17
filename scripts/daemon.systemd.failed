@@ -1,0 +1,22 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# This script lists which systemd services failued to load, but allows
+# you to exclude some on a per-host basis.
+#
+# If you want, you can override this in the local config. You can exit 0
+# there if you replaced this command. Or simply set EGREP_EXCLUDE to
+# something to simply filter the output.
+CUSTOM=/etc/zabbix/scripts/daemon.systemd.failed.local
+test -f $CUSTOM && . $CUSTOM
+
+if test -d /run/systemd/system; then
+    if test -n "$EGREP_EXCLUDE"; then
+        ( systemctl list-units --all --failed --no-legend 2>/dev/null ||
+            echo ZBX_NOTSUPPORTED ) | sort -V | grep -vE "$EGREP_EXCLUDE"
+    else
+        ( systemctl list-units --all --failed --no-legend 2>/dev/null ||
+            echo ZBX_NOTSUPPORTED ) | sort -V
+    fi
+else
+    echo ZBX_NOTSUPPORTED
+fi
