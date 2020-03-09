@@ -88,7 +88,8 @@ case $1 in
     val=$(echo "$out" | sed -e '
         /^'"$attrib"'[[:blank:]]*:/!d
         s/^[^:]*:[[:blank:]]*//;s/[^0-9 .]//g' |
-        awk '{print int($'$nth')}')
+        awk '{v=$'$nth';if(v>1048576)printf "%d000\n",((v+999)/1000);
+              else print int(v)}')
     if test -z "$val"; then
         echo "ERROR: $dev: no attribute $attrib" >&2
         exit 1
