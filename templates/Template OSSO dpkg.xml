@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T12:15:32Z</date>
+    <date>2020-03-12T10:04:24Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -55,7 +55,8 @@
 {last()}&gt;0 and&#13;
 {min(61d)}&gt;0 and&#13;
 {nodata(8h)}=0</expression>
-                            <name>{ITEM.LASTVALUE2} security update(s) available on {HOST.NAME} for 61+d</name>
+                            <name>Security update(s) available on {HOST.NAME} for 61+d</name>
+                            <opdata>currently {ITEM.LASTVALUE2}</opdata>
                             <description>We added the nodata-check so we don't get these next to the &quot;machine is unreachable&quot; messages.&#13;
 &#13;
 Unfortunately, ITEM.VALUE2 is not &quot;dpkg.updates[security].min(61d)&quot; but the &quot;value that dpkg.updates[security] had when the trigger got raised.&#13;
