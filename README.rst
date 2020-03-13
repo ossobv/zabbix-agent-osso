@@ -48,6 +48,14 @@ Sources
 |                       | take too much time to run or because they          |
 |                       | require more permissions.                          |
 +-----------------------+----------------------------------------------------+
+| ``config/``           | The config directory holds locally configurable    |
+|                       | settings for UserParameters or scripts.            |
+|                       |                                                    |
+|                       | Expected filenames:                                |
+|                       | - acme.local (NOT in the package)                  |
+|                       | - acme.readme                                      |
+|                       | - acme.txt                                         |
++-----------------------+----------------------------------------------------+
 | ``cron.d/``           | Cron jobs for slow tasks.                          |
 +-----------------------+----------------------------------------------------+
 | ``sudoers.d/``        | Sudoers files for zabbix scripts that require more |

@@ -1,0 +1,17 @@
+# [This file is part of the zabbix-agent-osso package]
+# INSTALL: sed -e1,2d repomgmt.example > repomgmt.local
+# (this file is bourne shell compatible)
+#
+# REPOSITORIES holds zero or more repositories in the form TYPE:PATH.
+# For example: REPOSITORIES="git:/srv/salt git:/etc"
+#
+# NOTE: We may want to add a "repo name" in the future as well.
+# NOTE: Spaces are not allowed in the pathname for now.
+# NOTE: We only support repotype "git" at the moment.
+#
+# Example trigger after discovery:
+#   {hostname:repomgmt.is_dirty[git,/srv].min(5h)}<>0
+#    and {hostname:repomgmt.is_dirty[git,/srv].time()}>100000
+#    and {hostname:repomgmt.is_dirty[git,/srv].time()}<160000
+#    and {hostname:repomgmt.is_dirty[git,/srv].dayofweek()}<=5
+REPOSITORIES=''

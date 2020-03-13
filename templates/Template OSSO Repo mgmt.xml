@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-03-13T12:22:51Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template OSSO Repo mgmt</template>
+            <name>Template OSSO Repo mgmt</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Versioning</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Discover local reposities</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>repomgmt.discover_repos</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Repository {#REPOTYPE}:{#REPOPATH} dirty state</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>repomgmt.is_dirty[{#REPOTYPE},{#REPOPATH}]</key>
+                            <delay>30m</delay>
+                            <history>30d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>Versioning</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Repository {#REPOTYPE}:{#REPOPATH} version</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>repomgmt.version[{#REPOTYPE},{#REPOPATH}]</key>
+                            <delay>1d</delay>
+                            <history>365d</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>Versioning</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
