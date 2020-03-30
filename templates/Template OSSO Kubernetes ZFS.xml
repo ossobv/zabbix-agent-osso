@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T13:12:50Z</date>
+    <date>2020-03-30T15:00:09Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -21,74 +21,6 @@
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <items>
-                <item>
-                    <name>ZFS fsinfo &quot;acltype&quot;</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>zfs.get.fsinfo[rpool,acltype]</key>
-                    <delay>30s</delay>
-                    <history>30d</history>
-                    <trends>0</trends>
-                    <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{str(posixacl)}=0</expression>
-                            <name>ZFS acltype is not &quot;posixacl&quot; on rpool for {HOST.NAME}</name>
-                            <priority>HIGH</priority>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>ZFS fsinfo &quot;redundant_metadata&quot;</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>zfs.get.fsinfo[rpool,redundant_metadata]</key>
-                    <delay>30s</delay>
-                    <history>30d</history>
-                    <trends>0</trends>
-                    <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{str(most)}=0</expression>
-                            <name>ZFS redundant_metadata is not &quot;most&quot; on rpool for {HOST.NAME}</name>
-                            <priority>WARNING</priority>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>ZFS fsinfo &quot;xattr&quot;</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>zfs.get.fsinfo[rpool,xattr]</key>
-                    <delay>30s</delay>
-                    <history>30d</history>
-                    <trends>0</trends>
-                    <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{str(sa)}=0</expression>
-                            <name>ZFS xattr is not &quot;sa&quot; on rpool for {HOST.NAME}</name>
-                            <priority>HIGH</priority>
-                        </trigger>
-                    </triggers>
-                </item>
-            </items>
         </template>
     </templates>
     <triggers>
