@@ -1,3 +1,22 @@
+zabbix-agent-osso (0.28) stable; urgency=low
+
+  [other]
+  * packaging: Depend on either zabbix-agent or zabbix-agent2
+
+  [items]
+  * daemon: Cache daemon.cert.minexpiry values because they can be slow
+  * repomgmt: Add triggers for uncommitted repositories
+  * zfs: Fix awk float value in zfs.memory.used
+
+  [templates]
+  * templates: Add base Template OS Linux
+  * templates: Use Zabbix 4.4 operational data in triggers.
+  * templates/k8s: Remove various Kubernetes ZFS items that should be fixed at
+    install time
+  * templates/nvme: Disable "Erase fail count"; drop useless triggers
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 03 Apr 2020 11:42:22 +0200
+
 zabbix-agent-osso (0.27) stable; urgency=low
 
   * daemon: Add daemon.systemd.failed
