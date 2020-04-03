@@ -11,7 +11,7 @@ Architecture: all
 Depends: ${misc:Depends},
  sudo,
  vcutil,
- zabbix-agent
+ zabbix-agent | zabbix-agent2
 Recommends: update-notifier-common
 Suggests: cron, gocollect, mail-transport-agent, nvme-cli, postfix
 Description: OSSO zabbix-agent default scripts
