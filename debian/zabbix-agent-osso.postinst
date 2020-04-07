@@ -24,7 +24,7 @@ if [ "$1" = configure ]; then
     # Run the daemon.cert.minexpiry script an initial time.
     ( cert-expiry-finder --min 2>/dev/null || echo 5555 ) \
         >/var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp
-    mv /var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp
+    mv /var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp \
         >/var/lib/zabbix/scripts/daemon.cert.minexpiry
 
     # Restart zabbix-agent if it was running.
