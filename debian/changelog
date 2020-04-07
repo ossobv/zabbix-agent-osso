@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.29) stable; urgency=low
+
+  * postgresql: Add postgres template and scripts
+  * zabbix-agent2: Better support
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 07 Apr 2020 10:53:13 +0200
+
 zabbix-agent-osso (0.28) stable; urgency=low
 
   [other]
