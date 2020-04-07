@@ -1,14 +1,8 @@
-zabbix-agent-osso (0.31) stable; urgency=low
+zabbix-agent-osso (0.32) stable; urgency=low
 
-  * install: Fix postinst some more
+  * install: Fix postinst, add zabbix-agent2 restart
 
- -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 07 Apr 2020 11:06:20 +0200
-
-zabbix-agent-osso (0.30) stable; urgency=low
-
-  * install: Fix postinst
-
- -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 07 Apr 2020 10:59:22 +0200
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 07 Apr 2020 11:15:55 +0200
 
 zabbix-agent-osso (0.29) stable; urgency=low
 
