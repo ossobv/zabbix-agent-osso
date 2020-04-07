@@ -1,0 +1,11 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# Create postgres user:
+#   CREATE USER zbx_monitor WITH PASSWORD '<PASSWORD>' INHERIT;
+#   GRANT pg_monitor TO zbx_monitor;
+#
+# See also:
+#   https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/postgresql
+#
+# Then create config/postgresql.pgpass with this content:
+*:5432:postgres:zbx_monitor:<PASSWORD>

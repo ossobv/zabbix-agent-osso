@@ -37,7 +37,8 @@ install:
 	  zabbix_agent2.d/*.conf
 	# scripts
 	install -d -o root $(DESTDIR)/etc/zabbix/scripts/
-	install -o root -m 0755 -t $(DESTDIR)/etc/zabbix/scripts/ scripts/*
+	tar -c --owner=root:0 --group=root:0 scripts/ | \
+	  tar -x -C $(DESTDIR)/etc/zabbix/
 	# config (for userparameters/scripts)
 	install -d -o root $(DESTDIR)/etc/zabbix/config/
 	install -o root -m 0755 -t $(DESTDIR)/etc/zabbix/config/ config/*
