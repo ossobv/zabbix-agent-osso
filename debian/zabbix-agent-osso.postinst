@@ -31,15 +31,31 @@ if [ "$1" = configure ]; then
     if [ -d /run/systemd/system ]; then
         # https://sources.debian.org/\
         #   src/debhelper/10.2.5/autoscripts/postinst-systemd-restart/
-        deb-systemd-invoke try-restart zabbix-agent || echo "systemd fail?" >&2
+        if deb-systemd-invoke status zabbix-agent >/dev/null 2>&1; then
+            deb-systemd-invoke try-reload-or-restart zabbix-agent ||
+                echo "systemd zabbix-agent restart fail?" >&2
+        fi
+        if deb-systemd-invoke status zabbix-agent2 >/dev/null 2>&1; then
+            deb-systemd-invoke try-reload-or-restart zabbix-agent2 ||
+                echo "systemd zabbix-agent2 restart fail?" >&2
+        fi
     elif [ -x /etc/init.d/zabbix-agent ]; then
         # https://sources.debian.org/\
         #  src/debhelper/10.2.5/autoscripts/postinst-init/
         if invoke-rc.d zabbix-agent status >/dev/null 2>&1; then
-            invoke-rc.d zabbix-agent restart || echo "sysv fail?" >&2
+            invoke-rc.d zabbix-agent restart ||
+                echo "sysv zabbix-agent restart fail?" >&2
         fi
+        if invoke-rc.d zabbix-agent2 status >/dev/null 2>&1; then
+            invoke-rc.d zabbix-agent2 restart ||
+                echo "sysv zabbix-agent2 restart fail?" >&2
+        fi
+    elif service zabbix-agent2 status >/dev/null 2>&1; then
+        service zabbix-agent2 restart ||
+            echo "upstart zabbix-agent2 restart fail?" >&2
     elif service zabbix-agent status >/dev/null 2>&1; then
-        service zabbix-agent restart || echo "upstart fail?" >&2
+        service zabbix-agent restart ||
+            echo "upstart zabbix-agent restart fail?" >&2
     else
         echo "(don't know how to restart zabbix-agent. *you* do it.)" >&2
     fi
