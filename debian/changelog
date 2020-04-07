@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.30) stable; urgency=low
+
+  * install: Fix postinst
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 07 Apr 2020 10:59:22 +0200
+
 zabbix-agent-osso (0.29) stable; urgency=low
 
   * postgresql: Add postgres template and scripts
