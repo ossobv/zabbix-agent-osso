@@ -8,4 +8,4 @@
 #   https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/postgresql
 #
 # Then create config/postgresql.pgpass with this content:
-*:5432:postgres:zbx_monitor:<PASSWORD>
+127.0.0.1:5432:*:zbx_monitor:<PASSWORD>
