@@ -13,7 +13,7 @@ Depends: ${misc:Depends},
  vcutil,
  zabbix-agent | zabbix-agent2
 Recommends: update-notifier-common
-Suggests: cron, gocollect, mail-transport-agent, nvme-cli, postfix
+Suggests: cron, gocollect, jq, mail-transport-agent, nvme-cli, postfix
 Description: OSSO zabbix-agent default scripts
  The zabbix-agent OSSO scripts make default Debian/Ubuntu monitoring
  easier.

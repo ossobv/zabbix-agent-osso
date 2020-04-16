@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-04-16T16:39:15Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template OSSO K8S mgmt</template>
+            <name>Template OSSO K8S mgmt</name>
+            <description>Work in progress, template to monitor basic kubernetes-clusterinfo</description>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>K8S cluster</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Cluster nodes discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8smgmt.discover_clusternodes</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} disk ok</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},DiskPressure,boolinv]</key>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}=0 and&#13;
+{last(#2)}=0 and {nodata(5m)}=0</expression>
+                                    <name>K8S node {#CLUSTER}:{#NODE} has DiskPressure</name>
+                                    <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>kubernetes</tag>
+                                            <value>true</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} memory ok</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},MemoryPressure,boolinv]</key>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}=0 and&#13;
+{last(#2)}=0 and {nodata(5m)}=0</expression>
+                                    <name>K8S node {#CLUSTER}:{#NODE} has MemoryPressure</name>
+                                    <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>kubernetes</tag>
+                                            <value>true</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} network ok</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},NetworkUnavailable,boolinv]</key>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}=0 and {last(#2)}=0 and {nodata(5m)}=0</expression>
+                                    <name>K8S node {#CLUSTER}:{#NODE} has NetworkUnavailable</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} is ready</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},Ready,bool]</key>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{nodata(5m)}=1</expression>
+                                    <name>K8S node {#CLUSTER}:{#NODE} has no monitoring</name>
+                                    <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>kubernetes</tag>
+                                            <value>true</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}=0 and {last(#2)}=0 and {nodata(5m)}=0</expression>
+                                    <name>K8S node {#CLUSTER}:{#NODE} is not Ready</name>
+                                    <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>kubernetes</tag>
+                                            <value>true</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} info dict</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.info-js[{#CLUSTER},{#NODE}]</key>
+                            <delay>12h</delay>
+                            <history>7d</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} containerRuntimeVersion</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.node.info.containerRuntimeVersion[{#CLUSTER},{#NODE}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <master_item>
+                                <key>k8smgmt.node.info-js[{#CLUSTER},{#NODE}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} kubeletVersion</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.node.info.kubeletversion[{#CLUSTER},{#NODE}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.kubeletVersion</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.node.info-js[{#CLUSTER},{#NODE}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} kubeProxyVersion</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.node.info.kubeproxyversion[{#CLUSTER},{#NODE}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.kubeProxyVersion</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.node.info-js[{#CLUSTER},{#NODE}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} pod count</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.pods[{#CLUSTER},{#NODE}]</key>
+                            <history>7d</history>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} allocatable cpu</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.res-allocatable[{#CLUSTER},{#NODE},cpu]</key>
+                            <delay>1h</delay>
+                            <history>7d</history>
+                            <trends>90d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} allocatable ephemeral storage</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.res-allocatable[{#CLUSTER},{#NODE},ephemeral-storage]</key>
+                            <delay>1h</delay>
+                            <history>7d</history>
+                            <trends>90d</trends>
+                            <units>B</units>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} allocatable memory</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.res-allocatable[{#CLUSTER},{#NODE},memory]</key>
+                            <delay>1h</delay>
+                            <history>7d</history>
+                            <trends>90d</trends>
+                            <units>B</units>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} allocatable pods</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.res-allocatable[{#CLUSTER},{#NODE},pods]</key>
+                            <delay>1h</delay>
+                            <history>7d</history>
+                            <trends>90d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} schedulable ok</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.node.schedulable[{#CLUSTER},{#NODE}]</key>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(#1)}=0 and&#13;
+{last(#2)}=0 and&#13;
+{nodata(5m)}=0</expression>
+                                    <name>K8S node {#CLUSTER}:{#NODE} is not Schedulable</name>
+                                    <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>kubernetes</tag>
+                                            <value>true</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>Cluster discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8smgmt.discover_clusters</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} info is fresh</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.cluster.is-fresh[{#CLUSTER}]</key>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}=0</expression>
+                                    <name>K8S cluster {#CLUSTER} info is stale</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} pod count</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.cluster.pods[{#CLUSTER}]</key>
+                            <history>7d</history>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster</name>
+                                </application>
+                            </applications>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

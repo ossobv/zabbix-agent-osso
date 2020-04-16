@@ -1,0 +1,283 @@
+#!/bin/sh -eu
+# [This file is part of the zabbix-agent-osso package]
+# Helper script to cache and decode K8S json status.
+
+PREFIX=k8smgmt.cluster.
+# /etc/zabbix/config/k8smgmt.cluster.EXAMPLE/{vars,ca.pem,...}
+CONFDIR=/etc/zabbix/config
+# /var/lib/zabbix/scripts/k8smgmt.cluster.EXAMPLE/...json
+OUTDIR=/var/lib/zabbix/scripts
+
+STALE_AFTER=600  # refuse to read cachefiles older than $STALE_AFTER
+
+get_clusters() {
+    CLUSTERS=''  # using global instead of echo, this way we skip a fork()
+    for dir in $CONFDIR/$PREFIX*; do
+        CLUSTERS="$CLUSTERS ${dir##*$PREFIX}"
+    done
+}
+
+k8s_human_to_bytes() {
+    # Do a string-comparison of 1<<31<<20 with 2251799813685248 to double
+    # check that this bash/dash/sh supports large integers (2^51, 2.25E15).
+    test "$((2147483648 * 1024 * 1024))" != "2251799813685248" &&
+        echo "ZBX_ERROR: No 64-bit arithmetic" >&2 && exit 1
+    value=$1
+    case $value in
+    *Gi)
+        echo $((${value%Gi} * 1024 * 1024 * 1024))
+        ;;
+    *Mi)
+        echo $((${value%Mi} * 1024 * 1024))
+        ;;
+    *Ki)
+        echo $((${value%Ki} * 1024))
+        ;;
+    *)
+        echo $value
+        ;;
+    esac
+}
+
+fetch_cluster_info() {
+    # See also:
+    # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/
+    #
+    api_url=$1      # https://k8sapi.example.com/api/v1/nodes
+    api_token=$2    # ...
+    ca_pem=$3       # /path/to/ca.pem-file (taken from CONFDIR/PREFIX)
+    timeout 5s curl \
+      -sS --fail \
+      --cacert "$ca_pem" \
+      -H "Accept: application/json" \
+      -H "Authorization: Bearer $api_token" \
+      "$api_url"
+}
+
+update_cluster_info() {
+    cluster=$1
+    cluster_conf=$CONFDIR/$PREFIX$cluster/vars
+    API_URL=
+    API_TOKEN=
+    if ! . "$cluster_conf" || test -z "$API_URL" || test -z "$API_TOKEN"; then
+        echo "k8smgmt: Missing API_URL/API_TOKEN config in $cluster_conf" >&2
+        false
+        return
+    fi
+
+    out_path=$OUTDIR/$PREFIX$cluster.nodes
+    if ! fetch_cluster_info "$API_URL/v1/nodes" "$API_TOKEN" \
+            "$CONFDIR/$PREFIX$cluster/ca.pem" >"$out_path.raw"; then
+        echo "k8smgmt: Error fetching cluster '$cluster' nodes" >&2
+        false
+        return
+    fi
+    jq . "$out_path.raw" >"$out_path.valid" || return  # validate
+    mv "$out_path.valid" "$out_path.json"
+
+    out_path=$OUTDIR/$PREFIX$cluster.pods
+    if ! fetch_cluster_info "$API_URL/v1/pods" "$API_TOKEN" \
+            "$CONFDIR/$PREFIX$cluster/ca.pem" >"$out_path.raw"; then
+        echo "k8smgmt: Error fetching cluster '$cluster' pods" >&2
+        false
+        return
+    fi
+    jq . "$out_path.raw" >"$out_path.valid" || return  # validate
+    mv "$out_path.valid" "$out_path.json"
+}
+
+update_all_cluster_info() {
+    fetch_all_cluster_info__err=0
+    get_clusters
+    for cluster in $CLUSTERS; do
+        if ! update_cluster_info "$cluster"; then
+            echo "k8smgmt: Problem updating cluster '$cluster' info" >&2
+            fetch_all_cluster_info__err=1
+        fi
+    done
+    test $fetch_all_cluster_info__err -eq 0
+}
+
+discover_clusters() {
+    get_clusters
+    echo "["
+    n=0
+    for cluster in $CLUSTERS; do
+        test $n -gt 0 && echo ","
+        echo "{\"{#CLUSTER}\": \"$cluster\"}"
+        n=$((n+1))
+    done
+    echo "]"
+}
+
+discover_clusternodes() {
+    get_clusters
+    now=$(date +%s)
+    for cluster in $CLUSTERS; do
+        cluster_json=$OUTDIR/$PREFIX$cluster.nodes.json
+        updated=$(stat -c%Y "$cluster_json" 2>/dev/null || echo 0)
+        if test $((now - updated)) -gt $STALE_AFTER; then
+            echo "k8smgmt: Stale cluster '$cluster' info" >&2
+            echo ZBX_ERROR  # ensure jsonify breaks
+            exit 1  # abort immediately
+        fi
+        jq --arg cluster "$cluster" ".items | map({\"{#NODE}\": \
+            .metadata.name, \"{#CLUSTER}\": $cluster})" "$cluster_json"
+    done | jq -s '([.[][]])'
+}
+
+is_fresh() {
+    cluster_prefix=$OUTDIR/$PREFIX$1
+    now=$(date +%s)
+    if test $(( now - $(stat -c%Y "$cluster_prefix.nodes.json" 2>/dev/null ||
+            echo 0) )) -gt $STALE_AFTER; then
+        echo 0
+    elif test $(( now - $(stat -c%Y "$cluster_prefix.pods.json" 2>/dev/null ||
+            echo 0) )) -gt $STALE_AFTER; then
+        echo 0
+    else
+        echo 1
+    fi
+}
+
+node_condition() {
+    cluster_json=$OUTDIR/$PREFIX$1.nodes.json
+    node=$2
+    condition=$3
+    conversion=${4:-}
+    value=$(jq -r "\
+        .items[] | select(.metadata.name == \"$node\") |\
+        .status.conditions[] | select (.type == \"$condition\") |\
+        .status" "$cluster_json")
+    case $conversion in
+    bool)
+        case $value in
+        False) echo 0;;
+        True) echo 1;;
+        *) echo "ZBX_ERROR: bool($value)" >&2
+        esac
+        ;;
+    boolinv)
+        case $value in
+        False) echo 1;;
+        True) echo 0;;
+        *) echo "ZBX_ERROR: boolinv($value)" >&2
+        esac
+        ;;
+    '')
+        echo "$value"
+        ;;
+    *)
+        echo "ZBX_ERROR: invalid conversion $conversion" >&2
+    esac
+}
+
+node_info_js() {
+    cluster_json=$OUTDIR/$PREFIX$1.nodes.json
+    node=$2
+    jq ".items[] | select(.metadata.name == \"$node\") | .status.nodeInfo" \
+        "$cluster_json"
+}
+
+node_res() {
+    cluster_json=$OUTDIR/$PREFIX$1.nodes.json
+    node=$2
+    type=$3  # allocatable|capacity
+    res=$4   # cpu|memory|...
+    value=$(jq -r ".items[] | select(.metadata.name == \"$node\") |\
+        .status.$type[\"$res\"]" "$cluster_json")
+    k8s_human_to_bytes $value
+}
+
+node_schedulable() {
+    cluster_json=$OUTDIR/$PREFIX$1.nodes.json
+    node=$2
+    jq ".items[] | select(.metadata.name == \"$node\") |\
+        if .spec.unschedulable == true then 0 else 1 end" \
+        "$cluster_json"
+}
+
+help() {
+    cat <<EOF
+Usage: k8smgmt COMMAND
+
+Commands:
+  list-clusters
+  update-cache [CLUSTER]
+
+Zabbix commands:
+  discover-clusters
+  discover-clusternodes
+
+  is-fresh CLUSTER
+  cluster-pods CLUSTER
+
+  node-condition CLUSTER NODE CONDITION CONVERSION
+    (cond: NetworkUnavailable, MemoryPressure, ...)
+    (conv: bool|invbool)
+  node-info-js CLUSTER NODE
+  node-pods CLUSTER NODE
+  node-res-allocatable CLUSTER NODE [memory|cpu|...]
+  node-res-capacity CLUSTER NODE [memory|cpu|...]
+  node-schedulable CLUSTER NODE
+EOF
+}
+
+
+case ${1:-} in
+help|--help|-h)
+    help
+    exit 0
+    ;;
+
+discover-clusters)
+    discover_clusters
+    ;;
+discover-clusternodes)
+    discover_clusternodes
+    ;;
+
+is-fresh)
+    is_fresh "$2"
+    ;;
+cluster-pods)
+    jq '.items | length' "$OUTDIR/$PREFIX$2.pods.json"
+    ;;
+
+node-condition)
+    node_condition "$2" "$3" "$4" "$5"
+    ;;
+node-info-js)
+    node_info_js "$2" "$3"
+    ;;
+node-pods)
+    jq '[.items[] | select(.status.hostIP == "'$3'")] | length' \
+        "$OUTDIR/$PREFIX$2.pods.json"
+    ;;
+node-res-allocatable)
+    node_res "$2" "$3" allocatable "$4"
+    ;;
+node-res-capacity)
+    node_res "$2" "$3" capacity "$4"
+    ;;
+node-schedulable)
+    node_schedulable "$2" "$3"
+    ;;
+
+update-cache)
+    if test -z "${2:-}"; then
+        update_all_cluster_info
+    else
+        update_cluster_info "$2"
+    fi
+    ;;
+list-clusters)
+    get_clusters
+    for cluster in $CLUSTERS; do
+        echo $cluster
+    done
+    ;;
+*)
+    echo "k8smgmt: Unknown command '${1:-}', see --help" >&2
+    exit 1
+esac

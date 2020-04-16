@@ -1,0 +1,4 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# Update K8S cached json files.
+* *      * * *  root  [ -x /etc/zabbix/scripts/k8smgmt ] && /etc/zabbix/scripts/k8smgmt update-cache
