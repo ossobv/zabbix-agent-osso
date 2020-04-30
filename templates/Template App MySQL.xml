@@ -373,7 +373,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                         <item_prototype>
                             <name>MySQL {#INSTANCE} client version</name>
                             <type>ZABBIX_ACTIVE</type>
-                            <key>mysql.version.client[{#INSTANCE}]</key>
+                            <key>mysql2.version.client[{#INSTANCE}]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>0</trends>
@@ -387,7 +387,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                         <item_prototype>
                             <name>MySQL {#INSTANCE} server version</name>
                             <type>ZABBIX_ACTIVE</type>
-                            <key>mysql.version.server[{#INSTANCE}]</key>
+                            <key>mysql2.version.server[{#INSTANCE}]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>0</trends>
@@ -430,6 +430,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} bytes sent per second</name>
@@ -443,6 +449,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} begin operations per second</name>
@@ -455,6 +467,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} commit operations per second</name>
@@ -467,6 +485,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} delete operations per second</name>
@@ -479,6 +503,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} insert operations per second</name>
@@ -491,6 +521,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} rollback operations per second</name>
@@ -503,6 +539,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} select operations per second</name>
@@ -515,6 +557,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} update operations per second</name>
@@ -527,6 +575,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} queries per second</name>
@@ -539,6 +593,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} slow queries</name>
@@ -550,6 +610,12 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                                     <name>MySQL {#INSTANCE} instance</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>SIMPLE_CHANGE</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
                         </item_prototype>
                         <item_prototype>
                             <name>MySQL {#INSTANCE} number of threads connected</name>
