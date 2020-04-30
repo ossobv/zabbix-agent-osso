@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-04-16T16:39:15Z</date>
+    <date>2020-04-30T08:57:58Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -17,11 +17,6 @@
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>K8S cluster</name>
-                </application>
-            </applications>
             <discovery_rules>
                 <discovery_rule>
                     <name>Cluster nodes discovery</name>
@@ -35,11 +30,6 @@
                             <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},DiskPressure,boolinv]</key>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -66,11 +56,6 @@
                             <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},MemoryPressure,boolinv]</key>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -97,11 +82,6 @@
                             <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},NetworkUnavailable,boolinv]</key>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -121,11 +101,6 @@
                             <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},Ready,bool]</key>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -164,11 +139,6 @@
                             <history>7d</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -178,20 +148,21 @@
                         <item_prototype>
                             <name>K8S node {#CLUSTER}:{#NODE} containerRuntimeVersion</name>
                             <type>DEPENDENT</type>
-                            <key>k8smgmt.node.info.containerRuntimeVersion[{#CLUSTER},{#NODE}]</key>
+                            <key>k8smgmt.node.info.containerruntimeversion[{#CLUSTER},{#NODE}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
                                 </application_prototype>
                             </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.containerRuntimeVersion</params>
+                                </step>
+                            </preprocessing>
                             <master_item>
                                 <key>k8smgmt.node.info-js[{#CLUSTER},{#NODE}]</key>
                             </master_item>
@@ -203,11 +174,6 @@
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -230,16 +196,6 @@
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>K8S cluster {#CLUSTER}</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -255,11 +211,6 @@
                             <type>ZABBIX_ACTIVE</type>
                             <key>k8smgmt.node.pods[{#CLUSTER},{#NODE}]</key>
                             <history>7d</history>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -273,11 +224,6 @@
                             <delay>1h</delay>
                             <history>7d</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -292,11 +238,6 @@
                             <history>7d</history>
                             <trends>90d</trends>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -311,11 +252,6 @@
                             <history>7d</history>
                             <trends>90d</trends>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -329,11 +265,6 @@
                             <delay>1h</delay>
                             <history>7d</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -346,11 +277,6 @@
                             <key>k8smgmt.node.schedulable[{#CLUSTER},{#NODE}]</key>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -373,6 +299,104 @@
                             </trigger_prototypes>
                         </item_prototype>
                     </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} stat</name>
+                            <show_work_period>NO</show_work_period>
+                            <show_triggers>NO</show_triggers>
+                            <type>STACKED</type>
+                            <show_legend>NO</show_legend>
+                            <ymin_type_1>FIXED</ymin_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <color>F9A825</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},DiskPressure,boolinv]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>F44336</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},MemoryPressure,boolinv]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <color>2196F3</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},NetworkUnavailable,boolinv]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <color>FC6EA3</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.schedulable[{#CLUSTER},{#NODE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <color>00FF00</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},Ready,bool]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>K8S node {#CLUSTER}:{#NODE} status</name>
+                            <show_triggers>NO</show_triggers>
+                            <type>STACKED</type>
+                            <ymin_type_1>FIXED</ymin_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <color>F9A825</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},DiskPressure,boolinv]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>F44336</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},MemoryPressure,boolinv]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <color>2196F3</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},NetworkUnavailable,boolinv]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <color>FC6EA3</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.schedulable[{#CLUSTER},{#NODE}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <color>00FF00</color>
+                                    <item>
+                                        <host>Template OSSO K8S mgmt</host>
+                                        <key>k8smgmt.node.condition[{#CLUSTER},{#NODE},Ready,bool]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
                 </discovery_rule>
                 <discovery_rule>
                     <name>Cluster discovery</name>
@@ -386,11 +410,6 @@
                             <key>k8smgmt.cluster.is-fresh[{#CLUSTER}]</key>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
@@ -409,11 +428,6 @@
                             <type>ZABBIX_ACTIVE</type>
                             <key>k8smgmt.cluster.pods[{#CLUSTER}]</key>
                             <history>7d</history>
-                            <applications>
-                                <application>
-                                    <name>K8S cluster</name>
-                                </application>
-                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>
