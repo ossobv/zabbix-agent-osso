@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.34) stable; urgency=low
+
+  * Big refactor of MySQL templates. Supports multi-instances now.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 30 Apr 2020 18:25:07 +0200
+
 zabbix-agent-osso (0.33) stable; urgency=low
 
   [new]
