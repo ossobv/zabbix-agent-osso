@@ -1,0 +1,13 @@
+# [This file is part of the zabbix-agent-osso package]
+# INSTALL: sed -e1,3d mysql.myinstance.cnf.example > mysql.instance.cnf
+# INSTALL: chown zabbix: mysql.instance.cnf && chmod 400 mysql.instance.cnf
+# (this file is my.cnf compatible and used by mysql --defaults-file=...)
+#
+# For required user-permissions, see docs in: ../zabbix_agentd.d/mysql.conf
+
+[client]
+#host=localhost
+#port=3306
+socket=/run/mysqld/MYINSTANCE-mysqld.sock
+user=zabbix-check
+password=SUPER_SECRET_PASSWORD

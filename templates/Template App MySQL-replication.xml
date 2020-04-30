@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T12:18:33Z</date>
+    <date>2020-04-30T16:01:43Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -9,8 +9,8 @@
     </groups>
     <templates>
         <template>
-            <template>Template App MySQL-Replication</template>
-            <name>Template App MySQL-Replication</name>
+            <template>Template App MySQL-replication</template>
+            <name>Template App MySQL-replication</name>
             <groups>
                 <group>
                     <name>TEMPLATES</name>
@@ -96,6 +96,112 @@
                     </triggers>
                 </item>
             </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>MySQL instance discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>mysql2.slave.discover_instances</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} slave IO running</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.slave.io-running[{#INSTANCE}]</key>
+                            <delay>30s</delay>
+                            <history>30d</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} replication</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{max(3m)}=0</expression>
+                                    <name>MySQL {#INSTANCE} replication slave IO not running on {HOST.NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>MySQL {#INSTANCE} is down on {HOST.NAME} (replication)</name>
+                                            <expression>{Template App MySQL-replication:mysql2.slave.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} is running (replication)</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.slave.is-alive[{#INSTANCE}]</key>
+                            <delay>30s</delay>
+                            <history>1d</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} replication</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <name>MySQL {#INSTANCE} is down on {HOST.NAME} (replication)</name>
+                                    <priority>WARNING</priority>
+                                    <description>Dupe trigger. Used for dependency only.</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} seconds behind master</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.slave.seconds-behind[{#INSTANCE}]</key>
+                            <delay>30s</delay>
+                            <history>30d</history>
+                            <units>s</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} replication</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(0)}&gt;600</expression>
+                                    <name>MySQL {#INSTANCE} reached the replication delay threshold on {HOST.NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>MySQL {#INSTANCE} is down on {HOST.NAME} (replication)</name>
+                                            <expression>{Template App MySQL-replication:mysql2.slave.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} slave SQL running</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.slave.sql-running[{#INSTANCE}]</key>
+                            <delay>30s</delay>
+                            <history>30d</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} replication</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{max(3m)}=0</expression>
+                                    <name>MySQL {#INSTANCE} replication slave SQL not running on {HOST.NAME}</name>
+                                    <priority>DISASTER</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>MySQL {#INSTANCE} is down on {HOST.NAME} (replication)</name>
+                                            <expression>{Template App MySQL-replication:mysql2.slave.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
         </template>
     </templates>
     <graphs>
@@ -107,7 +213,7 @@
                 <graph_item>
                     <color>C80000</color>
                     <item>
-                        <host>Template App MySQL-Replication</host>
+                        <host>Template App MySQL-replication</host>
                         <key>mysql.seconds_behind_master</key>
                     </item>
                 </graph_item>

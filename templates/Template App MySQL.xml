@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T12:18:46Z</date>
+    <date>2020-04-30T16:00:35Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -363,6 +363,356 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                         </item_prototype>
                     </item_prototypes>
                     <request_method>POST</request_method>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>MySQL instance discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>mysql2.discover_instances</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} client version</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql.version.client[{#INSTANCE}]</key>
+                            <delay>1h</delay>
+                            <history>1w</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} server version</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql.version.server[{#INSTANCE}]</key>
+                            <delay>1h</delay>
+                            <history>1w</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} is running</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.is-alive[{#INSTANCE}]</key>
+                            <history>1w</history>
+                            <description>0 - MySQL server is down&#13;
+1 - MySQL server is up</description>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last(0)}=0</expression>
+                                    <name>MySQL {#INSTANCE} is down on {HOST.NAME}</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} bytes received per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Bytes_received]</key>
+                            <history>1w</history>
+                            <units>Bps</units>
+                            <description>The number of bytes received from all clients.</description>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} bytes sent per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Bytes_sent]</key>
+                            <history>1w</history>
+                            <units>Bps</units>
+                            <description>The number of bytes sent to all clients.</description>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} begin operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_begin]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} commit operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_commit]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} delete operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_delete]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} insert operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_insert]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} rollback operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_rollback]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} select operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_select]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} update operations per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Com_update]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} queries per second</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Questions]</key>
+                            <history>1w</history>
+                            <units>qps</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} slow queries</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Slow_queries]</key>
+                            <history>1w</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} number of threads connected</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},threads_connected]</key>
+                            <delay>30s</delay>
+                            <history>1w</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} uptime</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.status[{#INSTANCE},Uptime]</key>
+                            <history>1w</history>
+                            <units>s</units>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} max connections</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.system[{#INSTANCE},max_connections]</key>
+                            <delay>15s</delay>
+                            <history>1w</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template App MySQL:mysql2.system[{#INSTANCE},max_connections].last()}*0.8&lt;{Template App MySQL:mysql2.status[{#INSTANCE},threads_connected].last()}</expression>
+                            <name>MySQL {#INSTANCE} max_connections conf too low on {HOST.NAME}</name>
+                            <priority>HIGH</priority>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>MySQL {#INSTANCE} bandwidth</name>
+                            <graph_items>
+                                <graph_item>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>00AA00</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Bytes_received]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <drawtype>GRADIENT_LINE</drawtype>
+                                    <color>3333FF</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Bytes_sent]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>MySQL {#INSTANCE} operations</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>C8C800</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_begin]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>006400</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_commit]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <color>C80000</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_delete]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <color>0000EE</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_insert]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>4</sortorder>
+                                    <color>640000</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_rollback]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>5</sortorder>
+                                    <color>00C800</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_select]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>6</sortorder>
+                                    <color>C800C8</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Com_update]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>MySQL {#INSTANCE} queries per second</name>
+                            <type>STACKED</type>
+                            <ymin_type_1>FIXED</ymin_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <color>009900</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},Questions]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>MySQL {#INSTANCE} threads connected</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>00DD00</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.status[{#INSTANCE},threads_connected]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>EE0000</color>
+                                    <item>
+                                        <host>Template App MySQL</host>
+                                        <key>mysql2.system[{#INSTANCE},max_connections]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
                 </discovery_rule>
             </discovery_rules>
             <screens>
