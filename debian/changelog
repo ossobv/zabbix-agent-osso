@@ -1,3 +1,24 @@
+zabbix-agent-osso (0.33) stable; urgency=low
+
+  [new]
+  * Added k8smgmt for K8S cluster monitoring. See the config/ dir:
+    Rename k8smgmt.example-cluster.example to k8smgmt.cluster.example to
+    enable a cluster called "example".
+
+  [other]
+  * Stop the flood of errors in auth.log if there is no iptables(1)
+
+  [documentation]
+  * postgresql: Clarify config
+
+  [zabbix interface / templates]
+  * Add App Redis template (for zabbix-agent2 only!)
+  * Add OSSO K8S mgmt for K8S cluster monitoring
+  * Reduce psdiff flapping trigger spam
+  * Trim psdiff output a bit
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 30 Apr 2020 10:59:35 +0200
+
 zabbix-agent-osso (0.32) stable; urgency=low
 
   * install: Fix postinst, add zabbix-agent2 restart
