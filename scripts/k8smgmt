@@ -13,7 +13,7 @@ STALE_AFTER=600  # refuse to read cachefiles older than $STALE_AFTER
 get_clusters() {
     CLUSTERS=''  # using global instead of echo, this way we skip a fork()
     for dir in $CONFDIR/$PREFIX*; do
-        CLUSTERS="$CLUSTERS ${dir##*$PREFIX}"
+        test -d "$dir" && CLUSTERS="$CLUSTERS ${dir##*$PREFIX}" || true
     done
 }
 
