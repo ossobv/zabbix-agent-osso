@@ -21,8 +21,9 @@ temp=$(mktemp "$dest.XXXX")
     count=${count_pid% *}
     if test $count -ge 10; then
         pid=${count_pid#* }
-        lim=$(awk '/^Max open files/ {print $4}' /proc/$pid/limits \
-              2>/dev/null) &&
+        lim=$(awk '
+            /^Max open files/{if($4!="0"&&int($4)==$4){print $4;exit}exit 1}' \
+            /proc/$pid/limits 2>/dev/null) &&
           max=$((count*1000/lim)) &&
           echo $max $pid
     fi
