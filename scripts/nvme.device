@@ -21,6 +21,8 @@ get_smart_log_add() {
 
 case $1 in
 --has-disk)
+    # This must work without having nvmi-cli. It will warn us that we need
+    # nvme-cli.
     if grep -q ' nvme' /proc/diskstats; then
         echo 1
     else

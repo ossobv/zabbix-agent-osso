@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-03-18T15:11:26Z</date>
+    <date>2020-05-11T15:25:50Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -441,6 +441,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
 {Template OSSO NVMe SMART:vfs.file.exists[/usr/sbin/nvme].last()}=0</expression>
             <name>NVMe: Found nvme-device but no nvme-cli on {HOST.NAME}</name>
             <priority>HIGH</priority>
+            <description>If nvme drives are detected: please install nvme-cli</description>
         </trigger>
     </triggers>
 </zabbix_export>
