@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-04-30T16:01:10Z</date>
+    <date>2020-05-12T10:09:27Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -65,10 +65,11 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>{str(Primary)}=0</expression>
+                            <expression>{strlen()}&lt;&gt;0 and &#13;
+{str(Primary)}=0</expression>
                             <name>Cluster status of node {HOST.NAME} not Primary</name>
                             <priority>AVERAGE</priority>
-                            <description>Partition or possibly a split-brain occurred.</description>
+                            <description>Partition or possibly a split-brain occurred (if strlen()=0 then it probably has-v2-conf)</description>
                             <dependencies>
                                 <dependency>
                                     <name>MySQL is down on {HOST.NAME}</name>
@@ -94,10 +95,10 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>{str(ON,#2)}=0</expression>
+                            <expression>{strlen()}&lt;&gt;0 and {str(ON,#2)}=0</expression>
                             <name>{HOST.NAME} is no longer connected to the cluster</name>
                             <priority>HIGH</priority>
-                            <description>Node is not connected to the cluster. Check error logs</description>
+                            <description>Node is not connected to the cluster (if strlen()=0 then it probably has-v2-conf). Check error logs</description>
                             <dependencies>
                                 <dependency>
                                     <name>MySQL is down on {HOST.NAME}</name>
@@ -277,9 +278,11 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>{str(ON)}=0</expression>
+                            <expression>{strlen()}&lt;&gt;0 and&#13;
+{str(ON)}=0</expression>
                             <name>{HOST.NAME} no longer accepts SQL load</name>
                             <priority>WARNING</priority>
+                            <description>(if strlen()=0 then it probably has-v2-conf)</description>
                             <dependencies>
                                 <dependency>
                                     <name>MySQL is down on {HOST.NAME}</name>
