@@ -86,12 +86,12 @@ get_sas_corr() {
 
 case "$1" in
     has_disk)
-	# This must work without having smartmontools/smartctl. will warn us
-	# that we need those tools.
-	# Ignores:
-	# - loopX = local loopback disks)
-	# - nvmeXYYY = nvme drive, see nvme.device script)
-	# - zdX = zfs volumes (not physical disk))
+        # This must work without having smartmontools/smartctl. will warn us
+        # that we need those tools.
+        # Ignores:
+        # - loopX = local loopback disks)
+        # - nvmeXYYY = nvme drive, see nvme.device script)
+        # - zdX = zfs volumes (not physical disk))
         exec awk \
           '{f=0; l=length($3); d=substr($3,l); isd=(("" int(d))==("" d));
           v4=substr($3,1,4); v2=substr(v4,1,2);
