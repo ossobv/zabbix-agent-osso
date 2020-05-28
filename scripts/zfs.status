@@ -1,6 +1,6 @@
 #!/usr/bin/awk -f
 # [This file is part of the zabbix-agent-osso package]
-BEGIN{print "[";state=0;npools=0}
+BEGIN{printf "[";state=0;npools=0}
 /^\tNAME[ \t]+STATE/{state=1}
 /^\t[A-Za-z0-9]/{
   if(state==1){state=2
@@ -24,5 +24,5 @@ BEGIN{print "[";state=0;npools=0}
   }else{t=(subelem "vdev")};
   nelems++;print "{\"name\": \"" $1 "\", \"state\": \"" $2 "\",\"type\":\"" t "\"}"
 }
-/^$/{if(state>=3)print "]}";state=0}
+/^$/{if(state>=3)printf "]}";state=0}
 END{print "]"}
