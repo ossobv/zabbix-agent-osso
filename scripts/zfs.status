@@ -7,7 +7,7 @@ BEGIN{printf "[";state=0;npools=0}
   }else if(state==2){
     if(npools)printf ",";
     state=3;npools++;nelems=0;subelem="";
-    print "{\"pool\": \"" $1 "\",\"state\":\"" $2 "\",\"devices\": ["
+    printf "{\"pool\":\"" $1 "\",\"state\":\"" $2 "\",\"devices\":\n["
   }else if(state==3){
     # $1 in ('spares', 'cache', 'logs')
     subelem=($1 "-");state=4;
@@ -22,7 +22,7 @@ BEGIN{printf "[";state=0;npools=0}
   if($0~"^\t    "){t=(subelem "disk");
   }else if(subelem=="cache-"||subelem=="spares-"){t=(subelem "disk");
   }else{t=(subelem "vdev")};
-  nelems++;print "{\"name\": \"" $1 "\", \"state\": \"" $2 "\",\"type\":\"" t "\"}"
+  nelems++;print "{\"name\":\"" $1 "\",\"state\":\"" $2 "\",\"type\":\"" t "\"}"
 }
 /^$/{if(state>=3)printf "]}";state=0}
 END{print "]"}
