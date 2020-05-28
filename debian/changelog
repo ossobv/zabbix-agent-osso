@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.38) stable; urgency=low
+
+  * zfs: Fix zfs.pool.json spacing a bit
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 28 May 2020 17:15:14 +0200
+
 zabbix-agent-osso (0.37) stable; urgency=low
 
   [new]
