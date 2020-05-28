@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-05-28T13:32:06Z</date>
+    <date>2020-05-28T15:27:21Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -316,7 +316,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <triggers>
                         <trigger>
                             <expression>{diff()}=1</expression>
-                            <name>ZFS pool info has changed (disks out/in? please check even if OK)</name>
+                            <name>ZFS pool change on {HOST.NAME} (disks out/in? please check even if OK'd)</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
                         </trigger>
