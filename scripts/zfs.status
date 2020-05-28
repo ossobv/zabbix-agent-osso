@@ -1,0 +1,28 @@
+#!/usr/bin/awk -f
+# [This file is part of the zabbix-agent-osso package]
+BEGIN{print "[";state=0;npools=0}
+/^\tNAME[ \t]+STATE/{state=1}
+/^\t[A-Za-z0-9]/{
+  if(state==1){state=2
+  }else if(state==2){
+    if(npools)printf ",";
+    state=3;npools++;nelems=0;subelem="";
+    print "{\"pool\": \"" $1 "\",\"state\":\"" $2 "\",\"devices\": ["
+  }else if(state==3){
+    # $1 in ('spares', 'cache', 'logs')
+    subelem=($1 "-");state=4;
+    if($2){
+      if(nelems)printf ",";
+      nelems++;print "{\"name\":\"" $1 "\",\"state\":\"" $2 "\",\"type\":\"vpool\"}"
+    }
+  }
+}
+/^\t +/{
+  if(nelems)printf ",";
+  if($0~"^\t    "){t=(subelem "disk");
+  }else if(subelem=="cache-"||subelem=="spares-"){t=(subelem "disk");
+  }else{t=(subelem "vdev")};
+  nelems++;print "{\"name\": \"" $1 "\", \"state\": \"" $2 "\",\"type\":\"" t "\"}"
+}
+/^$/{if(state>=3)print "]}";state=0}
+END{print "]"}
