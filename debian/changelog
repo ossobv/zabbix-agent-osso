@@ -1,3 +1,18 @@
+zabbix-agent-osso (0.37) stable; urgency=low
+
+  [new]
+  * diskio: Also trigger DISASTER if you unmount a disk
+  * zfs: Add zfs.pool.json; to monitor zpool status (using diff())
+    Be prepared for more triggers. This will wake you if a disk drops out of
+    the pool in the middle of the night, even if there are spares
+
+  [other]
+  * mysql: Set ZBX_NOTSUPPORTED on legacy mysql interface
+  * smart: Fix has_disks query; fixes "Allows us to have machines without
+    smartmontools"
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 28 May 2020 15:52:01 +0200
+
 zabbix-agent-osso (0.36) stable; urgency=low
 
   * daemon.max_files: Mini bugfix.
