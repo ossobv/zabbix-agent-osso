@@ -121,8 +121,8 @@ discover_clusternodes() {
             echo ZBX_ERROR  # ensure jsonify breaks
             exit 1  # abort immediately
         fi
-        jq --arg cluster "$cluster" ".items | map({\"{#NODE}\": \
-            .metadata.name, \"{#CLUSTER}\": $cluster})" "$cluster_json"
+        jq --arg cluster "$cluster" '.items | map({"{#NODE}":
+            .metadata.name, "{#CLUSTER}": $cluster})' "$cluster_json"
     done | jq -s '([.[][]])'
 }
 
