@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.39) stable; urgency=low
+
+  * k8smgmt: Unbreak discover-clusternodes
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 02 Jun 2020 10:59:12 +0200
+
 zabbix-agent-osso (0.38) stable; urgency=low
 
   * zfs: Fix zfs.pool.json spacing a bit
