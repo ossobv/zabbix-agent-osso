@@ -44,8 +44,7 @@ elif test "$bin" = discover_instances; then
     echo "]"
 elif test "$bin" = no-v2-conf; then
     for cnf in /etc/zabbix/config/mysql.*.cnf; do
-        echo ZBX_NOTSUPPORTED >&2
-        test -s "$cnf" && exit 1
+        test -e "$cnf" && echo ZBX_NOTSUPPORTED >&2 && exit 1
     done
     exit 0
 else
