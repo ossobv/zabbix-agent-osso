@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.40) stable; urgency=low
+
+  * mysql: Unbreak no-v2-conf mysql checks
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 04 Jun 2020 22:29:00 +0200
+
 zabbix-agent-osso (0.39) stable; urgency=low
 
   * k8smgmt: Unbreak discover-clusternodes
