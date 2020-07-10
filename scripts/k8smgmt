@@ -46,11 +46,17 @@ fetch_cluster_info() {
     api_url=$1      # https://k8sapi.example.com/api/v1/nodes
     api_token=$2    # ...
     ca_pem=$3       # /path/to/ca.pem-file (taken from CONFDIR/PREFIX)
-    timeout 5s curl \
+
+    # > Starting in curl 7.55.0, this option can take an argument in @filename
+    # > style, which then adds a header for each line in the input file. Using
+    # > @- will make curl read the header file from stdin.
+    # Now the command line does not expose the api_token. (Assuming echo is
+    # a shell builtin.)
+    echo "Authorization: Bearer $api_token" | timeout 5s curl \
       -sS --fail \
       --cacert "$ca_pem" \
       -H "Accept: application/json" \
-      -H "Authorization: Bearer $api_token" \
+      -H "@-" \
       "$api_url"
 }
 
@@ -64,10 +70,11 @@ update_cluster_info() {
         false
         return
     fi
+    CA=$CONFDIR/$PREFIX$cluster/ca.pem
 
     out_path=$OUTDIR/$PREFIX$cluster.nodes
-    if ! fetch_cluster_info "$API_URL/v1/nodes" "$API_TOKEN" \
-            "$CONFDIR/$PREFIX$cluster/ca.pem" >"$out_path.raw"; then
+    if ! fetch_cluster_info "$API_URL/v1/nodes" "$API_TOKEN" "$CA" \
+            >"$out_path.raw"; then
         echo "k8smgmt: Error fetching cluster '$cluster' nodes" >&2
         false
         return
@@ -76,8 +83,8 @@ update_cluster_info() {
     mv "$out_path.valid" "$out_path.json"
 
     out_path=$OUTDIR/$PREFIX$cluster.pods
-    if ! fetch_cluster_info "$API_URL/v1/pods" "$API_TOKEN" \
-            "$CONFDIR/$PREFIX$cluster/ca.pem" >"$out_path.raw"; then
+    if ! fetch_cluster_info "$API_URL/v1/pods" "$API_TOKEN" "$CA" \
+            >"$out_path.raw"; then
         echo "k8smgmt: Error fetching cluster '$cluster' pods" >&2
         false
         return
