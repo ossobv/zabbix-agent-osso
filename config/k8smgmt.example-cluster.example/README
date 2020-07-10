@@ -1,3 +1,4 @@
 [This file is part of the zabbix-agent-osso package]
 
-Rename k8smgmt.example-cluster.example to k8smgmt.cluster.example to enable.
+Rename k8smgmt.example-cluster.example to k8smgmt.cluster.THE_CLUSTER to
+enable. (Use 'default' or 'k8s' if you have no sensible, name.)
