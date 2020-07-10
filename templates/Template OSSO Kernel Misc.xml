@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2019-12-06T12:19:40Z</date>
+    <date>2020-07-10T11:23:12Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -25,6 +25,9 @@
                 </application>
                 <application>
                     <name>Firewall</name>
+                </application>
+                <application>
+                    <name>Memory</name>
                 </application>
                 <application>
                     <name>Network interfaces</name>
@@ -55,6 +58,44 @@
                             <priority>HIGH</priority>
                         </trigger>
                     </triggers>
+                </item>
+                <item>
+                    <name>Kernel slab memory</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>kernel.mem.slab</key>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <units>B</units>
+                    <applications>
+                        <application>
+                            <name>Memory</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>1024</params>
+                        </step>
+                    </preprocessing>
+                </item>
+                <item>
+                    <name>Kernel total memory</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>kernel.mem.total</key>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <units>B</units>
+                    <applications>
+                        <application>
+                            <name>Memory</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>MULTIPLIER</type>
+                            <params>1024</params>
+                        </step>
+                    </preprocessing>
                 </item>
                 <item>
                     <name>Host has external IPv4 address</name>
@@ -337,6 +378,12 @@
         </template>
     </templates>
     <triggers>
+        <trigger>
+            <expression>({Template OSSO Kernel Misc:kernel.mem.slab.last()}*5)&gt;{Template OSSO Kernel Misc:kernel.mem.total.last()}</expression>
+            <name>Kernel slab memory over 20% on {HOST.NAME}</name>
+            <opdata>Current: {ITEM.LASTVALUE1}</opdata>
+            <priority>HIGH</priority>
+        </trigger>
         <trigger>
             <expression>{$DISABLE_ZBXNOHW}=0 and&#13;
 ({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and &#13;
