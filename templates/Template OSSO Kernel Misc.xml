@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-07-10T11:23:12Z</date>
+    <date>2020-07-17T13:59:12Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -374,13 +374,18 @@
                     <macro>{$DISABLE_ZBXNOHW}</macro>
                     <value>0</value>
                 </macro>
+                <macro>
+                    <macro>{$KERNEL_SLABPCT}</macro>
+                    <value>20</value>
+                    <description>Expect less than N% kernel slab usage (increase on ZFS systems)</description>
+                </macro>
             </macros>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>({Template OSSO Kernel Misc:kernel.mem.slab.last()}*5)&gt;{Template OSSO Kernel Misc:kernel.mem.total.last()}</expression>
-            <name>Kernel slab memory over 20% on {HOST.NAME}</name>
+            <expression>({Template OSSO Kernel Misc:kernel.mem.slab.last()}*100/{$KERNEL_SLABPCT})&gt;{Template OSSO Kernel Misc:kernel.mem.total.last()}</expression>
+            <name>Kernel slab memory over {$KERNEL_SLABPCT}% on {HOST.NAME}</name>
             <opdata>Current: {ITEM.LASTVALUE1}</opdata>
             <priority>HIGH</priority>
         </trigger>
