@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-05-28T15:27:21Z</date>
+    <date>2020-07-17T12:11:31Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -295,6 +295,31 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
+                    <name>ZFS pool changed</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>zfs.pool.changed</key>
+                    <delay>5m</delay>
+                    <history>1d</history>
+                    <trends>30d</trends>
+                    <description>This event is triggered by the zpool check when the zpool has changed. You need to manually close the associated trigger after confirming that All Is Good (tm).</description>
+                    <applications>
+                        <application>
+                            <name>ZFS</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}=1</expression>
+                            <name>ZFS pool changed on {HOST.NAME} (check zpool and /var/lib/zabbix/scripts/zfs.status.changed please)</name>
+                            <priority>HIGH</priority>
+                            <description>You must manually close this when you've confirmed that the zpool is awesome.&#13;
+Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on the host.&#13;
+&#13;
+(We wanted to use zabbix_sender, but that causes timeout/unreliability issues when the Server config also contains unresponsive IPs.)</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
                     <name>ZFS pool json</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.pool.json</key>
@@ -318,7 +343,8 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                             <expression>{diff()}=1</expression>
                             <name>ZFS pool change on {HOST.NAME} (disks out/in? please check even if OK'd)</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
-                            <priority>DISASTER</priority>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
                         </trigger>
                     </triggers>
                 </item>
