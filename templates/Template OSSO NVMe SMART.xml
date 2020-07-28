@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-07-17T13:45:14Z</date>
+    <date>2020-07-28T11:21:52Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -391,8 +391,8 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                             <request_method>POST</request_method>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;50</expression>
-                                    <name>NVMe: Temperature {ITEM.VALUE1}C &gt; 50C on {#NVME} on {HOST.NAME}</name>
+                                    <expression>{last()}&gt;=60</expression>
+                                    <name>NVMe: Temperature {ITEM.VALUE1}C &gt; 60C on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
