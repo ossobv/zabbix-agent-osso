@@ -1,3 +1,17 @@
+zabbix-agent-osso (0.42) stable; urgency=low
+
+  * k8smgmt: Add cluster-version check (see git-log for more info)
+  * k8smgmt: Better auth header passing to curl (cope with older curl)
+  * kernel: Fixes to the new Slab memory checks
+  * nvme: Allow temperatures up to 60C, allow more wear per month
+  * templates: Update the templates
+  * zfs: Add filesystem/volume count to ZFS monitoring
+  * zfs: Remove DISASTER on zpool diff; do remove the "changed" file when
+    you're happy after a change
+  * zfs: Fix ZBX_NOTSUPPORTED in pool discovery when there is no zpool support
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 22 Sep 2020 10:54:33 +0200
+
 zabbix-agent-osso (0.41) stable; urgency=low
 
   * k8smgmt: Don't show tokens in ps listing
