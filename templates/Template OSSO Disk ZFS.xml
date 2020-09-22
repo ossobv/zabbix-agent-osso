@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-07-17T12:11:31Z</date>
+    <date>2020-09-22T08:40:58Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -265,6 +265,18 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <request_method>POST</request_method>
                 </item>
                 <item>
+                    <name>ZFS count of filesystems</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>zfs.filesystem.count</key>
+                    <delay>15m</delay>
+                    <history>30d</history>
+                    <applications>
+                        <application>
+                            <name>ZFS</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
                     <name>ZFS memory machine-total</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.memory.exists</key>
@@ -369,6 +381,18 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
+                </item>
+                <item>
+                    <name>ZFS count of volumes</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>zfs.volume.count</key>
+                    <delay>15m</delay>
+                    <history>30d</history>
+                    <applications>
+                        <application>
+                            <name>ZFS</name>
+                        </application>
+                    </applications>
                 </item>
             </items>
             <discovery_rules>

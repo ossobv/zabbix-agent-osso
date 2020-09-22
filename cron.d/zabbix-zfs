@@ -1,0 +1,4 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# Update ZFS cache.
+*/15 *   * * *  root  [ -x /etc/zabbix/scripts/zfs.update_cache ] && /etc/zabbix/scripts/zfs.update_cache

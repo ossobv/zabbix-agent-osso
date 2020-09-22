@@ -1,0 +1,13 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+
+ZFS=$(which zfs) || exit 0
+
+filesystem_count=$($ZFS list -Honame -r -t filesystem | wc -l)
+volume_count=$($ZFS list -Honame -r -t volume | wc -l)
+
+cat >/var/lib/zabbix/scripts/zfs.cache.new <<EOF
+filesystem.count    $filesystem_count
+volume.count        $volume_count
+EOF
+mv /var/lib/zabbix/scripts/zfs.cache.new /var/lib/zabbix/scripts/zfs.cache
