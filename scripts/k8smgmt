@@ -261,6 +261,13 @@ is-fresh)
 cluster-pods)
     jq '.items | length' "$OUTDIR/$PREFIX$2.pods.json"
     ;;
+cluster-version)
+    # Take lowest version (sort -V, head -n1).
+    v=$(jq -r ".items[] | .status.nodeInfo.kubeletVersion" \
+      "$OUTDIR/$PREFIX$2.nodes.json" | sort -V | head -n1 |
+      sed -e 's/^v//;s/$/.0.0/;s/^\([0-9]*[.][0-9]*[.][0-9]*\).*/\1/')
+    echo -n $v | xargs -d. printf '%02d' | sed -e 's/^0*//'; echo
+    ;;
 
 node-condition)
     node_condition "$2" "$3" "$4" "$5"
