@@ -264,7 +264,7 @@ and {strlen()}&gt;2</expression>
                             <request_method>POST</request_method>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;10</expression>
+                                    <expression>{last()}&gt;{$SATA_SEEN_ERR_LOG_ENTRIES}</expression>
                                     <name>SMART: {#DEVICE_SATA} reallocated sector count is too high on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
@@ -525,6 +525,12 @@ and {strlen()}&gt;2</expression>
                     <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$SATA_SEEN_ERR_LOG_ENTRIES}</macro>
+                    <value>10</value>
+                </macro>
+            </macros>
         </template>
     </templates>
     <triggers>

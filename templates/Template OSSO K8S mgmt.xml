@@ -17,6 +17,11 @@
                     <name>TEMPLATES</name>
                 </group>
             </groups>
+            <applications>
+                <application>
+                    <name>K8S cluster version</name>
+                </application>
+            </applications>
             <discovery_rules>
                 <discovery_rule>
                     <name>Cluster nodes discovery</name>
@@ -428,6 +433,23 @@
                             <type>ZABBIX_ACTIVE</type>
                             <key>k8smgmt.cluster.pods[{#CLUSTER}]</key>
                             <history>7d</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} version</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.cluster.version[{#CLUSTER}]</key>
+                            <delay>1h</delay>
+                            <history>7d</history>
+                            <applications>
+                                <application>
+                                    <name>K8S cluster version</name>
+                                </application>
+                            </applications>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>K8S cluster {#CLUSTER}</name>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-04-30T16:00:35Z</date>
+    <date>2020-09-22T07:29:04Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -371,34 +371,6 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} client version</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>mysql2.version.client[{#INSTANCE}]</key>
-                            <delay>1h</delay>
-                            <history>1w</history>
-                            <trends>0</trends>
-                            <value_type>CHAR</value_type>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>MySQL {#INSTANCE} server version</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>mysql2.version.server[{#INSTANCE}]</key>
-                            <delay>1h</delay>
-                            <history>1w</history>
-                            <trends>0</trends>
-                            <value_type>CHAR</value_type>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
-                        </item_prototype>
-                        <item_prototype>
                             <name>MySQL {#INSTANCE} is running</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.is-alive[{#INSTANCE}]</key>
@@ -419,7 +391,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} bytes received per second</name>
+                            <name>MySQL {#INSTANCE} bytes recv/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Bytes_received]</key>
                             <history>1w</history>
@@ -438,7 +410,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} bytes sent per second</name>
+                            <name>MySQL {#INSTANCE} bytes sent/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Bytes_sent]</key>
                             <history>1w</history>
@@ -457,7 +429,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} begin operations per second</name>
+                            <name>MySQL {#INSTANCE} begin ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_begin]</key>
                             <history>1w</history>
@@ -475,7 +447,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} commit operations per second</name>
+                            <name>MySQL {#INSTANCE} commit ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_commit]</key>
                             <history>1w</history>
@@ -493,7 +465,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} delete operations per second</name>
+                            <name>MySQL {#INSTANCE} delete ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_delete]</key>
                             <history>1w</history>
@@ -511,7 +483,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} insert operations per second</name>
+                            <name>MySQL {#INSTANCE} insert ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_insert]</key>
                             <history>1w</history>
@@ -529,7 +501,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} rollback operations per second</name>
+                            <name>MySQL {#INSTANCE} rollback ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_rollback]</key>
                             <history>1w</history>
@@ -547,7 +519,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} select operations per second</name>
+                            <name>MySQL {#INSTANCE} select ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_select]</key>
                             <history>1w</history>
@@ -565,7 +537,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} update operations per second</name>
+                            <name>MySQL {#INSTANCE} update ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_update]</key>
                             <history>1w</history>
@@ -583,7 +555,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             </preprocessing>
                         </item_prototype>
                         <item_prototype>
-                            <name>MySQL {#INSTANCE} queries per second</name>
+                            <name>MySQL {#INSTANCE} q/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Questions]</key>
                             <history>1w</history>
@@ -647,6 +619,34 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             <key>mysql2.system[{#INSTANCE},max_connections]</key>
                             <delay>15s</delay>
                             <history>1w</history>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} client version</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.version.client[{#INSTANCE}]</key>
+                            <delay>1h</delay>
+                            <history>1w</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>MySQL {#INSTANCE} instance</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>MySQL {#INSTANCE} server version</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>mysql2.version.server[{#INSTANCE}]</key>
+                            <delay>1h</delay>
+                            <history>1w</history>
+                            <trends>0</trends>
+                            <value_type>CHAR</value_type>
                             <application_prototypes>
                                 <application_prototype>
                                     <name>MySQL {#INSTANCE} instance</name>

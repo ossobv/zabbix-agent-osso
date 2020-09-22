@@ -44,6 +44,12 @@
                             <priority>WARNING</priority>
                             <description>SIP Server has changed (UAS/proxy upgrade?)</description>
                         </trigger>
+                        <trigger>
+                            <expression>{diff(0)}&gt;0</expression>
+                            <name>{HOSTNAME}: SIP Server has changed</name>
+                            <priority>WARNING</priority>
+                            <description>SIP Server has changed (UAS/proxy upgrade?)</description>
+                        </trigger>
                     </triggers>
                 </item>
             </items>

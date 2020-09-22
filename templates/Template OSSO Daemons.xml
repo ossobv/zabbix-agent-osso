@@ -41,7 +41,7 @@
                             <expression>{last()}&lt;14</expression>
                             <name>Certificate(s) about to expire on {HOST.NAME}</name>
                             <opdata>{ITEM.LASTVALUE} left</opdata>
-                            <priority>INFO</priority>
+                            <priority>HIGH</priority>
                             <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
                         </trigger>
                     </triggers>
@@ -312,6 +312,18 @@
 Do a HIGH error in Zabbix instead if we have failed services.</description>
                         </trigger>
                     </triggers>
+                </item>
+                <item>
+                    <name>Systemd counted tasks/threads</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>daemon.systemd.maxtasks</key>
+                    <history>30d</history>
+                    <trends>90d</trends>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
                 </item>
                 <item>
                     <name>Services require restart</name>
