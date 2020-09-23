@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-07-17T13:59:12Z</date>
+    <date>2020-09-23T10:16:19Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -96,6 +96,33 @@
                             <params>1024</params>
                         </step>
                     </preprocessing>
+                </item>
+                <item>
+                    <name>Host exit IPv4 address</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.get_ext_ip4</key>
+                    <delay>20m</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <inventory_link>HOST_ROUTER</inventory_link>
+                    <applications>
+                        <application>
+                            <name>Network interfaces</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Host exit IPv6 address</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.get_ext_ip6</key>
+                    <delay>20m</delay>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <applications>
+                        <application>
+                            <name>Network interfaces</name>
+                        </application>
+                    </applications>
                 </item>
                 <item>
                     <name>Host has external IPv4 address</name>

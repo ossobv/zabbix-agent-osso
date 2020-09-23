@@ -1,0 +1,35 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+
+httpget() {
+    local is4or6
+    local ip
+    is4or6="$1"
+    ip="$2"
+    if which curl >/dev/null; then
+       timeout 2s curl -s -$is4or6 "http://$ip"
+    elif which wget >/dev/null; then
+        timeout 2s wget -$is4or6 -qO- "http://$ip"
+    else
+        echo ZBX_NOTSUPPORTED
+    fi
+}
+
+case "$1" in
+show-exit-ip4)
+    if ! httpget 4 ip4.osso.pub; then
+        echo ZBX_NOTSUPPORTED >&2
+        exit 1
+    fi
+    ;;
+show-exit-ip6)
+    if ! httpget 6 ip6.osso.pub; then
+        echo ZBX_NOTSUPPORTED >&2
+        exit 1
+    fi
+    ;;
+*)
+    echo "Invalid: $1" >&2
+    exit 1
+    ;;
+esac
