@@ -1,3 +1,13 @@
+zabbix-agent-osso (0.44) stable; urgency=low
+
+  * configure: Set /etc/zabbix/config dir to root:zabbix 0750 on postinst
+  * kernelmisc: Add iptables -w option to make it wait if locked
+  * kernelmisc: Fix so iptables and ip6tables can be in /usr/sbin too
+  * templates: Add needs-ZFS-template check
+  * zfs: Fix so zfs.update_cache can find /sbin/zfs
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 14 Oct 2020 17:52:36 +0200
+
 zabbix-agent-osso (0.43) stable; urgency=low
 
   * kernelmisc: Add initial exit-ip recording
