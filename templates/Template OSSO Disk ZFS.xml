@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-09-22T08:40:58Z</date>
+    <date>2020-10-14T15:45:27Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -546,6 +546,12 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                     <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$HAS_TEMPLATE_ZFS}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
         </template>
     </templates>
     <triggers>

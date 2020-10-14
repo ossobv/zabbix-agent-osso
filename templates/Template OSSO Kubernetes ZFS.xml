@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-09-22T07:52:00Z</date>
+    <date>2020-10-14T15:46:06Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -21,6 +21,12 @@
                     <name>TEMPLATES</name>
                 </group>
             </groups>
+            <macros>
+                <macro>
+                    <macro>{$HAS_TEMPLATE_ZFS}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
         </template>
     </templates>
     <triggers>

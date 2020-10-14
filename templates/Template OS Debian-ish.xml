@@ -63,7 +63,7 @@
                     <key>kernel.maxfiles</key>
                     <delay>1h</delay>
                     <history>1w</history>
-                    <description>It could be increased by using sysctrl utility or modifying file /etc/sysctl.conf.</description>
+                    <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
                     <applications>
                         <application>
                             <name>OS</name>
