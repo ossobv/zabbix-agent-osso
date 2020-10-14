@@ -19,19 +19,27 @@ if [ "$1" = configure ]; then
     # Make it writable by zabbix, but do not croak if user is missing.
     chown zabbix:zabbix /var/lib/zabbix/scripts || true
 
-    # Bugfix for missing perm on mysql script.
-    if test -f /etc/zabbix/scripts/mysql &&
-            ! test -x /etc/zabbix/scripts/mysql; then
-        chmod 755 /etc/zabbix/scripts/mysql
+    # Bugfix for bad perms on config dir:
+    # The config could contain secrets and auth tokens. Don't let just
+    # anyone see those.
+    if test -d /etc/zabbix/config; then
+        chown root:zabbix /etc/zabbix/config &&
+            chmod 750 /etc/zabbix/config
     fi
 
-    # Run the update-cache script an initial time.
-    /etc/zabbix/scripts/smart.update_cache
-    # Run the daemon.cert.minexpiry script an initial time.
-    ( cert-expiry-finder --min 2>/dev/null || echo 5555 ) \
-        >/var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp
-    mv /var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp \
-        /var/lib/zabbix/scripts/daemon.cert.minexpiry
+    # # Bugfix for missing perm on mysql script.
+    # if test -f /etc/zabbix/scripts/mysql &&
+    #         ! test -x /etc/zabbix/scripts/mysql; then
+    #     chmod 755 /etc/zabbix/scripts/mysql
+    # fi
+
+    # # Run the update-cache script an initial time.
+    # /etc/zabbix/scripts/smart.update_cache
+    # # Run the daemon.cert.minexpiry script an initial time.
+    # ( cert-expiry-finder --min 2>/dev/null || echo 5555 ) \
+    #     >/var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp
+    # mv /var/lib/zabbix/scripts/daemon.cert.minexpiry.tmp \
+    #     /var/lib/zabbix/scripts/daemon.cert.minexpiry
 
     # Restart zabbix-agent if it was running.
     if [ -d /run/systemd/system ]; then
