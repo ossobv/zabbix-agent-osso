@@ -1,4 +1,4 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-zabbix ALL=NOPASSWD: /sbin/iptables -S*
-zabbix ALL=NOPASSWD: /sbin/ip6tables -S*
+zabbix ALL=NOPASSWD: /usr/sbin/iptables -S*, /sbin/iptables -S*
+zabbix ALL=NOPASSWD: /usr/sbin/ip6tables -S*, /sbin/ip6tables -S*
