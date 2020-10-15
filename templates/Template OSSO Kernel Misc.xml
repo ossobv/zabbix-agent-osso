@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-09-23T10:16:19Z</date>
+    <date>2020-10-15T09:52:00Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -422,7 +422,7 @@
  ({Template OSSO Kernel Misc:system.dmi.chassis.nodata(1d)}=1 or&#13;
   {Template OSSO Kernel Misc:system.dmi.chassis.regexp(&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)}=0))</expression>
             <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>
-            <description>Either set {$DISABLE_ZBXNOHW}=1 (through the Disable template) or add the Hardware template which sets it, and adds additional checks.</description>
+            <description>Either set DISABLE_ZBXNOHW=1 (through the Disable template) or add the Hardware template which sets it, and adds additional checks.</description>
         </trigger>
     </triggers>
 </zabbix_export>

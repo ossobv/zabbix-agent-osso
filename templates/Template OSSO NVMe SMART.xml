@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-07-28T11:21:52Z</date>
+    <date>2020-10-15T09:50:22Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -281,7 +281,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                                     <expression>{last()}&gt;{$NVME_SEEN_ERR_LOG_ENTRIES}</expression>
                                     <name>NVMe: Errorlog entry count  {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
-                                    <description>Errorlog may keep increasing. You can use the {$NVME_SEEN_ERR_LOG_ENTRIES} macro to mark items as &quot;read&quot;.&#13;
+                                    <description>Errorlog may keep increasing. You can use the NVME_SEEN_ERR_LOG_ENTRIES macro to mark items as &quot;read&quot;.&#13;
 Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                                     <manual_close>YES</manual_close>
                                 </trigger_prototype>

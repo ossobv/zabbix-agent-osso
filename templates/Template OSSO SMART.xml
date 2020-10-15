@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-05-11T15:26:12Z</date>
+    <date>2020-10-15T09:51:08Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -265,8 +265,9 @@ and {strlen()}&gt;2</expression>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&gt;{$SATA_SEEN_ERR_LOG_ENTRIES}</expression>
-                                    <name>SMART: {#DEVICE_SATA} reallocated sector count is too high on {HOST.NAME}</name>
+                                    <name>SMART: {#DEVICE_SATA} reallocated sector count &gt;{$SATA_SEEN_ERR_LOG_ENTRIES} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
+                                    <description>You can use the SATA_SEEN_ERR_LOG_ENTRIES macro if you've seen them.</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
