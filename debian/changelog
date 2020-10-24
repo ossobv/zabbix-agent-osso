@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.45) stable; urgency=low
+
+  * k8smgmt: If a node is not-ready, it does not have status True
+  * templates: Fix (mis)use of (expanded) macros in descriptions
+  * zfs: Fix /var/lib/zabbix/scripts/ zfs.status.changed, replaced by .saved
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Sat, 24 Oct 2020 21:28:34 +0200
+
 zabbix-agent-osso (0.44) stable; urgency=low
 
   * configure: Set /etc/zabbix/config dir to root:zabbix 0750 on postinst
