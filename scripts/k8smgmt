@@ -170,6 +170,7 @@ node_condition() {
     case $conversion in
     bool)
         case $value in
+        Unknown) echo 0;;
         False) echo 0;;
         True) echo 1;;
         *) echo "ZBX_ERROR: bool($value)" >&2
