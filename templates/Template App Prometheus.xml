@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-10-30T16:12:58Z</date>
+    <date>2020-10-30T16:42:20Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -30,12 +30,14 @@
                     <lifetime>0</lifetime>
                     <item_prototypes>
                         <item_prototype>
-                            <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                            <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#KEY}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>prometheus.alert.active[critical,{#P8S_NAME},{#KEY}]</key>
+                            <delay>30s</delay>
                             <history>1h</history>
                             <trends>0</trends>
-                            <description>Needs storage &gt;0</description>
+                            <description>{#DESCRIPTION}&#13;
+for {#KEY}</description>
                             <applications>
                                 <application>
                                     <name>Prometheus</name>
@@ -44,8 +46,11 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&lt;&gt;0</expression>
-                                    <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                                    <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#KEY}</name>
+                                    <url>{#P8S_URL}</url>
                                     <priority>DISASTER</priority>
+                                    <description>{#DESCRIPTION}&#13;
+for {#KEY}</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -59,12 +64,14 @@
                     <lifetime>0</lifetime>
                     <item_prototypes>
                         <item_prototype>
-                            <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                            <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#KEY}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>prometheus.alert.active[warning,{#P8S_NAME},{#KEY}]</key>
+                            <delay>30s</delay>
                             <history>1h</history>
                             <trends>0</trends>
-                            <description>Needs storage &gt;0</description>
+                            <description>{#DESCRIPTION}&#13;
+for {#KEY}</description>
                             <applications>
                                 <application>
                                     <name>Prometheus</name>
@@ -73,11 +80,11 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&lt;&gt;0</expression>
-                                    <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                                    <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#KEY}</name>
                                     <url>{#P8S_URL}</url>
                                     <priority>HIGH</priority>
-                                    <description>{#DESCRIPTION};&#13;
-{#KEY}</description>
+                                    <description>{#DESCRIPTION}&#13;
+for {#KEY}</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
