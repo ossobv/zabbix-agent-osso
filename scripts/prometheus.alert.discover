@@ -1,0 +1,54 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+severity=$1  # critical/warning
+conf="$(dirname "$0")/../config/prometheus.alert.cnf"
+
+case $severity in
+critical|warning)
+    true;;
+*)
+    echo "bad severity" >&2; exit 1;;
+esac
+
+last="/var/lib/zabbix/scripts/prometheus.alert.$severity"
+
+# List http://IP:PORT/api/v1/alerts#name=INSTANCE_NAME items
+# in $conf, like this:
+# > PROMETHEUS_ALERT_APIS='
+# > http://10.20.10.40:31185/api/v1/alerts#name=custx-prod
+# > http://10.20.30.50:31185/api/v1/alerts#name=custy-prod
+# > '
+test -r "$conf" && . "$conf" 2>/dev/null
+if test -z "$PROMETHEUS_ALERT_APIS"; then
+    echo '[]' >"$last.tmp"
+    mv "$last.tmp" "$last"
+    cat "$last"
+    exit 0
+fi
+
+echo "$PROMETHEUS_ALERT_APIS" |
+sed -e 's/^[[:blank:]]*//;s/[[:blank:]]*$//;/^$/d;s/[[:blank:]].*//' |
+while read -r alert_api; do
+    api_frags="#${alert_api#*#}"
+    api_name="${api_frags#\#name=}"
+    api_base="${alert_api%%/api/*}/"
+    #echo "$alert_api" >&2
+    #echo "$api_frags" >&2
+    #echo "$api_name" >&2
+    #echo "$api_base" >&2
+    curl -sS "$alert_api" | jq '.data.alerts[] |
+      select(.labels.severity=="'${severity:-critical}'") |
+        {"{#P8S_NAME}": "'${api_name:-nameless}'",
+         "{#P8S_URL}": "'${api_base}'",
+         "{#NAME}": .labels.alertname,
+         "{#KEY}": (
+           "i:" + .labels.instance + ":c:" + .labels.container +
+           ":j:" + .labels.job + ":n=" + .labels.name +
+           ":ns:" + .labels.namespace + ":p:" + .labels.pod | tostring),
+         "{#DESCRIPTION}": (
+           "" + .annotations.alertlong + ", " +
+           .annotations.message + ", " +
+           .annotations.description)}'
+done | jq --slurp . >"$last.tmp"  # don't remove the trailing dot here
+mv "$last.tmp" "$last"
+cat "$last"

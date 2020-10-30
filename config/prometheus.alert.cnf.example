@@ -1,0 +1,9 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# List http://IP:PORT/api/v1/alerts#name=INSTANCE_NAME items
+# in $conf, like this:
+PROMETHEUS_ALERT_APIS='
+http://1.2.3.4:9090/api/v1/alerts#name=clusterx-prod
+'
+
+# vim: syn=sh:

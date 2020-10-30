@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-10-30T16:12:58Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template App Prometheus</template>
+            <name>Template App Prometheus Alerts (p8s)</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Prometheus</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>prometheus.alert.discover critical</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>prometheus.alert.discover[critical]</key>
+                    <delay>30s</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>prometheus.alert.active[critical,{#P8S_NAME},{#KEY}]</key>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <description>Needs storage &gt;0</description>
+                            <applications>
+                                <application>
+                                    <name>Prometheus</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;0</expression>
+                                    <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>prometheus.alert.discover warning</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>prometheus.alert.discover[warning]</key>
+                    <delay>30s</delay>
+                    <lifetime>0</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>prometheus.alert.active[warning,{#P8S_NAME},{#KEY}]</key>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <description>Needs storage &gt;0</description>
+                            <applications>
+                                <application>
+                                    <name>Prometheus</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;0</expression>
+                                    <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#DESCRIPTION}; {#KEY}</name>
+                                    <url>{#P8S_URL}</url>
+                                    <priority>HIGH</priority>
+                                    <description>{#DESCRIPTION};&#13;
+{#KEY}</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
