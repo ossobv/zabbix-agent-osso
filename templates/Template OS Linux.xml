@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-10-14T15:46:25Z</date>
+    <date>2020-12-01T15:06:36Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -748,6 +748,58 @@ ZBX-15624 + ZBX-12957</description>
                     <description>Discovery of network interfaces as defined in global regular expression &quot;Network interfaces for discovery&quot;.</description>
                     <item_prototypes>
                         <item_prototype>
+                            <name>Incoming network drops on {#IFNAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.in[{#IFNAME},dropped]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <applications>
+                                <application>
+                                    <name>Network interfaces</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Incoming network errors on {#IFNAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.in[{#IFNAME},errors]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <applications>
+                                <application>
+                                    <name>Network interfaces</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Incoming network errors/s on {#IFNAME}</name>
+                            <type>CALCULATED</type>
+                            <key>net.if.in[{#IFNAME},errors_per_second]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <value_type>FLOAT</value_type>
+                            <params>last(&quot;net.if.in[{#IFNAME},errors]&quot;)</params>
+                            <applications>
+                                <application>
+                                    <name>Network interfaces</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;0.0</expression>
+                                    <name>Incoming network errors/s on {#IFNAME}</name>
+                                    <opdata>Current: {ITEM.LASTVALUE}</opdata>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
                             <name>Incoming network traffic on $1</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.in[{#IFNAME}]</key>
@@ -769,6 +821,58 @@ ZBX-15624 + ZBX-12957</description>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Outgoing network drops on {#IFNAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.out[{#IFNAME},dropped]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <applications>
+                                <application>
+                                    <name>Network interfaces</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Outgoing network errors on {#IFNAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.out[{#IFNAME},errors]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <applications>
+                                <application>
+                                    <name>Network interfaces</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Outgoing network errors/s on {#IFNAME}</name>
+                            <type>CALCULATED</type>
+                            <key>net.if.out[{#IFNAME},errors_per_second]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <value_type>FLOAT</value_type>
+                            <params>last(&quot;net.if.out[{#IFNAME},errors]&quot;)</params>
+                            <applications>
+                                <application>
+                                    <name>Network interfaces</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;0.0</expression>
+                                    <name>Outgoing network errors/s on {#IFNAME}</name>
+                                    <opdata>Current: {ITEM.LASTVALUE}</opdata>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Outgoing network traffic on $1</name>

@@ -1,7 +1,5 @@
 # mysqldump --defaults-file=/etc/mysql/debian.cnf zabbix regexps expressions --skip-extended-insert | sed -e '/^[-/]/d'
 
-
-
 DROP TABLE IF EXISTS `regexps`;
 CREATE TABLE `regexps` (
   `regexpid` bigint(20) unsigned NOT NULL,
@@ -14,7 +12,7 @@ CREATE TABLE `regexps` (
 
 LOCK TABLES `regexps` WRITE;
 INSERT INTO `regexps` VALUES (1,'File systems for discovery','ext3');
-INSERT INTO `regexps` VALUES (2,'Network interfaces for discovery','eth0');
+INSERT INTO `regexps` VALUES (2,'Network interfaces for discovery','swp0n1.1');
 INSERT INTO `regexps` VALUES (3,'Storage devices for SNMP discovery','/boot');
 INSERT INTO `regexps` VALUES (4,'ZFS dataset discovery','rpool/ROOT/ubuntu/0b7c168417af5b8448fb17988e23f534fe464715fd4b35aa36ca3eaf234d66af');
 INSERT INTO `regexps` VALUES (7,'Exclude filesystems for discovery','');
@@ -27,9 +25,9 @@ CREATE TABLE `expressions` (
   `expressionid` bigint(20) unsigned NOT NULL,
   `regexpid` bigint(20) unsigned NOT NULL,
   `expression` varchar(255) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `expression_type` int(11) NOT NULL DEFAULT '0',
+  `expression_type` int(11) NOT NULL DEFAULT 0,
   `exp_delimiter` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT '',
-  `case_sensitive` int(11) NOT NULL DEFAULT '0',
+  `case_sensitive` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`expressionid`),
   KEY `expressions_1` (`regexpid`),
   CONSTRAINT `c_expressions_1` FOREIGN KEY (`regexpid`) REFERENCES `regexps` (`regexpid`) ON DELETE CASCADE
@@ -50,6 +48,9 @@ INSERT INTO `expressions` VALUES (15,2,'^(br-|docker|tap|tun|veth|vmbr|cali)',4,
 INSERT INTO `expressions` VALUES (16,7,'^/var/lib/docker/overlay2/',4,',',0);
 INSERT INTO `expressions` VALUES (18,4,'^.*/[0-9a-f]{64}(-init)?$',4,',',1);
 INSERT INTO `expressions` VALUES (19,9,'.',3,',',0);
+INSERT INTO `expressions` VALUES (20,7,'^/run/docker/',4,',',0);
+INSERT INTO `expressions` VALUES (21,7,'^/.*/[0-9a-f]{64}(/|$)',4,',',0);
+INSERT INTO `expressions` VALUES (23,2,'.',2,',',1);
+INSERT INTO `expressions` VALUES (24,2,'_',2,',',1);
+INSERT INTO `expressions` VALUES (25,2,'^[A-Z0-9_]+$',4,',',1);
 UNLOCK TABLES;
-
-
