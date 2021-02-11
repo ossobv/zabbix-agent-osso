@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-04-30T08:57:58Z</date>
+    <date>2021-02-11T13:14:09Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -46,12 +46,6 @@
 {last(#2)}=0 and {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} has DiskPressure</name>
                                     <priority>HIGH</priority>
-                                    <tags>
-                                        <tag>
-                                            <tag>kubernetes</tag>
-                                            <value>true</value>
-                                        </tag>
-                                    </tags>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -72,12 +66,6 @@
 {last(#2)}=0 and {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} has MemoryPressure</name>
                                     <priority>HIGH</priority>
-                                    <tags>
-                                        <tag>
-                                            <tag>kubernetes</tag>
-                                            <value>true</value>
-                                        </tag>
-                                    </tags>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -116,23 +104,11 @@
                                     <expression>{nodata(5m)}=1</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} has no monitoring</name>
                                     <priority>HIGH</priority>
-                                    <tags>
-                                        <tag>
-                                            <tag>kubernetes</tag>
-                                            <value>true</value>
-                                        </tag>
-                                    </tags>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <expression>{last(#1)}=0 and {last(#2)}=0 and {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} is not Ready</name>
                                     <priority>HIGH</priority>
-                                    <tags>
-                                        <tag>
-                                            <tag>kubernetes</tag>
-                                            <value>true</value>
-                                        </tag>
-                                    </tags>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -294,12 +270,6 @@
 {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} is not Schedulable</name>
                                     <priority>HIGH</priority>
-                                    <tags>
-                                        <tag>
-                                            <tag>kubernetes</tag>
-                                            <value>true</value>
-                                        </tag>
-                                    </tags>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -429,6 +399,192 @@
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <name>K8S cluster {#CLUSTER} pod count js</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            <history>0</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Failed pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.failed[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Failed</params>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&lt;&gt;0</expression>
+                                    <name>K8S cluster {#CLUSTER} has failed pods</name>
+                                    <opdata>Current: {ITEM.LASTVALUE}</opdata>
+                                    <priority>AVERAGE</priority>
+                                    <description>Please do:&#13;
+kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Pending pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.pending[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Pending</params>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Running pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.running[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Running</params>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Succeeded pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.succeeded[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Succeeded</params>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Total pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.total[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Total</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Waiting10m names</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.waiting10mpods[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>4d</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Waiting10mPods</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Waiting10m pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.waiting10m[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.Waiting10m</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
                             <name>K8S cluster {#CLUSTER} pod count</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>k8smgmt.cluster.pods[{#CLUSTER}]</key>
@@ -457,6 +613,28 @@
                             </application_prototypes>
                         </item_prototype>
                     </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <expression>{Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10m[{#CLUSTER}].last()}&lt;&gt;0 and&#13;
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10mpods[{#CLUSTER}].strlen()}&lt;&gt;0</expression>
+                            <name>K8S cluster {#CLUSTER} has waiting pods for &gt;10mins</name>
+                            <opdata>{ITEM.LASTVALUE1}: {ITEM.LASTVALUE2}</opdata>
+                            <priority>HIGH</priority>
+                            <description>Please do:&#13;
+kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>({Template OSSO K8S mgmt:k8smgmt.cluster.pods.total[{#CLUSTER}].last()} -&#13;
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.running[{#CLUSTER}].last()} -&#13;
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.succeeded[{#CLUSTER}].last()} -&#13;
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.failed[{#CLUSTER}].last()} -&#13;
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.pending[{#CLUSTER}].last()}) &lt;&gt; 0</expression>
+                            <name>K8S cluster {#CLUSTER} undefined pod states</name>
+                            <opdata>{ITEM.LASTVALUE1}-{ITEM.LASTVALUE2}-{ITEM.LASTVALUE3}-{ITEM.LASTVALUE4}-{ITEM.LASTVALUE5}</opdata>
+                            <priority>WARNING</priority>
+                            <description>We expect Running+Succeeded+Failed+Pending to be all states (Waiting10m is not a state. It contains ImagePullBackOff (Pending) and CrashLoopBackOff (Running).)</description>
+                        </trigger_prototype>
+                    </trigger_prototypes>
                 </discovery_rule>
             </discovery_rules>
         </template>

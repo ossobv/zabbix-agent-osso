@@ -262,6 +262,33 @@ is-fresh)
 cluster-pods)
     jq '.items | length' "$OUTDIR/$PREFIX$2.pods.json"
     ;;
+cluster-pods-js)
+    jsin=$(cat "$OUTDIR/$PREFIX$2.pods.json")
+    # - phase Pending may be waiting on ImagePullBackOff
+    # - phase Running may be waiting on CrashLoopBackOff
+    # Instead of looking for the phases, we'll lookg for
+    # state.waiting.reason. And we'll skip anything that's more recent
+    # than 10 minutes, because Pending also gets ContainerCreating.
+    recently=$(date -d '-10 minutes' +%s)
+    waiting=$(printf '%s\n' "$jsin" | jq \
+      '[.items[] |
+        select((.status.startTime | fromdateiso8601) < '$recently') |
+        .status.containerStatuses[] | .state.waiting.reason |
+        select(. != null) | 1] | length')
+    test "$waiting" -gt 0 &&
+        waitingpods=$(printf '%s\n' "$jsin" | jq \
+          '[.items[] |
+            select(((.status.startTime | fromdateiso8601) < '$recently') and (
+              .status.containerStatuses[] | select(.state.waiting != null))) |
+            (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+    # Pending, Running, Succeeded, Failed + Waiting10m, Total
+    printf '%s\n' "$jsin" | jq '.items[] | .status.phase' |
+        LC_ALL=C sort | uniq -c | awk -vW=$waiting -vWP="${waitingpods:-}" '
+        BEGIN{printf "{"}
+        {t+=$1;printf $2 ": " $1 ", "}
+        END{print "\"Waiting10m\": " W ", \"Waiting10mPods\": " WP \
+            ", \"Total\": "  t "}"}'
+    ;;
 cluster-version)
     # Take lowest version (sort -V, head -n1).
     v=$(jq -r ".items[] | .status.nodeInfo.kubeletVersion" \
