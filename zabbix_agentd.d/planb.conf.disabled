@@ -1,0 +1,9 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+# # X=/var/lib/zabbix/scripts/planb.discovery; /usr/local/bin/planb blist --zabbix >$X.new; mv $X.new $X
+# UserParameter=planb.discovery, cat /var/lib/zabbix/scripts/planb.discovery
+# # X=/var/lib/zabbix/scripts/planb.summary; /usr/local/bin/planb blist --zabbix --summary >$X.new; mv $X.new $X
+# UserParameter=planb.summary, cat /var/lib/zabbix/scripts/planb.summary
+# #
+# # UserParameter=planb.failure-at[*], THIS_IS_A_TRAPPER_ITEM
+# # UserParameter=planb.success-at[*], THIS_IS_A_TRAPPER_ITEM
