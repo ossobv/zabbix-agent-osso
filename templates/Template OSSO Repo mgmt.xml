@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-03-13T12:22:51Z</date>
+    <date>2021-02-11T13:50:54Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -40,6 +40,16 @@
                                     <name>Versioning</name>
                                 </application>
                             </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{min(5h)}&lt;&gt;0 and&#13;
+{time()}&gt;100000 and&#13;
+{time()}&lt;160000 and&#13;
+{dayofweek()}&lt;=5</expression>
+                                    <name>Uncommited stuff in {#REPOPATH} on {HOST.NAME}</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>Repository {#REPOTYPE}:{#REPOPATH} version</name>
