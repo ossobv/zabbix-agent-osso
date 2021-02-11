@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-12-01T15:06:36Z</date>
+    <date>2020-12-16T15:17:50Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -792,10 +792,12 @@ ZBX-15624 + ZBX-12957</description>
                             </preprocessing>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0.0</expression>
-                                    <name>Incoming network errors/s on {#IFNAME}</name>
+                                    <expression>{last()}&gt;0.1 or&#13;
+{min(5m)}&gt;0.0</expression>
+                                    <name>Incoming network errors/s on {HOST.NAME}: {#IFNAME}</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
+                                    <description>Aangepast van &gt;0.0, ging te vaak af met slechts 1 error per run (0.0167/s=1/min).</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -868,7 +870,7 @@ ZBX-15624 + ZBX-12957</description>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&gt;0.0</expression>
-                                    <name>Outgoing network errors/s on {#IFNAME}</name>
+                                    <name>Outgoing network errors/s on {HOST.NAME}: {#IFNAME}</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
