@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.47) stable; urgency=low
+
+  * k8smgmt: Fix bug when there are no crashed pods
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 11 Feb 2021 17:01:00 +0100
+
 zabbix-agent-osso (0.46) stable; urgency=low
 
   * k8smgmt: Allow for incidental slow K8S API response
