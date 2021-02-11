@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-10-14T15:45:27Z</date>
+    <date>2021-01-11T15:35:44Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -476,7 +476,6 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                     <name>ZFS pool discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.pool.discovery</key>
-                    <delay>12h</delay>
                     <item_prototypes>
                         <item_prototype>
                             <name>Zpool {#POOLNAME} available</name>
@@ -530,6 +529,134 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
+                        <item_prototype>
+                            <name>Zpool {#POOLNAME} stats (json)</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <description>See struct kstat_io in https://github.com/openzfs/zfs/blob/master/lib/libspl/include/sys/kstat.h</description>
+                            <applications>
+                                <application>
+                                    <name>ZFS</name>
+                                </application>
+                            </applications>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Zpool {#POOLNAME} rops</name>
+                            <type>DEPENDENT</type>
+                            <key>zfs.zpool.stats[{#POOLNAME},rops]</key>
+                            <delay>0</delay>
+                            <history>30d</history>
+                            <units>op/s</units>
+                            <applications>
+                                <application>
+                                    <name>ZFS</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.rops</params>
+                                </step>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Zpool {#POOLNAME} 4K-rbytes</name>
+                            <type>DEPENDENT</type>
+                            <key>zfs.zpool.stats[{#POOLNAME},rpages]</key>
+                            <delay>0</delay>
+                            <history>30d</history>
+                            <units>pg/s</units>
+                            <description>As 4K-pages instead of bytes so you can compare it with rops/wops in a single graph.</description>
+                            <applications>
+                                <application>
+                                    <name>ZFS</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.rbytes</params>
+                                </step>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>0.000244141</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Zpool {#POOLNAME} wops</name>
+                            <type>DEPENDENT</type>
+                            <key>zfs.zpool.stats[{#POOLNAME},wops]</key>
+                            <delay>0</delay>
+                            <history>30d</history>
+                            <units>op/s</units>
+                            <applications>
+                                <application>
+                                    <name>ZFS</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.wops</params>
+                                </step>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Zpool {#POOLNAME} 4K-wbytes</name>
+                            <type>DEPENDENT</type>
+                            <key>zfs.zpool.stats[{#POOLNAME},wpages]</key>
+                            <delay>0</delay>
+                            <history>30d</history>
+                            <units>pg/s</units>
+                            <description>As 4K-pages instead of bytes so you can compare it with rops/wops in a single graph.</description>
+                            <applications>
+                                <application>
+                                    <name>ZFS</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <params>$.wbytes</params>
+                                </step>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                                <step>
+                                    <type>MULTIPLIER</type>
+                                    <params>0.000244141</params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
+                            </master_item>
+                        </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
@@ -543,6 +670,44 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                             <priority>HIGH</priority>
                         </trigger_prototype>
                     </trigger_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>Zpool {#POOLNAME} IO stats</name>
+                            <graph_items>
+                                <graph_item>
+                                    <color>1A7C11</color>
+                                    <item>
+                                        <host>Template OSSO Disk ZFS</host>
+                                        <key>zfs.zpool.stats[{#POOLNAME},rpages]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>4DB6AC</color>
+                                    <item>
+                                        <host>Template OSSO Disk ZFS</host>
+                                        <key>zfs.zpool.stats[{#POOLNAME},rops]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <color>F63100</color>
+                                    <item>
+                                        <host>Template OSSO Disk ZFS</host>
+                                        <key>zfs.zpool.stats[{#POOLNAME},wpages]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <color>FF6F00</color>
+                                    <item>
+                                        <host>Template OSSO Disk ZFS</host>
+                                        <key>zfs.zpool.stats[{#POOLNAME},wops]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
                     <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
