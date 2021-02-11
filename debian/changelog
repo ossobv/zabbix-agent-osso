@@ -1,3 +1,17 @@
+zabbix-agent-osso (0.46) stable; urgency=low
+
+  * k8smgmt: Allow for incidental slow K8S API response
+  * k8smgmt: Disk pressure is now a disaster
+  * k8smgmt: Start listening for crashloop pods
+  * planb: Add PlanB config, but don't enable
+  * prometheus: Add prometheus alert scraping
+  * repomgmt: Add disaster trigger, during office hours, and but repotype bug
+  * linux: Add reporting+triggers of NIC errors
+  * templates: Correct Debian-ish template
+  * zfs: Add ZFS disk read/write/ops stats
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 11 Feb 2021 15:51:06 +0100
+
 zabbix-agent-osso (0.45) stable; urgency=low
 
   * k8smgmt: If a node is not-ready, it does not have status True
