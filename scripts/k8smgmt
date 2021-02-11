@@ -230,6 +230,7 @@ Zabbix commands:
 
   is-fresh CLUSTER
   cluster-pods CLUSTER
+  cluster-pods-js CLUSTER
 
   node-condition CLUSTER NODE CONDITION CONVERSION
     (cond: NetworkUnavailable, MemoryPressure, ...)
@@ -283,7 +284,7 @@ cluster-pods-js)
             (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
     # Pending, Running, Succeeded, Failed + Waiting10m, Total
     printf '%s\n' "$jsin" | jq '.items[] | .status.phase' |
-        LC_ALL=C sort | uniq -c | awk -vW=$waiting -vWP="${waitingpods:-}" '
+        LC_ALL=C sort | uniq -c | awk -vW=$waiting -vWP="${waitingpods:-\"\"}" '
         BEGIN{printf "{"}
         {t+=$1;printf $2 ": " $1 ", "}
         END{print "\"Waiting10m\": " W ", \"Waiting10mPods\": " WP \
