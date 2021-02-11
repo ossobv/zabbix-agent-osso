@@ -52,7 +52,7 @@ fetch_cluster_info() {
     # > @- will make curl read the header file from stdin.
     # Now the command line does not expose the api_token. (Assuming echo is
     # a shell builtin.)
-    #echo "Authorization: Bearer $api_token" | timeout 5s curl \
+    #echo "Authorization: Bearer $api_token" | timeout 30s curl \
     #  -sS --fail \
     #  --cacert "$ca_pem" \
     #  -H "Accept: application/json" \
@@ -63,7 +63,7 @@ fetch_cluster_info() {
     tmp_config="$(dirname "$ca_pem")/curlconfig"
     touch "$tmp_config" && chmod 600 "$tmp_config" &&
       echo "-H \"Authorization: Bearer $api_token\"" >"$tmp_config"
-    timeout 5s curl \
+    timeout 30s curl \
       -sS --fail \
       --cacert "$ca_pem" \
       -H "Accept: application/json" \
