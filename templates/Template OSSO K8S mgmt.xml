@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2021-02-11T13:14:09Z</date>
+    <date>2021-02-11T13:32:59Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -45,7 +45,7 @@
                                     <expression>{last(#1)}=0 and&#13;
 {last(#2)}=0 and {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} has DiskPressure</name>
-                                    <priority>HIGH</priority>
+                                    <priority>DISASTER</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
