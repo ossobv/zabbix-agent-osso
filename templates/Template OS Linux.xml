@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.4</version>
-    <date>2020-12-16T15:17:50Z</date>
+    <date>2021-02-11T08:35:19Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -63,7 +63,7 @@
                     <key>kernel.maxfiles</key>
                     <delay>1h</delay>
                     <history>1w</history>
-                    <description>It could be increased by using sysctrl utility or modifying file /etc/sysctl.conf.</description>
+                    <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
                     <applications>
                         <application>
                             <name>OS</name>
@@ -84,7 +84,7 @@
                     <key>kernel.maxproc</key>
                     <delay>1h</delay>
                     <history>1w</history>
-                    <description>It could be increased by using sysctrl utility or modifying file /etc/sysctl.conf.</description>
+                    <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
                     <applications>
                         <application>
                             <name>OS</name>
