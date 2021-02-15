@@ -267,19 +267,23 @@ cluster-pods-js)
     jsin=$(cat "$OUTDIR/$PREFIX$2.pods.json")
     # - phase Pending may be waiting on ImagePullBackOff
     # - phase Running may be waiting on CrashLoopBackOff
-    # Instead of looking for the phases, we'll lookg for
-    # state.waiting.reason. And we'll skip anything that's more recent
+    # Instead of looking for the phases, we'll look for
+    # state.waiting.reason. We'll skip anything that's more recent
     # than 10 minutes, because Pending also gets ContainerCreating.
+    # (Note that we'll also skip Pending without status.startTime,
+    # like a PodScheduled conditions with no containerStatuses.)
     recently=$(date -d '-10 minutes' +%s)
     waiting=$(printf '%s\n' "$jsin" | jq \
       '[.items[] |
-        select((.status.startTime | fromdateiso8601) < '$recently') |
+        select((.status.startTime != null) and
+               ((.status.startTime | fromdateiso8601) < '$recently')) |
         .status.containerStatuses[] | .state.waiting.reason |
         select(. != null) | 1] | length')
     test "$waiting" -gt 0 &&
         waitingpods=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
-            select(((.status.startTime | fromdateiso8601) < '$recently') and (
+            select((.status.startTime != null) and
+                   ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] | select(.state.waiting != null))) |
             (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
     # Pending, Running, Succeeded, Failed + Waiting10m, Total
