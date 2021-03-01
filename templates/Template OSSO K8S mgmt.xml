@@ -42,7 +42,7 @@
                             </application_prototypes>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last(#1)}=0 and&#13;
+                                    <expression>{last(#1)}=0 and
 {last(#2)}=0 and {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} has DiskPressure</name>
                                     <priority>DISASTER</priority>
@@ -62,7 +62,7 @@
                             </application_prototypes>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last(#1)}=0 and&#13;
+                                    <expression>{last(#1)}=0 and
 {last(#2)}=0 and {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} has MemoryPressure</name>
                                     <priority>HIGH</priority>
@@ -265,8 +265,8 @@
                             </application_prototypes>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last(#1)}=0 and&#13;
-{last(#2)}=0 and&#13;
+                                    <expression>{last(#1)}=0 and
+{last(#2)}=0 and
 {nodata(5m)}=0</expression>
                                     <name>K8S node {#CLUSTER}:{#NODE} is not Schedulable</name>
                                     <priority>HIGH</priority>
@@ -440,7 +440,7 @@
                                     <name>K8S cluster {#CLUSTER} has failed pods</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>AVERAGE</priority>
-                                    <description>Please do:&#13;
+                                    <description>Please do:
 kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
@@ -615,19 +615,19 @@ kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10m[{#CLUSTER}].last()}&lt;&gt;0 and&#13;
+                            <expression>{Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10m[{#CLUSTER}].last()}&lt;&gt;0 and
 {Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10mpods[{#CLUSTER}].strlen()}&lt;&gt;0</expression>
                             <name>K8S cluster {#CLUSTER} has waiting pods for &gt;10mins</name>
                             <opdata>{ITEM.LASTVALUE1}: {ITEM.LASTVALUE2}</opdata>
                             <priority>HIGH</priority>
-                            <description>Please do:&#13;
+                            <description>Please do:
 kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>({Template OSSO K8S mgmt:k8smgmt.cluster.pods.total[{#CLUSTER}].last()} -&#13;
-{Template OSSO K8S mgmt:k8smgmt.cluster.pods.running[{#CLUSTER}].last()} -&#13;
-{Template OSSO K8S mgmt:k8smgmt.cluster.pods.succeeded[{#CLUSTER}].last()} -&#13;
-{Template OSSO K8S mgmt:k8smgmt.cluster.pods.failed[{#CLUSTER}].last()} -&#13;
+                            <expression>({Template OSSO K8S mgmt:k8smgmt.cluster.pods.total[{#CLUSTER}].last()} -
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.running[{#CLUSTER}].last()} -
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.succeeded[{#CLUSTER}].last()} -
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.failed[{#CLUSTER}].last()} -
 {Template OSSO K8S mgmt:k8smgmt.cluster.pods.pending[{#CLUSTER}].last()}) &lt;&gt; 0</expression>
                             <name>K8S cluster {#CLUSTER} undefined pod states</name>
                             <opdata>{ITEM.LASTVALUE1}-{ITEM.LASTVALUE2}-{ITEM.LASTVALUE3}-{ITEM.LASTVALUE4}-{ITEM.LASTVALUE5}</opdata>

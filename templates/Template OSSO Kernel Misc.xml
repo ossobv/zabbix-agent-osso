@@ -332,9 +332,9 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and&#13;
-{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and &#13;
-({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and&#13;
+                            <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
+{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and
+({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.ip6tables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv6 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>HIGH</priority>
@@ -381,9 +381,9 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and&#13;
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and &#13;
-({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and&#13;
+                            <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
+({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>HIGH</priority>
@@ -417,9 +417,9 @@
             <priority>HIGH</priority>
         </trigger>
         <trigger>
-            <expression>{$DISABLE_ZBXNOHW}=0 and&#13;
-({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and &#13;
- ({Template OSSO Kernel Misc:system.dmi.chassis.nodata(1d)}=1 or&#13;
+            <expression>{$DISABLE_ZBXNOHW}=0 and
+({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and
+ ({Template OSSO Kernel Misc:system.dmi.chassis.nodata(1d)}=1 or
   {Template OSSO Kernel Misc:system.dmi.chassis.regexp(&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)}=0))</expression>
             <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>
             <description>Either set DISABLE_ZBXNOHW=1 (through the Disable template) or add the Hardware template which sets it, and adds additional checks.</description>

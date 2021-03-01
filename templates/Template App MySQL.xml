@@ -30,9 +30,9 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>mysql.ping</key>
                     <history>1w</history>
-                    <description>It requires user parameter mysql.ping, which is defined in userparameter_mysql.conf&#13;
-&#13;
-0 - MySQL server is down&#13;
+                    <description>It requires user parameter mysql.ping, which is defined in userparameter_mysql.conf
+
+0 - MySQL server is down
 1 - MySQL server is up</description>
                     <applications>
                         <application>
@@ -57,9 +57,9 @@
                     <key>mysql.status[Bytes_received]</key>
                     <history>1w</history>
                     <units>Bps</units>
-                    <description>The number of bytes received from all clients. &#13;
-&#13;
-It requires user parameter mysql.status[*], which is defined in &#13;
+                    <description>The number of bytes received from all clients.
+
+It requires user parameter mysql.status[*], which is defined in
 userparameter_mysql.conf.</description>
                     <applications>
                         <application>
@@ -80,8 +80,8 @@ userparameter_mysql.conf.</description>
                     <key>mysql.status[Bytes_sent]</key>
                     <history>1w</history>
                     <units>Bps</units>
-                    <description>The number of bytes sent to all clients.&#13;
-&#13;
+                    <description>The number of bytes sent to all clients.
+
 It requires user parameter mysql.status[*], which is defined in userparameter_mysql.conf.</description>
                     <applications>
                         <application>
@@ -375,7 +375,7 @@ It requires user parameter mysql.status[*], which is defined in userparameter_my
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.is-alive[{#INSTANCE}]</key>
                             <history>1w</history>
-                            <description>0 - MySQL server is down&#13;
+                            <description>0 - MySQL server is down
 1 - MySQL server is up</description>
                             <application_prototypes>
                                 <application_prototype>

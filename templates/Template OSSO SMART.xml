@@ -102,7 +102,7 @@
                             <request_method>POST</request_method>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{str(OK)}&lt;&gt;1&#13;
+                                    <expression>{str(OK)}&lt;&gt;1
 and {strlen()}&gt;2</expression>
                                     <name>SMART: {#DEVICE_SAS} overall-health status failed on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
@@ -536,7 +536,7 @@ and {strlen()}&gt;2</expression>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO SMART:smart[has_disk].last()}&lt;&gt;0 and&#13;
+            <expression>{Template OSSO SMART:smart[has_disk].last()}&lt;&gt;0 and
 {Template OSSO SMART:vfs.file.exists[/usr/sbin/smartctl].last()}=0</expression>
             <name>SMART: Missing smartmontools/smartctl on {HOST.NAME}</name>
             <priority>HIGH</priority>

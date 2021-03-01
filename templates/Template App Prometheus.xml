@@ -36,7 +36,7 @@
                             <delay>30s</delay>
                             <history>1h</history>
                             <trends>0</trends>
-                            <description>{#DESCRIPTION}&#13;
+                            <description>{#DESCRIPTION}
 for {#KEY}</description>
                             <applications>
                                 <application>
@@ -49,7 +49,7 @@ for {#KEY}</description>
                                     <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#KEY}</name>
                                     <url>{#P8S_URL}</url>
                                     <priority>DISASTER</priority>
-                                    <description>{#DESCRIPTION}&#13;
+                                    <description>{#DESCRIPTION}
 for {#KEY}</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
@@ -70,7 +70,7 @@ for {#KEY}</description>
                             <delay>30s</delay>
                             <history>1h</history>
                             <trends>0</trends>
-                            <description>{#DESCRIPTION}&#13;
+                            <description>{#DESCRIPTION}
 for {#KEY}</description>
                             <applications>
                                 <application>
@@ -83,7 +83,7 @@ for {#KEY}</description>
                                     <name>P8S {#P8S_NAME} {#P8S_URL} {#NAME}: {#KEY}</name>
                                     <url>{#P8S_URL}</url>
                                     <priority>HIGH</priority>
-                                    <description>{#DESCRIPTION}&#13;
+                                    <description>{#DESCRIPTION}
 for {#KEY}</description>
                                 </trigger_prototype>
                             </trigger_prototypes>

@@ -196,7 +196,7 @@
                             <expression>{last()} &gt; {$PG.CHECKPOINTS_REQ.MAX.WARN}</expression>
                             <name>PostgreSQL: Required checkpoints occurs too frequently (over {$PG.CHECKPOINTS_REQ.MAX.WARN})</name>
                             <priority>AVERAGE</priority>
-                            <description>Checkpoints are points in the sequence of transactions at which it is guaranteed that the heap and index data files have been updated with all information written before that checkpoint. At checkpoint time, all dirty data pages are flushed to disk and a special checkpoint record is written to the log file.&#13;
+                            <description>Checkpoints are points in the sequence of transactions at which it is guaranteed that the heap and index data files have been updated with all information written before that checkpoint. At checkpoint time, all dirty data pages are flushed to disk and a special checkpoint record is written to the log file.
 https://www.postgresql.org/docs/current/wal-configuration.html</description>
                         </trigger>
                     </triggers>
@@ -465,7 +465,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <key>pgsql.connections.sum.prepared</key>
                     <delay>0</delay>
                     <history>7d</history>
-                    <description>Total number of prepared transactions&#13;
+                    <description>Total number of prepared transactions
 https://www.postgresql.org/docs/current/sql-prepare-transaction.html</description>
                     <applications>
                         <application>
@@ -540,7 +540,7 @@ https://www.postgresql.org/docs/current/sql-prepare-transaction.html</descriptio
                     <key>pgsql.connections.sum.waiting</key>
                     <delay>0</delay>
                     <history>7d</history>
-                    <description>Total number of waiting connections&#13;
+                    <description>Total number of waiting connections
 https://www.postgresql.org/docs/current/monitoring-stats.html#WAIT-EVENT-TABLE</description>
                     <applications>
                         <application>
@@ -563,7 +563,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#WAIT-EVENT-TABLE</
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <description>Collect all metrics from pg_stat_activity&#13;
+                    <description>Collect all metrics from pg_stat_activity
 https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ACTIVITY-VIEW</description>
                     <applications>
                         <application>
@@ -577,7 +577,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ACTIVITY-V
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <description>Collect all metrics from pg_stat_database per database&#13;
+                    <description>Collect all metrics from pg_stat_database per database
 https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-DATABASE-VIEW</description>
                     <applications>
                         <application>
@@ -591,7 +591,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-DATABASE-V
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <description>Collect all metrics from pg_locks per database&#13;
+                    <description>Collect all metrics from pg_locks per database
 https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</description>
                     <applications>
                         <application>
@@ -1071,7 +1071,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                                     <expression>{min(5m)} &gt; {$PG.CONFLICTS.MAX.WARN:&quot;{#DBNAME}&quot;}</expression>
                                     <name>Database {#DBNAME}: Too many recovery conflicts (over {$PG.CONFLICTS.MAX.WARN:&quot;{#DBNAME}&quot;} in 5m)</name>
                                     <priority>AVERAGE</priority>
-                                    <description>The primary and standby servers are in many ways loosely connected. Actions on the primary will have an effect on the standby. As a result, there is potential for negative interactions or conflicts between them.&#13;
+                                    <description>The primary and standby servers are in many ways loosely connected. Actions on the primary will have an effect on the standby. As a result, there is potential for negative interactions or conflicts between them.
 https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
@@ -1360,7 +1360,7 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <description>reventing Transaction ID Wraparound Failures&#13;
+                            <description>reventing Transaction ID Wraparound Failures
 https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</description>
                             <application_prototypes>
                                 <application_prototype>
@@ -1385,7 +1385,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <description>Preventing Transaction ID Wraparound Failures&#13;
+                            <description>Preventing Transaction ID Wraparound Failures
 https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</description>
                             <application_prototypes>
                                 <application_prototype>
@@ -1406,7 +1406,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <expression>{last()}&lt;{$PG.FROZENXID_PCT_STOP.MIN.HIGH:&quot;{#DBNAME}&quot;}</expression>
                                     <name>Database {#DBNAME}: VACUUM FREEZE is required to prevent wraparound (frozen XID less then {$PG.FROZENXID_PCT_STOP.MIN.HIGH:&quot;{#DBNAME}&quot;} %)</name>
                                     <priority>AVERAGE</priority>
-                                    <description>Preventing Transaction ID Wraparound Failures&#13;
+                                    <description>Preventing Transaction ID Wraparound Failures
 https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAROUND</description>
                                 </trigger_prototype>
                             </trigger_prototypes>

@@ -11,12 +11,12 @@
         <template>
             <template>Template DB Redis</template>
             <name>Template App Redis (agent2)</name>
-            <description>From: https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/redis/template_db_redis.xml&#13;
-&#13;
-Get Redis metrics from plugin for the New Zabbix Agent (zabbix-agent2).&#13;
-&#13;
-You can discuss this template or leave feedback on our forum https://www.zabbix.com/forum/zabbix-suggestions-and-feedback/389050-discussion-thread-for-official-zabbix-template-redis&#13;
-&#13;
+            <description>From: https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/redis/template_db_redis.xml
+
+Get Redis metrics from plugin for the New Zabbix Agent (zabbix-agent2).
+
+You can discuss this template or leave feedback on our forum https://www.zabbix.com/forum/zabbix-suggestions-and-feedback/389050-discussion-thread-for-official-zabbix-template-redis
+
 Template tooling version used: 0.33</description>
             <groups>
                 <group>
@@ -153,7 +153,7 @@ return clients.client_recent_max_output_buffer || clients.client_longest_output_
                     <key>redis.config.maxclients</key>
                     <delay>0</delay>
                     <history>7d</history>
-                    <description>Max number of connected clients at the same time.&#13;
+                    <description>Max number of connected clients at the same time.
 Once the limit is reached Redis will close all the new connections sending an error &quot;max number of clients reached&quot;.</description>
                     <applications>
                         <application>
@@ -332,12 +332,12 @@ Once the limit is reached Redis will close all the new connections sending an er
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
-                    <description>This ratio is an indication of memory mapping efficiency:&#13;
-  — Value over 1.0 indicate that memory fragmentation is very likely. Consider restarting the Redis server so the operating system can recover fragmented memory, especially with a ratio over 1.5.&#13;
-  — Value under 1.0 indicate that Redis likely has insufficient memory available. Consider optimizing memory usage or adding more RAM.&#13;
-&#13;
-Note: If your peak memory usage is much higher than your current memory usage, the memory fragmentation ratio may be unreliable.&#13;
-&#13;
+                    <description>This ratio is an indication of memory mapping efficiency:
+  — Value over 1.0 indicate that memory fragmentation is very likely. Consider restarting the Redis server so the operating system can recover fragmented memory, especially with a ratio over 1.5.
+  — Value under 1.0 indicate that Redis likely has insufficient memory available. Consider optimizing memory usage or adding more RAM.
+
+Note: If your peak memory usage is much higher than your current memory usage, the memory fragmentation ratio may be unreliable.
+
 https://redis.io/topics/memory-optimization</description>
                     <applications>
                         <application>
@@ -358,12 +358,12 @@ https://redis.io/topics/memory-optimization</description>
                             <expression>{min(15m)}&gt;{$REDIS.MEM.FRAG_RATIO.MAX.WARN}</expression>
                             <name>Redis: Memory fragmentation ratio is too high (over {$REDIS.MEM.FRAG_RATIO.MAX.WARN} in 15m)</name>
                             <priority>WARNING</priority>
-                            <description>This ratio is an indication of memory mapping efficiency:&#13;
-  — Value over 1.0 indicate that memory fragmentation is very likely. Consider restarting the Redis server so the operating system can recover fragmented memory, especially with a ratio over 1.5.&#13;
-  — Value under 1.0 indicate that Redis likely has insufficient memory available. Consider optimizing memory usage or adding more RAM.&#13;
-&#13;
-Note: If your peak memory usage is much higher than your current memory usage, the memory fragmentation ratio may be unreliable.&#13;
-&#13;
+                            <description>This ratio is an indication of memory mapping efficiency:
+  — Value over 1.0 indicate that memory fragmentation is very likely. Consider restarting the Redis server so the operating system can recover fragmented memory, especially with a ratio over 1.5.
+  — Value under 1.0 indicate that Redis likely has insufficient memory available. Consider optimizing memory usage or adding more RAM.
+
+Note: If your peak memory usage is much higher than your current memory usage, the memory fragmentation ratio may be unreliable.
+
 https://redis.io/topics/memory-optimization</description>
                         </trigger>
                     </triggers>
@@ -1505,8 +1505,8 @@ https://redis.io/topics/memory-optimization</description>
                             <expression>{last()}&gt;0</expression>
                             <name>Redis: Connections are rejected</name>
                             <priority>HIGH</priority>
-                            <description>The number of connections has reached the value of &quot;maxclients&quot;.&#13;
-&#13;
+                            <description>The number of connections has reached the value of &quot;maxclients&quot;.
+
 https://redis.io/topics/clients</description>
                         </trigger>
                     </triggers>
@@ -3659,8 +3659,8 @@ return JSON.stringify(Object.keys(repl)
             <expression>{Template DB Redis:redis.clients.connected.min(5m)}/{Template DB Redis:redis.config.maxclients.last()}*100&gt;{$REDIS.CLIENTS.PRC.MAX.WARN}</expression>
             <name>Redis: Total number of connected clients is too high (over {$REDIS.CLIENTS.PRC.MAX.WARN}% in 5m)</name>
             <priority>WARNING</priority>
-            <description>When the number of clients reaches the value of the &quot;maxclients&quot; parameter, new connections will be rejected.&#13;
-&#13;
+            <description>When the number of clients reaches the value of the &quot;maxclients&quot; parameter, new connections will be rejected.
+
 https://redis.io/topics/clients#maximum-number-of-clients</description>
         </trigger>
     </triggers>

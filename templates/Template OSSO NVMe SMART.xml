@@ -180,13 +180,13 @@
                             <request_method>POST</request_method>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0 and&#13;
+                                    <expression>{last()}&gt;0 and
 {last()}&lt;1305670057984</expression>
                                     <name>NVMe: E2E error detection {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
-                                    <description>Typical values of e2e error correction on Micron drives is:&#13;
-0x13C01330390&#13;
-0x13B013304B8&#13;
+                                    <description>Typical values of e2e error correction on Micron drives is:
+0x13C01330390
+0x13B013304B8
 That is _not_ the e2e error correction count. Ignore it if it's that high.</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
@@ -281,7 +281,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                                     <expression>{last()}&gt;{$NVME_SEEN_ERR_LOG_ENTRIES}</expression>
                                     <name>NVMe: Errorlog entry count  {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
-                                    <description>Errorlog may keep increasing. You can use the NVME_SEEN_ERR_LOG_ENTRIES macro to mark items as &quot;read&quot;.&#13;
+                                    <description>Errorlog may keep increasing. You can use the NVME_SEEN_ERR_LOG_ENTRIES macro to mark items as &quot;read&quot;.
 Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                                     <manual_close>YES</manual_close>
                                 </trigger_prototype>
@@ -351,8 +351,8 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                             <delay>5m</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <description>Program Fail Count = The number of times when write to a flash memory failed.&#13;
-If the block isn't programming, the block is read, erased, then the program attempted again. A few cycles of this and the block is retired.&#13;
+                            <description>Program Fail Count = The number of times when write to a flash memory failed.
+If the block isn't programming, the block is read, erased, then the program attempted again. A few cycles of this and the block is retired.
 HOWEVER this is not an indication of immediate or imminent failure.</description>
                             <applications>
                                 <application>
@@ -446,7 +446,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO NVMe SMART:nvme.device.exists.last()}&lt;&gt;0 and&#13;
+            <expression>{Template OSSO NVMe SMART:nvme.device.exists.last()}&lt;&gt;0 and
 {Template OSSO NVMe SMART:vfs.file.exists[/usr/sbin/nvme].last()}=0</expression>
             <name>NVMe: Found nvme-device but no nvme-cli on {HOST.NAME}</name>
             <priority>HIGH</priority>

@@ -327,9 +327,9 @@
                             <request_method>POST</request_method>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>({TRIGGER.VALUE}=0 and&#13;
- {diff(0)}&lt;&gt;0) or&#13;
-({TRIGGER.VALUE}=1 and&#13;
+                                    <expression>({TRIGGER.VALUE}=0 and
+ {diff(0)}&lt;&gt;0) or
+({TRIGGER.VALUE}=1 and
  {last(0)}=0)</expression>
                                     <name>Mount {#FSNAME} changed rw state on {HOST.NAME}!</name>
                                     <priority>DISASTER</priority>

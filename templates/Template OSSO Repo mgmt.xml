@@ -42,9 +42,9 @@
                             </applications>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{min(5h)}&lt;&gt;0 and&#13;
-{time()}&gt;100000 and&#13;
-{time()}&lt;160000 and&#13;
+                                    <expression>{min(5h)}&lt;&gt;0 and
+{time()}&gt;100000 and
+{time()}&lt;160000 and
 {dayofweek()}&lt;=5</expression>
                                     <name>Uncommited stuff in {#REPOPATH} on {HOST.NAME}</name>
                                     <priority>DISASTER</priority>

@@ -65,7 +65,7 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>{strlen()}&lt;&gt;0 and &#13;
+                            <expression>{strlen()}&lt;&gt;0 and
 {str(Primary)}=0</expression>
                             <name>Cluster status of node {HOST.NAME} not Primary</name>
                             <priority>AVERAGE</priority>
@@ -241,15 +241,15 @@
                             </dependencies>
                         </trigger>
                         <trigger>
-                            <expression>{last(#1)}&lt;&gt;4 and&#13;
-{last(#2)}&lt;&gt;4 and&#13;
-{last(#3)}&lt;&gt;4 and&#13;
-{last(#4)}&lt;&gt;4 and&#13;
-{last(#5)}&lt;&gt;4 and&#13;
-{last(#6)}&lt;&gt;4 and&#13;
-{last(#7)}&lt;&gt;4 and&#13;
-{last(#8)}&lt;&gt;4 and&#13;
-{last(#9)}&lt;&gt;4 and&#13;
+                            <expression>{last(#1)}&lt;&gt;4 and
+{last(#2)}&lt;&gt;4 and
+{last(#3)}&lt;&gt;4 and
+{last(#4)}&lt;&gt;4 and
+{last(#5)}&lt;&gt;4 and
+{last(#6)}&lt;&gt;4 and
+{last(#7)}&lt;&gt;4 and
+{last(#8)}&lt;&gt;4 and
+{last(#9)}&lt;&gt;4 and
 {last(#10)}&lt;&gt;4</expression>
                             <name>Cluster node {HOST.NAME} is not synced with Galera cluster - 5 minutes</name>
                             <priority>DISASTER</priority>
@@ -278,7 +278,7 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>{strlen()}&lt;&gt;0 and&#13;
+                            <expression>{strlen()}&lt;&gt;0 and
 {str(ON)}=0</expression>
                             <name>{HOST.NAME} no longer accepts SQL load</name>
                             <priority>WARNING</priority>
@@ -479,11 +479,11 @@
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_local_state]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <description>This variable shows internal Galera state number. Possible values are:&#13;
-1 - Joining (requesting/receiving State Transfer) - node is joining the cluster&#13;
-2 - Donor/Desynced - node is the donor to the node joining the cluster&#13;
-3 - Joined - node has joined the cluster&#13;
-4 - Synced - node is synced with the cluster&#13;
+                            <description>This variable shows internal Galera state number. Possible values are:
+1 - Joining (requesting/receiving State Transfer) - node is joining the cluster
+2 - Donor/Desynced - node is the donor to the node joining the cluster
+3 - Joined - node has joined the cluster
+4 - Synced - node is synced with the cluster
 (or we could take wsrep_local_state_comment)</description>
                             <application_prototypes>
                                 <application_prototype>

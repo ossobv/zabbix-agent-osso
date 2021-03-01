@@ -68,11 +68,11 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>({last()}&lt;30 or&#13;
+                            <expression>({last()}&lt;30 or
  {last()}&gt;850)</expression>
                             <name>ZFS arc max {ITEM.VALUE} not between 30 %o and 850 %o on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
-                            <description>Herman says (2017-05-03): &quot;sp servers hebben vaak tot 80% ofzo aan ARC.&#13;
+                            <description>Herman says (2017-05-03): &quot;sp servers hebben vaak tot 80% ofzo aan ARC.
 pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</description>
                         </trigger>
                     </triggers>
@@ -324,9 +324,9 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                             <expression>{last()}=1</expression>
                             <name>ZFS pool changed on {HOST.NAME} (check zpool and /var/lib/zabbix/scripts/zfs.status.changed please)</name>
                             <priority>HIGH</priority>
-                            <description>You must manually close this when you've confirmed that the zpool is awesome.&#13;
-Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on the host.&#13;
-&#13;
+                            <description>You must manually close this when you've confirmed that the zpool is awesome.
+Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on the host.
+
 (We wanted to use zabbix_sender, but that causes timeout/unreliability issues when the Server config also contains unresponsive IPs.)</description>
                         </trigger>
                     </triggers>

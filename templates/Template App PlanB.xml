@@ -241,8 +241,8 @@
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>((({Template App PlanB:planb.success-at[{#NAME}].now()} - {Template App PlanB:planb.success-at[{#NAME}].last()}) &gt; (30*3600)) or&#13;
-(({Template App PlanB:planb.success-at[{#NAME}].last()} &lt; {Template App PlanB:planb.failure-at[{#NAME}].last()}))) and&#13;
+                            <expression>((({Template App PlanB:planb.success-at[{#NAME}].now()} - {Template App PlanB:planb.success-at[{#NAME}].last()}) &gt; (30*3600)) or
+(({Template App PlanB:planb.success-at[{#NAME}].last()} &lt; {Template App PlanB:planb.failure-at[{#NAME}].last()}))) and
 {Template App PlanB:planb.failure-at[{#NAME}].time()}&gt;100000 and {Template App PlanB:planb.failure-at[{#NAME}].time()}&lt;220000</expression>
                             <name>Backup of {#NAME} on {#PLANB} failed</name>
                             <opdata>ok: {ITEM.LASTVALUE1}, fail: {ITEM.LASTVALUE4}</opdata>

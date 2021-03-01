@@ -51,21 +51,21 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_SEC_UPDATES}&lt;&gt;1 and&#13;
-{last()}&gt;0 and&#13;
-{min(61d)}&gt;0 and&#13;
+                            <expression>{$DISABLE_SEC_UPDATES}&lt;&gt;1 and
+{last()}&gt;0 and
+{min(61d)}&gt;0 and
 {nodata(8h)}=0</expression>
                             <name>Security update(s) available on {HOST.NAME} for 61+d</name>
                             <opdata>currently {ITEM.LASTVALUE2}</opdata>
-                            <description>We added the nodata-check so we don't get these next to the &quot;machine is unreachable&quot; messages.&#13;
-&#13;
-Unfortunately, ITEM.VALUE2 is not &quot;dpkg.updates[security].min(61d)&quot; but the &quot;value that dpkg.updates[security] had when the trigger got raised.&#13;
-&#13;
-And ITEM.LASTVALUE2 is the &quot;current&quot; value of &quot;dpkg.updates[security]&quot;.&#13;
-&#13;
-Getting the value of dpkg.updates[security].min(61d) into the trigger-name seems impossible.&#13;
-&#13;
-You *can* do the following, but not in the trigger-name, only in action-messages:&#13;
+                            <description>We added the nodata-check so we don't get these next to the &quot;machine is unreachable&quot; messages.
+
+Unfortunately, ITEM.VALUE2 is not &quot;dpkg.updates[security].min(61d)&quot; but the &quot;value that dpkg.updates[security] had when the trigger got raised.
+
+And ITEM.LASTVALUE2 is the &quot;current&quot; value of &quot;dpkg.updates[security]&quot;.
+
+Getting the value of dpkg.updates[security].min(61d) into the trigger-name seems impossible.
+
+You *can* do the following, but not in the trigger-name, only in action-messages:
   {{HOST.HOST}:{ITEM.KEY2}.min(61d)}</description>
                         </trigger>
                     </triggers>

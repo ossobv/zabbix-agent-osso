@@ -307,8 +307,8 @@
                             <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {strlen()}&gt;0</expression>
                             <name>Failed systemd daemons on {HOST.NAME}: {ITEM.VALUE}</name>
                             <priority>HIGH</priority>
-                            <description>Cron jobs email you their errors and output, but systemd timers quietly swallow all errors and output into the systemd journal.&#13;
-&#13;
+                            <description>Cron jobs email you their errors and output, but systemd timers quietly swallow all errors and output into the systemd journal.
+
 Do a HIGH error in Zabbix instead if we have failed services.</description>
                         </trigger>
                     </triggers>
@@ -391,22 +391,22 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
     </templates>
     <triggers>
         <trigger>
-            <expression>{$DISABLE_LOCALMAIL}&lt;&gt;1 and {Template OSSO Daemons:daemon.mail.localsize.last()}&gt;0 and&#13;
+            <expression>{$DISABLE_LOCALMAIL}&lt;&gt;1 and {Template OSSO Daemons:daemon.mail.localsize.last()}&gt;0 and
 {Template OSSO Daemons:daemon.mail.localdate.last()}&gt;0</expression>
             <name>Local mail on {HOST.NAME} since {ITEM.VALUE2}</name>
             <priority>INFO</priority>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.max_files.promille.last(0)}&gt;600 and&#13;
- {Template OSSO Daemons:daemon.max_files.process.str(&quot;&quot;)}=1 and&#13;
+            <expression>({Template OSSO Daemons:daemon.max_files.promille.last(0)}&gt;600 and
+ {Template OSSO Daemons:daemon.max_files.process.str(&quot;&quot;)}=1 and
  {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
             <opdata>Latest: {ITEM.LASTVALUE1}%o</opdata>
             <priority>WARNING</priority>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.max_files.promille.last(0)}&gt;800 and&#13;
- {Template OSSO Daemons:daemon.max_files.process.str(&quot;&quot;)}=1 and&#13;
+            <expression>({Template OSSO Daemons:daemon.max_files.promille.last(0)}&gt;800 and
+ {Template OSSO Daemons:daemon.max_files.process.str(&quot;&quot;)}=1 and
  {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
             <opdata>Now: {ITEM.LASTVALUE1}%o</opdata>

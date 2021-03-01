@@ -458,8 +458,8 @@
                     <key>system.localtime</key>
                     <history>1w</history>
                     <units>unixtime</units>
-                    <description>Passive, not active. Because:&#13;
-&quot;Trigger function fuzzytime() when used with system.localtime as active check became useless after -ZBX-12957-. The reason being it would always return 0.&quot;&#13;
+                    <description>Passive, not active. Because:
+&quot;Trigger function fuzzytime() when used with system.localtime as active check became useless after -ZBX-12957-. The reason being it would always return 0.&quot;
 ZBX-15624 + ZBX-12957</description>
                     <applications>
                         <application>
@@ -680,7 +680,7 @@ ZBX-15624 + ZBX-12957</description>
                     </applications>
                     <triggers>
                         <trigger>
-                            <expression>{$HAS_TEMPLATE_ZFS}=0 and&#13;
+                            <expression>{$HAS_TEMPLATE_ZFS}=0 and
 {last()}=1</expression>
                             <name>ZFS filesystem exists on {HOST.NAME}, but no ZFS zabbix template</name>
                             <priority>HIGH</priority>
@@ -792,7 +792,7 @@ ZBX-15624 + ZBX-12957</description>
                             </preprocessing>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0.1 or&#13;
+                                    <expression>{last()}&gt;0.1 or
 {min(5m)}&gt;0.0</expression>
                                     <name>Incoming network errors/s on {HOST.NAME}: {#IFNAME}</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
