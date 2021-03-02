@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-04-07T08:44:42Z</date>
+    <version>5.2</version>
+    <date>2021-03-02T17:12:49Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -29,7 +29,7 @@
                 <item>
                     <name>Bgwriter: Buffers allocated per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.buffers_alloc.rate</key>
+                    <key>pgsql2.bgwriter.buffers_alloc.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -43,21 +43,25 @@
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.buffers_alloc</params>
+                            <parameters>
+                                <parameter>$.buffers_alloc</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Buffers written directly by a backend per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.buffers_backend.rate</key>
+                    <key>pgsql2.bgwriter.buffers_backend.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -71,21 +75,25 @@
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.buffers_backend</params>
+                            <parameters>
+                                <parameter>$.buffers_backend</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Buffers backend fsync per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.buffers_backend_fsync.rate</key>
+                    <key>pgsql2.bgwriter.buffers_backend_fsync.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -98,21 +106,25 @@
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.buffers_backend_fsync</params>
+                            <parameters>
+                                <parameter>$.buffers_backend_fsync</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Buffers written during checkpoints per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.buffers_checkpoint.rate</key>
+                    <key>pgsql2.bgwriter.buffers_checkpoint.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -126,21 +138,25 @@
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.buffers_checkpoint</params>
+                            <parameters>
+                                <parameter>$.buffers_checkpoint</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Buffers written by the background writer per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.buffers_clean.rate</key>
+                    <key>pgsql2.bgwriter.buffers_clean.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -154,21 +170,25 @@
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.buffers_clean</params>
+                            <parameters>
+                                <parameter>$.buffers_clean</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Requested checkpoints per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.checkpoints_req.rate</key>
+                    <key>pgsql2.bgwriter.checkpoints_req.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -181,20 +201,24 @@
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.checkpoints_req</params>
+                            <parameters>
+                                <parameter>$.checkpoints_req</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                     <triggers>
                         <trigger>
                             <expression>{last()} &gt; {$PG.CHECKPOINTS_REQ.MAX.WARN}</expression>
-                            <name>PostgreSQL: Required checkpoints occurs too frequently (over {$PG.CHECKPOINTS_REQ.MAX.WARN})</name>
+                            <name>PostgreSQL: Required checkpoints occurs too frequently (over {$PG.CHECKPOINTS_REQ.MAX.WARN})  on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                             <description>Checkpoints are points in the sequence of transactions at which it is guaranteed that the heap and index data files have been updated with all information written before that checkpoint. At checkpoint time, all dirty data pages are flushed to disk and a special checkpoint record is written to the log file.
 https://www.postgresql.org/docs/current/wal-configuration.html</description>
@@ -204,7 +228,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                 <item>
                     <name>Bgwriter: Scheduled checkpoints per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.checkpoints_timed.rate</key>
+                    <key>pgsql2.bgwriter.checkpoints_timed.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -217,21 +241,25 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.checkpoints_timed</params>
+                            <parameters>
+                                <parameter>$.checkpoints_timed</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Checkpoint sync time</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.checkpoint_sync_time</key>
+                    <key>pgsql2.bgwriter.checkpoint_sync_time</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -245,25 +273,31 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.checkpoint_write_time</params>
+                            <parameters>
+                                <parameter>$.checkpoint_write_time</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>MULTIPLIER</type>
-                            <params>0.001</params>
+                            <parameters>
+                                <parameter>0.001</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Checkpoint write time</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.checkpoint_write_time</key>
+                    <key>pgsql2.bgwriter.checkpoint_write_time</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -277,25 +311,31 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.checkpoint_write_time</params>
+                            <parameters>
+                                <parameter>$.checkpoint_write_time</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>MULTIPLIER</type>
-                            <params>0.001</params>
+                            <parameters>
+                                <parameter>0.001</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Bgwriter: Max written per second</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.bgwriter.maxwritten_clean.rate</key>
+                    <key>pgsql2.bgwriter.maxwritten_clean.rate</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -308,20 +348,24 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.maxwritten_clean</params>
+                            <parameters>
+                                <parameter>$.maxwritten_clean</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>PostgreSQL: Get bgwriter</name>
-                    <key>pgsql.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -334,13 +378,13 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <triggers>
                         <trigger>
                             <expression>{nodata(30m)} = 1</expression>
-                            <name>PostgreSQL: Failed to get items (no data for 30m)</name>
-                            <priority>WARNING</priority>
+                            <name>PostgreSQL: Failed to get items (no data for 30m) on {HOST.NAME}</name>
+                            <priority>AVERAGE</priority>
                             <description>Zabbix has not received data for items for the last 30 minutes</description>
                             <dependencies>
                                 <dependency>
-                                    <name>PostgreSQL: Service is down</name>
-                                    <expression>{Template DB PostgreSQL:pgsql.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
+                                    <name>PostgreSQL: Service is down on {HOST.NAME}</name>
+                                    <expression>{Template DB PostgreSQL:pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
                                 </dependency>
                             </dependencies>
                         </trigger>
@@ -348,7 +392,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                 </item>
                 <item>
                     <name>Status: Cache hit ratio %</name>
-                    <key>pgsql.cache.hit[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.cache.hit[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
@@ -361,14 +405,14 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <triggers>
                         <trigger>
                             <expression>{max(5m)} &lt; {$PG.CACHE_HITRATIO.MIN.WARN}</expression>
-                            <name>PostgreSQL: Cache hit ratio too low (under {$PG.CACHE_HITRATIO.MIN.WARN} in 5m)</name>
+                            <name>PostgreSQL: Cache hit ratio too low (under {$PG.CACHE_HITRATIO.MIN.WARN} in 5m) on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
                     <name>Status: Config hash</name>
-                    <key>pgsql.config.hash[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.config.hash[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>15m</delay>
                     <history>7d</history>
                     <trends>0</trends>
@@ -382,13 +426,15 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                            <params>1h</params>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <triggers>
                         <trigger>
                             <expression>{diff()}=1 and {strlen()}&gt;0</expression>
-                            <name>PostgreSQL: Configuration has changed</name>
+                            <name>PostgreSQL: Configuration has changed on {HOST.NAME}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
@@ -396,7 +442,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                 <item>
                     <name>Connections sum: Active</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.active</key>
+                    <key>pgsql2.connections.sum.active</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Total number of connections executing a query</description>
@@ -408,17 +454,19 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.active</params>
+                            <parameters>
+                                <parameter>$.active</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Connections sum: Idle</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.idle</key>
+                    <key>pgsql2.connections.sum.idle</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Total number of connections waiting for a new client command</description>
@@ -430,17 +478,19 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.idle</params>
+                            <parameters>
+                                <parameter>$.idle</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Connections sum: Idle in transaction</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.idle_in_transaction</key>
+                    <key>pgsql2.connections.sum.idle_in_transaction</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Total number of connections in a transaction state, but not executing a query</description>
@@ -452,17 +502,19 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.idle_in_transaction</params>
+                            <parameters>
+                                <parameter>$.idle_in_transaction</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Connections sum: Prepared</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.prepared</key>
+                    <key>pgsql2.connections.sum.prepared</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Total number of prepared transactions
@@ -475,17 +527,19 @@ https://www.postgresql.org/docs/current/sql-prepare-transaction.html</descriptio
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.prepared</params>
+                            <parameters>
+                                <parameter>$.prepared</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Connections sum: Total</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.total</key>
+                    <key>pgsql2.connections.sum.total</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Total number of connections</description>
@@ -497,17 +551,19 @@ https://www.postgresql.org/docs/current/sql-prepare-transaction.html</descriptio
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.total</params>
+                            <parameters>
+                                <parameter>$.total</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Connections sum: Total %</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.total_pct</key>
+                    <key>pgsql2.connections.sum.total_pct</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <units>%</units>
@@ -520,16 +576,18 @@ https://www.postgresql.org/docs/current/sql-prepare-transaction.html</descriptio
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.total_pct</params>
+                            <parameters>
+                                <parameter>$.total_pct</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                     <triggers>
                         <trigger>
                             <expression>{min(5m)} &gt; {$PG.CONN_TOTAL_PCT.MAX.WARN}</expression>
-                            <name>PostgreSQL: Total number of connections is too high (over {$PG.CONN_TOTAL_PCT.MAX.WARN} in 5m)</name>
+                            <name>PostgreSQL: Total number of connections is too high (over {$PG.CONN_TOTAL_PCT.MAX.WARN} in 5m) on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                         </trigger>
                     </triggers>
@@ -537,7 +595,7 @@ https://www.postgresql.org/docs/current/sql-prepare-transaction.html</descriptio
                 <item>
                     <name>Connections sum: Waiting</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.connections.sum.waiting</key>
+                    <key>pgsql2.connections.sum.waiting</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Total number of waiting connections
@@ -550,16 +608,18 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#WAIT-EVENT-TABLE</
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.waiting</params>
+                            <parameters>
+                                <parameter>$.waiting</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>PostgreSQL: Get connections sum</name>
-                    <key>pgsql.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -573,7 +633,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ACTIVITY-V
                 </item>
                 <item>
                     <name>PostgreSQL: Get dbstat</name>
-                    <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -587,7 +647,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-DATABASE-V
                 </item>
                 <item>
                     <name>PostgreSQL: Get locks</name>
-                    <key>pgsql.locks[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.locks[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -601,7 +661,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Ping time</name>
-                    <key>pgsql.ping.time[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.ping.time[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>ms</units>
@@ -613,19 +673,21 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>REGEX</type>
-                            <params>Time:\s(\d+\.\d+)\sms
-\1</params>
+                            <parameters>
+                                <parameter>Time:\s(\d+\.\d+)\sms</parameter>
+                                <parameter>\1</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <triggers>
                         <trigger>
                             <expression>{min(5m)} &gt; {$PG.PING_TIME.MAX.WARN}</expression>
-                            <name>PostgreSQL: Response too long (over {$PG.PING_TIME.MAX.WARN})</name>
+                            <name>PostgreSQL: Response too long (over {$PG.PING_TIME.MAX.WARN}) on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                             <dependencies>
                                 <dependency>
-                                    <name>PostgreSQL: Service is down</name>
-                                    <expression>{Template DB PostgreSQL:pgsql.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
+                                    <name>PostgreSQL: Service is down on {HOST.NAME}</name>
+                                    <expression>{Template DB PostgreSQL:pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
                                 </dependency>
                             </dependencies>
                         </trigger>
@@ -633,7 +695,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Ping</name>
-                    <key>pgsql.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <applications>
                         <application>
@@ -646,24 +708,28 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JAVASCRIPT</type>
-                            <params>return value.search(/accepting connections/)&gt;0 ? 1 : 0</params>
+                            <parameters>
+                                <parameter>return value.search(/accepting connections/)&gt;0 ? 1 : 0</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                            <params>1h</params>
+                            <parameters>
+                                <parameter>1h</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <triggers>
                         <trigger>
                             <expression>{last()} = 0</expression>
-                            <name>PostgreSQL: Service is down</name>
-                            <priority>HIGH</priority>
+                            <name>PostgreSQL: Service is down on {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
                     <name>PostgreSQL: Get queries</name>
-                    <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                    <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -676,7 +742,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: standby count</name>
-                    <key>pgsql.replication.count[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.replication.count[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <description>Number of standby servers</description>
                     <applications>
@@ -687,7 +753,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: lag in seconds</name>
-                    <key>pgsql.replication.lag.sec[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.replication.lag.sec[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <units>s</units>
                     <description>Replication lag with Master in seconds</description>
@@ -699,14 +765,14 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <triggers>
                         <trigger>
                             <expression>{min(5m)} &gt; {$PG.REPL_LAG.MAX.WARN}</expression>
-                            <name>PostgreSQL: Streaming lag with {#MASTER} is too high (over {$PG.REPL_LAG.MAX.WARN} in 5m)</name>
+                            <name>PostgreSQL: Streaming lag with {#MASTER} is too high (over {$PG.REPL_LAG.MAX.WARN} in 5m) on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
                     <name>Replication: recovery role</name>
-                    <key>pgsql.replication.recovery_role[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.replication.recovery_role[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <description>Replication role: 1 — recovery is still in progress (standby mode), 0 — master mode.</description>
                     <applications>
@@ -720,7 +786,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: status</name>
-                    <key>pgsql.replication.status[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.replication.status[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <description>Replication status: 0 — streaming is down, 1 — streaming is up, 2 — master mode</description>
                     <applications>
@@ -734,7 +800,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <triggers>
                         <trigger>
                             <expression>{max(5m)}=0</expression>
-                            <name>PostgreSQL: Replication is down</name>
+                            <name>PostgreSQL: Replication is down on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                         </trigger>
                     </triggers>
@@ -742,7 +808,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 <item>
                     <name>Transactions: Max active transaction time</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.transactions.active</key>
+                    <key>pgsql2.transactions.active</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -756,17 +822,19 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.active</params>
+                            <parameters>
+                                <parameter>$.active</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Transactions: Max idle transaction time</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.transactions.idle</key>
+                    <key>pgsql2.transactions.idle</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -780,17 +848,19 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.idle</params>
+                            <parameters>
+                                <parameter>$.idle</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Transactions: Max prepared transaction time</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.transactions.prepared</key>
+                    <key>pgsql2.transactions.prepared</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -804,17 +874,19 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.prepared</params>
+                            <parameters>
+                                <parameter>$.prepared</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>Transactions: Max waiting transaction time</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.transactions.waiting</key>
+                    <key>pgsql2.transactions.waiting</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -828,16 +900,18 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.waiting</params>
+                            <parameters>
+                                <parameter>$.waiting</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>PostgreSQL: Get transactions</name>
-                    <key>pgsql.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
@@ -850,7 +924,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Uptime</name>
-                    <key>pgsql.uptime[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.uptime[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <units>uptime</units>
                     <applications>
@@ -861,15 +935,15 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <triggers>
                         <trigger>
                             <expression>{last()} &lt; 10m</expression>
-                            <name>PostgreSQL: Service has been restarted (uptime &lt; 10m)</name>
-                            <priority>INFO</priority>
+                            <name>PostgreSQL: Service has been restarted (uptime &lt; 10m) on {HOST.NAME}</name>
+                            <priority>HIGH</priority>
                             <description>PostgreSQL uptime is less than 10 minutes</description>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
                     <name>Status: Version</name>
-                    <key>pgsql.version[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.version[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>15m</delay>
                     <history>7d</history>
                     <trends>0</trends>
@@ -883,21 +957,23 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                            <params>1d</params>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <triggers>
                         <trigger>
                             <expression>{diff()}=1 and {strlen()}&gt;0</expression>
-                            <name>PostgreSQL: Version has changed (new version value received: {ITEM.VALUE})</name>
-                            <priority>INFO</priority>
+                            <name>PostgreSQL: Version has changed (new version value received: {ITEM.VALUE}) on {HOST.NAME}</name>
+                            <priority>AVERAGE</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
                     <name>WAL: Segments count</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.wal.count</key>
+                    <key>pgsql2.wal.count</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <description>Number of WAL segments</description>
@@ -909,16 +985,18 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.count</params>
+                            <parameters>
+                                <parameter>$.count</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
                 <item>
                     <name>PostgreSQL: Get WAL</name>
-                    <key>pgsql.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>5m</delay>
                     <history>1h</history>
                     <trends>0</trends>
@@ -933,7 +1011,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 <item>
                     <name>WAL: Bytes written</name>
                     <type>DEPENDENT</type>
-                    <key>pgsql.wal.write</key>
+                    <key>pgsql2.wal.write</key>
                     <delay>0</delay>
                     <history>7d</history>
                     <units>B</units>
@@ -946,22 +1024,26 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.write</params>
+                            <parameters>
+                                <parameter>$.write</parameter>
+                            </parameters>
                         </step>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <master_item>
-                        <key>pgsql.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
                 </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
                     <name>Database discovery</name>
-                    <key>pgsql.discovery.db[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                    <key>pgsql2.discovery.db[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>1h</delay>
                     <filter>
                         <conditions>
@@ -975,7 +1057,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <item_prototypes>
                         <item_prototype>
                             <name>DB {#DBNAME}: Database size</name>
-                            <key>pgsql.db.size[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.db.size[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{#DBNAME}&quot;]</key>
                             <delay>15m</delay>
                             <history>7d</history>
                             <units>B</units>
@@ -989,7 +1071,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                         <item_prototype>
                             <name>DB {#DBNAME}: Blocks hit per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.blks_hit.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.blks_hit.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1002,21 +1084,25 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].blks_hit</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].blks_hit</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Disk blocks read per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.blks_read.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.blks_read.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1029,21 +1115,25 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].blks_read</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].blks_read</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Detected conflicts per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.conflicts.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.conflicts.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1056,15 +1146,19 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].conflicts</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].conflicts</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -1079,7 +1173,7 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                         <item_prototype>
                             <name>DB {#DBNAME}: Detected deadlocks per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.deadlocks.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.deadlocks.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1092,15 +1186,19 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].deadlocks</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].deadlocks</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -1113,7 +1211,7 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                         <item_prototype>
                             <name>DB {#DBNAME}: Temp_bytes written per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.temp_bytes.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.temp_bytes.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>B</units>
@@ -1126,21 +1224,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].temp_bytes</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].temp_bytes</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Temp_files created per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.temp_files.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.temp_files.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <description>Total number of temporary files created by queries in this database</description>
@@ -1152,21 +1254,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].temp_files</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].temp_files</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Tuples deleted per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.tup_deleted.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.tup_deleted.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1179,21 +1285,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tup_deleted</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tup_deleted</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Tuples fetched per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.tup_fetched.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.tup_fetched.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1206,21 +1316,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tup_fetched</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tup_fetched</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Tuples inserted per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.tup_inserted.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.tup_inserted.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1233,21 +1347,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tup_inserted</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tup_inserted</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Tuples returned per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.tup_returned.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.tup_returned.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1260,21 +1378,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tup_returned</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tup_returned</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Tuples updated per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.tup_updated.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.tup_updated.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1287,21 +1409,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tup_updated</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tup_updated</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Commits per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.xact_commit.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.xact_commit.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1314,21 +1440,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].xact_commit</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].xact_commit</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Rollbacks per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.dbstat.xact_rollback.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.dbstat.xact_rollback.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1341,21 +1471,25 @@ https://www.postgresql.org/docs/current/hot-standby.html#HOT-STANDBY-CONFLICT</d
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].xact_rollback</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].xact_rollback</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Frozen XID before avtovacuum %</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.frozenxid.prc_before_av[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.frozenxid.prc_before_av[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1370,17 +1504,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.prc_before_av</params>
+                                    <parameters>
+                                        <parameter>$.prc_before_av</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
+                                <key>pgsql2.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Frozen XID before stop %</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.frozenxid.prc_before_stop[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.frozenxid.prc_before_stop[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1395,11 +1531,13 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.prc_before_stop</params>
+                                    <parameters>
+                                        <parameter>$.prc_before_stop</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
+                                <key>pgsql2.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -1413,7 +1551,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Get frozen XID</name>
-                            <key>pgsql.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             <history>1h</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -1426,7 +1564,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                         <item_prototype>
                             <name>DB {#DBNAME}: Locks total</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.locks.total[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.locks.total[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <description>Total number of locks in the database</description>
@@ -1438,11 +1576,13 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].total</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].total</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.locks[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                                <key>pgsql2.locks[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -1455,7 +1595,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries slow maintenance count</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.mro.slow_count[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.mro.slow_count[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <description>Slow maintenance query count</description>
@@ -1467,17 +1607,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].mro_slow_count</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].mro_slow_count</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries max maintenance time</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.mro.time_max[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.mro.time_max[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>s</units>
@@ -1490,17 +1632,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].mro_time_max</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].mro_time_max</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries sum maintenance time</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.mro.time_sum[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.mro.time_sum[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>s</units>
@@ -1513,17 +1657,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].mro_time_sum</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].mro_time_sum</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries slow query count</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.query.slow_count[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.query.slow_count[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <description>Slow query count</description>
@@ -1535,11 +1681,13 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].query_slow_count</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].query_slow_count</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -1552,7 +1700,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries max query time</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.query.time_max[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.query.time_max[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>s</units>
@@ -1565,17 +1713,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].query_time_max</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].query_time_max</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries sum query time</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.query.time_sum[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.query.time_sum[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>s</units>
@@ -1588,17 +1738,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].query_time_sum</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].query_time_sum</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries slow transaction count</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.tx.slow_count[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.tx.slow_count[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <description>Slow transaction query count</description>
@@ -1610,17 +1762,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tx_slow_count</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tx_slow_count</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries max transaction time</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.tx.time_max[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.tx.time_max[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>s</units>
@@ -1633,17 +1787,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tx_time_max</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tx_time_max</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Queries sum transaction time</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.queries.tx.time_sum[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.queries.tx.time_sum[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <units>s</units>
@@ -1656,17 +1812,19 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$['{#DBNAME}'].tx_time_sum</params>
+                                    <parameters>
+                                        <parameter>$['{#DBNAME}'].tx_time_sum</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
+                                <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Index scans per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.scans.idx.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.scans.idx.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <description>Number of index scans in the database</description>
@@ -1678,21 +1836,25 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.idx</params>
+                                    <parameters>
+                                        <parameter>$.idx</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
+                                <key>pgsql2.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Sequential scans per second</name>
                             <type>DEPENDENT</type>
-                            <key>pgsql.scans.seq.rate[&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.scans.seq.rate[&quot;{#DBNAME}&quot;]</key>
                             <delay>0</delay>
                             <history>7d</history>
                             <value_type>FLOAT</value_type>
@@ -1705,20 +1867,24 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.seq</params>
+                                    <parameters>
+                                        <parameter>$.seq</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>pgsql.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
+                                <key>pgsql2.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Get scans</name>
-                            <key>pgsql.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
+                            <key>pgsql2.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             <history>1h</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -1739,7 +1905,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>66BB6A</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.blks_hit.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.blks_hit.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1747,7 +1913,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>42A5F5</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.blks_read.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.blks_read.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1760,7 +1926,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>66BB6A</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.db.size[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.db.size[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1774,7 +1940,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>1A7C11</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.xact_commit.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.xact_commit.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1782,7 +1948,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>F63100</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.conflicts.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.conflicts.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1790,7 +1956,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>2774A4</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.deadlocks.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.deadlocks.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1798,7 +1964,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>A54F10</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.xact_rollback.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.xact_rollback.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1811,7 +1977,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>EC407A</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.locks.total[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.locks.total[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1825,7 +1991,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.mro.time_max[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.mro.time_max[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1834,7 +2000,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.query.time_max[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.query.time_max[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1843,7 +2009,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.tx.time_max[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.tx.time_max[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1852,7 +2018,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>81C784</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.mro.time_sum[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.mro.time_sum[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1861,7 +2027,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>90CAF9</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.query.time_sum[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.query.time_sum[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1870,7 +2036,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>CE93D8</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.tx.time_sum[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.tx.time_sum[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1883,7 +2049,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>1A7C11</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.mro.slow_count[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.mro.slow_count[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1891,7 +2057,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>F63100</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.query.slow_count[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.query.slow_count[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1899,7 +2065,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>2774A4</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.queries.tx.slow_count[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.queries.tx.slow_count[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1912,7 +2078,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>66BB6A</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.temp_bytes.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.temp_bytes.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1921,7 +2087,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.temp_files.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.temp_files.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -1934,7 +2100,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>1A7C11</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.tup_deleted.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.tup_deleted.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1942,7 +2108,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>F63100</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.tup_fetched.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.tup_fetched.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1950,7 +2116,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>2774A4</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.tup_inserted.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.tup_inserted.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1958,7 +2124,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>A54F10</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.tup_returned.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.tup_returned.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                                 <graph_item>
@@ -1966,7 +2132,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>FC6EA3</color>
                                     <item>
                                         <host>Template DB PostgreSQL</host>
-                                        <key>pgsql.dbstat.tup_updated.rate[&quot;{#DBNAME}&quot;]</key>
+                                        <key>pgsql2.dbstat.tup_updated.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
                             </graph_items>
@@ -2060,374 +2226,318 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <value>zbx_monitor</value>
                 </macro>
             </macros>
-            <screens>
-                <screen>
+            <dashboards>
+                <dashboard>
                     <name>PostgreSQL databases</name>
-                    <hsize>2</hsize>
-                    <vsize>4</vsize>
-                    <screen_items>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Tuples</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>0</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Events</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>0</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Block hit/read</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Temp files</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Locks</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>2</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Database size</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>2</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Queries</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>3</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>20</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>DB {#DBNAME}: Slow queries</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>3</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                    </screen_items>
-                </screen>
-                <screen>
+                    <widgets>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Tuples</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <x>12</x>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Events</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>6</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Block hit/read</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <x>12</x>
+                            <y>6</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Temp files</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>12</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Locks</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <x>12</x>
+                            <y>12</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Database size</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <y>18</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Queries</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_PROTOTYPE</type>
+                            <x>12</x>
+                            <y>18</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>columns</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>GRAPH_PROTOTYPE</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>DB {#DBNAME}: Slow queries</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                    </widgets>
+                </dashboard>
+                <dashboard>
                     <name>PostgreSQL stat</name>
-                    <hsize>2</hsize>
-                    <vsize>4</vsize>
-                    <screen_items>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL connections</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>0</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL transactions</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>0</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL ping</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL uptime</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL replication lag</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>2</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL WAL</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>2</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL bgwriter</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>0</x>
-                            <y>3</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>PostgreSQL checkpoints</name>
-                                <host>Template DB PostgreSQL</host>
-                            </resource>
-                            <width>750</width>
-                            <height>200</height>
-                            <x>1</x>
-                            <y>3</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>0</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                    </screen_items>
-                </screen>
-            </screens>
+                    <widgets>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL connections</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL transactions</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <y>6</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL ping</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <y>6</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL uptime</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <y>12</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL replication lag</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <y>12</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL WAL</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <y>18</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL bgwriter</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <y>18</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>PostgreSQL checkpoints</name>
+                                        <host>Template DB PostgreSQL</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                    </widgets>
+                </dashboard>
+            </dashboards>
         </template>
     </templates>
     <graphs>
@@ -2440,7 +2550,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.buffers_alloc.rate</key>
+                        <key>pgsql2.bgwriter.buffers_alloc.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2449,7 +2559,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.buffers_clean.rate</key>
+                        <key>pgsql2.bgwriter.buffers_clean.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2458,7 +2568,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.buffers_backend.rate</key>
+                        <key>pgsql2.bgwriter.buffers_backend.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2467,7 +2577,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.buffers_checkpoint.rate</key>
+                        <key>pgsql2.bgwriter.buffers_checkpoint.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2475,7 +2585,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>FC6EA3</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.maxwritten_clean.rate</key>
+                        <key>pgsql2.bgwriter.maxwritten_clean.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2483,7 +2593,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>6C59DC</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.buffers_backend_fsync.rate</key>
+                        <key>pgsql2.bgwriter.buffers_backend_fsync.rate</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2496,7 +2606,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>1A7C11</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.checkpoints_timed.rate</key>
+                        <key>pgsql2.bgwriter.checkpoints_timed.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2504,7 +2614,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>F63100</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.checkpoints_req.rate</key>
+                        <key>pgsql2.bgwriter.checkpoints_req.rate</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2513,7 +2623,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.checkpoint_sync_time</key>
+                        <key>pgsql2.bgwriter.checkpoint_sync_time</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2522,7 +2632,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.bgwriter.checkpoint_write_time</key>
+                        <key>pgsql2.bgwriter.checkpoint_write_time</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2537,7 +2647,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.total</key>
+                        <key>pgsql2.connections.sum.total</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2545,7 +2655,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>6C59DC</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.total_pct</key>
+                        <key>pgsql2.connections.sum.total_pct</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2554,7 +2664,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.active</key>
+                        <key>pgsql2.connections.sum.active</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2563,7 +2673,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.idle</key>
+                        <key>pgsql2.connections.sum.idle</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2572,7 +2682,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.idle_in_transaction</key>
+                        <key>pgsql2.connections.sum.idle_in_transaction</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2581,7 +2691,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.prepared</key>
+                        <key>pgsql2.connections.sum.prepared</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2590,7 +2700,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.connections.sum.waiting</key>
+                        <key>pgsql2.connections.sum.waiting</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2604,7 +2714,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>A5D6A7</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2613,7 +2723,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.ping.time[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.ping.time[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2626,7 +2736,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>42A5F5</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.replication.lag.sec[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.replication.lag.sec[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2640,7 +2750,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.transactions.active</key>
+                        <key>pgsql2.transactions.active</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2649,7 +2759,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.transactions.idle</key>
+                        <key>pgsql2.transactions.idle</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2658,7 +2768,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.transactions.prepared</key>
+                        <key>pgsql2.transactions.prepared</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2667,7 +2777,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.transactions.waiting</key>
+                        <key>pgsql2.transactions.waiting</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2681,7 +2791,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>66BB6A</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.uptime[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.uptime[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2690,7 +2800,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.cache.hit[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
+                        <key>pgsql2.cache.hit[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2703,7 +2813,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>29B6F6</color>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.wal.write</key>
+                        <key>pgsql2.wal.write</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2712,7 +2822,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <yaxisside>RIGHT</yaxisside>
                     <item>
                         <host>Template DB PostgreSQL</host>
-                        <key>pgsql.wal.count</key>
+                        <key>pgsql2.wal.count</key>
                     </item>
                 </graph_item>
             </graph_items>
