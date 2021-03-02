@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-04-30T16:01:43Z</date>
+    <version>5.2</version>
+    <date>2021-03-02T14:19:48Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -21,81 +21,6 @@
                     <name>MySQL-Replication</name>
                 </application>
             </applications>
-            <items>
-                <item>
-                    <name>MySQL seconds behind master</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.seconds_behind_master</key>
-                    <delay>30s</delay>
-                    <history>30d</history>
-                    <units>seconds</units>
-                    <applications>
-                        <application>
-                            <name>MySQL-Replication</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{last(0)}&gt;600</expression>
-                            <name>MySQL reached the replication delay threshold on {HOST.NAME}</name>
-                            <priority>HIGH</priority>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>MySQL Slave IO Running</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.slave_io_running</key>
-                    <delay>30s</delay>
-                    <history>30d</history>
-                    <applications>
-                        <application>
-                            <name>MySQL-Replication</name>
-                        </application>
-                    </applications>
-                    <preprocessing>
-                        <step>
-                            <type>BOOL_TO_DECIMAL</type>
-                            <params/>
-                        </step>
-                    </preprocessing>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{max(3m)}=0</expression>
-                            <name>MySQL replication slave IO is not running on {HOST.NAME}</name>
-                            <priority>DISASTER</priority>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>MySQL Slave SQL Running</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.slave_sql_running</key>
-                    <delay>30s</delay>
-                    <history>30d</history>
-                    <applications>
-                        <application>
-                            <name>MySQL-Replication</name>
-                        </application>
-                    </applications>
-                    <preprocessing>
-                        <step>
-                            <type>BOOL_TO_DECIMAL</type>
-                            <params/>
-                        </step>
-                    </preprocessing>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{max(3m)}=0</expression>
-                            <name>MySQL replication slave SQL is not running on {HOST.NAME}</name>
-                            <priority>DISASTER</priority>
-                        </trigger>
-                    </triggers>
-                </item>
-            </items>
             <discovery_rules>
                 <discovery_rule>
                     <name>MySQL instance discovery</name>
@@ -204,20 +129,4 @@
             </discovery_rules>
         </template>
     </templates>
-    <graphs>
-        <graph>
-            <name>MySQL seconds behind master</name>
-            <type>STACKED</type>
-            <ymin_type_1>FIXED</ymin_type_1>
-            <graph_items>
-                <graph_item>
-                    <color>C80000</color>
-                    <item>
-                        <host>Template App MySQL-replication</host>
-                        <key>mysql.seconds_behind_master</key>
-                    </item>
-                </graph_item>
-            </graph_items>
-        </graph>
-    </graphs>
 </zabbix_export>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-05-12T10:09:27Z</date>
+    <version>5.2</version>
+    <date>2021-03-02T14:18:42Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -21,278 +21,6 @@
                     <name>Galera</name>
                 </application>
             </applications>
-            <items>
-                <item>
-                    <name>Check cluster size</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_cluster_size]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{last()}&lt;&gt;{$GALERA_NODECOUNT}</expression>
-                            <name>Cluster size is not {$GALERA_NODECOUNT} on {HOST.NAME}</name>
-                            <priority>DISASTER</priority>
-                            <description>Cluster size is not {$GALERA_NODECOUNT}. Either a node is missing from the cluster or a node has been added.</description>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>Status of cluster component</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_cluster_status]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <trends>0</trends>
-                    <value_type>CHAR</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{strlen()}&lt;&gt;0 and
-{str(Primary)}=0</expression>
-                            <name>Cluster status of node {HOST.NAME} not Primary</name>
-                            <priority>AVERAGE</priority>
-                            <description>Partition or possibly a split-brain occurred (if strlen()=0 then it probably has-v2-conf)</description>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>Connection with cluster</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_connected]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <trends>0</trends>
-                    <value_type>CHAR</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{strlen()}&lt;&gt;0 and {str(ON,#2)}=0</expression>
-                            <name>{HOST.NAME} is no longer connected to the cluster</name>
-                            <priority>HIGH</priority>
-                            <description>Node is not connected to the cluster (if strlen()=0 then it probably has-v2-conf). Check error logs</description>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>Amount of lag between node and cluster</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_flow_control_paused]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <value_type>FLOAT</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                </item>
-                <item>
-                    <name>Check cluster speed - data sent</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_flow_control_sent]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <value_type>FLOAT</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                </item>
-                <item>
-                    <name>Check cluster speed - data in receive queue</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_local_recv_queue]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <value_type>FLOAT</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{min(60)}&gt;0.1</expression>
-                            <name>{HOST.NAME} is busy, cluster data still in receive queue</name>
-                            <priority>WARNING</priority>
-                            <description>Occurs when there is a bottleneck on the node side.</description>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>Check node speed - data in send queue</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_local_send_queue_avg]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <value_type>FLOAT</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                </item>
-                <item>
-                    <name>Status of local cluster node</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_local_state]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <trends>0</trends>
-                    <value_type>CHAR</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <valuemap>
-                        <name>Galera wsrep_local_state</name>
-                    </valuemap>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{last()}=3</expression>
-                            <name>Cluster node {HOST.NAME} has joined but not synced with Galera cluster</name>
-                            <priority>HIGH</priority>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                        <trigger>
-                            <expression>{last()}=2</expression>
-                            <name>Cluster node {HOST.NAME} is Donor/Desynced in Galera cluster</name>
-                            <priority>HIGH</priority>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                        <trigger>
-                            <expression>{last()}=1</expression>
-                            <name>Cluster node {HOST.NAME} is joining Galera cluster</name>
-                            <priority>HIGH</priority>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                        <trigger>
-                            <expression>{last()}&lt;&gt;4</expression>
-                            <name>Cluster node {HOST.NAME} is not synced with Galera cluster</name>
-                            <priority>HIGH</priority>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                        <trigger>
-                            <expression>{last(#1)}&lt;&gt;4 and
-{last(#2)}&lt;&gt;4 and
-{last(#3)}&lt;&gt;4 and
-{last(#4)}&lt;&gt;4 and
-{last(#5)}&lt;&gt;4 and
-{last(#6)}&lt;&gt;4 and
-{last(#7)}&lt;&gt;4 and
-{last(#8)}&lt;&gt;4 and
-{last(#9)}&lt;&gt;4 and
-{last(#10)}&lt;&gt;4</expression>
-                            <name>Cluster node {HOST.NAME} is not synced with Galera cluster - 5 minutes</name>
-                            <priority>DISASTER</priority>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                    </triggers>
-                </item>
-                <item>
-                    <name>Server accepts SQL load</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>mysql.status_galera[wsrep_ready]</key>
-                    <delay>30s</delay>
-                    <history>1w</history>
-                    <trends>0</trends>
-                    <value_type>CHAR</value_type>
-                    <applications>
-                        <application>
-                            <name>Galera</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
-                    <triggers>
-                        <trigger>
-                            <expression>{strlen()}&lt;&gt;0 and
-{str(ON)}=0</expression>
-                            <name>{HOST.NAME} no longer accepts SQL load</name>
-                            <priority>WARNING</priority>
-                            <description>(if strlen()=0 then it probably has-v2-conf)</description>
-                            <dependencies>
-                                <dependency>
-                                    <name>MySQL is down on {HOST.NAME}</name>
-                                    <expression>{Template App MySQL:mysql.ping.last(0)}=0</expression>
-                                </dependency>
-                            </dependencies>
-                        </trigger>
-                    </triggers>
-                </item>
-            </items>
             <discovery_rules>
                 <discovery_rule>
                     <name>MySQL instance discovery</name>
@@ -359,8 +87,10 @@
                             <preprocessing>
                                 <step>
                                     <type>REGEX</type>
-                                    <params>^Primary$
-1</params>
+                                    <parameters>
+                                        <parameter>^Primary$</parameter>
+                                        <parameter>1</parameter>
+                                    </parameters>
                                     <error_handler>CUSTOM_VALUE</error_handler>
                                     <error_handler_params>0</error_handler_params>
                                 </step>
@@ -393,7 +123,9 @@
                             <preprocessing>
                                 <step>
                                     <type>BOOL_TO_DECIMAL</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <trigger_prototypes>
@@ -562,7 +294,9 @@
                             <preprocessing>
                                 <step>
                                     <type>BOOL_TO_DECIMAL</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <trigger_prototypes>
@@ -590,27 +324,4 @@
             </macros>
         </template>
     </templates>
-    <value_maps>
-        <value_map>
-            <name>Galera wsrep_local_state</name>
-            <mappings>
-                <mapping>
-                    <value>1</value>
-                    <newvalue>Joining</newvalue>
-                </mapping>
-                <mapping>
-                    <value>2</value>
-                    <newvalue>Donor/Desynced</newvalue>
-                </mapping>
-                <mapping>
-                    <value>3</value>
-                    <newvalue>Joined</newvalue>
-                </mapping>
-                <mapping>
-                    <value>4</value>
-                    <newvalue>Synced</newvalue>
-                </mapping>
-            </mappings>
-        </value_map>
-    </value_maps>
 </zabbix_export>
