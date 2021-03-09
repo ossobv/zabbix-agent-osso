@@ -265,6 +265,9 @@ cluster-pods)
     ;;
 cluster-pods-js)
     jsin=$(cat "$OUTDIR/$PREFIX$2.pods.json")
+    # Load vars anyway, to get optional DISABLE_* options.
+    cluster_conf=$CONFDIR/$PREFIX$2/vars
+    . "$cluster_conf" || true
     # - phase Pending may be waiting on ImagePullBackOff
     # - phase Running may be waiting on CrashLoopBackOff
     # Instead of looking for the phases, we'll look for
@@ -273,19 +276,24 @@ cluster-pods-js)
     # (Note that we'll also skip Pending without status.startTime,
     # like a PodScheduled conditions with no containerStatuses.)
     recently=$(date -d '-10 minutes' +%s)
-    waiting=$(printf '%s\n' "$jsin" | jq \
-      '[.items[] |
-        select((.status.startTime != null) and
-               ((.status.startTime | fromdateiso8601) < '$recently')) |
-        .status.containerStatuses[] | .state.waiting.reason |
-        select(. != null) | 1] | length')
-    test "$waiting" -gt 0 &&
-        waitingpods=$(printf '%s\n' "$jsin" | jq \
+    if test "${DISABLE_WAITINGPODS:-0}" = 0; then
+        waiting=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
             select((.status.startTime != null) and
-                   ((.status.startTime | fromdateiso8601) < '$recently') and (
+                   ((.status.startTime | fromdateiso8601) < '$recently')) |
+            .status.containerStatuses[] | .state.waiting.reason |
+            select(. != null) | 1] | length')
+        test "$waiting" -gt 0 &&
+            waitingpods=$(printf '%s\n' "$jsin" | jq \
+            '[.items[] |
+              select((.status.startTime != null) and
+                    ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] | select(.state.waiting != null))) |
-            (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+              (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+    else
+        waiting=0
+        waitingpods=''
+    fi
     # Pending, Running, Succeeded, Failed + Waiting10m, Total
     printf '%s\n' "$jsin" | jq '.items[] | .status.phase' |
         LC_ALL=C sort | uniq -c | awk -vW=$waiting -vWP="${waitingpods:-\"\"}" '
