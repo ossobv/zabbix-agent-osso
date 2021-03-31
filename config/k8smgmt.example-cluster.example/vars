@@ -1,2 +1,10 @@
 API_URL=https://k8sapi.example.com/api
 API_TOKEN=eyJ...
+
+# Optional: if you don't care about "waitingPods", that is pods that are
+# waiting to be started for a long while, you can set
+# DISABLE_WAITINGPODS=1. This will force the waitingPods value to 0, so
+# you will not get triggers for that event for this cluster.
+# Use this for clusters where the admins regularly spawn
+# CrashLoopBackOff pods and don't fix them in a timely manner.
+#DISABLE_WAITINGPODS=1  # pretends that waiting pod count is zero
