@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2021-01-11T15:35:44Z</date>
+    <version>5.2</version>
+    <date>2021-03-31T07:17:47Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -107,7 +107,9 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -142,7 +144,9 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -177,7 +181,9 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -197,7 +203,9 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -322,10 +330,10 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <triggers>
                         <trigger>
                             <expression>{last()}=1</expression>
-                            <name>ZFS pool changed on {HOST.NAME} (check zpool and /var/lib/zabbix/scripts/zfs.status.changed please)</name>
+                            <name>ZFS pool layout diff on {HOST.NAME} (check zpool and /var/lib/zabbix/scripts/zfs.status.saved please)</name>
                             <priority>HIGH</priority>
                             <description>You must manually close this when you've confirmed that the zpool is awesome.
-Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on the host.
+Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on the host.
 
 (We wanted to use zabbix_sender, but that causes timeout/unreliability issues when the Server config also contains unresponsive IPs.)</description>
                         </trigger>
@@ -347,13 +355,15 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
-                            <params>$.*</params>
+                            <parameters>
+                                <parameter>$.*</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <triggers>
                         <trigger>
                             <expression>{diff()}=1</expression>
-                            <name>ZFS pool change on {HOST.NAME} (disks out/in? please check even if OK'd)</name>
+                            <name>ZFS pool layout updated on {HOST.NAME} (disks out/in? please check even if OK'd)</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>WARNING</priority>
                             <manual_close>YES</manual_close>
@@ -558,11 +568,15 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.rops</params>
+                                    <parameters>
+                                        <parameter>$.rops</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
@@ -585,15 +599,21 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.rbytes</params>
+                                    <parameters>
+                                        <parameter>$.rbytes</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>MULTIPLIER</type>
-                                    <params>0.000244141</params>
+                                    <parameters>
+                                        <parameter>0.000244141</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
@@ -615,11 +635,15 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.wops</params>
+                                    <parameters>
+                                        <parameter>$.wops</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
@@ -642,15 +666,21 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
-                                    <params>$.wbytes</params>
+                                    <parameters>
+                                        <parameter>$.wbytes</parameter>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>MULTIPLIER</type>
-                                    <params>0.000244141</params>
+                                    <parameters>
+                                        <parameter>0.000244141</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
@@ -660,12 +690,12 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.changed on
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}*100/({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}+{Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},used].last()}))&lt;2</expression>
+                            <expression>({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}*100/({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}+{Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},used].last()}))&lt;12</expression>
                             <name>Zpool {#POOLNAME} on {HOST.NAME} has less than $2% space</name>
                             <priority>DISASTER</priority>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}*100/({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}+{Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},used].last()}))&lt;10</expression>
+                            <expression>({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}*100/({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}+{Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},used].last()}))&lt;20</expression>
                             <name>Zpool {#POOLNAME} on {HOST.NAME} has less than $2% space</name>
                             <priority>HIGH</priority>
                         </trigger_prototype>
