@@ -1,3 +1,17 @@
+zabbix-agent-osso (0.48) stable; urgency=low
+
+  * daemon: Add daemon.systemd.maxtasks
+  * k8mgmt: Add DISABLE_WAITINGPODS option to cluster vars
+  * k8smgmt: Document DISABLE_WAITINGPODS in the example vars
+  * k8smgmt: Fix Waiting10mPods for unstarted pending pods
+  * mysql: Remove "mysql." key; we have "mysql2." everywhere now
+  * postgresql: Remove "pgsql." key; we have "pgsql2." everywhere now
+  * templates: Fewer High and Avg for K8S mgmt
+  * templates: Remove CRs and prepare for newer zabbix 5.x exports
+  * templates: Update help text for zfs.pool.changed trigger
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 16 Apr 2021 14:51:32 +0200
+
 zabbix-agent-osso (0.47) stable; urgency=low
 
   * k8smgmt: Fix bug when there are no crashed pods
