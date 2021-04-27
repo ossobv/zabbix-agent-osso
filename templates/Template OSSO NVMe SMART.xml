@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-10-15T09:50:22Z</date>
+    <version>5.2</version>
+    <date>2021-04-27T10:51:01Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -62,7 +62,7 @@
                             <name>nvme: Available spare for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},available_spare]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>%</units>
@@ -77,7 +77,7 @@
                             <name>nvme: Available spare threshold for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},available_spare_threshold]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>%</units>
@@ -92,7 +92,7 @@
                             <name>nvme: Controller busy time for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},controller_busy_time]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -106,7 +106,7 @@
                             <name>nvme: CRC error count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},crc_error_count]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -120,7 +120,7 @@
                             <name>nvme: Critical warnings for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},critical_warning]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -133,7 +133,7 @@
                                 <trigger_prototype>
                                     <expression>{last()}&gt;0</expression>
                                     <name>NVMe: Critical warning {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
-                                    <priority>DISASTER</priority>
+                                    <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -141,7 +141,7 @@
                             <name>nvme: Data units read for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},data_units_read]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -155,7 +155,7 @@
                             <name>nvme: Data units written for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},data_units_written]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -169,7 +169,7 @@
                             <name>nvme: E2E error detection count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},end_to_end_error_detection_count]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -195,7 +195,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             <name>nvme: Erase fail count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},erase_fail_count]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -218,7 +218,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             <name>nvme: Host read commands for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},host_read_commands]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -232,7 +232,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             <name>nvme: Host write commands for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},host_write_commands]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -246,7 +246,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             <name>nvme: Media errors for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},media_errors]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -267,7 +267,7 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             <name>nvme: Number of error log entries for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},num_err_log_entries]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -279,7 +279,8 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&gt;{$NVME_SEEN_ERR_LOG_ENTRIES}</expression>
-                                    <name>NVMe: Errorlog entry count  {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
+                                    <name>NVMe: Errorlog entry count &gt;{$NVME_SEEN_ERR_LOG_ENTRIES} on {#NVME} on {HOST.NAME}</name>
+                                    <opdata>num_err_log_entries={ITEM.LASTVALUE1}</opdata>
                                     <priority>HIGH</priority>
                                     <description>Errorlog may keep increasing. You can use the NVME_SEEN_ERR_LOG_ENTRIES macro to mark items as &quot;read&quot;.
 Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
@@ -291,7 +292,7 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                             <name>nvme: Percentage used for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},percentage_used]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>%</units>
@@ -301,12 +302,27 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                                 </application>
                             </applications>
                             <request_method>POST</request_method>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;=60
+and {last()}&lt;80</expression>
+                                    <name>NVMe: {#NVME} aging on {HOST.NAME}</name>
+                                    <opdata>{ITEM.LASTVALUE1} old</opdata>
+                                    <priority>WARNING</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;=80</expression>
+                                    <name>NVMe: {#NVME} lifetime near end on {HOST.NAME}</name>
+                                    <opdata>{ITEM.LASTVALUE1} old</opdata>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>nvme: PLL lock loss count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},pll_lock_loss_count]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -320,7 +336,7 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                             <name>nvme: Power cycles for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},power_cycles]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -334,7 +350,7 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                             <name>nvme: Power on hours for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},power_on_hours]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -348,7 +364,7 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                             <name>nvme: Program fail count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},program_fail_count]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <description>Program Fail Count = The number of times when write to a flash memory failed.
@@ -365,7 +381,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                             <name>nvme: Retry buffer overflow count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},retry_buffer_overflow_count]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -379,7 +395,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                             <name>nvme: Temperature for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},temperature]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>C</units>
@@ -401,7 +417,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                             <name>nvme: Unsafe shutdowns for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},unsafe_shutdowns]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -415,7 +431,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                             <name>nvme: Wear leveling for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},wear_leveling]</key>
-                            <delay>5m</delay>
+                            <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <applications>
@@ -439,7 +455,7 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
             <macros>
                 <macro>
                     <macro>{$NVME_SEEN_ERR_LOG_ENTRIES}</macro>
-                    <value>0</value>
+                    <value>10</value>
                 </macro>
             </macros>
         </template>

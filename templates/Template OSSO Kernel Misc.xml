@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-10-15T09:52:00Z</date>
+    <version>5.2</version>
+    <date>2021-04-27T10:51:19Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -54,7 +54,7 @@
                     <triggers>
                         <trigger>
                             <expression>{max(15m)}&lt;40</expression>
-                            <name>Not enough kernel entropy on {HOST.NAME}</name>
+                            <name>Not enough kernel entropy (&lt;40) on {HOST.NAME}</name>
                             <priority>HIGH</priority>
                         </trigger>
                     </triggers>
@@ -74,7 +74,9 @@
                     <preprocessing>
                         <step>
                             <type>MULTIPLIER</type>
-                            <params>1024</params>
+                            <parameters>
+                                <parameter>1024</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                 </item>
@@ -93,7 +95,9 @@
                     <preprocessing>
                         <step>
                             <type>MULTIPLIER</type>
-                            <params>1024</params>
+                            <parameters>
+                                <parameter>1024</parameter>
+                            </parameters>
                         </step>
                     </preprocessing>
                 </item>
@@ -139,7 +143,9 @@
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -159,7 +165,9 @@
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -333,7 +341,7 @@
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and
+{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and 
 ({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.ip6tables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv6 firewall in chain {#CHAIN} on {HOST.NAME}</name>
@@ -382,11 +390,11 @@
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and 
 ({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
-                            <priority>HIGH</priority>
+                            <priority>DISASTER</priority>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <request_method>POST</request_method>
@@ -418,7 +426,7 @@
         </trigger>
         <trigger>
             <expression>{$DISABLE_ZBXNOHW}=0 and
-({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and
+({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and 
  ({Template OSSO Kernel Misc:system.dmi.chassis.nodata(1d)}=1 or
   {Template OSSO Kernel Misc:system.dmi.chassis.regexp(&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)}=0))</expression>
             <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>

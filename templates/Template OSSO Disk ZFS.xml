@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-03-31T07:17:47Z</date>
+    <date>2021-04-27T10:50:41Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -486,6 +486,7 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     <name>ZFS pool discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.pool.discovery</key>
+                    <delay>3h</delay>
                     <item_prototypes>
                         <item_prototype>
                             <name>Zpool {#POOLNAME} available</name>
