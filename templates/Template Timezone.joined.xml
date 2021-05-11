@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2021-05-11T14:52:26Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template Timezone UTC</template>
+            <name>Template Timezone UTC</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$TIMEZONE}</macro>
+                    <value>Etc/UTC</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <template>Template Timezone Zurich</template>
+            <name>Template Timezone Zurich</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$TIMEZONE}</macro>
+                    <value>Europe/Zurich</value>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>

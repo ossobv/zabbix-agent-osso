@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2021-02-11T08:35:19Z</date>
+    <version>5.2</version>
+    <date>2021-05-11T14:53:07Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -173,7 +173,9 @@
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -261,7 +263,9 @@
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
-                            <params/>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
@@ -615,6 +619,35 @@ ZBX-15624 + ZBX-12957</description>
                     </triggers>
                 </item>
                 <item>
+                    <name>Host timezone</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.file.contents[/etc/timezone]</key>
+                    <delay>8h</delay>
+                    <history>3d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <description>It does not look useful to check system.localtime[local] against system.localtime[utc], because then we'd have to change the trigger to +1 and +2 every half year.
+
+Instead, we probably have this file everywhere, so we can just check whether it says Europe/Amsterdam.</description>
+                    <applications>
+                        <application>
+                            <name>General</name>
+                        </application>
+                        <application>
+                            <name>OS</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{nodata(24h)}=1 or
+{str(&quot;{$TIMEZONE}&quot;)}=0</expression>
+                            <name>Host {HOST.NAME} has unexpected timezone</name>
+                            <opdata>tz={ITEM.LASTVALUE1}</opdata>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
                     <name>zabbix-agent-osso new style!</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf]</key>
@@ -787,7 +820,9 @@ ZBX-15624 + ZBX-12957</description>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <trigger_prototypes>
@@ -815,11 +850,15 @@ ZBX-15624 + ZBX-12957</description>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>MULTIPLIER</type>
-                                    <params>8</params>
+                                    <parameters>
+                                        <parameter>8</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
@@ -864,7 +903,9 @@ ZBX-15624 + ZBX-12957</description>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <trigger_prototypes>
@@ -890,11 +931,15 @@ ZBX-15624 + ZBX-12957</description>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>MULTIPLIER</type>
-                                    <params>8</params>
+                                    <parameters>
+                                        <parameter>8</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
@@ -1104,104 +1149,93 @@ ZBX-15624 + ZBX-12957</description>
                     <macro>{$MIN_MEMORY_BYTES_FREE}</macro>
                     <value>6442450944</value>
                 </macro>
+                <macro>
+                    <macro>{$TIMEZONE}</macro>
+                    <value>Europe/Amsterdam</value>
+                    <description>expected timezone (Europe/Amsterdam or UTC)</description>
+                </macro>
             </macros>
-            <screens>
-                <screen>
+            <dashboards>
+                <dashboard>
                     <name>System performance</name>
-                    <hsize>2</hsize>
-                    <vsize>2</vsize>
-                    <screen_items>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>CPU load</name>
-                                <host>Template OS Linux</host>
-                            </resource>
-                            <width>500</width>
-                            <height>120</height>
-                            <x>0</x>
-                            <y>0</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>1</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>1</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <key>proc.num[,,run]</key>
-                                <host>Template OS Linux</host>
-                            </resource>
-                            <width>500</width>
-                            <height>148</height>
-                            <x>1</x>
-                            <y>0</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>1</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>0</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <name>CPU utilization</name>
-                                <host>Template OS Linux</host>
-                            </resource>
-                            <width>500</width>
-                            <height>100</height>
-                            <x>0</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>1</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                        <screen_item>
-                            <resourcetype>1</resourcetype>
-                            <style>0</style>
-                            <resource>
-                                <key>vm.memory.size[available]</key>
-                                <host>Template OS Linux</host>
-                            </resource>
-                            <width>500</width>
-                            <height>184</height>
-                            <x>1</x>
-                            <y>1</y>
-                            <colspan>1</colspan>
-                            <rowspan>1</rowspan>
-                            <elements>0</elements>
-                            <valign>1</valign>
-                            <halign>0</halign>
-                            <dynamic>0</dynamic>
-                            <sort_triggers>0</sort_triggers>
-                            <url/>
-                            <application/>
-                            <max_columns>3</max_columns>
-                        </screen_item>
-                    </screen_items>
-                </screen>
-            </screens>
+                    <widgets>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <width>12</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>CPU load</name>
+                                        <host>Template OS Linux</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <y>5</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>GRAPH</type>
+                                    <name>graphid</name>
+                                    <value>
+                                        <name>CPU utilization</name>
+                                        <host>Template OS Linux</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <width>12</width>
+                            <height>5</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>source_type</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>ITEM</type>
+                                    <name>itemid</name>
+                                    <value>
+                                        <key>proc.num[,,run]</key>
+                                        <host>Template OS Linux</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                        <widget>
+                            <type>GRAPH_CLASSIC</type>
+                            <x>12</x>
+                            <y>5</y>
+                            <width>12</width>
+                            <height>6</height>
+                            <fields>
+                                <field>
+                                    <type>INTEGER</type>
+                                    <name>source_type</name>
+                                    <value>1</value>
+                                </field>
+                                <field>
+                                    <type>ITEM</type>
+                                    <name>itemid</name>
+                                    <value>
+                                        <key>vm.memory.size[available]</key>
+                                        <host>Template OS Linux</host>
+                                    </value>
+                                </field>
+                            </fields>
+                        </widget>
+                    </widgets>
+                </dashboard>
+            </dashboards>
         </template>
     </templates>
     <triggers>
