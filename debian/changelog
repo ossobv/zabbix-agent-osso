@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.49) stable; urgency=low
+
+  * kernelmisc: Don't ignore link-local IPs when checking for IPv6
+  * templates: Add timezone checks
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 10 Jun 2021 14:04:28 +0200
+
 zabbix-agent-osso (0.48) stable; urgency=low
 
   * daemon: Add daemon.systemd.maxtasks
