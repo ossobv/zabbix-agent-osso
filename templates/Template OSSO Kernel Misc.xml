@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-04-27T10:51:19Z</date>
+    <date>2021-06-14T11:34:27Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -56,6 +56,14 @@
                             <expression>{max(15m)}&lt;40</expression>
                             <name>Not enough kernel entropy (&lt;40) on {HOST.NAME}</name>
                             <priority>HIGH</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{max(15m)}&lt;250</expression>
+                            <name>Not enough kernel entropy (&lt;250) on {HOST.NAME}</name>
+                            <status>DISABLED</status>
+                            <priority>AVERAGE</priority>
+                            <description>De trigger is een uitbreiding op de HIGH bij (&lt;40) om inzicht te krijgen of we veel nodes onder de 250 hebben zitten. Zekker VPN, LB, NATs zouden er baat bij hebben.
+## Disabled - veel hits, moet even anders...</description>
                         </trigger>
                     </triggers>
                 </item>
@@ -225,6 +233,54 @@
                     <request_method>POST</request_method>
                 </item>
                 <item>
+                    <name>Host stats UDP receive buffer errors</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.udprcvbuferrors</key>
+                    <history>1w</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>Network interfaces</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Host stats UDP receive buffer delta</name>
+                    <type>CALCULATED</type>
+                    <key>net.udprcvbuferrors.delta</key>
+                    <delay>30s</delay>
+                    <params>change(net.udprcvbuferrors)</params>
+                    <applications>
+                        <application>
+                            <name>Network interfaces</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Host stats UDP send buffer errors</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>net.udpsndbuferrors</key>
+                    <history>1w</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>Network interfaces</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Host stats UDP send buffer delta</name>
+                    <type>CALCULATED</type>
+                    <key>net.udpsndbuferrors.delta</key>
+                    <delay>30s</delay>
+                    <params>change(net.udpsndbuferrors)</params>
+                    <applications>
+                        <application>
+                            <name>Network interfaces</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
                     <name>CPU cores</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.cores</key>
@@ -341,11 +397,14 @@
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and 
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and 
 ({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.ip6tables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv6 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>HIGH</priority>
+                            <description>Checking for has_ext_ip4 instead of has_ext_ip6 because both internal machines and external machines get a link local fe80:: address. Assume that only the availability of an IPv4 external IP conveys that this node is directly reachable from the internet.
+
+Better would be to check: (has_ipv4 || (has_ip6&amp;&amp;not-link-local))</description>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <request_method>POST</request_method>
