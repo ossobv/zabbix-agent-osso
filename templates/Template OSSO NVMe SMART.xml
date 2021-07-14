@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-04-27T10:51:01Z</date>
+    <date>2021-07-14T12:44:16Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -204,15 +204,6 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                                 </application>
                             </applications>
                             <request_method>POST</request_method>
-                            <trigger_prototypes>
-                                <trigger_prototype>
-                                    <expression>{last()}&gt;10000</expression>
-                                    <name>NVMe: Erase fail count {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
-                                    <status>DISABLED</status>
-                                    <priority>HIGH</priority>
-                                    <description>Don't know when this becomes a problem. A single failure isn't.</description>
-                                </trigger_prototype>
-                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <name>nvme: Host read commands for {#NVME}</name>
@@ -314,7 +305,7 @@ and {last()}&lt;80</expression>
                                     <expression>{last()}&gt;=80</expression>
                                     <name>NVMe: {#NVME} lifetime near end on {HOST.NAME}</name>
                                     <opdata>{ITEM.LASTVALUE1} old</opdata>
-                                    <priority>HIGH</priority>
+                                    <priority>AVERAGE</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
