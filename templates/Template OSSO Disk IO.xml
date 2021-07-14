@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2019-12-06T12:15:03Z</date>
+    <version>5.2</version>
+    <date>2021-07-14T14:17:31Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -32,90 +32,6 @@
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Disk:{#DEVICENAME}:IO:current</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>diskio.dev.io.active[{#DEVICENAME}]</key>
-                            <history>30d</history>
-                            <status>DISABLED</status>
-                            <units>io</units>
-                            <description>The only field that should go to zero. Incremented as requests are given to appropriate struct request_queue and decremented as they finish.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
-                            <preprocessing>
-                                <step>
-                                    <type>CHANGE_PER_SECOND</type>
-                                    <params/>
-                                </step>
-                            </preprocessing>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Disk:{#DEVICENAME}:IO:ms</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>diskio.dev.io.ms[{#DEVICENAME}]</key>
-                            <history>30d</history>
-                            <status>DISABLED</status>
-                            <units>ms</units>
-                            <description>This field increases so long as field 9 (diskio.dev.io.active) is nonzero.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
-                            <preprocessing>
-                                <step>
-                                    <type>CHANGE_PER_SECOND</type>
-                                    <params/>
-                                </step>
-                            </preprocessing>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Disk:{#DEVICENAME}:R:merged</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>diskio.dev.read.merged[{#DEVICENAME}]</key>
-                            <history>30d</history>
-                            <status>DISABLED</status>
-                            <units>Ops/s</units>
-                            <description>Reads and writes which are adjacent to each other may be merged for efficiency. Thus two 4K reads may become one 8K read before it is ultimately handed to the disk, and so it will be counted (and queued) as only one I/O.  This field lets you know how often this was done.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
-                            <preprocessing>
-                                <step>
-                                    <type>CHANGE_PER_SECOND</type>
-                                    <params/>
-                                </step>
-                            </preprocessing>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Disk:{#DEVICENAME}:R:ms</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>diskio.dev.read.ms[{#DEVICENAME}]</key>
-                            <history>30d</history>
-                            <status>DISABLED</status>
-                            <units>ms</units>
-                            <description>This is the total number of milliseconds spent by all reads (as measured from __make_request() to end_that_request_last()).</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
-                            <preprocessing>
-                                <step>
-                                    <type>CHANGE_PER_SECOND</type>
-                                    <params/>
-                                </step>
-                            </preprocessing>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
                             <name>Disk:{#DEVICENAME}:R:ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.ops[{#DEVICENAME}]</key>
@@ -130,7 +46,9 @@
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
@@ -150,53 +68,15 @@
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>MULTIPLIER</type>
-                                    <params>512</params>
-                                </step>
-                            </preprocessing>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Disk:{#DEVICENAME}:W:merged</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>diskio.dev.write.merged[{#DEVICENAME}]</key>
-                            <history>30d</history>
-                            <status>DISABLED</status>
-                            <units>Ops/s</units>
-                            <description>Reads and writes which are adjacent to each other may be merged for efficiency. Thus two 4K reads may become one 8K read before it is ultimately handed to the disk, and so it will be counted (and queued) as only one I/O.  This field lets you know how often this was done.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
-                            <preprocessing>
-                                <step>
-                                    <type>CHANGE_PER_SECOND</type>
-                                    <params/>
-                                </step>
-                            </preprocessing>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Disk:{#DEVICENAME}:W:ms</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>diskio.dev.write.ms[{#DEVICENAME}]</key>
-                            <history>30d</history>
-                            <status>DISABLED</status>
-                            <units>ms</units>
-                            <description>This is the total number of milliseconds spent by all writes (as measured from __make_request() to end_that_request_last()).</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
-                            <preprocessing>
-                                <step>
-                                    <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter>512</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
@@ -216,7 +96,9 @@
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
@@ -236,11 +118,15 @@
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                                 <step>
                                     <type>MULTIPLIER</type>
-                                    <params>512</params>
+                                    <parameters>
+                                        <parameter>512</parameter>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
@@ -321,7 +207,9 @@
                             <preprocessing>
                                 <step>
                                     <type>BOOL_TO_DECIMAL</type>
-                                    <params/>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
