@@ -1,3 +1,14 @@
+zabbix-agent-osso (0.50) stable; urgency=low
+
+  * dpkg: The updates-available has a slightly different message
+  * k8smgmt: Also monitor Error state pods
+  * kernelmisc: Don't ignore link-local IPs when checking for IPv6
+  * templates: Add timezone checks
+  * templates: Drop disabled/unused disk prototypes (ms and merged)
+  * templates: NVME lower lifetime severity
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 28 Jul 2021 17:09:06 +0200
+
 zabbix-agent-osso (0.49) stable; urgency=low
 
   * kernelmisc: Don't ignore link-local IPs when checking for IPv6
