@@ -276,30 +276,50 @@ cluster-pods-js)
     # (Note that we'll also skip Pending without status.startTime,
     # like a PodScheduled conditions with no containerStatuses.)
     recently=$(date -d '-10 minutes' +%s)
-    if test "${DISABLE_WAITINGPODS:-0}" = 0; then
+
+    errored=0
+    erroredpods='""'
+    test "${DISABLE_ERROREDPODS:-0}" = 0 && \
+        errored=$(printf '%s\n' "$jsin" | jq \
+          '[.items[] |
+            select((.status.startTime != null) and
+                   ((.status.startTime | fromdateiso8601) < '$recently')) |
+            .status.containerStatuses[] | .state.terminated.reason |
+            select(. == "Error") | 1] | length')
+    test "$errored" -gt 0 &&
+        erroredpods=$(printf '%s\n' "$jsin" | jq \
+          '[.items[] |
+            select((.status.startTime != null) and
+                   ((.status.startTime | fromdateiso8601) < '$recently') and (
+              .status.containerStatuses[] |
+              select(.state.terminated.reason == "Error"))) |
+            (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+
+    waiting=0
+    waitingpods='""'
+    test "${DISABLE_WAITINGPODS:-0}" = 0 && \
         waiting=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
             select((.status.startTime != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently')) |
             .status.containerStatuses[] | .state.waiting.reason |
             select(. != null) | 1] | length')
-        test "$waiting" -gt 0 &&
-            waitingpods=$(printf '%s\n' "$jsin" | jq \
-            '[.items[] |
-              select((.status.startTime != null) and
-                    ((.status.startTime | fromdateiso8601) < '$recently') and (
+    test "$waiting" -gt 0 &&
+        waitingpods=$(printf '%s\n' "$jsin" | jq \
+          '[.items[] |
+            select((.status.startTime != null) and
+                   ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] | select(.state.waiting != null))) |
-              (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
-    else
-        waiting=0
-        waitingpods=''
-    fi
+            (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+
     # Pending, Running, Succeeded, Failed + Waiting10m, Total
     printf '%s\n' "$jsin" | jq '.items[] | .status.phase' |
-        LC_ALL=C sort | uniq -c | awk -vW=$waiting -vWP="${waitingpods:-\"\"}" '
+        LC_ALL=C sort | uniq -c |
+        awk -vW=$waiting -vWP="$waitingpods" -vE=$errored -vEP="$erroredpods" '
         BEGIN{printf "{"}
         {t+=$1;printf $2 ": " $1 ", "}
         END{print "\"Waiting10m\": " W ", \"Waiting10mPods\": " WP \
+            ", \"Error10m\": " E ", \"Error10mPods\": " EP \
             ", \"Total\": "  t "}"}'
     ;;
 cluster-version)

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-03-01T10:32:15Z</date>
+    <date>2021-07-28T15:05:54Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -418,6 +418,55 @@
                             </application_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Error10m names</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.error10mpods[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>4d</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.Error10mPods</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>K8S cluster {#CLUSTER} Error10m pods</name>
+                            <type>DEPENDENT</type>
+                            <key>k8smgmt.cluster.pods.error10m[{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>4w</trends>
+                            <application_prototypes>
+                                <application_prototype>
+                                    <name>K8S cluster {#CLUSTER}</name>
+                                </application_prototype>
+                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.Error10m</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8smgmt.cluster.pods-js[{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
                             <name>K8S cluster {#CLUSTER} Failed pods</name>
                             <type>DEPENDENT</type>
                             <key>k8smgmt.cluster.pods.failed[{#CLUSTER}]</key>
@@ -637,6 +686,15 @@ kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
+                            <expression>{Template OSSO K8S mgmt:k8smgmt.cluster.pods.error10m[{#CLUSTER}].min(20m)}&gt;0 and
+{Template OSSO K8S mgmt:k8smgmt.cluster.pods.error10mpods[{#CLUSTER}].strlen()}&lt;&gt;0</expression>
+                            <name>K8S cluster {#CLUSTER} has errored pods for &gt;20mins</name>
+                            <opdata>{ITEM.LASTVALUE1}: {ITEM.LASTVALUE2}</opdata>
+                            <priority>HIGH</priority>
+                            <description>Please do:
+kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
+                        </trigger_prototype>
+                        <trigger_prototype>
                             <expression>{Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10m[{#CLUSTER}].min(20m)}&gt;0 and
 {Template OSSO K8S mgmt:k8smgmt.cluster.pods.waiting10mpods[{#CLUSTER}].strlen()}&lt;&gt;0</expression>
                             <name>K8S cluster {#CLUSTER} has waiting pods for &gt;20mins</name>
@@ -653,8 +711,12 @@ kubectl get pods --all-namespaces | grep -vE 'Completed|Running'</description>
 {Template OSSO K8S mgmt:k8smgmt.cluster.pods.pending[{#CLUSTER}].last()}) &lt;&gt; 0</expression>
                             <name>K8S cluster {#CLUSTER} undefined pod states</name>
                             <opdata>{ITEM.LASTVALUE1}-{ITEM.LASTVALUE2}-{ITEM.LASTVALUE3}-{ITEM.LASTVALUE4}-{ITEM.LASTVALUE5}</opdata>
+                            <status>DISABLED</status>
+                            <discover>NO_DISCOVER</discover>
                             <priority>WARNING</priority>
-                            <description>We expect Running+Succeeded+Failed+Pending to be all states (Waiting10m is not a state. It contains ImagePullBackOff (Pending) and CrashLoopBackOff (Running).)</description>
+                            <description>We expect Running+Succeeded+Failed+Pending to be all states (Waiting10m is not a state. It contains ImagePullBackOff (Pending) and CrashLoopBackOff (Running).)
+
+DISABLED: this appears to jump up and down</description>
                         </trigger_prototype>
                     </trigger_prototypes>
                 </discovery_rule>
