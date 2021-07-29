@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.51) stable; urgency=low
+
+  * dpkg: Fix 0 security updates (instead of unsupported) when the field is
+    missing in the cachefile (which it is, when there are 0)
+  * packaging: You may need to --reinstall this package if you have stray
+    .k8smgmt.swp files in the package list.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 29 Jul 2021 13:52:09 +0200
+
 zabbix-agent-osso (0.50+1) stable; urgency=low
 
   * ... without k8smgmt swapfile.
