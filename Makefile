@@ -38,8 +38,8 @@ install:
 	# scripts and config (for userparameters/scripts)
 	install -d -o root $(DESTDIR)/etc/zabbix/scripts/
 	install -d -o root $(DESTDIR)/etc/zabbix/config/
-	tar -c --owner=root:0 --group=root:0 scripts/ config/ | \
-	  tar -x -C $(DESTDIR)/etc/zabbix/
+	tar -c --owner=root:0 --group=root:0 --exclude='.*' \
+	  scripts/ config/ | tar -x -C $(DESTDIR)/etc/zabbix/
 	# cron jobs
 	install -d -o root $(DESTDIR)/etc/cron.d
 	install -o root -m 0444 -t $(DESTDIR)/etc/cron.d/ cron.d/*

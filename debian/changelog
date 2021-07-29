@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.50+1) stable; urgency=low
+
+  * ... without k8smgmt swapfile.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 29 Jul 2021 11:47:50 +0200
+
 zabbix-agent-osso (0.50) stable; urgency=low
 
   * dpkg: The updates-available has a slightly different message
