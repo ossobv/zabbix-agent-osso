@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.52) stable; urgency=low
+
+  * daemon: Ignore fwupd-refresh.service by default for daemon.systemd.failed
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 02 Aug 2021 11:32:06 +0200
+
 zabbix-agent-osso (0.51) stable; urgency=low
 
   * dpkg: Fix 0 security updates (instead of unsupported) when the field is
