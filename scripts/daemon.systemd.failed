@@ -7,15 +7,27 @@
 # there if you replaced this command. Or simply set EGREP_EXCLUDE to
 # something to simply filter the output.
 CUSTOM=/etc/zabbix/scripts/daemon.systemd.failed.local
+
+# Set default excludes:
+# - fwupd-refresh.service:
+#   has a lot of trouble keeping the firmware.gz and the pgp signature in
+#   sync, so this daemon fails a lot during scheduled download/refresh.
+EGREP_EXCLUDE='^fwupd-refresh[.]service$'
+
+# Update variables if the custom file exists.
 test -f $CUSTOM && . $CUSTOM
+
+list() {
+    out=$(systemctl list-units --all --failed --no-legend 2>/dev/null ||
+            echo ZBX_NOTSUPPORTED)
+    echo "$out" | cut -d' ' -f1 | LC_ALL=C sort -V
+}
 
 if test -d /run/systemd/system; then
     if test -n "$EGREP_EXCLUDE"; then
-        ( systemctl list-units --all --failed --no-legend 2>/dev/null ||
-            echo ZBX_NOTSUPPORTED ) | sort -V | grep -vE "$EGREP_EXCLUDE"
+        list | grep -vE "$EGREP_EXCLUDE" || true
     else
-        ( systemctl list-units --all --failed --no-legend 2>/dev/null ||
-            echo ZBX_NOTSUPPORTED ) | sort -V
+        list
     fi
 else
     echo ZBX_NOTSUPPORTED
