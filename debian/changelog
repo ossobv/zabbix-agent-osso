@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.53) stable; urgency=low
+
+  * mysql: Add possible monitoring for grastate madness
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 23 Aug 2021 10:26:39 +0200
+
 zabbix-agent-osso (0.52) stable; urgency=low
 
   * daemon: Ignore fwupd-refresh.service by default for daemon.systemd.failed
