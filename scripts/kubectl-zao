@@ -1,0 +1,41 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# This is not supposed to be called from zabbix-scripts, but by admins.
+# Feel free to symlink to this from /usr/local/bin/kubectl.
+
+# Find a kubectl that is not this. This way we can call this
+# /usr/local/bin/kubectl and call the real kubectl anyway.
+kubectl=
+thisinode=$(stat -Lc%i "$(realpath "$0")")
+for inode_path in $(stat -Lc%i,%n $(which -a kubectl)); do
+    inode=${inode_path%%,*}
+    path=${inode_path#*,}
+    test $thisinode -ne $inode && kubectl=$path && break
+done
+test -z "$kubectl" && echo "No kubectl binary found" >&2 && exit 1
+
+# Select cluster using --zao-cluster=CLUSTER.
+case "$1" in
+--zao-cluster=*)
+    cluster_name=${1#--zao-cluster=}
+    cluster_path=/etc/zabbix/config/k8smgmt.cluster.$cluster_name
+    shift
+    ;;
+*)
+    cluster_path=$(echo /etc/zabbix/config/k8smgmt.cluster.*)
+    ;;
+esac
+
+# Do you need to specify a (better) --zao-cluster=.
+if test ! -r "$cluster_path/vars"; then
+    echo "Cannot read '$cluster_path/vars', please fix your --zao-cluster=" >&2
+    ls -d /etc/zabbix/config/k8smgmt.cluster.* |
+        sed -e 's#/etc/zabbix/config/k8smgmt.cluster.#- #' >&2
+    exit 1
+fi
+
+# Load vars and exec the real kubectl.
+. "$cluster_path/vars"
+SERVER=${API_URL%/}; SERVER=${SERVER%/api}
+exec "$kubectl" --certificate-authority="$cluster_path/ca.pem" \
+    --token=$API_TOKEN --server=$SERVER "$@"
