@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-05-11T14:53:07Z</date>
+    <date>2021-09-07T11:56:50Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -597,6 +597,36 @@ ZBX-15624 + ZBX-12957</description>
                         </application>
                     </applications>
                     <request_method>POST</request_method>
+                </item>
+                <item>
+                    <name>Bytes in /var/log/journal</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.dir.size[/var/log/journal]</key>
+                    <delay>1d</delay>
+                    <history>3d</history>
+                    <trends>90d</trends>
+                    <applications>
+                        <application>
+                            <name>Processes</name>
+                        </application>
+                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                            <error_handler_params>0</error_handler_params>
+                        </step>
+                    </preprocessing>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}=0</expression>
+                            <name>Missing /var/log/journal on {HOST.NAME}</name>
+                            <priority>AVERAGE</priority>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <name>Checksum of $1</name>
