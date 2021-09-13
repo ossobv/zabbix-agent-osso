@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-08-23T08:24:21Z</date>
+    <date>2021-09-13T11:31:17Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -99,7 +99,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <expression>{last()}&gt;0.3</expression>
-                                    <name>MySQL {#INSTANCE} has slow show-dbs performance (grastate files?)</name>
+                                    <name>Slow show-dbs of MySQL {#INSTANCE} on {HOST.NAME} (grastate?)</name>
                                     <opdata>last duration {ITEM.LASTVALUE1}s</opdata>
                                     <priority>HIGH</priority>
                                     <description>If the SHOW DATABASES (select * from schemata) is slow, then this might be because there are lots of grastate files in the /var/lib/mysql directory.)</description>
