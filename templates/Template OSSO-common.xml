@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2019-12-06T12:14:40Z</date>
+    <version>5.2</version>
+    <date>2021-09-16T11:05:33Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -19,10 +19,16 @@
                     <name>Template OSSO Disk IO</name>
                 </template>
                 <template>
+                    <name>Template OSSO DNS checks</name>
+                </template>
+                <template>
                     <name>Template OSSO dpkg</name>
                 </template>
                 <template>
                     <name>Template OSSO Kernel Misc</name>
+                </template>
+                <template>
+                    <name>Template OSSO Repo mgmt</name>
                 </template>
             </templates>
             <groups>

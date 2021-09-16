@@ -1,0 +1,31 @@
+# [This file is part of the zabbix-agent-osso package]
+# INSTALL: sed -e1,3d dns.list.example > dns.list
+#
+# These items will be discovered by the dns.discover item.
+# These will then be polled as active items by the agent.
+#
+# All items are separated by one or more whitespace. NULL fields are
+# specified as a single hyphen. Empty fields by two double-quotes.
+#
+# The qtype:hostname is a unique index. Calls to the items will get that key
+# and look up the rest of the info from this file.
+#
+# qtype:hostname                    targetns        status      value
+
+A:example.com                       -               NOERROR     -
+# ^- simply check that it returns NOERROR
+
+AAAA:ns1.example.com.               -               NOERROR     1:2:3::4
+# ^- check that it returns NOERROR and has the specified IP
+
+A:doesnotexist.example.com.         -               NXDOMAIN    -
+# ^- check that we get NXDOMAIN for this hostname
+
+A:ipv6-only.example.com.            ns1.dns.com.    NOERROR     ""
+# ^- check that the specified nameserver returns NOERROR and an empty response
+
+CNAME:www.example.com.              -               NOERROR     example.com.
+# ^- check that this CNAME exists and points to the right place
+
+TXT:example.com.                    -               NOERROR     -
+# ^- check that this TXT record exists

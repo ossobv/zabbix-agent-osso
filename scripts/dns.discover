@@ -1,0 +1,14 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+
+config=/etc/zabbix/config/dns.list
+if ! test -r "$config"; then
+    echo ZBX_NOTSUPPORTED
+    exit 1
+fi
+
+exec awk '
+  BEGIN{printf "["}
+  /^[^#]/{if(n)printf ",";n+=1;print "{\"{#DNS_LOOKUP}\": \"" $1 "\"}"}
+  END{print "]"}' \
+    < /etc/zabbix/config/dns.list

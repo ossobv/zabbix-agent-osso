@@ -1,0 +1,114 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# > If this value is the magic value 0 then things are broken
+BAD_RESULT=0  # stored as unsigned, so -1 is not an option
+
+config=/etc/zabbix/config/dns.list
+if test -z "$1"; then
+    echo "Usage: $0 A:example.com" >&2
+    exit 1
+fi
+
+qtype_hostname="$1" # A:example.com.
+
+qtype=${qtype_hostname%%:*}
+hostname=${qtype_hostname#*:}
+
+line=
+while read -r line; do
+    test "${line%%[[:space:]]*}" = "$qtype_hostname" && break
+done <"$config"
+
+if test -z "$line"; then
+    echo ZBX_NOTSUPPORTED
+    exit 1
+fi
+
+# qtype:hostname                    targetns    status      value
+# A:example.com                     -           NOERROR     -
+use_qtype_hostname=${line%%[[:space:]]*}
+line=${line#*[[:space:]]}; line="${line#"${line%%[![:space:]]*}"}"
+use_targetns=${line%%[[:space:]]*}
+line=${line#*[[:space:]]}; line="${line#"${line%%[![:space:]]*}"}"
+check_status=${line%%[[:space:]]*}
+line=${line#*[[:space:]]}; line="${line#"${line%%[![:space:]]*}"}"
+check_value=${line%%[[:space:]]*}
+if test "$check_value" = '""'; then check_value=; fi
+
+
+get_ns() {
+    if test "$2" = "-"; then
+        local hostname="$1"
+        while test -n "$hostname"; do
+            local vals="$(dig -t NS "$hostname" +short +timeout=2 2>/dev/null)"
+            test -n "$vals" && echo $vals && break
+            hostname=${hostname#*.}
+        done
+    else
+        echo "$2"
+    fi
+}
+
+# Include nameserver loukup in the time, because this might already be a
+# recursive operation including our own nameservers (for delegated domains).
+read t0 </proc/uptime
+t0=${t0%% *}; t0=${t0%.*}${t0#*.}0
+
+# Do lookup(s).
+for ns in $(get_ns "$hostname" "$use_targetns"); do
+    fail=0
+    vals=$(dig -t "$qtype" "$hostname" "@$ns" \
+        +noall +answer +comments +dnssec +timeout=1)
+
+    # Read second time immediately before we do any extra parsing.
+    # TODO: this has 10ms granularity.. not real pretty
+    read t1 </proc/uptime
+    t1=${t1%% *}; t1=${t1%.*}${t1#*.}0
+
+    if test -n "$vals"; then
+        # ;; ->>HEADER<<- opcode: QUERY, status: REFUSED
+        status=$(echo "$vals" |
+            sed -ne 's/^;; ->>HEADER.*status: \([^, ]*\).*/\1/p')
+        # example.com.  2610  IN  A  93.184.216.34
+        has_dnssec=$(echo "$vals" | sed -e '/^;/d;/^$/d;/RRSIG/!d')
+        value=$(echo "$vals" | sed -e '/^;/d;/^$/d;/RRSIG/d;s/.*[[:blank:]]//')
+
+        # TODO...
+        if test "$check_status" = "NOERROR" -a -z "$has_dnssec"; then
+            test -t 2 && echo "dnssec: missing DNSSEC?" >&2
+        fi
+
+        # Check status.
+        if test "$check_status" != "$status"; then
+            test -t 2 && echo "status: $status != $check_status" >&2
+            fail=1
+        fi
+
+        # Check value(s).
+        if test "$check_value" = "-"; then
+            if test -z "$value" -a "$value" = "NOERROR"; then
+                test -t 2 && echo "value: (got empty response)" >&2
+                fail=1
+            fi
+        elif test -z "$check_value"; then
+            if test -n "$value"; then
+                test -t 2 && echo "value: (got non-empty response) $value" >&2
+                fail=1
+            fi
+        elif test "$check_value" != "$value"; then
+            test -t 2 && echo "value: $value != $check_value" >&2
+            fail=1
+        fi
+
+        # Still good? Report time and bail.
+        if test $fail -eq 0; then
+            td=$((t1 - t0))
+            test $td -eq $BAD_RESULT && td=$((BAD_RESULT + 1))
+            echo $td
+            exit 0
+        fi
+    fi
+done
+
+echo $BAD_RESULT
+exit 0

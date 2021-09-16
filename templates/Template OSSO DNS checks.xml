@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2021-09-16T11:13:58Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template OSSO DNS checks</template>
+            <name>Template OSSO DNS checks</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>DNS</name>
+                </application>
+            </applications>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Discovery DNS checks</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>dns.discover</key>
+                    <delay>1h</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>DNS query ms for {#DNS_LOOKUP}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>dns.check[{#DNS_LOOKUP}]</key>
+                            <delay>15m</delay>
+                            <history>7d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>DNS</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;500 or
+{last()}=0</expression>
+                                    <name>DNS query ms for {#DNS_LOOKUP} took too long on {HOST.NAME}</name>
+                                    <opdata>$1 ms</opdata>
+                                    <priority>HIGH</priority>
+                                    <description>If this value is the magic value 0 then things are broken</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
