@@ -1,0 +1,5 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+zabbix ALL=NOPASSWD: /usr/bin/pdns_control show *
+zabbix ALL=NOPASSWD: /usr/bin/rec_control get *
+zabbix ALL=NOPASSWD: /usr/bin/rec_control get-all
