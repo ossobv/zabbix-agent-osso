@@ -2,6 +2,7 @@
 # [This file is part of the zabbix-agent-osso package]
 # > If this value is the magic value 0 then things are broken
 BAD_RESULT=0  # stored as unsigned, so -1 is not an option
+LC_ALL=C; export LC_ALL
 
 config=/etc/zabbix/config/dns.list
 if test -z "$1"; then
@@ -35,6 +36,10 @@ line=${line#*[[:space:]]}; line="${line#"${line%%[![:space:]]*}"}"
 check_value=${line%%[[:space:]]*}
 if test "$check_value" = '""'; then check_value=; fi
 
+# Run check_value through a printf call, so we can do:
+# ns1.example.com.\nns2.example.com.
+check_value=$(printf "$check_value")
+
 
 get_ns() {
     if test "$2" = "-"; then
@@ -66,12 +71,15 @@ for ns in $(get_ns "$hostname" "$use_targetns"); do
     t1=${t1%% *}; t1=${t1%.*}${t1#*.}0
 
     if test -n "$vals"; then
+        # For AXFR, we get multiple statuses, so 'sort -u'.
         # ;; ->>HEADER<<- opcode: QUERY, status: REFUSED
         status=$(echo "$vals" |
-            sed -ne 's/^;; ->>HEADER.*status: \([^, ]*\).*/\1/p')
+            sed -ne 's/^;; ->>HEADER.*status: \([^, ]*\).*/\1/p' | sort -u)
         # example.com.  2610  IN  A  93.184.216.34
         has_dnssec=$(echo "$vals" | sed -e '/^;/d;/^$/d;/RRSIG/!d')
-        value=$(echo "$vals" | sed -e '/^;/d;/^$/d;/RRSIG/d;s/.*[[:blank:]]//')
+        # For multiple responses, we'll need to sort. E.g. for multiple
+        # nameservers. Use NS1.\nNS2. in your check_value.
+        value=$(echo "$vals" | sed -e '/^;/d;/^$/d;/RRSIG/d;s/.*[[:blank:]]//' | sort)
 
         # TODO...
         if test "$check_status" = "NOERROR" -a -z "$has_dnssec"; then
