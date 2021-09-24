@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-03-02T17:12:49Z</date>
+    <date>2021-09-24T07:37:55Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -9,9 +9,10 @@
     </groups>
     <templates>
         <template>
-            <template>Template DB PostgreSQL</template>
+            <template>Template App PostgreSQL</template>
             <name>Template App PostgreSQL</name>
-            <description>https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/postgresql</description>
+            <description>originally from:
+https://git.zabbix.com/projects/ZBX/repos/zabbix/browse/templates/db/postgresql</description>
             <groups>
                 <group>
                     <name>TEMPLATES</name>
@@ -384,7 +385,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                             <dependencies>
                                 <dependency>
                                     <name>PostgreSQL: Service is down on {HOST.NAME}</name>
-                                    <expression>{Template DB PostgreSQL:pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
+                                    <expression>{Template App PostgreSQL:pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
                                 </dependency>
                             </dependencies>
                         </trigger>
@@ -687,7 +688,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                             <dependencies>
                                 <dependency>
                                     <name>PostgreSQL: Service is down on {HOST.NAME}</name>
-                                    <expression>{Template DB PostgreSQL:pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
+                                    <expression>{Template App PostgreSQL:pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;].last()} = 0</expression>
                                 </dependency>
                             </dependencies>
                         </trigger>
@@ -801,7 +802,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                         <trigger>
                             <expression>{max(5m)}=0</expression>
                             <name>PostgreSQL: Replication is down on {HOST.NAME}</name>
-                            <priority>AVERAGE</priority>
+                            <priority>HIGH</priority>
                         </trigger>
                     </triggers>
                 </item>
@@ -1038,6 +1039,25 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <master_item>
                         <key>pgsql2.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </master_item>
+                </item>
+                <item>
+                    <name>Check if PostgreSQL is running</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[postgres,,,]</key>
+                    <history>7d</history>
+                    <trends>90d</trends>
+                    <applications>
+                        <application>
+                            <name>PostgreSQL</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}=0</expression>
+                            <name>PostgreSQL is not running on {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                    </triggers>
                 </item>
             </items>
             <discovery_rules>
@@ -1904,7 +1924,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                 <graph_item>
                                     <color>66BB6A</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.blks_hit.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1912,7 +1932,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>1</sortorder>
                                     <color>42A5F5</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.blks_read.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1925,7 +1945,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                 <graph_item>
                                     <color>66BB6A</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.db.size[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1939,7 +1959,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>1A7C11</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.xact_commit.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1947,7 +1967,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>1</sortorder>
                                     <color>F63100</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.conflicts.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1955,7 +1975,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>2</sortorder>
                                     <color>2774A4</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.deadlocks.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1963,7 +1983,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>3</sortorder>
                                     <color>A54F10</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.xact_rollback.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1976,7 +1996,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                 <graph_item>
                                     <color>EC407A</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.locks.total[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1990,7 +2010,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>4CAF50</color>
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.mro.time_max[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -1999,7 +2019,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>03A9F4</color>
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.query.time_max[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2008,7 +2028,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>9C27B0</color>
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.tx.time_max[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2017,7 +2037,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>81C784</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.mro.time_sum[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2026,7 +2046,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>90CAF9</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.query.time_sum[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2035,7 +2055,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>CE93D8</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.tx.time_sum[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2048,7 +2068,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                 <graph_item>
                                     <color>1A7C11</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.mro.slow_count[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2056,7 +2076,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>1</sortorder>
                                     <color>F63100</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.query.slow_count[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2064,7 +2084,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>2</sortorder>
                                     <color>2774A4</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.queries.tx.slow_count[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2077,7 +2097,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>66BB6A</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.temp_bytes.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2086,7 +2106,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <color>42A5F5</color>
                                     <yaxisside>RIGHT</yaxisside>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.temp_files.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2099,7 +2119,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                 <graph_item>
                                     <color>1A7C11</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.tup_deleted.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2107,7 +2127,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>1</sortorder>
                                     <color>F63100</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.tup_fetched.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2115,7 +2135,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>2</sortorder>
                                     <color>2774A4</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.tup_inserted.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2123,7 +2143,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>3</sortorder>
                                     <color>A54F10</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.tup_returned.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2131,7 +2151,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <sortorder>4</sortorder>
                                     <color>FC6EA3</color>
                                     <item>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                         <key>pgsql2.dbstat.tup_updated.rate[&quot;{#DBNAME}&quot;]</key>
                                     </item>
                                 </graph_item>
@@ -2245,7 +2265,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Tuples</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2266,7 +2286,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Events</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2287,7 +2307,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Block hit/read</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2309,7 +2329,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Temp files</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2330,7 +2350,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Locks</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2352,7 +2372,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Database size</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2373,7 +2393,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Queries</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2395,7 +2415,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>DB {#DBNAME}: Slow queries</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2415,7 +2435,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL connections</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2431,7 +2451,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL transactions</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2447,7 +2467,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL ping</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2464,7 +2484,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL uptime</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2480,7 +2500,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL replication lag</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2497,7 +2517,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL WAL</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2513,7 +2533,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL bgwriter</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2530,7 +2550,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                                     <name>graphid</name>
                                     <value>
                                         <name>PostgreSQL checkpoints</name>
-                                        <host>Template DB PostgreSQL</host>
+                                        <host>Template App PostgreSQL</host>
                                     </value>
                                 </field>
                             </fields>
@@ -2549,7 +2569,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>1A7C11</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.buffers_alloc.rate</key>
                     </item>
                 </graph_item>
@@ -2558,7 +2578,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>F63100</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.buffers_clean.rate</key>
                     </item>
                 </graph_item>
@@ -2567,7 +2587,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>2774A4</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.buffers_backend.rate</key>
                     </item>
                 </graph_item>
@@ -2576,7 +2596,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>A54F10</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.buffers_checkpoint.rate</key>
                     </item>
                 </graph_item>
@@ -2584,7 +2604,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <sortorder>4</sortorder>
                     <color>FC6EA3</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.maxwritten_clean.rate</key>
                     </item>
                 </graph_item>
@@ -2592,7 +2612,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <sortorder>5</sortorder>
                     <color>6C59DC</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.buffers_backend_fsync.rate</key>
                     </item>
                 </graph_item>
@@ -2605,7 +2625,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                 <graph_item>
                     <color>1A7C11</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.checkpoints_timed.rate</key>
                     </item>
                 </graph_item>
@@ -2613,7 +2633,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <sortorder>1</sortorder>
                     <color>F63100</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.checkpoints_req.rate</key>
                     </item>
                 </graph_item>
@@ -2622,7 +2642,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>2774A4</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.checkpoint_sync_time</key>
                     </item>
                 </graph_item>
@@ -2631,7 +2651,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>A54F10</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.bgwriter.checkpoint_write_time</key>
                     </item>
                 </graph_item>
@@ -2646,7 +2666,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>C8E6C9</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.total</key>
                     </item>
                 </graph_item>
@@ -2654,7 +2674,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <sortorder>1</sortorder>
                     <color>6C59DC</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.total_pct</key>
                     </item>
                 </graph_item>
@@ -2663,7 +2683,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>1A7C11</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.active</key>
                     </item>
                 </graph_item>
@@ -2672,7 +2692,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>F63100</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.idle</key>
                     </item>
                 </graph_item>
@@ -2681,7 +2701,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>2774A4</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.idle_in_transaction</key>
                     </item>
                 </graph_item>
@@ -2690,7 +2710,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>A54F10</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.prepared</key>
                     </item>
                 </graph_item>
@@ -2699,7 +2719,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>AC8C14</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.connections.sum.waiting</key>
                     </item>
                 </graph_item>
@@ -2713,7 +2733,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <drawtype>GRADIENT_LINE</drawtype>
                     <color>A5D6A7</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
@@ -2722,7 +2742,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>039BE5</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.ping.time[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
@@ -2735,7 +2755,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                 <graph_item>
                     <color>42A5F5</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.replication.lag.sec[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
@@ -2749,7 +2769,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>1A7C11</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.transactions.active</key>
                     </item>
                 </graph_item>
@@ -2758,7 +2778,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>F63100</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.transactions.idle</key>
                     </item>
                 </graph_item>
@@ -2767,7 +2787,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>2774A4</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.transactions.prepared</key>
                     </item>
                 </graph_item>
@@ -2776,7 +2796,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>A54F10</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.transactions.waiting</key>
                     </item>
                 </graph_item>
@@ -2790,7 +2810,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                 <graph_item>
                     <color>66BB6A</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.uptime[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
@@ -2799,7 +2819,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>03A9F4</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.cache.hit[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     </item>
                 </graph_item>
@@ -2812,7 +2832,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                 <graph_item>
                     <color>29B6F6</color>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.wal.write</key>
                     </item>
                 </graph_item>
@@ -2821,7 +2841,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                     <color>AB47BC</color>
                     <yaxisside>RIGHT</yaxisside>
                     <item>
-                        <host>Template DB PostgreSQL</host>
+                        <host>Template App PostgreSQL</host>
                         <key>pgsql2.wal.count</key>
                     </item>
                 </graph_item>
