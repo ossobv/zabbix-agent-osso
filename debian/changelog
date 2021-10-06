@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.54) stable; urgency=low
+
+  * Add various dns related parameters (dns, pdns, unbound).
+  * Make daemon.psdiff output all values (so we don't miss an extra
+    /bin/login).
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 06 Oct 2021 10:04:55 +0100
+
 zabbix-agent-osso (0.53) stable; urgency=low
 
   * mysql: Add possible monitoring for grastate madness
