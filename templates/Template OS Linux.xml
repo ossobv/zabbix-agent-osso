@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-09-07T12:08:37Z</date>
+    <date>2021-11-16T14:46:05Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -741,10 +741,14 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                 <item>
                     <name>ZFS filesystem exists</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>vfs.file.regmatch[/proc/partitions,&quot; zd[0-9]*$&quot;]</key>
+                    <key>vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&quot;]</key>
                     <delay>5m</delay>
                     <history>1d</history>
                     <trends>0</trends>
+                    <description>Previous: vfs.file.regmatch[/proc/partitions,&quot; zd[0-9]*$&quot;]
+Previous# grep -E ' zd[0-9]*$' /proc/partitions
+Now: vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&quot;]
+Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     <applications>
                         <application>
                             <name>Filesystems</name>

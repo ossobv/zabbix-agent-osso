@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-04-27T10:50:41Z</date>
+    <date>2021-11-16T14:44:44Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -68,9 +68,10 @@
                     <request_method>POST</request_method>
                     <triggers>
                         <trigger>
-                            <expression>({last()}&lt;30 or
+                            <expression>{$ZFS_ARC_MAX_MIN}&gt;0 and
+({last()}&lt;{$ZFS_ARC_MAX_MIN} or
  {last()}&gt;850)</expression>
-                            <name>ZFS arc max {ITEM.VALUE} not between 30 %o and 850 %o on {HOST.NAME}</name>
+                            <name>ZFS arc max {ITEM.VALUE} not between $1 %o and 850 %o on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                             <description>Herman says (2017-05-03): &quot;sp servers hebben vaak tot 80% ofzo aan ARC.
 pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</description>
@@ -747,12 +748,18 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     <macro>{$HAS_TEMPLATE_ZFS}</macro>
                     <value>1</value>
                 </macro>
+                <macro>
+                    <macro>{$ZFS_ARC_MAX_MIN}</macro>
+                    <value>30</value>
+                    <description>Minimum promille arc-max, or 0 to disable checks</description>
+                </macro>
             </macros>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO Disk ZFS:zfs.arc.max.file.last()}&lt;&gt;{Template OSSO Disk ZFS:zfs.arc.max.sys.last()}</expression>
+            <expression>{$ZFS_ARC_MAX_MIN}&gt;0 and
+{Template OSSO Disk ZFS:zfs.arc.max.file.last()}&lt;&gt;{Template OSSO Disk ZFS:zfs.arc.max.sys.last()}</expression>
             <name>ZFS arc max config is not applied on {HOST.NAME} (conf={ITEM.LASTVALUE1}, sys={ITEM.LASTVALUE2})</name>
             <priority>DISASTER</priority>
             <description>If the zfs_arc_max is not configured, it's 0 both in the config and the system. But that problem is picked up by the other trigger that wants the max between 3% and 85%.</description>
