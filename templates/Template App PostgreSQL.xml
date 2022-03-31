@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-09-24T07:37:55Z</date>
+    <date>2022-03-31T12:03:20Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -366,6 +366,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                 </item>
                 <item>
                     <name>PostgreSQL: Get bgwriter</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.bgwriter[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
@@ -393,6 +394,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                 </item>
                 <item>
                     <name>Status: Cache hit ratio %</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.cache.hit[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -413,6 +415,7 @@ https://www.postgresql.org/docs/current/wal-configuration.html</description>
                 </item>
                 <item>
                     <name>Status: Config hash</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.config.hash[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>15m</delay>
                     <history>7d</history>
@@ -620,6 +623,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#WAIT-EVENT-TABLE</
                 </item>
                 <item>
                     <name>PostgreSQL: Get connections sum</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.connections.sum[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
@@ -634,6 +638,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-ACTIVITY-V
                 </item>
                 <item>
                     <name>PostgreSQL: Get dbstat</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.dbstat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
@@ -648,6 +653,7 @@ https://www.postgresql.org/docs/current/monitoring-stats.html#PG-STAT-DATABASE-V
                 </item>
                 <item>
                     <name>PostgreSQL: Get locks</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.locks[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
@@ -662,6 +668,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Ping time</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.ping.time[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <value_type>FLOAT</value_type>
@@ -696,6 +703,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Ping</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.ping[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <applications>
@@ -730,6 +738,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>PostgreSQL: Get queries</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.queries[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{$PG.QUERY_ETIME.MAX.WARN}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
@@ -743,6 +752,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: standby count</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.replication.count[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <description>Number of standby servers</description>
@@ -754,6 +764,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: lag in seconds</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.replication.lag.sec[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <units>s</units>
@@ -773,6 +784,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: recovery role</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.replication.recovery_role[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <description>Replication role: 1 — recovery is still in progress (standby mode), 0 — master mode.</description>
@@ -787,6 +799,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Replication: status</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.replication.status[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <description>Replication status: 0 — streaming is down, 1 — streaming is up, 2 — master mode</description>
@@ -912,6 +925,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>PostgreSQL: Get transactions</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.transactions[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>1h</history>
                     <trends>0</trends>
@@ -925,6 +939,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Uptime</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.uptime[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <history>7d</history>
                     <units>uptime</units>
@@ -944,6 +959,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>Status: Version</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.version[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>15m</delay>
                     <history>7d</history>
@@ -997,6 +1013,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                 </item>
                 <item>
                     <name>PostgreSQL: Get WAL</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.wal.stat[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>5m</delay>
                     <history>1h</history>
@@ -1063,6 +1080,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
             <discovery_rules>
                 <discovery_rule>
                     <name>Database discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>pgsql2.discovery.db[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;]</key>
                     <delay>1h</delay>
                     <filter>
@@ -1077,6 +1095,7 @@ https://www.postgresql.org/docs/current/explicit-locking.html#LOCKING-TABLES</de
                     <item_prototypes>
                         <item_prototype>
                             <name>DB {#DBNAME}: Database size</name>
+                            <type>ZABBIX_ACTIVE</type>
                             <key>pgsql2.db.size[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{$PG.DB}&quot;,&quot;{#DBNAME}&quot;]</key>
                             <delay>15m</delay>
                             <history>7d</history>
@@ -1571,6 +1590,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Get frozen XID</name>
+                            <type>ZABBIX_ACTIVE</type>
                             <key>pgsql2.frozenxid[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             <history>1h</history>
                             <trends>0</trends>
@@ -1904,6 +1924,7 @@ https://www.postgresql.org/docs/current/routine-vacuuming.html#VACUUM-FOR-WRAPAR
                         </item_prototype>
                         <item_prototype>
                             <name>DB {#DBNAME}: Get scans</name>
+                            <type>ZABBIX_ACTIVE</type>
                             <key>pgsql2.scans[&quot;{$PG.HOST}&quot;,&quot;{$PG.PORT}&quot;,&quot;{$PG.USER}&quot;,&quot;{#DBNAME}&quot;]</key>
                             <history>1h</history>
                             <trends>0</trends>
