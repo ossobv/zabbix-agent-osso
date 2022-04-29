@@ -1,4 +1,4 @@
-SELECT json_object_agg(datname, row_to_json(T)) FROM (
+SELECT json_object_agg(coalesce(datname, 'NULL'), row_to_json(T)) FROM (
 	SELECT datname,
 			numbackends,
 			xact_commit,
