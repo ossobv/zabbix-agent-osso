@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-06-14T11:34:27Z</date>
+    <date>2022-05-30T11:42:13Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -463,8 +463,13 @@ XXX: temp, on Warning instead of High</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
+                            <expression>{$HAS_DISASTER}=0 and {$DISABLE_FIREWALL}&lt;&gt;1 and {Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and ({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
+                            <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
+                            <priority>HIGH</priority>
+                        </trigger_prototype>
+                        <trigger_prototype>
+                            <expression>{$HAS_DISASTER}=1 and {$DISABLE_FIREWALL}&lt;&gt;1 and
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and 
 ({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
@@ -482,6 +487,10 @@ XXX: temp, on Warning instead of High</description>
                 <macro>
                     <macro>{$DISABLE_ZBXNOHW}</macro>
                     <value>0</value>
+                </macro>
+                <macro>
+                    <macro>{$HAS_DISASTER}</macro>
+                    <value>1</value>
                 </macro>
                 <macro>
                     <macro>{$KERNEL_SLABPCT}</macro>

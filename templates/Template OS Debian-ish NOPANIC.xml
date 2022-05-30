@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.2</version>
+    <date>2022-05-30T11:32:40Z</date>
+    <groups>
+        <group>
+            <name>TEMPLATES</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template OS Debian-ish NOPANIC</template>
+            <name>Template OS Debian-ish NOPANIC</name>
+            <templates>
+                <template>
+                    <name>Template OS Linux NOPANIC</name>
+                </template>
+                <template>
+                    <name>Template OSSO-common</name>
+                </template>
+            </templates>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+        </template>
+    </templates>
+</zabbix_export>

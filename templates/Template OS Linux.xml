@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-11-16T14:46:05Z</date>
+    <date>2022-05-30T11:34:01Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -1177,6 +1177,11 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                 <macro>
                     <macro>{$DISABLE_OOM}</macro>
                     <value>0</value>
+                </macro>
+                <macro>
+                    <macro>{$HAS_DISASTER}</macro>
+                    <value>1</value>
+                    <description>disable for NOPANIC template</description>
                 </macro>
                 <macro>
                     <macro>{$HAS_TEMPLATE_ZFS}</macro>
