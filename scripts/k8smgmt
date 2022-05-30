@@ -283,6 +283,7 @@ cluster-pods-js)
         errored=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
             select((.status.startTime != null) and
+                   (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently')) |
             .status.containerStatuses[] | .state.terminated.reason |
             select(. == "Error") | 1] | length')
@@ -290,6 +291,7 @@ cluster-pods-js)
         erroredpods=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
             select((.status.startTime != null) and
+                   (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] |
               select(.state.terminated.reason == "Error"))) |
@@ -301,6 +303,7 @@ cluster-pods-js)
         waiting=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
             select((.status.startTime != null) and
+                   (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently')) |
             .status.containerStatuses[] | .state.waiting.reason |
             select(. != null) | 1] | length')
@@ -308,6 +311,7 @@ cluster-pods-js)
         waitingpods=$(printf '%s\n' "$jsin" | jq \
           '[.items[] |
             select((.status.startTime != null) and
+                   (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] | select(.state.waiting != null))) |
             (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
