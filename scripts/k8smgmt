@@ -10,6 +10,14 @@ OUTDIR=/var/lib/zabbix/scripts
 
 STALE_AFTER=600  # refuse to read cachefiles older than $STALE_AFTER
 
+safe_jq() {
+    if test -t 2; then
+        command jq "$@"
+    else
+        command jq "$@" 2>/dev/null
+    fi
+}
+
 get_clusters() {
     CLUSTERS=''  # using global instead of echo, this way we skip a fork()
     for dir in $CONFDIR/$PREFIX*; do
@@ -280,41 +288,45 @@ cluster-pods-js)
     errored=0
     erroredpods='""'
     test "${DISABLE_ERROREDPODS:-0}" = 0 && \
-        errored=$(printf '%s\n' "$jsin" | jq \
+        errored=$(printf '%s\n' "$jsin" | safe_jq \
           '[.items[] |
             select((.status.startTime != null) and
                    (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently')) |
             .status.containerStatuses[] | .state.terminated.reason |
-            select(. == "Error") | 1] | length')
+            select(. == "Error") | 1] | length' ||
+            echo 666)
     test "$errored" -gt 0 &&
-        erroredpods=$(printf '%s\n' "$jsin" | jq \
+        erroredpods=$(printf '%s\n' "$jsin" | safe_jq \
           '[.items[] |
             select((.status.startTime != null) and
                    (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] |
               select(.state.terminated.reason == "Error"))) |
-            (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+            (.metadata.namespace + ":" + .metadata.name)] | join(", ")' ||
+            echo 666)
 
     waiting=0
     waitingpods='""'
     test "${DISABLE_WAITINGPODS:-0}" = 0 && \
-        waiting=$(printf '%s\n' "$jsin" | jq \
+        waiting=$(printf '%s\n' "$jsin" | safe_jq \
           '[.items[] |
             select((.status.startTime != null) and
                    (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently')) |
             .status.containerStatuses[] | .state.waiting.reason |
-            select(. != null) | 1] | length')
+            select(. != null) | 1] | length' ||
+            echo 666)
     test "$waiting" -gt 0 &&
-        waitingpods=$(printf '%s\n' "$jsin" | jq \
+        waitingpods=$(printf '%s\n' "$jsin" | safe_jq \
           '[.items[] |
             select((.status.startTime != null) and
                    (.status.containerStatuses != null) and
                    ((.status.startTime | fromdateiso8601) < '$recently') and (
               .status.containerStatuses[] | select(.state.waiting != null))) |
-            (.metadata.namespace + ":" + .metadata.name)] | join(", ")')
+            (.metadata.namespace + ":" + .metadata.name)] | join(", ")' ||
+            echo 666)
 
     # Pending, Running, Succeeded, Failed + Waiting10m, Total
     printf '%s\n' "$jsin" | jq '.items[] | .status.phase' |
