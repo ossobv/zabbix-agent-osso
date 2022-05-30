@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.55) stable; urgency=low
+
+  * k8smgmt: Fix broken JS when there were evicted pods
+  * k8smgmt: More graceful handling of unknown/missing json
+  * postgresql: Unbreak pg_stat_databases call
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 30 May 2022 14:49:25 +0200
+
 zabbix-agent-osso (0.54) stable; urgency=low
 
   * Add various dns related parameters (dns, pdns, unbound).
