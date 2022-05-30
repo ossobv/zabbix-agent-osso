@@ -409,8 +409,8 @@
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and 
-{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and 
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
+{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and
 ({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.ip6tables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv6 firewall in chain {#CHAIN} on {HOST.NAME}</name>
@@ -469,7 +469,7 @@ XXX: temp, on Warning instead of High</description>
                         </trigger_prototype>
                         <trigger_prototype>
                             <expression>{$HAS_DISASTER}=1 and {$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and 
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
 ({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
