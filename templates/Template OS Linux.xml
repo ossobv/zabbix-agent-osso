@@ -622,9 +622,15 @@ ZBX-15624 + ZBX-12957</description>
                     </preprocessing>
                     <triggers>
                         <trigger>
-                            <expression>{last()}=0</expression>
+                            <expression>{$JOURNALD_DISK}=1 and {last()}=0</expression>
                             <name>Missing /var/log/journal on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
+                        </trigger>
+                        <trigger>
+                            <expression>{$JOURNALD_DISK}=0 and {last()}&lt;&gt;0</expression>
+                            <name>Unexpected /var/log/journal on {HOST.NAME}</name>
+                            <priority>AVERAGE</priority>
+                            <description>On some systems we want journald in memory only (because the disks do not cope with many writes)</description>
                         </trigger>
                     </triggers>
                 </item>
@@ -1175,6 +1181,11 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                 <macro>
                     <macro>{$HAS_TEMPLATE_ZFS}</macro>
                     <value>0</value>
+                </macro>
+                <macro>
+                    <macro>{$JOURNALD_DISK}</macro>
+                    <value>1</value>
+                    <description>require journald logs on disk vs. require them in memory only</description>
                 </macro>
                 <macro>
                     <macro>{$LIMIT_MEM_FREE}</macro>

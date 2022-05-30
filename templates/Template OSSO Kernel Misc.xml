@@ -159,12 +159,13 @@
                     <request_method>POST</request_method>
                 </item>
                 <item>
-                    <name>Host has external IPv6 address</name>
+                    <name>Host has any IPv6 address</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.has_ext_ip6</key>
                     <delay>5m</delay>
                     <history>1w</history>
                     <trends>30d</trends>
+                    <description>FIXME: This is a bit of a misnomer. Not only external v6 addresses are counted, also link-locals are. This is because on an external subnet, others in the same network can still access these hosts if they are not firewalled.</description>
                     <applications>
                         <application>
                             <name>Network interfaces</name>
@@ -324,6 +325,16 @@
                         </application>
                     </applications>
                     <request_method>POST</request_method>
+                    <triggers>
+                        <trigger>
+                            <expression>{$DISABLE_ZBXNOHW}=0 and
+ ({nodata(1d)}=1 or
+  {regexp(&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)}=0)</expression>
+                            <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>
+                            <priority>AVERAGE</priority>
+                            <description>Either set DISABLE_ZBXNOHW=1 (through the Disable template) or add the Hardware template which sets it, and adds additional checks.</description>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <name>DMI product</name>
@@ -362,6 +373,7 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.ip6tables.discover_chains</key>
                     <delay>15m</delay>
+                    <lifetime>3d</lifetime>
                     <item_prototypes>
                         <item_prototype>
                             <name>Firewall IPv6 {#CHAIN} policy (0=accept)</name>
@@ -397,14 +409,17 @@
                     <trigger_prototypes>
                         <trigger_prototype>
                             <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
+{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and 
+{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and 
 ({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and
  {Template OSSO Kernel Misc:net.ip6tables.rules[{#CHAIN}].last()}=0)</expression>
                             <name>No IPv6 firewall in chain {#CHAIN} on {HOST.NAME}</name>
-                            <priority>HIGH</priority>
-                            <description>Checking for has_ext_ip4 instead of has_ext_ip6 because both internal machines and external machines get a link local fe80:: address. Assume that only the availability of an IPv4 external IP conveys that this node is directly reachable from the internet.
+                            <priority>WARNING</priority>
+                            <description>Now checking both has_ext_ip4 and has_ext_ip6. Right now we don't have internal machines with external addresses. Assume that only the availability of an IPv4 external IP conveys that this node is directly reachable from the internet. But also check for has_ext_ip6, so we can ignore this if there is no v6.
 
-Better would be to check: (has_ipv4 || (has_ip6&amp;&amp;not-link-local))</description>
+Better would be to check: (has_any_ip6 &amp;&amp; (has_ext_ip4 || has_ext_ip6))
+
+XXX: temp, on Warning instead of High</description>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <request_method>POST</request_method>
@@ -482,14 +497,6 @@ Better would be to check: (has_ipv4 || (has_ip6&amp;&amp;not-link-local))</descr
             <name>Kernel slab memory over {$KERNEL_SLABPCT}% on {HOST.NAME}</name>
             <opdata>Current: {ITEM.LASTVALUE1}</opdata>
             <priority>HIGH</priority>
-        </trigger>
-        <trigger>
-            <expression>{$DISABLE_ZBXNOHW}=0 and
-({Template OSSO Kernel Misc:system.hw.cpu[0,model].regexp(&quot;^Common KVM|^QEMU&quot;)}=0 and
- ({Template OSSO Kernel Misc:system.dmi.chassis.nodata(1d)}=1 or
-  {Template OSSO Kernel Misc:system.dmi.chassis.regexp(&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)}=0))</expression>
-            <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>
-            <description>Either set DISABLE_ZBXNOHW=1 (through the Disable template) or add the Hardware template which sets it, and adds additional checks.</description>
         </trigger>
     </triggers>
 </zabbix_export>
