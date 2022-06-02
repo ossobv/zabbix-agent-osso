@@ -7,7 +7,7 @@ CREATE TABLE `regexps` (
   `test_string` text COLLATE utf8_bin NOT NULL,
   PRIMARY KEY (`regexpid`),
   UNIQUE KEY `regexps_1` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
 
 LOCK TABLES `regexps` WRITE;
@@ -31,7 +31,7 @@ CREATE TABLE `expressions` (
   PRIMARY KEY (`expressionid`),
   KEY `expressions_1` (`regexpid`),
   CONSTRAINT `c_expressions_1` FOREIGN KEY (`regexpid`) REFERENCES `regexps` (`regexpid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC;
 
 
 LOCK TABLES `expressions` WRITE;
@@ -44,7 +44,7 @@ INSERT INTO `expressions` VALUES (8,7,'^/var/lib/lxd/containers/.*/rootfs/',4,',
 INSERT INTO `expressions` VALUES (9,7,'^/var/lib/docker/containers/.*/mounts/',4,',',0);
 INSERT INTO `expressions` VALUES (10,7,'^/var/lib/kubelet/plugins/',4,',',0);
 INSERT INTO `expressions` VALUES (11,7,'^/var/lib/kubelet/pods/',4,',',0);
-INSERT INTO `expressions` VALUES (15,2,'^(br-|docker|tap|tun|veth|vmbr|cali)',4,',',1);
+INSERT INTO `expressions` VALUES (15,2,'^(br-|cali|docker|ppp|tap|tun|veth|vmbr)',4,',',1);
 INSERT INTO `expressions` VALUES (16,7,'^/var/lib/docker/overlay2/',4,',',0);
 INSERT INTO `expressions` VALUES (18,4,'^.*/[0-9a-f]{64}(-init)?$',4,',',1);
 INSERT INTO `expressions` VALUES (19,9,'.',3,',',0);
@@ -53,4 +53,6 @@ INSERT INTO `expressions` VALUES (21,7,'^/.*/[0-9a-f]{64}(/|$)',4,',',0);
 INSERT INTO `expressions` VALUES (23,2,'.',2,',',1);
 INSERT INTO `expressions` VALUES (24,2,'_',2,',',1);
 INSERT INTO `expressions` VALUES (25,2,'^[A-Z0-9_]+$',4,',',1);
+INSERT INTO `expressions` VALUES (26,7,'^/media/',4,',',0);
+INSERT INTO `expressions` VALUES (27,7,'^/mnt/',4,',',0);
 UNLOCK TABLES;
