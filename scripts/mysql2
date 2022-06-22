@@ -10,14 +10,15 @@ PATH=/usr/local/bin:/usr/bin:/bin
 bin=${1:-is-alive}; shift
 
 get_cnf() {
-    cnf=/etc/zabbix/config/mysql.$1.cnf
-    if ! test -s "$cnf"; then
-        if test "$1" = default && test -s /etc/zabbix/mysql/.my.cnf; then
-            cnf=/etc/zabbix/mysql/.my.cnf
-        else
-            echo "ZBX_ERROR: missing instance $1 cnf" >&2
-            exit 1
-        fi
+    if test -s "/etc/zabbix/config/mysql2.$1.cnf"; then
+        cnf=/etc/zabbix/config/mysql2.$1.cnf
+    elif test -s "/etc/zabbix/config/mysql.$1.cnf"; then
+        cnf=/etc/zabbix/config/mysql.$1.cnf
+    elif test "$1" = default && test -s /etc/zabbix/mysql/.my.cnf; then
+        cnf=/etc/zabbix/mysql/.my.cnf
+    else
+        echo "ZBX_ERROR: missing instance $1 cnf" >&2
+        exit 1
     fi
 }
 
@@ -32,9 +33,15 @@ elif test "$bin" = "is-alive"; then
 elif test "$bin" = discover_instances; then
     echo "["
     notfirst=
-    for cnf in /etc/zabbix/config/mysql.*.cnf; do
+    for cnf in /etc/zabbix/config/mysql2.*.cnf \
+               /etc/zabbix/config/mysql.*.cnf; do
         if test -s "$cnf"; then
-            instance=${cnf##*/mysql.}; instance=${instance%.cnf}
+            if test "${cnf##*/mysql2.}" != "$cnf"; then
+                instance=${cnf##*/mysql2.}
+            else
+                instance=${cnf##*/mysql.}
+            fi
+            instance=${instance%.cnf}
             test -n "$notfirst" && echo -n ,; notfirst=1
             echo "{\"{#INSTANCE}\": \"$instance\"}"
         fi
@@ -43,7 +50,8 @@ elif test "$bin" = discover_instances; then
         echo "{\"{#INSTANCE}\": \"default\"}"
     echo "]"
 elif test "$bin" = no-v2-conf; then
-    for cnf in /etc/zabbix/config/mysql.*.cnf; do
+    for cnf in /etc/zabbix/config/mysql2.*.cnf \
+               /etc/zabbix/config/mysql.*.cnf; do
         test -e "$cnf" && echo ZBX_NOTSUPPORTED >&2 && exit 1
     done
     exit 0

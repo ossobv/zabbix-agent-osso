@@ -28,9 +28,9 @@ if [ "$1" = configure ]; then
     fi
 
     # # Bugfix for missing perm on mysql script.
-    # if test -f /etc/zabbix/scripts/mysql &&
-    #         ! test -x /etc/zabbix/scripts/mysql; then
-    #     chmod 755 /etc/zabbix/scripts/mysql
+    # if test -f /etc/zabbix/scripts/mysql2 &&
+    #         ! test -x /etc/zabbix/scripts/mysql2; then
+    #     chmod 755 /etc/zabbix/scripts/mysql2
     # fi
 
     # # Run the update-cache script an initial time.

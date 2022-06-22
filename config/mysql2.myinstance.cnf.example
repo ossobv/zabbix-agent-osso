@@ -3,7 +3,7 @@
 # INSTALL: chown zabbix: mysql.instance.cnf && chmod 400 mysql.instance.cnf
 # (this file is my.cnf compatible and used by mysql --defaults-file=...)
 #
-# For required user-permissions, see docs in: ../zabbix_agentd.d/mysql.conf
+# For required user-permissions, see docs in: ../zabbix_agentd.d/mysql2.conf
 
 [client]
 #host=localhost
