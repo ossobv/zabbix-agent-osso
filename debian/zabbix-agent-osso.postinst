@@ -25,7 +25,7 @@ if [ "$1" = configure ]; then
     fi
     if test "$(md5sum /etc/zabbix/config/mysql.myinstance.cnf.example \
             2>/dev/null |
-            cut -f1 -d' ')" = 1dd6f7963566be47de1f142d938318fe; then
+            cut -f1 -d' ')" = c9657d9174975924de661ee39073112a; then
         rm /etc/zabbix/config/mysql.myinstance.cnf.example
     fi
 
