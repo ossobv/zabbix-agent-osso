@@ -14,6 +14,21 @@ if [ "$1" = configure ]; then
             /etc/zabbix/zabbix_agentd.d/userparameter_mysql.conf
     fi
 
+    # Remove stuff that we renamed just now (2022-06-22):
+    if test "$(md5sum /etc/zabbix/scripts/mysql 2>/dev/null |
+            cut -f1 -d' ')" = 1dd6f7963566be47de1f142d938318fe; then
+        rm /etc/zabbix/scripts/mysql
+    fi
+    if test "$(md5sum /etc/zabbix/zabbix_agentd.d/mysql.conf 2>/dev/null |
+            cut -f1 -d' ')" = df393de6dec4e2a8f1eefaeaa424e581; then
+        rm /etc/zabbix/zabbix_agentd.d/mysql.conf
+    fi
+    if test "$(md5sum /etc/zabbix/config/mysql.myinstance.cnf.example \
+            2>/dev/null |
+            cut -f1 -d' ')" = 1dd6f7963566be47de1f142d938318fe; then
+        rm /etc/zabbix/config/mysql.myinstance.cnf.example
+    fi
+
     # Make sure a lib directory exists, with zabbix permissions.
     mkdir -p /var/lib/zabbix/scripts
     # Make it writable by zabbix, but do not croak if user is missing.
