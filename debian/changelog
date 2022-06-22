@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.56) stable; urgency=low
+
+  * mysql2: Complete the rename from mysql to mysql2
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 22 Jun 2022 14:15:46 +0200
+
 zabbix-agent-osso (0.55) stable; urgency=low
 
   * k8smgmt: Fix broken JS when there were evicted pods
