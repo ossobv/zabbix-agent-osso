@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.60) stable; urgency=low
+
+  * daemons: Correct the current open tty login check
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 23 Jun 2022 17:50:59 +0200
+
 zabbix-agent-osso (0.59) stable; urgency=low
 
   * daemons: Fix/add current open tty login check
