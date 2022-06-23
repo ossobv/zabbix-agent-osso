@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.59) stable; urgency=low
+
+  * daemons: Fix/add current open tty login check
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 23 Jun 2022 12:10:56 +0200
+
 zabbix-agent-osso (0.58) stable; urgency=low
 
   * mysql2: Really complete the rename from mysql to mysql2, part III
