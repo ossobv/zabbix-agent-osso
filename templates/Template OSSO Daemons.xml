@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>5.2</version>
-    <date>2021-09-16T10:08:02Z</date>
+    <date>2022-06-23T10:08:41Z</date>
     <groups>
         <group>
             <name>TEMPLATES</name>
@@ -132,6 +132,36 @@
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
+                </item>
+                <item>
+                    <name>Current logins (non-pts)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>daemon.logins.non-pts</key>
+                    <history>3d</history>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}&lt;&gt;0</expression>
+                            <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
+                            <opdata>{ITEM.LASTVALUE} logins</opdata>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Current logins (pts)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>daemon.logins.pts</key>
+                    <history>3d</history>
+                    <applications>
+                        <application>
+                            <name>Daemon</name>
+                        </application>
+                    </applications>
                 </item>
                 <item>
                     <name>Date of (unread) local mail</name>
@@ -271,7 +301,7 @@
                         <trigger>
                             <expression>{regexp(&quot;[+][[:blank:]]+(/usr)?/bin/login &quot;)}=1</expression>
                             <name>Local tty login on {HOST.NAME}; please logout</name>
-                            <opdata>{ITEM.LASTVALUE1}</opdata>
+                            <opdata>{ITEM.LASTVALUE}</opdata>
                             <priority>HIGH</priority>
                         </trigger>
                     </triggers>
