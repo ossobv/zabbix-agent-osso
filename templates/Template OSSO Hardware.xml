@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2020-07-17T13:59:35Z</date>
-    <groups>
-        <group>
+    <version>6.2</version>
+    <date>2022-12-07T14:14:01Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>257cb9ff74e04915a115f902c91bc372</uuid>
             <name>TEMPLATES</name>
-        </group>
-    </groups>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>be29d77f678546ba9adbd10087d04d03</uuid>
             <template>Template OSSO Hardware</template>
             <name>Template OSSO Hardware</name>
             <templates>
                 <template>
-                    <name>Template App mcelog</name>
+                    <name>Template OSSO IPMI</name>
                 </template>
                 <template>
                     <name>Template OSSO NVMe SMART</name>
