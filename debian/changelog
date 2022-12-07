@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.61) stable; urgency=low
+
+  * diskio: Do not say missing mount is RO, say it is ZBX_NOTSUPPORTED
+  * dpkg: Fix issue with double values
+  * ipmi: Add initial power consumption monitoring
+  * ipmi: Add/set OOB IP inventory item
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 07 Dec 2022 16:08:54 +0100
+
 zabbix-agent-osso (0.60) stable; urgency=low
 
   * daemons: Correct the current open tty login check
