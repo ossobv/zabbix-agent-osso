@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.2</version>
-    <date>2022-12-07T14:15:56Z</date>
+    <date>2022-12-07T14:28:19Z</date>
     <template_groups>
         <template_group>
             <uuid>257cb9ff74e04915a115f902c91bc372</uuid>
@@ -19,6 +19,31 @@
                 </group>
             </groups>
             <items>
+                <item>
+                    <uuid>4949de329de048519735174a00155826</uuid>
+                    <name>IPMI OOB IP</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>ipmi.oob.ip</key>
+                    <delay>1h</delay>
+                    <history>365d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <inventory_link>OOB_IP</inventory_link>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>IPMI</value>
+                        </tag>
+                    </tags>
+                </item>
                 <item>
                     <uuid>9ac1586c97d6437e842a2b6c1895024d</uuid>
                     <name>IPMI power readings</name>
