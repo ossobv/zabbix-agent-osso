@@ -121,9 +121,29 @@
                     <history>0</history>
                     <trends>90d</trends>
                     <units>seconds</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.period.value</parameter>
+                            </parameters>
+                        </step>
+                        <step>
+                            <type>LTRIM</type>
+                            <parameters>
+                                <parameter>0</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <master_item>
                         <key>ipmi.power</key>
                     </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>IPMI</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
                     <uuid>ee4bb003e1114d09ae25c177da8d367f</uuid>
@@ -161,4 +181,29 @@
             </items>
         </template>
     </templates>
+    <graphs>
+        <graph>
+            <uuid>0afecd9d688840ccb30782aae392fe7a</uuid>
+            <name>IPMI power readings</name>
+            <graph_items>
+                <graph_item>
+                    <color>000000</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template OSSO IPMI</host>
+                        <key>ipmi.power.avg</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>FF0000</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template OSSO IPMI</host>
+                        <key>ipmi.power.inst</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
 </zabbix_export>
