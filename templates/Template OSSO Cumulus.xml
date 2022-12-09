@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.2</version>
+    <date>2022-12-09T09:19:03Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>257cb9ff74e04915a115f902c91bc372</uuid>
+            <name>TEMPLATES</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>9eee16ed53914995b4dad14ab0e8e202</uuid>
+            <template>Template OSSO Cumulus</template>
+            <name>Template OSSO Cumulus</name>
+            <groups>
+                <group>
+                    <name>TEMPLATES</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>b12ae9e3f51e4e44b2b7423ebe43ae61</uuid>
+                    <name>Cumulus OOB IP</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>cumulus.oob.ip</key>
+                    <delay>1h</delay>
+                    <history>365d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Cumulus</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>16fa35d8777343759a5806645f9e565a</uuid>
+                    <name>Cumulus power readings</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>cumulus.power</key>
+                    <delay>5m</delay>
+                    <history>1h</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Cumulus</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>2c139219a2444f0ba80b20b619b96fa5</uuid>
+                    <name>Cumulus current power usage</name>
+                    <type>DEPENDENT</type>
+                    <key>cumulus.power.inst</key>
+                    <delay>0</delay>
+                    <history>7d</history>
+                    <units>Watt</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.inst_pwr.value</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>cumulus.power</key>
+                    </master_item>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Cumulus</value>
+                        </tag>
+                    </tags>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <uuid>d9a48f79cbe74c7b906d17099e0036fe</uuid>
+            <name>Cumulus power readings</name>
+            <graph_items>
+                <graph_item>
+                    <sortorder>1</sortorder>
+                    <color>FF0000</color>
+                    <calc_fnc>ALL</calc_fnc>
+                    <item>
+                        <host>Template OSSO Cumulus</host>
+                        <key>cumulus.power.inst</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
