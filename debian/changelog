@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.63) stable; urgency=low
+
+  * diskio: Monitor more disks (nvme and zpool) out of the box.
+  * zfs: Fix templates with respect to ZFS IO info.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 24 Jan 2023 10:17:29 +0100
+
 zabbix-agent-osso (0.62) stable; urgency=low
 
   * cumulus: Get power readings from cumulus switches using smonctl.
