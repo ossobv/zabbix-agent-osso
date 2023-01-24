@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.64) stable; urgency=low
+
+  * diskio: Add necessary fix to actually monitore more devices.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 24 Jan 2023 17:20:42 +0100
+
 zabbix-agent-osso (0.63) stable; urgency=low
 
   * diskio: Monitor more disks (nvme and zpool) out of the box.
