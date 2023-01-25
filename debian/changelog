@@ -1,15 +1,21 @@
+zabbix-agent-osso (0.65) stable; urgency=low
+
+  * dpkg: Add mail notification for stalling apt-get updates.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 25 Jan 2023 12:11:41 +0100
+
 zabbix-agent-osso (0.64) stable; urgency=low
 
   * diskio: Add necessary fix to actually monitore more devices.
 
- -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 24 Jan 2023 17:20:42 +0100
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 24 Jan 2023 17:20:42 +0100
 
 zabbix-agent-osso (0.63) stable; urgency=low
 
   * diskio: Monitor more disks (nvme and zpool) out of the box.
   * zfs: Fix templates with respect to ZFS IO info.
 
- -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 24 Jan 2023 10:17:29 +0100
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 24 Jan 2023 10:17:29 +0100
 
 zabbix-agent-osso (0.62) stable; urgency=low
 
