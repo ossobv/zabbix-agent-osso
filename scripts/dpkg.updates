@@ -36,6 +36,22 @@ if test "$1" = "--cron" && test $(date +%H) -ne 6; then
         if ! echo "$ret" | grep -q 'E: Could not get lock'; then
             echo "$ret" 2>&1
             exit 100
+        else
+            # Running into
+            # https://bugs.launchpad.net/ubuntu/+source/apt/+bug/2003851 ?
+            pid=$(pidof apt-get | sed -e 's/ .*//')
+            current_jiffies_since_boot=$(awk '{print $22}' /proc/$$/stat)
+            apt_jiffies_since_boot=$(awk '{print $22}' /proc/$pid/stat \
+                2>/dev/null)
+            if test -n "$apt_jiffies_since_boot"; then
+                jiffdiff=$((current_jiffies_since_boot-apt_jiffies_since_boot))
+                hours=$((jiffdiff/100/3600))
+                if test $hours -gt 12; then
+                    echo "apt-get has been running for $hours hours:" >&2
+                    echo "since: $(ps -ho lstart -p $pid)" >&2
+                    echo "bug LP#2003851 perhaps?" >&2
+                fi
+            fi
         fi
     fi
 fi
