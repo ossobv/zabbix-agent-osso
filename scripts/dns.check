@@ -54,15 +54,24 @@ get_ns() {
     fi
 }
 
-# Include nameserver loukup in the time, because this might already be a
+# Include nameserver lookup in the time, because this might already be a
 # recursive operation including our own nameservers (for delegated domains).
 read t0 </proc/uptime
 t0=${t0%% *}; t0=${t0%.*}${t0#*.}0
 
 # Do lookup(s).
 for ns in $(get_ns "$hostname" "$use_targetns"); do
+    # Allow option in ns, like "IP+tcp"
+    ns_opt=${ns#*+}
+    if test "$ns_opt" = "$ns"; then
+        ns_opt=
+    else
+        ns_opt=+$ns_opt
+        ns=${ns%%+*}
+    fi
+
     fail=0
-    vals=$(dig -t "$qtype" "$hostname" "@$ns" \
+    vals=$(dig -t "$qtype" "$hostname" "@$ns" $ns_opt \
         +noall +answer +comments +dnssec +timeout=1)
 
     # Read second time immediately before we do any extra parsing.

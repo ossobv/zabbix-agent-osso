@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2021-09-16T11:13:58Z</date>
-    <groups>
-        <group>
+    <version>6.2</version>
+    <date>2023-03-16T15:51:50Z</date>
+    <template_groups>
+        <template_group>
+            <uuid>257cb9ff74e04915a115f902c91bc372</uuid>
             <name>TEMPLATES</name>
-        </group>
-    </groups>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>192ba1dab3004ad3b0b1795580763d39</uuid>
             <template>Template OSSO DNS checks</template>
             <name>Template OSSO DNS checks</name>
             <groups>
@@ -16,13 +18,9 @@
                     <name>TEMPLATES</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>DNS</name>
-                </application>
-            </applications>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>f7616defe2644a9d840b8cba55045b67</uuid>
                     <name>Discovery DNS checks</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>dns.discover</key>
@@ -30,24 +28,27 @@
                     <lifetime>1d</lifetime>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>f38178c7711441f994f851c6e5a096de</uuid>
                             <name>DNS query ms for {#DNS_LOOKUP}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>dns.check[{#DNS_LOOKUP}]</key>
-                            <delay>15m</delay>
+                            <delay>150s</delay>
                             <history>7d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>DNS</name>
-                                </application>
-                            </applications>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>DNS</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;500 or
-{last()}=0</expression>
+                                    <uuid>c3e7699d9ae44d86ab4951d1067507f1</uuid>
+                                    <expression>last(/Template OSSO DNS checks/dns.check[{#DNS_LOOKUP}])&gt;500 or
+last(/Template OSSO DNS checks/dns.check[{#DNS_LOOKUP}])=0</expression>
                                     <name>DNS query ms for {#DNS_LOOKUP} took too long on {HOST.NAME}</name>
-                                    <opdata>$1 ms</opdata>
-                                    <priority>HIGH</priority>
+                                    <opdata>{ITEM.LASTVALUE1} ms</opdata>
+                                    <priority>DISASTER</priority>
                                     <description>If this value is the magic value 0 then things are broken</description>
                                 </trigger_prototype>
                             </trigger_prototypes>

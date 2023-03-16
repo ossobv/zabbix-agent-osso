@@ -34,3 +34,6 @@ CNAME:www.example.com.      -               NOERROR     example.com.
 
 TXT:example.com.            -               NOERROR     -
 # ^- check that this TXT record exists
+
+A:tcp-check.example.com     1.1.1.1+tcp     NXDOMAIN    -
+# ^- check that 1.1.1.1 responds to tcp queries
