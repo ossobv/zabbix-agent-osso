@@ -18,9 +18,10 @@ EGREP_EXCLUDE='^fwupd-refresh[.]service$'
 test -f $CUSTOM && . $CUSTOM
 
 list() {
-    out=$(systemctl list-units --all --failed --no-legend 2>/dev/null ||
-            echo ZBX_NOTSUPPORTED)
-    echo "$out" | cut -d' ' -f1 | LC_ALL=C sort -V
+    out=$(LC_ALL=C systemctl list-units --all --failed --no-legend \
+            2>/dev/null || echo ZBX_NOTSUPPORTED)
+    printf '%s' "$out" | sed -e 's/^\*[[:blank:]]*//;s/[[:blank:]].*//' |
+        LC_ALL=C sort -V
 }
 
 if test -d /run/systemd/system; then
