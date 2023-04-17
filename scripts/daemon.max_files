@@ -24,6 +24,7 @@ temp=$(mktemp "$dest.XXXX")
         lim=$(awk '
             /^Max open files/{if($4!="0"&&int($4)==$4){print $4;exit}exit 1}' \
             /proc/$pid/limits 2>/dev/null) &&
+          test "$lim" -gt 0 &&
           max=$((count*1000/lim)) &&
           echo $max $pid
     fi
