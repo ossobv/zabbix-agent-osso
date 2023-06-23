@@ -1,3 +1,16 @@
+zabbix-agent-osso (0.66) stable; urgency=low
+
+  * daemon: Fix maxtasks when there was a X at $1
+  * daemon: systemd has changed its --no-legend output from focal->jammy
+  * daemon: Under rare circumstances we got errors
+  * dns: Update DNS check to allow TCP checks too; and set DISASTER on fail
+  * dpkg: Fix dpkg[security] on newer jammy
+  * dpkg: Fix issue with octal decoding
+  * postgres: Add row counts; useful for zabbix hosts/history
+  * postgres: Amend permission docs
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 23 Jun 2023 10:19:17 +0200
+
 zabbix-agent-osso (0.65) stable; urgency=low
 
   * dpkg: Add mail notification for stalling apt-get updates.
