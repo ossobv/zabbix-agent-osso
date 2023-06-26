@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.67) stable; urgency=low
+
+  * dpkg: Ignore paid ESM "additional security" updates in dpkg[security]
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 26 Jun 2023 10:58:18 +0200
+
 zabbix-agent-osso (0.66) stable; urgency=low
 
   * daemon: Fix maxtasks when there was a X at $1
