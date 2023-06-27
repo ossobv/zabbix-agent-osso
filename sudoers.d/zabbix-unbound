@@ -1,3 +1,5 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-zabbix ALL=NOPASSWD: /usr/sbin/unbound-control stats_noreset
+Cmnd_Alias UNBOUND_STATS = /usr/sbin/unbound-control stats_noreset
+Defaults!UNBOUND_STATS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: UNBOUND_STATS

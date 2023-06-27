@@ -1,10 +1,8 @@
 # [This file is part of the zabbix-agent-osso package]
 #
 # ZFS zpool/zfs list commands.
-zabbix ALL=NOPASSWD: /sbin/zpool list -Ho name
-zabbix ALL=NOPASSWD: /sbin/zpool list -Ho health *
-zabbix ALL=NOPASSWD: /sbin/zpool status
-zabbix ALL=NOPASSWD: /sbin/zfs list -Ho name
 # We cannot limit '*' to only a single word. We'll have to trust zfs-get to not
 # allow anything destructive.
-zabbix ALL=NOPASSWD: /sbin/zfs get -Hpo value *
+Cmnd_Alias ZFS_INFO = /sbin/zpool list -Ho name, /sbin/zpool list -Ho health *, /sbin/zpool status, /sbin/zfs list -Ho name, /sbin/zfs get -Hpo value *
+Defaults!ZFS_INFO !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZFS_INFO

@@ -1,7 +1,10 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-zabbix ALL=NOPASSWD: /usr/bin/cert-expiry-finder
-zabbix ALL=NOPASSWD: /usr/bin/wcheckrestart
 #
-zabbix ALL=NOPASSWD: /usr/local/bin/cert-expiry-finder
-zabbix ALL=NOPASSWD: /usr/local/bin/wcheckrestart
+Cmnd_Alias CERT_FINDER = /usr/bin/cert-expiry-finder, /usr/local/bin/cert-expiry-finder
+Defaults!CERT_FINDER !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: CERT_FINDER
+#
+Cmnd_Alias CHECKRESTART = /usr/bin/wcheckrestart, /usr/local/bin/wcheckrestart
+Defaults!CHECKRESTART !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: CHECKRESTART

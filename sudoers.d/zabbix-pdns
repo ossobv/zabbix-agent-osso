@@ -1,5 +1,5 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-zabbix ALL=NOPASSWD: /usr/bin/pdns_control show *
-zabbix ALL=NOPASSWD: /usr/bin/rec_control get *
-zabbix ALL=NOPASSWD: /usr/bin/rec_control get-all
+Cmnd_Alias PDNS_STATS = /usr/bin/pdns_control show *, /usr/bin/rec_control get *, /usr/bin/rec_control get-all
+Defaults!PDNS_STATS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: PDNS_STATS

@@ -1,3 +1,5 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-zabbix ALL=NOPASSWD: /etc/zabbix/scripts/nvme.device *
+Cmnd_Alias NVME_DEVICE = /etc/zabbix/scripts/nvme.device *
+Defaults!NVME_DEVICE !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: NVME_DEVICE

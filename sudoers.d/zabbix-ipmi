@@ -1,4 +1,5 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-zabbix ALL=NOPASSWD: /usr/bin/ipmitool dcmi power reading
-zabbix ALL=NOPASSWD: /usr/bin/ipmitool lan print
+Cmnd_Alias IPMITOOL_READ = /usr/bin/ipmitool dcmi power reading, /usr/bin/ipmitool lan print
+Defaults!IPMITOOL_READ !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: IPMITOOL_READ
