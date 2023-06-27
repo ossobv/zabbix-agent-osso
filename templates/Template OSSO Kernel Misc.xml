@@ -1,43 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-05-30T11:42:13Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>f36023b25b524cc1a434dc5928dc89f0</uuid>
             <template>Template OSSO Kernel Misc</template>
             <name>Template OSSO Kernel Misc</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>CPU</name>
-                </application>
-                <application>
-                    <name>DMI</name>
-                </application>
-                <application>
-                    <name>Firewall</name>
-                </application>
-                <application>
-                    <name>Memory</name>
-                </application>
-                <application>
-                    <name>Network interfaces</name>
-                </application>
-                <application>
-                    <name>Security</name>
-                </application>
-            </applications>
             <items>
                 <item>
+                    <uuid>a093a2958e8d41f7aa9bdbc12a1687df</uuid>
                     <name>Kernel entropy available</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>kernel.entropy</key>
@@ -45,20 +27,23 @@
                     <history>1w</history>
                     <trends>90d</trends>
                     <description>Kernel entropy interval must not be 5m (using 4.5m). On some systems (Debian Stretch? Kernel 4.9.0-3? Systemd 232-25+deb9u1?) the entropy is reset every 5 minutes. Unsure who causes this, but it appears to be a system daemon (systemd-* or kernel itself); as turning off as many daemons as possible did not stop the entropy drain/reset.</description>
-                    <applications>
-                        <application>
-                            <name>Security</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Security</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{max(15m)}&lt;40</expression>
+                            <uuid>e97e14577bd9471ba09422db049e88ef</uuid>
+                            <expression>max(/Template OSSO Kernel Misc/kernel.entropy,15m)&lt;40</expression>
                             <name>Not enough kernel entropy (&lt;40) on {HOST.NAME}</name>
                             <priority>HIGH</priority>
                         </trigger>
                         <trigger>
-                            <expression>{max(15m)}&lt;250</expression>
+                            <uuid>51c8262b73994fb39f1e6b225dd2c850</uuid>
+                            <expression>max(/Template OSSO Kernel Misc/kernel.entropy,15m)&lt;250</expression>
                             <name>Not enough kernel entropy (&lt;250) on {HOST.NAME}</name>
                             <status>DISABLED</status>
                             <priority>AVERAGE</priority>
@@ -68,17 +53,13 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>f80d7eb67a7544718c6b3e8646299ecd</uuid>
                     <name>Kernel slab memory</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>kernel.mem.slab</key>
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>MULTIPLIER</type>
@@ -87,19 +68,21 @@
                             </parameters>
                         </step>
                     </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>c9a91a8a88cd4274be3da8c4748e68c0</uuid>
                     <name>Kernel total memory</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>kernel.mem.total</key>
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>MULTIPLIER</type>
@@ -108,8 +91,15 @@
                             </parameters>
                         </step>
                     </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>c5088b4eccc1431193bd2ce0c49decc1</uuid>
                     <name>Host exit IPv4 address</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.get_ext_ip4</key>
@@ -117,37 +107,52 @@
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
                     <inventory_link>HOST_ROUTER</inventory_link>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>8ef341cb226d45b19f250e2c19ccb87e</uuid>
                     <name>Host exit IPv6 address</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.get_ext_ip6</key>
                     <delay>20m</delay>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>85f6fa646cc84defb642becfc11fb7f7</uuid>
                     <name>Host has external IPv4 address</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.has_ext_ip4</key>
                     <delay>5m</delay>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
@@ -155,10 +160,23 @@
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>62f85db20dd245c4bd3260d37962fcd8</uuid>
                     <name>Host has any IPv6 address</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.has_ext_ip6</key>
@@ -166,11 +184,6 @@
                     <history>1w</history>
                     <trends>30d</trends>
                     <description>FIXME: This is a bit of a misnomer. Not only external v6 addresses are counted, also link-locals are. This is because on an external subnet, others in the same network can still access these hosts if they are not firewalled.</description>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
@@ -178,110 +191,83 @@
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>76ffa42b789b4f54962a2ccb2a6771d1</uuid>
                     <name>Host stats TCP segments retransmitted</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.tcpretranssegs</key>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>eaa239d09f9947239ee4d20cec0e1147</uuid>
                     <name>Host stats TCP segments retransmitted delta</name>
                     <type>CALCULATED</type>
                     <key>net.tcpretranssegs.delta</key>
                     <delay>30s</delay>
-                    <params>change(net.tcpretranssegs)</params>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
+                    <params>change(//net.tcpretranssegs)</params>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>e73058ebec08408aaee818d9305bb73b</uuid>
                     <name>Host stats TCPSynRetrans</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.tcpsynretrans</key>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>adc260c2544b4975afefaa0ff98a0093</uuid>
                     <name>Host stats TCPSynRetrans delta</name>
                     <type>CALCULATED</type>
                     <key>net.tcpsynretrans.delta</key>
                     <delay>30s</delay>
-                    <params>change(net.tcpsynretrans)</params>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
+                    <params>change(//net.tcpsynretrans)</params>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Network interfaces</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>Host stats UDP receive buffer errors</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>net.udprcvbuferrors</key>
-                    <history>1w</history>
-                    <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Host stats UDP receive buffer delta</name>
-                    <type>CALCULATED</type>
-                    <key>net.udprcvbuferrors.delta</key>
-                    <delay>30s</delay>
-                    <params>change(net.udprcvbuferrors)</params>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Host stats UDP send buffer errors</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>net.udpsndbuferrors</key>
-                    <history>1w</history>
-                    <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Host stats UDP send buffer delta</name>
-                    <type>CALCULATED</type>
-                    <key>net.udpsndbuferrors.delta</key>
-                    <delay>30s</delay>
-                    <params>change(net.udpsndbuferrors)</params>
-                    <applications>
-                        <application>
-                            <name>Network interfaces</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
+                    <uuid>2fb3f93c4109464f9feb1dbbd948b866</uuid>
                     <name>CPU cores</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.cores</key>
@@ -289,14 +275,24 @@
                     <history>1w</history>
                     <trends>90d</trends>
                     <units>cores</units>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>67731816287644e1a8bc29f2567fbc10</uuid>
                     <name>DMI bios</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.dmi.bios</key>
@@ -304,14 +300,24 @@
                     <history>15d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>DMI</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>DMI</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>012a457d697a402b968277f650df5f17</uuid>
                     <name>DMI chassis</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.dmi.chassis</key>
@@ -319,17 +325,25 @@
                     <history>15d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>DMI</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>DMI</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_ZBXNOHW}=0 and
- ({nodata(1d)}=1 or
-  {regexp(&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)}=0)</expression>
+                            <uuid>dae2eb7bc5564237ae526ed626a28bf2</uuid>
+                            <expression>{$DISABLE_ZBXNOHW}=0 and find(/Template OSSO Kernel Misc/system.dmi.chassis,,&quot;regexp&quot;,&quot;^QEMU|^Xen |lxcfs-in-proc&quot;)=0</expression>
                             <name>{HOST.NAME} lacks Zabbix Hardware tpl (cpu={ITEM.LASTVALUE1}, chassis={ITEM.LASTVALUE2})</name>
                             <priority>AVERAGE</priority>
                             <description>Either set DISABLE_ZBXNOHW=1 (through the Disable template) or add the Hardware template which sets it, and adds additional checks.</description>
@@ -337,6 +351,7 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>4d4fab784c1e494aab85e58bf9f604d9</uuid>
                     <name>DMI product</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.dmi.product</key>
@@ -344,14 +359,24 @@
                     <history>15d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>DMI</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>DMI</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>6322f0ac972b474abf2b7cac146e6325</uuid>
                     <name>CPU model</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.hw.cpu[0,model]</key>
@@ -359,16 +384,26 @@
                     <history>15d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                    </tags>
                 </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>457118fd377b433f87a3e1c558e79156</uuid>
                     <name>Firewall IPv6 chains</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.ip6tables.discover_chains</key>
@@ -376,6 +411,7 @@
                     <lifetime>3d</lifetime>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>f7dd6901b18d4c05b410d6c4092f59ac</uuid>
                             <name>Firewall IPv6 {#CHAIN} policy (0=accept)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.ip6tables.policy[{#CHAIN}]</key>
@@ -383,14 +419,24 @@
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
-                            <applications>
-                                <application>
-                                    <name>Firewall</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Firewall</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>c5a60a3a68764943856d95fa2e258df3</uuid>
                             <name>Firewall IPv6 {#CHAIN} rules</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.ip6tables.rules[{#CHAIN}]</key>
@@ -398,21 +444,31 @@
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>rules</units>
-                            <applications>
-                                <application>
-                                    <name>Firewall</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Firewall</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
+                            <uuid>64017069df1a49b9bd8e8e957768744f</uuid>
                             <expression>{$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
-{Template OSSO Kernel Misc:net.has_ext_ip6.last()}=1 and
-({Template OSSO Kernel Misc:net.ip6tables.policy[{#CHAIN}].last()}=0 and
- {Template OSSO Kernel Misc:net.ip6tables.rules[{#CHAIN}].last()}=0)</expression>
+last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
+last(/Template OSSO Kernel Misc/net.has_ext_ip6)=1 and
+(max(/Template OSSO Kernel Misc/net.ip6tables.policy[{#CHAIN}],#2)=0 and
+ max(/Template OSSO Kernel Misc/net.ip6tables.rules[{#CHAIN}],#2)=0)</expression>
                             <name>No IPv6 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                             <description>Now checking both has_ext_ip4 and has_ext_ip6. Right now we don't have internal machines with external addresses. Assume that only the availability of an IPv4 external IP conveys that this node is directly reachable from the internet. But also check for has_ext_ip6, so we can ignore this if there is no v6.
@@ -425,12 +481,14 @@ XXX: temp, on Warning instead of High</description>
                     <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
+                    <uuid>212c7f5b3cbb4c7c89461188e157974f</uuid>
                     <name>Firewall IPv4 chains</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.iptables.discover_chains</key>
                     <delay>15m</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>cd15d0d0736546a9874ef46ea9a34e4e</uuid>
                             <name>Firewall IPv4 {#CHAIN} policy (0=accept)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.iptables.policy[{#CHAIN}]</key>
@@ -438,14 +496,24 @@ XXX: temp, on Warning instead of High</description>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
-                            <applications>
-                                <application>
-                                    <name>Firewall</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Firewall</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>de5cd41a5c424088ba066e725457868c</uuid>
                             <name>Firewall IPv4 {#CHAIN} rules</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.iptables.rules[{#CHAIN}]</key>
@@ -453,25 +521,39 @@ XXX: temp, on Warning instead of High</description>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>rules</units>
-                            <applications>
-                                <application>
-                                    <name>Firewall</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Firewall</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{$HAS_DISASTER}=0 and {$DISABLE_FIREWALL}&lt;&gt;1 and {Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and ({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
+                            <uuid>c326a20677be4506b58c5fef9eaba3c7</uuid>
+                            <expression>{$HAS_DISASTER}=0 and {$DISABLE_FIREWALL}&lt;&gt;1 and
+last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
+(max(/Template OSSO Kernel Misc/net.iptables.policy[{#CHAIN}],#2)=0 and
+ max(/Template OSSO Kernel Misc/net.iptables.rules[{#CHAIN}],#2)=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>HIGH</priority>
                         </trigger_prototype>
                         <trigger_prototype>
+                            <uuid>64c3fa927b2c431c96113eae07d65283</uuid>
                             <expression>{$HAS_DISASTER}=1 and {$DISABLE_FIREWALL}&lt;&gt;1 and
-{Template OSSO Kernel Misc:net.has_ext_ip4.last()}=1 and
-({Template OSSO Kernel Misc:net.iptables.policy[{#CHAIN}].last()}=0 and
- {Template OSSO Kernel Misc:net.iptables.rules[{#CHAIN}].last()}=0)</expression>
+last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
+(max(/Template OSSO Kernel Misc/net.iptables.policy[{#CHAIN}],#2)=0 and
+ max(/Template OSSO Kernel Misc/net.iptables.rules[{#CHAIN}],#2)=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                         </trigger_prototype>
@@ -502,7 +584,8 @@ XXX: temp, on Warning instead of High</description>
     </templates>
     <triggers>
         <trigger>
-            <expression>({Template OSSO Kernel Misc:kernel.mem.slab.last()}*100/{$KERNEL_SLABPCT})&gt;{Template OSSO Kernel Misc:kernel.mem.total.last()}</expression>
+            <uuid>d30807598abd4a9cb071bb874d6a1277</uuid>
+            <expression>(last(/Template OSSO Kernel Misc/kernel.mem.slab)*100/{$KERNEL_SLABPCT})&gt;last(/Template OSSO Kernel Misc/kernel.mem.total)</expression>
             <name>Kernel slab memory over {$KERNEL_SLABPCT}% on {HOST.NAME}</name>
             <opdata>Current: {ITEM.LASTVALUE1}</opdata>
             <priority>HIGH</priority>
