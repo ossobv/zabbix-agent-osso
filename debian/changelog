@@ -1,3 +1,13 @@
+zabbix-agent-osso (0.68) stable; urgency=low
+
+  * daemon: Fix (not) triggering cert alert after setup on a new server
+  * daemon: Fix systemd excess bullets to the left
+  * repomgmt: Fix continue after missing sourced file
+  * sudoers: Silence auth logs
+  * templates: Update OS Kernel Misc with slightly delayed iptables trigger
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 10 Jul 2023 08:57:56 +0200
+
 zabbix-agent-osso (0.67) stable; urgency=low
 
   * dpkg: Ignore paid ESM "additional security" updates in dpkg[security]
