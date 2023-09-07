@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-06-23T10:08:41Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>42586a83cc8049218d33faf67b9dcacc</uuid>
             <template>Template OSSO Daemons</template>
             <name>Template OSSO Daemons</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Daemon</name>
-                </application>
-            </applications>
             <items>
                 <item>
+                    <uuid>5cda3c6aa36d4d59b18cc706e896fc4b</uuid>
                     <name>Server certificates expiry days</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.cert.minexpiry</key>
@@ -30,34 +27,48 @@
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <units>days</units>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}&lt;14</expression>
+                            <uuid>fdf47ce7a07940339b30552b588aeeee</uuid>
+                            <expression>last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;14</expression>
                             <name>Certificate(s) about to expire on {HOST.NAME}</name>
                             <opdata>{ITEM.LASTVALUE} left</opdata>
                             <priority>HIGH</priority>
                             <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
                         </trigger>
+                        <trigger>
+                            <uuid>caecd8d25880496d851863446e404d4e</uuid>
+                            <expression>time()&gt;103000 and time()&lt;220000 and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;5</expression>
+                            <name>Certificate(s) about to expire on {HOST.NAME} (&lt;5 days)</name>
+                            <opdata>{ITEM.LASTVALUE} left</opdata>
+                            <priority>DISASTER</priority>
+                            <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
+                        </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>a736fa24129a4a25852679c5b5265d1b</uuid>
                     <name>Daemon cron is running</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.is_running[cron]</key>
                     <delay>5m</delay>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
@@ -65,28 +76,37 @@
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}=0</expression>
+                            <uuid>43fd73e481914bd8a2856c4ddc5fdd51</uuid>
+                            <expression>last(/Template OSSO Daemons/daemon.is_running[cron])=0</expression>
                             <name>Daemon cron is not running on {HOST.NAME}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>abc905201ee6430ba67c997386de80ea</uuid>
                     <name>Daemon gocollect is running</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.is_running[gocollect,gocollect-fallback]</key>
                     <delay>5m</delay>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
@@ -94,28 +114,37 @@
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and {last()}=0</expression>
+                            <uuid>b168ad8b7d124fc4898a8615b3a74b5b</uuid>
+                            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.is_running[gocollect,gocollect-fallback])=0</expression>
                             <name>Daemon gocollect is not running on {HOST.NAME}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>2a126b49115b435290f28e2d4516214b</uuid>
                     <name>Daemon postfix is running</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.is_running[master]</key>
                     <delay>5m</delay>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>BOOL_TO_DECIMAL</type>
@@ -123,93 +152,143 @@
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_LOCALMAIL}&lt;&gt;1 and {last()}=0</expression>
+                            <uuid>d5a511b9081a47b4bf0c1c12ff517e07</uuid>
+                            <expression>{$DISABLE_LOCALMAIL}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.is_running[master])=0</expression>
                             <name>Daemon postfix is not running on {HOST.NAME}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>7a30701ddc22470e90922c0e877feed8</uuid>
                     <name>Current logins (non-pts)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.logins.non-pts</key>
                     <history>3d</history>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}&lt;&gt;0</expression>
+                            <uuid>f87e3674770240b4a6fcadd2d5fcaa2a</uuid>
+                            <expression>last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
                             <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
                             <opdata>{ITEM.LASTVALUE} logins</opdata>
-                            <priority>HIGH</priority>
+                            <priority>DISASTER</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>e1d3f9a3d85749d8a446a9cd2adab270</uuid>
                     <name>Current logins (pts)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.logins.pts</key>
                     <history>3d</history>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>918c6cb924794f308f898592e4d2b37c</uuid>
                     <name>Date of (unread) local mail</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.mail.localdate</key>
                     <delay>1d</delay>
                     <units>unixtime</units>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>a1e293be0dfc4d1ea9792d7c84874142</uuid>
                     <name>Bytes of (unread) local mail</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.mail.localsize</key>
                     <delay>1d</delay>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>97823c8508534c4f90fa6cd9a2f9b3d8</uuid>
                     <name>Number of mails queued</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.mail.queued</key>
                     <delay>3m</delay>
                     <history>1w</history>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}&gt;{$MAIL_QUEUE_CRITICAL}</expression>
+                            <uuid>b004ff6748944231be16bb25f50c20ae</uuid>
+                            <expression>last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
                             <name>Mail queue on {HOST.NAME} reached &gt;= {ITEM.VALUE}</name>
                             <opdata>Now: {ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
                         </trigger>
                         <trigger>
-                            <expression>{last()}&gt;{$MAIL_QUEUE_HIGH}</expression>
+                            <uuid>5033efadb8394c89828855e1fe4a35e9</uuid>
+                            <expression>last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_HIGH}</expression>
                             <name>Mail queue on {HOST.NAME} reached &gt;= {ITEM.VALUE} (nearing {$MAIL_QUEUE_CRITICAL})</name>
                             <opdata>Now: {ITEM.LASTVALUE}</opdata>
                             <priority>HIGH</priority>
@@ -217,59 +296,100 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>0abddca6378247adbd5e3251e5e23388</uuid>
                     <name>Pid of process with relatively most open files</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.max_files.pid</key>
                     <history>1w</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>3a47a62a1da94fc6a53d06cf46cec4be</uuid>
                     <name>Process (name) with relatively most open files</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.max_files.process</key>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>6b7dffa63fad405ebd5f388f92efd7ed</uuid>
                     <name>Promille of max files opened by process</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.max_files.promille</key>
                     <history>1w</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>0697159efda1409b83134a72b7c3d35b</uuid>
                     <name>Recent OOM kill count</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.oom_kill.count</key>
                     <delay>2m</delay>
                     <history>1w</history>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_OOM}&lt;&gt;1 and {last()}&gt;0</expression>
+                            <uuid>1ec8124d57ee415cbdd62462b6a9fa3e</uuid>
+                            <expression>{$DISABLE_OOM}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.oom_kill.count)&gt;0</expression>
                             <name>Recent OOM detected on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                             <description>OOM check script found something recent in syslog.</description>
@@ -277,6 +397,7 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>3f099bd824fe45948af1798e8a8e0076</uuid>
                     <name>Extra daemons</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.psdiff.extra</key>
@@ -284,29 +405,41 @@
                     <history>1w</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {strlen(#1)}&gt;0 and {strlen(#2)}&gt;0 and {strlen(#3)}&gt;0</expression>
+                            <uuid>96398c85c5c0422789db8e34af52ed68</uuid>
+                            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and length(last(/Template OSSO Daemons/daemon.psdiff.extra,#1))&gt;0 and length(last(/Template OSSO Daemons/daemon.psdiff.extra,#2))&gt;0 and length(last(/Template OSSO Daemons/daemon.psdiff.extra,#3))&gt;0</expression>
                             <name>Extra daemons on {HOST.NAME}: {ITEM.VALUE}</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>INFO</priority>
                             <description>Use `psdiff show` and `psdiff write` to update the DB. (Fires if last three values are all non-empty.)</description>
                         </trigger>
                         <trigger>
-                            <expression>{regexp(&quot;[+][[:blank:]]+(/usr)?/bin/login &quot;)}=1</expression>
-                            <name>Local tty login on {HOST.NAME}; please logout</name>
+                            <uuid>12cc70f81ef943e78ddc16ade1f13733</uuid>
+                            <expression>find(/Template OSSO Daemons/daemon.psdiff.extra,,&quot;regexp&quot;,&quot;[+][[:blank:]]+(/usr)?/bin/login &quot;)=1</expression>
+                            <name>Local tty login on {HOST.NAME}; please logout (old trigger)</name>
                             <opdata>{ITEM.LASTVALUE}</opdata>
                             <priority>HIGH</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>ee24a96120e0447e8e70976d3773e6c7</uuid>
                     <name>Missing daemons</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.psdiff.missing</key>
@@ -314,15 +447,25 @@
                     <history>1w</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {strlen(#1)}&gt;0 and {strlen(#2)}&gt;0 and {strlen(#3)}&gt;0</expression>
+                            <uuid>330ec367111740819d956e8e3533c1ef</uuid>
+                            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and length(last(/Template OSSO Daemons/daemon.psdiff.missing,#1))&gt;0 and length(last(/Template OSSO Daemons/daemon.psdiff.missing,#2))&gt;0 and length(last(/Template OSSO Daemons/daemon.psdiff.missing,#3))&gt;0</expression>
                             <name>Missing daemons on {HOST.NAME}: {ITEM.VALUE}</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>INFO</priority>
@@ -331,6 +474,7 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>9b9707b06e50468f9a5751781f3fe218</uuid>
                     <name>Failed systemd units</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.systemd.failed</key>
@@ -339,14 +483,24 @@
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
                     <description>systemctl list-units --all --failed --no-legend</description>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and {strlen()}&gt;0</expression>
+                            <uuid>e690c1714ae247ebad6a738a0514b2bc</uuid>
+                            <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and length(last(/Template OSSO Daemons/daemon.systemd.failed))&gt;0</expression>
                             <name>Failed systemd daemons on {HOST.NAME}: {ITEM.VALUE}</name>
                             <priority>HIGH</priority>
                             <description>Cron jobs email you their errors and output, but systemd timers quietly swallow all errors and output into the systemd journal.
@@ -356,18 +510,29 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>f6448745ef1740338673783a986adf4c</uuid>
                     <name>Systemd counted tasks/threads</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.systemd.maxtasks</key>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>62168e4b09ae474fa5424d4105f98a82</uuid>
                     <name>Services require restart</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.wcheckrestart.count</key>
@@ -375,38 +540,76 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <history>1d</history>
                     <trends>1w</trends>
                     <description>Checks whether running applications depend on deleted (updated) libraries.</description>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_SEC_UPDATES}&lt;&gt;1 and {last()}&gt;0</expression>
+                            <uuid>3cb8f63d933544a9a244b0282944a1c5</uuid>
+                            <expression>{$DISABLE_SEC_UPDATES}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.wcheckrestart.count)&gt;0</expression>
                             <name>Services require restart on {HOST.NAME}: {ITEM.VALUE}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>b84a630a828648119cfe8a7e26985abe</uuid>
                     <name>Gocollect config existence</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.exists[/etc/gocollect.conf]</key>
                     <delay>30m</delay>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Daemon</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and {last()}=0</expression>
+                            <uuid>8f5a6664ce9b45708a8e80bde67adef3</uuid>
+                            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and last(/Template OSSO Daemons/vfs.file.exists[/etc/gocollect.conf])=0</expression>
                             <name>Gocollect config missing on {HOST.NAME}</name>
                             <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>682bd8775d394a5ebb9564212a6b2b6b</uuid>
+                    <name>in_maintenance file exists</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.file.exists[/srv/in_maintenance]</key>
+                    <history>1d</history>
+                    <trends>0</trends>
+                    <triggers>
+                        <trigger>
+                            <uuid>7a9740a4a38643abb18c885a9537e2b6</uuid>
+                            <expression>last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
+                            <name>in_maintenance file exists on {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
+                            <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
                         </trigger>
                     </triggers>
                 </item>
@@ -441,23 +644,26 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
     </templates>
     <triggers>
         <trigger>
-            <expression>{$DISABLE_LOCALMAIL}&lt;&gt;1 and {Template OSSO Daemons:daemon.mail.localsize.last()}&gt;0 and
-{Template OSSO Daemons:daemon.mail.localdate.last()}&gt;0</expression>
+            <uuid>8e26dd17d3c74326a10c427960cdd3f1</uuid>
+            <expression>{$DISABLE_LOCALMAIL}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.mail.localsize)&gt;0 and
+last(/Template OSSO Daemons/daemon.mail.localdate)&gt;0</expression>
             <name>Local mail on {HOST.NAME} since {ITEM.VALUE2}</name>
             <priority>INFO</priority>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.max_files.promille.last(0)}&gt;600 and
- {Template OSSO Daemons:daemon.max_files.process.str(&quot;&quot;)}=1 and
- {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
+            <uuid>7148951507ad430a993066815598869c</uuid>
+            <expression>(last(/Template OSSO Daemons/daemon.max_files.promille)&gt;600 and
+ find(/Template OSSO Daemons/daemon.max_files.process,,&quot;like&quot;,&quot;&quot;)=1 and
+ last(/Template OSSO Daemons/daemon.max_files.pid)&gt;1)</expression>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
             <opdata>Latest: {ITEM.LASTVALUE1}%o</opdata>
             <priority>WARNING</priority>
         </trigger>
         <trigger>
-            <expression>({Template OSSO Daemons:daemon.max_files.promille.last(0)}&gt;800 and
- {Template OSSO Daemons:daemon.max_files.process.str(&quot;&quot;)}=1 and
- {Template OSSO Daemons:daemon.max_files.pid.last(0)}&gt;1)</expression>
+            <uuid>679db3e877784e9e8b054a02f578a089</uuid>
+            <expression>(last(/Template OSSO Daemons/daemon.max_files.promille)&gt;800 and
+ find(/Template OSSO Daemons/daemon.max_files.process,,&quot;like&quot;,&quot;&quot;)=1 and
+ last(/Template OSSO Daemons/daemon.max_files.pid)&gt;1)</expression>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
             <opdata>Now: {ITEM.LASTVALUE1}%o</opdata>
             <priority>AVERAGE</priority>
