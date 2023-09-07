@@ -492,7 +492,6 @@ XXX: temp, on Warning instead of High</description>
                             <name>Firewall IPv4 {#CHAIN} policy (0=accept)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.iptables.policy[{#CHAIN}]</key>
-                            <delay>5m</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
@@ -517,7 +516,6 @@ XXX: temp, on Warning instead of High</description>
                             <name>Firewall IPv4 {#CHAIN} rules</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.iptables.rules[{#CHAIN}]</key>
-                            <delay>5m</delay>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>rules</units>
