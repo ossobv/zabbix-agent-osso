@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.69) stable; urgency=low
+
+  * daemons: Check for in_maintenance file and Disaster if so
+  * kernelmisc: Do iptables check every minute (not 5 minutes)
+  * kernelmisc: Monitor "ip route .. prohibit" rules for OpenStack Swift disable
+  * kernelmisc: Trigger for ip-prohibit
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 11 Sep 2023 15:54:07 +0200
+
 zabbix-agent-osso (0.68) stable; urgency=low
 
   * daemon: Fix (not) triggering cert alert after setup on a new server
