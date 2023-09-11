@@ -19,6 +19,28 @@
             </groups>
             <items>
                 <item>
+                    <uuid>7e638503321e4a6d8dc9ea122d41d8da</uuid>
+                    <name>IP routes with prohibit action</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>iproute.prohibit</key>
+                    <delay>5m</delay>
+                    <history>3d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <triggers>
+                        <trigger>
+                            <uuid>fe1c7df492fd40078fe055307d177434</uuid>
+                            <expression>last(/Template OSSO Kernel Misc/iproute.prohibit)&lt;&gt;&quot;&quot;</expression>
+                            <name>One or more IPs prohibited on {HOST.NAME}</name>
+                            <opdata>Current: {ITEM.LASTVALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <description>This indicates maintenance somewhere. For instance OpenStack Swift nodes temporarily blocked from the Proxies because the nodes are faulty.
+
+When the nodes are healthy, we want to resolve this trigger by removing the prohibit action.</description>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
                     <uuid>a093a2958e8d41f7aa9bdbc12a1687df</uuid>
                     <name>Kernel entropy available</name>
                     <type>ZABBIX_ACTIVE</type>
