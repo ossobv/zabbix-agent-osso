@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-05-18T08:15:11Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>ff7dec4419234ab98e29d6c74c38feb1</uuid>
             <template>Template OSSO Disk ZFS</template>
             <name>Template OSSO Disk ZFS</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>ZFS</name>
-                </application>
-            </applications>
             <items>
                 <item>
+                    <uuid>4a42a4f77f7b4d1580951ed3d226167e</uuid>
                     <name>ZFS ARC configured max</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arc.max.file</key>
@@ -30,28 +27,48 @@
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>6ba3625bb6c14c959334214765368ff0</uuid>
                     <name>ZFS ARC enabled max</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arc.max.sys</key>
                     <delay>1h</delay>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>b9c04b9a421a4666935062ed6ffb2b1e</uuid>
                     <name>ZFS ARC enabled max ratio</name>
                     <type>CALCULATED</type>
                     <key>zfs.arc.max.syspromille</key>
@@ -59,18 +76,28 @@
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>%o</units>
-                    <params>1000*last(zfs.arc.max.sys)/last(zfs.memory.exists)</params>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <params>1000*last(//zfs.arc.max.sys)/last(//zfs.memory.exists)</params>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
+                            <uuid>b73eb6663c5944d6a90e23da658d215c</uuid>
                             <expression>{$ZFS_ARC_MAX_MIN}&gt;0 and
-({last()}&lt;{$ZFS_ARC_MAX_MIN} or
- {last()}&gt;850)</expression>
+(last(/Template OSSO Disk ZFS/zfs.arc.max.syspromille)&lt;{$ZFS_ARC_MAX_MIN} or
+ last(/Template OSSO Disk ZFS/zfs.arc.max.syspromille)&gt;850)</expression>
                             <name>ZFS arc max {ITEM.VALUE} not between $1 %o and 850 %o on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                             <description>Herman says (2017-05-03): &quot;sp servers hebben vaak tot 80% ofzo aan ARC.
@@ -79,6 +106,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     </triggers>
                 </item>
                 <item>
+                    <uuid>025c5b8482c84f688ae0725dab7c9617</uuid>
                     <name>ZFS ARC stat data_size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[data_size]</key>
@@ -86,25 +114,30 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>b98bb907d58e4d3e854c110d2822126d</uuid>
                     <name>ZFS ARC stat hits</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[hits]</key>
                     <delay>15m</delay>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
@@ -112,10 +145,23 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>0ea4706358d5456da9d8981e144ca649</uuid>
                     <name>ZFS ARC stat meta</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[meta]</key>
@@ -123,25 +169,30 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>3ea35ca1d7c642c48d8ae70aee392836</uuid>
                     <name>ZFS ARC stat mfu_hits</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mfu_hits]</key>
                     <delay>15m</delay>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
@@ -149,10 +200,23 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>8487d7f1e27d4252b6eeed414b136a61</uuid>
                     <name>ZFS ARC stat mfu_size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mfu_size]</key>
@@ -160,25 +224,30 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>f5858fa1ae7c40d2abe129d897f17011</uuid>
                     <name>ZFS ARC stat misses</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[misses]</key>
                     <delay>15m</delay>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
@@ -186,21 +255,29 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>3118266da47047ea9eae29af3d82a94c</uuid>
                     <name>ZFS ARC stat mru_hits</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mru_hits]</key>
                     <delay>15m</delay>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
@@ -208,10 +285,23 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                                 <parameter/>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>2e26212b31e5430495b30f2463c9ce1d</uuid>
                     <name>ZFS ARC stat mru_size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[mru_size]</key>
@@ -219,14 +309,24 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>685742c89c824253936fbca22cb31b5b</uuid>
                     <name>ZFS ARC stat size</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.arcstats[size]</key>
@@ -234,14 +334,24 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>1d924f0ab282464fadd799317e262a09</uuid>
                     <name>ZFS ARC cache hit ratio</name>
                     <type>CALCULATED</type>
                     <key>zfs.arcstats_hit_ratio</key>
@@ -249,15 +359,25 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>%o</units>
-                    <params>1000*((last(zfs.arcstats[hits])+0.001)/(last(zfs.arcstats[hits])+last(zfs.arcstats[misses])+0.001))</params>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <params>1000*((last(//zfs.arcstats[hits])+0.001)/(last(//zfs.arcstats[hits])+last(//zfs.arcstats[misses])+0.001))</params>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>e89483e33792428d9ce4245848ba8167</uuid>
                     <name>ZFS ARC total read</name>
                     <type>CALCULATED</type>
                     <key>zfs.arcstats_total_read</key>
@@ -265,27 +385,47 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <params>last(zfs.arcstats[hits])+last(zfs.arcstats[misses])</params>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <params>last(//zfs.arcstats[hits])+last(//zfs.arcstats[misses])</params>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>3caf47bdd6ea4dd993bf0fe5115e7bd9</uuid>
                     <name>ZFS count of filesystems</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.filesystem.count</key>
                     <delay>15m</delay>
                     <history>30d</history>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>202c7afa10c7477895098fc9ed073789</uuid>
                     <name>ZFS memory machine-total</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.memory.exists</key>
@@ -293,14 +433,24 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>9bb27a8f00d742aab38d61938b495868</uuid>
                     <name>ZFS memory used</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.memory.used</key>
@@ -308,14 +458,24 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>30d</history>
                     <trends>90d</trends>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>70689dc9c7804245a18fb118693f0bb2</uuid>
                     <name>ZFS pool changed</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.pool.changed</key>
@@ -323,14 +483,24 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <history>1d</history>
                     <trends>30d</trends>
                     <description>This event is triggered by the zpool check when the zpool has changed. You need to manually close the associated trigger after confirming that All Is Good (tm).</description>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}=1</expression>
+                            <uuid>a69d65a5b0104e54a8d5485c76d63ed2</uuid>
+                            <expression>last(/Template OSSO Disk ZFS/zfs.pool.changed)=1</expression>
                             <name>ZFS pool layout diff on {HOST.NAME} (check zpool and /var/lib/zabbix/scripts/zfs.status.saved please)</name>
                             <priority>HIGH</priority>
                             <description>You must manually close this when you've confirmed that the zpool is awesome.
@@ -341,6 +511,7 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     </triggers>
                 </item>
                 <item>
+                    <uuid>d32d09ac14914bcdbcc5619a6e8772b6</uuid>
                     <name>ZFS pool json</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.pool.json</key>
@@ -348,11 +519,6 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     <history>1w</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>JSONPATH</type>
@@ -360,10 +526,23 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                                 <parameter>$.*</parameter>
                             </parameters>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{diff()}=1</expression>
+                            <uuid>c3b7a912139d4e53a6b742ffa8617371</uuid>
+                            <expression>(last(/Template OSSO Disk ZFS/zfs.pool.json,#1)&lt;&gt;last(/Template OSSO Disk ZFS/zfs.pool.json,#2))=1</expression>
                             <name>ZFS pool layout updated on {HOST.NAME} (disks out/in? please check even if OK'd)</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>WARNING</priority>
@@ -372,6 +551,7 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     </triggers>
                 </item>
                 <item>
+                    <uuid>d7fc2bfa36a24d4b809d2ac91b14ed1e</uuid>
                     <name>ZFS version</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.version</key>
@@ -379,39 +559,60 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     <history>30d</history>
                     <trends>0</trends>
                     <value_type>TEXT</value_type>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{diff(0)}&gt;0</expression>
+                            <uuid>97bb95349dea44a4b0e9448b8e597e04</uuid>
+                            <expression>(last(/Template OSSO Disk ZFS/zfs.version,#1)&lt;&gt;last(/Template OSSO Disk ZFS/zfs.version,#2))&gt;0</expression>
                             <name>ZFS version is now {ITEM.VALUE} on {HOST.NAME}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>6cb94d35a07340adb612e77ea1a24ff4</uuid>
                     <name>ZFS count of volumes</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.volume.count</key>
                     <delay>15m</delay>
                     <history>30d</history>
-                    <applications>
-                        <application>
-                            <name>ZFS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>ZFS</value>
+                        </tag>
+                    </tags>
                 </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>31963541fb284503bed74c501e29674c</uuid>
                     <name>ZFS dataset discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.dataset.discovery</key>
-                    <delay>12h</delay>
+                    <delay>3h</delay>
                     <filter>
                         <conditions>
                             <condition>
@@ -425,71 +626,81 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                     <description>Discover ZFS datasets. Dataset names must contain a &quot;/&quot; else it's a zpool root. And we skip 64-byte docker filesets. See the &quot;@ZFS dataset discovery&quot; regex.</description>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>6825ea92ed4f4e22bf7068dc603dad9b</uuid>
                             <name>ZFS dataset {#DATASETNAME} refer</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.dataset.info[{#DATASETNAME},refer]</key>
                             <delay>1h</delay>
                             <history>30d</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>c2771489df464e8aa9355f601807050e</uuid>
                             <name>ZFS dataset {#DATASETNAME} used directly</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.dataset.info[{#DATASETNAME},usedds]</key>
                             <delay>1h</delay>
                             <history>30d</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>25ea40f50dba44bbb5e420310d6309c1</uuid>
                             <name>ZFS dataset {#DATASETNAME} used snap</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.dataset.info[{#DATASETNAME},usedsnap]</key>
                             <delay>1h</delay>
                             <history>30d</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>44a2e16ebd6147429eb57741577cbdfa</uuid>
                             <name>ZFS dataset {#DATASETNAME} total used</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.dataset.info[{#DATASETNAME},used]</key>
                             <delay>1h</delay>
                             <history>30d</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
+                    <uuid>f2b8f4377b1b424c99498bd17295a8b9</uuid>
                     <name>ZFS pool discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>zfs.pool.discovery</key>
                     <delay>3h</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>f4bce69eddad4fada850c4b064a39256</uuid>
                             <name>Zpool {#POOLNAME} available</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.dataset.info[{#POOLNAME},available]</key>
@@ -497,14 +708,24 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <history>30d</history>
                             <units>B</units>
                             <description>Yes, the zpool name is also the first dataset, so we can get info from zfs.dataset.info.</description>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>3541900f35e34c5e93cb70beddbe94d9</uuid>
                             <name>Zpool {#POOLNAME} used</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.dataset.info[{#POOLNAME},used]</key>
@@ -512,14 +733,33 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <history>30d</history>
                             <units>B</units>
                             <description>Yes, the zpool name is also the first dataset, so we can get info from zfs.dataset.info.</description>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>4a2be0acfe384c1da3d48145a903d733</uuid>
+                            <name>Zpool {#POOLNAME} data errors</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>zfs.zpool.dataerrors[{#POOLNAME}]</key>
+                            <history>1d</history>
+                            <trends>90d</trends>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>1d0345b89e074d548c04a54445c146ec</uuid>
+                                    <expression>last(/Template OSSO Disk ZFS/zfs.zpool.dataerrors[{#POOLNAME}])&lt;&gt;0</expression>
+                                    <name>Zpool {#POOLNAME} has {ITEM.LASTVALUE} data errors on {HOST.NAME}</name>
+                                    <opdata>errors: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>98068582b67146698c0e80c46435eb75</uuid>
                             <name>Zpool {#POOLNAME} health</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.zpool.health[{#POOLNAME}]</key>
@@ -527,21 +767,50 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <history>30d</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{str(&quot;ONLINE&quot;)}&lt;&gt;1</expression>
+                                    <uuid>51a68b3935ed499e93d14351e58807d1</uuid>
+                                    <expression>find(/Template OSSO Disk ZFS/zfs.zpool.health[{#POOLNAME}],,&quot;like&quot;,&quot;ONLINE&quot;)&lt;&gt;1</expression>
                                     <name>Zpool {#POOLNAME} is {ITEM.LASTVALUE} on {HOST.NAME}</name>
+                                    <opdata>state: {ITEM.LASTVALUE}</opdata>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>5a2673fbff194fafb1aa64d383ba65c4</uuid>
+                            <name>Zpool {#POOLNAME} other errors</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>zfs.zpool.othererrors[{#POOLNAME}]</key>
+                            <history>1d</history>
+                            <trends>90d</trends>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>fb181ddce7ab4815be38e6d403845319</uuid>
+                                    <expression>last(/Template OSSO Disk ZFS/zfs.zpool.othererrors[{#POOLNAME}])&lt;&gt;0</expression>
+                                    <name>Zpool {#POOLNAME} has {ITEM.LASTVALUE} other errors on {HOST.NAME}</name>
+                                    <opdata>errors: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>50f4dfaee60744af9fe6602f17555751</uuid>
                             <name>Zpool {#POOLNAME} stats (json)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
@@ -549,24 +818,21 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
                             <description>See struct kstat_io in https://github.com/openzfs/zfs/blob/master/lib/libspl/include/sys/kstat.h</description>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>2f92fcf7744c469fb36b65fb12acc787</uuid>
                             <name>Zpool {#POOLNAME} rops</name>
                             <type>DEPENDENT</type>
                             <key>zfs.zpool.stats[{#POOLNAME},rops]</key>
                             <delay>0</delay>
                             <history>30d</history>
                             <units>op/s</units>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -584,8 +850,15 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <master_item>
                                 <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>294f043c30a645b189aa7819c062b7b3</uuid>
                             <name>Zpool {#POOLNAME} 4K-rbytes</name>
                             <type>DEPENDENT</type>
                             <key>zfs.zpool.stats[{#POOLNAME},rpages]</key>
@@ -593,11 +866,6 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <history>30d</history>
                             <units>pg/s</units>
                             <description>As 4K-pages instead of bytes so you can compare it with rops/wops in a single graph.</description>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -621,19 +889,21 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <master_item>
                                 <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>cc1ed67328134563ba311a980d5e00a9</uuid>
                             <name>Zpool {#POOLNAME} wops</name>
                             <type>DEPENDENT</type>
                             <key>zfs.zpool.stats[{#POOLNAME},wops]</key>
                             <delay>0</delay>
                             <history>30d</history>
                             <units>op/s</units>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -651,8 +921,15 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <master_item>
                                 <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>fde6e66c0bb44e4093806faee21fa65b</uuid>
                             <name>Zpool {#POOLNAME} 4K-wbytes</name>
                             <type>DEPENDENT</type>
                             <key>zfs.zpool.stats[{#POOLNAME},wpages]</key>
@@ -660,11 +937,6 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <history>30d</history>
                             <units>pg/s</units>
                             <description>As 4K-pages instead of bytes so you can compare it with rops/wops in a single graph.</description>
-                            <applications>
-                                <application>
-                                    <name>ZFS</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -688,22 +960,31 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             <master_item>
                                 <key>zfs.zpool.stats.json[{#POOLNAME}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>ZFS</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}*100/({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}+{Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},used].last()}))&lt;{$ZFS_SPACE_BELOW_DISASTER}</expression>
+                            <uuid>bd452a6c12924ba0a2eebb230b2a05d3</uuid>
+                            <expression>(last(/Template OSSO Disk ZFS/zfs.dataset.info[{#POOLNAME},available])*100/(last(/Template OSSO Disk ZFS/zfs.dataset.info[{#POOLNAME},available])+last(/Template OSSO Disk ZFS/zfs.dataset.info[{#POOLNAME},used])))&lt;{$ZFS_SPACE_BELOW_DISASTER}</expression>
                             <name>Zpool {#POOLNAME} on {HOST.NAME} has less than {$ZFS_SPACE_BELOW_DISASTER}% space</name>
                             <priority>DISASTER</priority>
                         </trigger_prototype>
                         <trigger_prototype>
-                            <expression>({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}*100/({Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},available].last()}+{Template OSSO Disk ZFS:zfs.dataset.info[{#POOLNAME},used].last()}))&lt;{$ZFS_SPACE_BELOW_HIGH}</expression>
+                            <uuid>e5e422d3f8f54c50a9a3652fa6fd13cd</uuid>
+                            <expression>(last(/Template OSSO Disk ZFS/zfs.dataset.info[{#POOLNAME},available])*100/(last(/Template OSSO Disk ZFS/zfs.dataset.info[{#POOLNAME},available])+last(/Template OSSO Disk ZFS/zfs.dataset.info[{#POOLNAME},used])))&lt;{$ZFS_SPACE_BELOW_HIGH}</expression>
                             <name>Zpool {#POOLNAME} on {HOST.NAME} has less than {$ZFS_SPACE_BELOW_HIGH}% space</name>
                             <priority>HIGH</priority>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
+                            <uuid>c0a45d291b564fdd8c7aa9ec6cbdb9ba</uuid>
                             <name>Zpool {#POOLNAME} disk space</name>
                             <type>STACKED</type>
                             <graph_items>
@@ -726,6 +1007,7 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
+                            <uuid>9d9514e9ed7945b6a1fef3479cefeb92</uuid>
                             <name>Zpool {#POOLNAME} IO stats</name>
                             <graph_items>
                                 <graph_item>
@@ -790,8 +1072,9 @@ Manual closing is done by removing /var/lib/zabbix/scripts/zfs.status.saved on t
     </templates>
     <triggers>
         <trigger>
+            <uuid>636ba5d0ce8a4e9191e3fd958e6d6b58</uuid>
             <expression>{$ZFS_ARC_MAX_MIN}&gt;0 and
-{Template OSSO Disk ZFS:zfs.arc.max.file.last()}&lt;&gt;{Template OSSO Disk ZFS:zfs.arc.max.sys.last()}</expression>
+last(/Template OSSO Disk ZFS/zfs.arc.max.file)&lt;&gt;last(/Template OSSO Disk ZFS/zfs.arc.max.sys)</expression>
             <name>ZFS arc max config is not applied on {HOST.NAME} (conf={ITEM.LASTVALUE1}, sys={ITEM.LASTVALUE2})</name>
             <priority>DISASTER</priority>
             <description>If the zfs_arc_max is not configured, it's 0 both in the config and the system. But that problem is picked up by the other trigger that wants the max between 3% and 85%.</description>
