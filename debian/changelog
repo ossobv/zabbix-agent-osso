@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.70) stable; urgency=low
+
+  * zfs: Monitor/handle zpool errors
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 11 Oct 2023 11:59:36 +0200
+
 zabbix-agent-osso (0.69) stable; urgency=low
 
   * daemons: Check for in_maintenance file and Disaster if so
