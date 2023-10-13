@@ -58,8 +58,8 @@ case $1 in
         exit 1
     fi
     case $attrib in
-    crc_error_count|end_to_end_error_detection_count|erase_fail_count|\
-    pll_lock_loss_count|program_fail_count|retry_buffer_overflow_count|\
+    crc_error_count|erase_fail_count|\
+    pll_lock_loss_count|program_fail_count|\
     timed_workload_host_reads|timed_workload_media_wear)
         subcmd=$(get_smart_log_add)
         # program_fail_count              : 100%       0
@@ -68,8 +68,19 @@ case $1 in
         #  ^-- take raw value
         nth=2
         ;;
-    wear_leveling)
+    e2e_error_detect_count|end_to_end_error_detection_count)  # new, old
         subcmd=$(get_smart_log_add)
+        attrib=e2e_error_detect_count  # new name
+        nth=2  # raw value
+        ;;
+    retry_buff_overflow_count|retry_buffer_overflow_count)  # new, old
+        subcmd=$(get_smart_log_add)
+        attrib=retry_buff_overflow_count  # new name
+        nth=2  # raw value
+        ;;
+    wear_leveling_count|wear_leveling)  # new, old
+        subcmd=$(get_smart_log_add)
+        attrib=wear_leveling_count  # new name
         # wear_leveling                   : 100%       min: 0, max: 1, avg: 0
         #  ^-- take 100%
         nth=1
@@ -87,13 +98,28 @@ case $1 in
         echo "ERROR: $dev: $out" >&2
         exit 1
     fi
+    # ID             KEY            Normalized     Raw
+    # 0xab    program_fail_count       100         0
+    # 0xac    erase_fail_count         100         0
+    # 0xad    wear_leveling_count       10         11493510154826
+    out=$(echo "$out" | sed -e '
+        s/0x[0-9a-f]\+[[:blank:]]\+\([^ ]*\)[[:blank:]]*/\1: /g
+        # old->new name
+        s/^end_to_end_error_detection_count:/e2e_error_detect_count:/
+        s/^retry_buffer_overflow_count:/retry_buff_overflow_count:/
+        s/^wear_leveling:/wear_leveling_count:/
+        ')
+    # ID KEY Normalized Raw
+    # program_fail_count:   100 0
+    # erase_fail_count:     100 0
+    # wear_leveling_count:   10 11493510154826
     val=$(echo "$out" | sed -e '
         /^'"$attrib"'[[:blank:]]*:/!d
         s/^[^:]*:[[:blank:]]*//;s/[^0-9 .]//g' |
         awk '{v=$'$nth';if(v>1048576)printf "%d000\n",((v+999)/1000);
               else print int(v)}')
     if test -z "$val"; then
-        echo "ERROR: $dev: no attribute $attrib" >&2
+        echo "ZBX_NOTSUPPORTED $dev: no attribute $attrib" >&2
         exit 1
     fi
     echo "$val"

@@ -1,64 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2021-07-14T12:44:16Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>7a2ace32966d429c8f584130de85d2fa</uuid>
             <template>Template OSSO NVMe SMART</template>
             <name>Template OSSO NVMe SMART</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>NVMe</name>
-                </application>
-            </applications>
             <items>
                 <item>
+                    <uuid>3595c241c1614c2e95b7b7d721e8dd01</uuid>
                     <name>NVMe: Has NVMe disk</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>nvme.device.exists</key>
                     <delay>1h</delay>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>NVMe</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>NVMe</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>d0711b7255cc4a5b9059aa756ceedf81</uuid>
                     <name>NVMe: Has /usr/sbin/nvme</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.exists[/usr/sbin/nvme]</key>
                     <delay>1h</delay>
                     <history>30d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>NVMe</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>NVMe</value>
+                        </tag>
+                    </tags>
                 </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>3b5c7a72481d406daf990a9518c1c19f</uuid>
                     <name>NVMe devices</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>nvme.device.discovery</key>
                     <delay>30m</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>449f3bf3c1e34114ba2f346b48020221</uuid>
                             <name>nvme: Available spare for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},available_spare]</key>
@@ -66,14 +84,24 @@
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>%</units>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>e2b23eefbf264d9cb02cc8947b535a02</uuid>
                             <name>nvme: Available spare threshold for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},available_spare_threshold]</key>
@@ -81,107 +109,178 @@
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>%</units>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>fbbceb0ac27143a2bf2975135152dded</uuid>
                             <name>nvme: Controller busy time for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},controller_busy_time]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>0544e68bddd4476fb06aaf5ea15135ec</uuid>
                             <name>nvme: CRC error count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},crc_error_count]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>e8c619a54ff54ce1b3e6f489d836e803</uuid>
                             <name>nvme: Critical warnings for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},critical_warning]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0</expression>
+                                    <uuid>6bc56e27eb934860849a9b55857e8cf9</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},critical_warning])&gt;0</expression>
                                     <name>NVMe: Critical warning {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>ce08903ba17744b6bb40051fdc0e2509</uuid>
                             <name>nvme: Data units read for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},data_units_read]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>11eeba34199346f6956605e370748cf7</uuid>
                             <name>nvme: Data units written for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},data_units_written]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>eab50b705d414c58be3f03a6c451f945</uuid>
                             <name>nvme: E2E error detection count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},end_to_end_error_detection_count]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0 and
-{last()}&lt;1305670057984</expression>
+                                    <uuid>95ef8bf77e19439bb7e71f81a6a5c768</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},end_to_end_error_detection_count])&gt;0 and
+last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},end_to_end_error_detection_count])&lt;1305670057984</expression>
                                     <name>NVMe: E2E error detection {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                     <description>Typical values of e2e error correction on Micron drives is:
@@ -192,94 +291,111 @@ That is _not_ the e2e error correction count. Ignore it if it's that high.</desc
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>b576890acaa74dce8740021bd2f6ea53</uuid>
                             <name>nvme: Erase fail count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},erase_fail_count]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>850c3bc619074bec96279a7ffc16dc5a</uuid>
                             <name>nvme: Host read commands for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},host_read_commands]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>fd6bbc6c381840fd8c140d1ede0ba65c</uuid>
                             <name>nvme: Host write commands for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},host_write_commands]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>fcc3872e53744ab99901bf1acb4dacfc</uuid>
                             <name>nvme: Media errors for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},media_errors]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0</expression>
+                                    <uuid>bc8e5e0faf09485fb05cc0fe126f1cc0</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},media_errors])&gt;{$NVME_SEEN_MEDIA_ERRORS}</expression>
                                     <name>NVMe: Media error count {ITEM.VALUE1} on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>nvme: Number of error log entries for {#NVME}</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>nvme.device.smart[{#NVME},num_err_log_entries]</key>
-                            <delay>1h</delay>
-                            <history>1w</history>
-                            <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
-                            <request_method>POST</request_method>
-                            <trigger_prototypes>
-                                <trigger_prototype>
-                                    <expression>{last()}&gt;{$NVME_SEEN_ERR_LOG_ENTRIES}</expression>
-                                    <name>NVMe: Errorlog entry count &gt;{$NVME_SEEN_ERR_LOG_ENTRIES} on {#NVME} on {HOST.NAME}</name>
-                                    <opdata>num_err_log_entries={ITEM.LASTVALUE1}</opdata>
-                                    <priority>HIGH</priority>
-                                    <description>Errorlog may keep increasing. You can use the NVME_SEEN_ERR_LOG_ENTRIES macro to mark items as &quot;read&quot;.
-Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
-                                    <manual_close>YES</manual_close>
-                                </trigger_prototype>
-                            </trigger_prototypes>
-                        </item_prototype>
-                        <item_prototype>
+                            <uuid>033c9e27797f4a6a80a26f7d8ad7849d</uuid>
                             <name>nvme: Percentage used for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},percentage_used]</key>
@@ -287,22 +403,33 @@ Use &quot;nvme error-log DEVICE&quot; to read the log.</description>
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>%</units>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;=60
-and {last()}&lt;80</expression>
+                                    <uuid>6108278ef9df4da9b78a2a2b61d67109</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},percentage_used])&gt;=60
+and last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},percentage_used])&lt;80</expression>
                                     <name>NVMe: {#NVME} aging on {HOST.NAME}</name>
                                     <opdata>{ITEM.LASTVALUE1} old</opdata>
                                     <priority>WARNING</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;=80</expression>
+                                    <uuid>cbcf9acee19a4df0ab231e990cc63c7b</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},percentage_used])&gt;=80</expression>
                                     <name>NVMe: {#NVME} lifetime near end on {HOST.NAME}</name>
                                     <opdata>{ITEM.LASTVALUE1} old</opdata>
                                     <priority>AVERAGE</priority>
@@ -310,48 +437,55 @@ and {last()}&lt;80</expression>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>nvme: PLL lock loss count for {#NVME}</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>nvme.device.smart[{#NVME},pll_lock_loss_count]</key>
-                            <delay>1h</delay>
-                            <history>1w</history>
-                            <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
-                            <request_method>POST</request_method>
-                        </item_prototype>
-                        <item_prototype>
+                            <uuid>c0efb05ebaf243f1979b2311611bd548</uuid>
                             <name>nvme: Power cycles for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},power_cycles]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>2697e8063fe3464686521f0405ab4ee7</uuid>
                             <name>nvme: Power on hours for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},power_on_hours]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>d3e776d22880484f8ce4d96ce631bb7b</uuid>
                             <name>nvme: Program fail count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},program_fail_count]</key>
@@ -361,28 +495,48 @@ and {last()}&lt;80</expression>
                             <description>Program Fail Count = The number of times when write to a flash memory failed.
 If the block isn't programming, the block is read, erased, then the program attempted again. A few cycles of this and the block is retired.
 HOWEVER this is not an indication of immediate or imminent failure.</description>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>86e52138333d43f48dca0f83eef8d3ef</uuid>
                             <name>nvme: Retry buffer overflow count for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},retry_buffer_overflow_count]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>e5751eea37e74e41aab67612b365637f</uuid>
                             <name>nvme: Temperature for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},temperature]</key>
@@ -390,50 +544,81 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>C</units>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;=60</expression>
+                                    <uuid>2d52de6d79484129943aea43bbc8d605</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},temperature])&gt;=60</expression>
                                     <name>NVMe: Temperature {ITEM.VALUE1}C &gt; 60C on {#NVME} on {HOST.NAME}</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>59ec4c1aa8ad458f97efc34e577bedd6</uuid>
                             <name>nvme: Unsafe shutdowns for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},unsafe_shutdowns]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>eabdf45872e14b98944a5adc6e2d4d31</uuid>
                             <name>nvme: Wear leveling for {#NVME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>nvme.device.smart[{#NVME},wear_leveling]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>NVMe</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>NVMe</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&lt;20</expression>
+                                    <uuid>2a56a3b24a294f5daaae263be18acaf6</uuid>
+                                    <expression>last(/Template OSSO NVMe SMART/nvme.device.smart[{#NVME},wear_leveling])&lt;20</expression>
                                     <name>NVMe: Wear leveling on {#NVME} on {HOST.NAME} below 20%</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
@@ -448,13 +633,18 @@ HOWEVER this is not an indication of immediate or imminent failure.</description
                     <macro>{$NVME_SEEN_ERR_LOG_ENTRIES}</macro>
                     <value>10</value>
                 </macro>
+                <macro>
+                    <macro>{$NVME_SEEN_MEDIA_ERRORS}</macro>
+                    <value>0</value>
+                </macro>
             </macros>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{Template OSSO NVMe SMART:nvme.device.exists.last()}&lt;&gt;0 and
-{Template OSSO NVMe SMART:vfs.file.exists[/usr/sbin/nvme].last()}=0</expression>
+            <uuid>864ba9e1a386472d97305d3b0ad55ca2</uuid>
+            <expression>last(/Template OSSO NVMe SMART/nvme.device.exists)&lt;&gt;0 and
+last(/Template OSSO NVMe SMART/vfs.file.exists[/usr/sbin/nvme])=0</expression>
             <name>NVMe: Found nvme-device but no nvme-cli on {HOST.NAME}</name>
             <priority>HIGH</priority>
             <description>If nvme drives are detected: please install nvme-cli</description>
