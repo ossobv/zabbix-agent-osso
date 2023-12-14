@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.71) stable; urgency=low
+
+  * daemon: Allow systems with journald only (no /var/log/syslog)
+  * nvme: Improve smart-log check
+  * zfs: Fix zpool error check
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 14 Dec 2023 10:27:54 +0100
+
 zabbix-agent-osso (0.70) stable; urgency=low
 
   * zfs: Monitor/handle zpool errors
