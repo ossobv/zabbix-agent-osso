@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.72) stable; urgency=low
+
+  * kernelmisc: Add journald kernel emergency log trigger
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 15 Dec 2023 14:06:53 +0100
+
 zabbix-agent-osso (0.71) stable; urgency=low
 
   * daemon: Allow systems with journald only (no /var/log/syslog)
