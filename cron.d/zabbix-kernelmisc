@@ -1,0 +1,7 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# Check for "watchdog: BUG: soft lockup - CPU#24 stuck for 23s! [kvm:9643]"
+# or "watchdog: watchdog0: watchdog did not stop!"
+# or "mce: [Hardware Error]: CPU 15: Machine Check: 0 Bank 3: d820000000000150"
+# or "AMD-Vi: Completion-Wait loop timed out"
+*/2 *    * * *  root  DST=/var/lib/zabbix/scripts/kernel.emerg && [ -x /usr/bin/journalctl ] && /usr/bin/journalctl -qo cat -S '-4 minutes' -p 1 _TRANSPORT=kernel | tee $DST.log.tmp | wc -l >$DST.count.tmp && mv $DST.count.tmp $DST.count && sort $DST.log.tmp | uniq -c >$DST.log

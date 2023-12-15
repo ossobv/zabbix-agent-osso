@@ -30,7 +30,7 @@
                     <triggers>
                         <trigger>
                             <uuid>fe1c7df492fd40078fe055307d177434</uuid>
-                            <expression>last(/Template OSSO Kernel Misc/iproute.prohibit)&lt;&gt;&quot;&quot;</expression>
+                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Kernel Misc/iproute.prohibit)&lt;&gt;&quot;&quot;</expression>
                             <name>One or more IPs prohibited on {HOST.NAME}</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
@@ -39,6 +39,31 @@
 When the nodes are healthy, we want to resolve this trigger by removing the prohibit action.</description>
                         </trigger>
                     </triggers>
+                </item>
+                <item>
+                    <uuid>b4f25ec9e43647aab7ad51214bfff4a3</uuid>
+                    <name>Kernel emergency count</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>kernel.emerg.count</key>
+                    <history>15d</history>
+                    <trends>90d</trends>
+                </item>
+                <item>
+                    <uuid>9298845365924fb6bf5856c6293d80d0</uuid>
+                    <name>Kernel emergency log</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>kernel.emerg.log</key>
+                    <history>3d</history>
+                    <trends>0</trends>
+                    <value_type>TEXT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                 </item>
                 <item>
                     <uuid>a093a2958e8d41f7aa9bdbc12a1687df</uuid>
@@ -437,18 +462,10 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             <name>Firewall IPv6 {#CHAIN} policy (0=accept)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.ip6tables.policy[{#CHAIN}]</key>
-                            <delay>5m</delay>
-                            <history>1w</history>
+                            <delay>30s</delay>
+                            <history>1h</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
-                            <preprocessing>
-                                <step>
-                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                                    <parameters>
-                                        <parameter>1d</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
                             <request_method>POST</request_method>
                             <tags>
                                 <tag>
@@ -462,18 +479,10 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             <name>Firewall IPv6 {#CHAIN} rules</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.ip6tables.rules[{#CHAIN}]</key>
-                            <delay>5m</delay>
-                            <history>1w</history>
+                            <delay>30s</delay>
+                            <history>1h</history>
                             <trends>90d</trends>
                             <units>rules</units>
-                            <preprocessing>
-                                <step>
-                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                                    <parameters>
-                                        <parameter>1d</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
                             <request_method>POST</request_method>
                             <tags>
                                 <tag>
@@ -514,17 +523,10 @@ XXX: temp, on Warning instead of High</description>
                             <name>Firewall IPv4 {#CHAIN} policy (0=accept)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.iptables.policy[{#CHAIN}]</key>
-                            <history>1w</history>
+                            <delay>30s</delay>
+                            <history>1h</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
-                            <preprocessing>
-                                <step>
-                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                                    <parameters>
-                                        <parameter>1d</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
                             <request_method>POST</request_method>
                             <tags>
                                 <tag>
@@ -538,17 +540,10 @@ XXX: temp, on Warning instead of High</description>
                             <name>Firewall IPv4 {#CHAIN} rules</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.iptables.rules[{#CHAIN}]</key>
-                            <history>1w</history>
+                            <delay>30s</delay>
+                            <history>1h</history>
                             <trends>90d</trends>
                             <units>rules</units>
-                            <preprocessing>
-                                <step>
-                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                                    <parameters>
-                                        <parameter>1d</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
                             <request_method>POST</request_method>
                             <tags>
                                 <tag>
@@ -608,6 +603,14 @@ last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
             <expression>(last(/Template OSSO Kernel Misc/kernel.mem.slab)*100/{$KERNEL_SLABPCT})&gt;last(/Template OSSO Kernel Misc/kernel.mem.total)</expression>
             <name>Kernel slab memory over {$KERNEL_SLABPCT}% on {HOST.NAME}</name>
             <opdata>Current: {ITEM.LASTVALUE1}</opdata>
+            <priority>HIGH</priority>
+        </trigger>
+        <trigger>
+            <uuid>ae0b61490b4e4264b2f3eedccf2e9f39</uuid>
+            <expression>last(/Template OSSO Kernel Misc/kernel.emerg.count)&lt;&gt;0 or
+last(/Template OSSO Kernel Misc/kernel.emerg.log)&lt;&gt;&quot;&quot;</expression>
+            <name>{HOST.NAME} has kernel emergency</name>
+            <opdata>{ITEM.LASTVALUE1}: {ITEM.LASTVALUE2}</opdata>
             <priority>HIGH</priority>
         </trigger>
     </triggers>
