@@ -9,8 +9,15 @@ if test -h /dev/log; then
     # We expect this to be a symlink to /run/systemd/journal/dev-log.
     # In that case we use journald. This is faster than a syslog
     # grep because of the _TRANSPORT=kernel filter.
-    journalctl -qS '-1d' --grep oom_kill_process _TRANSPORT=kernel |
-        wc -l >"$temp"
+    #
+    # Note: we see spurious errors like this:
+    #   An error was encountered while opening journal file or directory
+    #   /var/log/journal/ca7481b701f04ff390e4e896fccea062/system.journal,
+    #   ignoring file: No such file or directory
+    # We ignore those with the grep -v.
+    #
+    journalctl -qS '-1d' --grep oom_kill_process _TRANSPORT=kernel 2>&1 |
+        grep -vF ', ignoring file: No such file or directory' | wc -l >"$temp"
 else
     grep --count oom_kill_process /var/log/syslog >"$temp"
 fi
