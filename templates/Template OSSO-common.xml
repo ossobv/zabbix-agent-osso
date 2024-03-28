@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2021-09-16T11:05:33Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>c3fc97c506734c1fbaa1983a9da2adf8</uuid>
             <template>Template OSSO-common</template>
             <name>Template OSSO-common</name>
             <templates>
@@ -28,12 +29,15 @@
                     <name>Template OSSO Kernel Misc</name>
                 </template>
                 <template>
+                    <name>Template OSSO Remotelog</name>
+                </template>
+                <template>
                     <name>Template OSSO Repo mgmt</name>
                 </template>
             </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
         </template>

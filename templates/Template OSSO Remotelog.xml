@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>4d55ddda0f2c4ab48357082b7cd08ae2</uuid>
+            <template>Template OSSO Remotelog</template>
+            <name>Template OSSO Remotelog</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>60c52e333e9142dd9d9a56afe3dbc1ca</uuid>
+                    <name>grafana-agent-flow has-config</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.file.exists[/etc/grafana-agent-flow.river]</key>
+                    <history>1h</history>
+                    <trends>0</trends>
+                    <description>Only report if we're supposed to have logs. Check the config in /etc instead of the existence of /var/log, because we might not have permissions there.</description>
+                </item>
+                <item>
+                    <uuid>f10adbbaf3a24df0aee0581acfbaed66</uuid>
+                    <name>grafana-agent-flow logsize</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.file.size[/var/log/grafana/grafana-agent-flow.log]</key>
+                    <history>1d</history>
+                    <trends>3d</trends>
+                    <units>B</units>
+                    <description>grafana-agent-flow logs journald output to remote. If it is broken, it will not send this to journald, as that becomes a loop (self-DoS). Check the filesize of the custom log file instead.</description>
+                    <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter/>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                            <error_handler_params>698351616</error_handler_params>
+                        </step>
+                    </preprocessing>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <triggers>
+        <trigger>
+            <uuid>f00015fd1d904119a45b80c85237393e</uuid>
+            <expression>last(/Template OSSO Remotelog/vfs.file.exists[/etc/grafana-agent-flow.river])=1 and last(/Template OSSO Remotelog/vfs.file.size[/var/log/grafana/grafana-agent-flow.log])&gt;32768</expression>
+            <name>grafana-agent-flow log is large or unreadable</name>
+            <priority>HIGH</priority>
+            <description>Please check whether this host has connectivity issues to the remote logging facility.</description>
+        </trigger>
+    </triggers>
+</zabbix_export>
