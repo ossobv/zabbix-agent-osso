@@ -1,0 +1,27 @@
+#!/usr/bin/perl -w
+# [This file is part of the zabbix-agent-osso package]
+use POSIX qw(:termios_h);
+use constant B1152000 => 0010011; # B9600 exists, but B115200 is extension
+open(my $fh, "+<", $ARGV[0]) or die "open($ARGV[0]): $!";
+POSIX::dup2(fileno($fh), 0);  # replace stdin with selected device
+
+# [stty "$dev" "$baud" raw -clocal]
+my $termios = POSIX::Termios->new();
+$termios->getattr(0) or die "getattr: $!";
+# set speed
+$termios->setospeed(B1152000) or die "setospeed: $!"; # works without..
+$termios->setispeed(B1152000) or die "setispeed: $!"; # works without..
+# makeraw (no CR/LF translations, no signals, 8bits)
+$termios->setiflag($termios->getiflag & ~(
+    IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON));
+$termios->setoflag($termios->getoflag & ~OPOST);
+$termios->setlflag($termios->getlflag & ~(
+    ECHO | ECHONL | ICANON | ISIG | IEXTEN));
+$termios->setcflag(($termios->getcflag & ~(CSIZE | PARENB)) | CS8);
+# -clocal: Ignore modem control lines.
+$termios->setcflag($termios->getcflag & ~CLOCAL);
+# apply
+$termios->setattr(0, TCSANOW) or die "setattr: $!";
+
+# read a single line and exit
+print scalar <STDIN>;
