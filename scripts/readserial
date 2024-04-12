@@ -11,7 +11,7 @@ $termios->getattr(0) or die "getattr: $!";
 # set speed
 $termios->setospeed(B1152000) or die "setospeed: $!"; # works without..
 $termios->setispeed(B1152000) or die "setispeed: $!"; # works without..
-# makeraw (no CR/LF translations, no signals, 8bits)
+# make raw (no CR/LF translations, no signals, 8bits, see: cfmakeraw(3))
 $termios->setiflag($termios->getiflag & ~(
     IGNBRK | BRKINT | PARMRK | ISTRIP | INLCR | IGNCR | ICRNL | IXON));
 $termios->setoflag($termios->getoflag & ~OPOST);
@@ -20,6 +20,9 @@ $termios->setlflag($termios->getlflag & ~(
 $termios->setcflag(($termios->getcflag & ~(CSIZE | PARENB)) | CS8);
 # -clocal: Ignore modem control lines.
 $termios->setcflag($termios->getcflag & ~CLOCAL);
+# buffer settings
+$termios->setcc(VTIME, 0);  # 0*0.1 seconds waiting for more input
+$termios->setcc(VMIN, 1);   # when reading, expect at least one char
 # apply
 $termios->setattr(0, TCSANOW) or die "setattr: $!";
 
