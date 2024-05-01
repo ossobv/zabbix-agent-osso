@@ -17,7 +17,8 @@ if test -h /dev/log; then
     # We ignore those with the grep -v.
     #
     journalctl -qS '-1d' --grep oom_kill_process _TRANSPORT=kernel 2>&1 |
-        grep -vF ', ignoring file: No such file or directory' | wc -l >"$temp"
+        grep -vE ' is truncated, ignoring file[.]|, ignoring file: No such file or directory' |
+        wc -l >"$temp"
 else
     grep --count oom_kill_process /var/log/syslog >"$temp"
 fi
