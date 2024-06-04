@@ -11,3 +11,7 @@
 socket=/run/mysqld/MYINSTANCE-mysqld.sock
 user=zabbix-check
 password=SUPER_SECRET_PASSWORD
+
+# You can lower severity from Dister (5) to something lower here:
+#[zabbix]
+#severity=4

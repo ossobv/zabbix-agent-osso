@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2021-09-13T11:31:17Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>62a004b959464b97941afa471dcca73a</uuid>
             <template>Template App MySQL</template>
             <name>Template App MySQL</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Applications</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Backups</name>
-                </application>
-                <application>
-                    <name>MySQL</name>
-                </application>
-            </applications>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>746ab67114d0473abe927e992023a5e0</uuid>
                     <name>MySQL backup</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>backuped.mysql.discovery</key>
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>2cdbfea0715a42b8a75ba11f87fe2838</uuid>
                             <name>Most recent mysqlbackup for {#BKNAME}</name>
                             <type>TRAP</type>
                             <key>mysqlbackup.get_latest[{#BKNAME}]</key>
@@ -39,15 +34,17 @@
                             <history>1w</history>
                             <trends>90d</trends>
                             <units>unixtime</units>
-                            <applications>
-                                <application>
-                                    <name>Backups</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Backups</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{now()}-{last()} &gt; 97200</expression>
+                                    <uuid>a789717af6a3413599cfc2ae34ebd8a3</uuid>
+                                    <expression>now()-last(/Template App MySQL/mysqlbackup.get_latest[{#BKNAME}]) &gt; 97200</expression>
                                     <name>No recent mysqlbackup for {#BKNAME}</name>
                                     <priority>WARNING</priority>
                                 </trigger_prototype>
@@ -57,32 +54,51 @@
                     <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
+                    <uuid>f758ffae18dc4f36b96d12488c275bc6</uuid>
                     <name>MySQL instance discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>mysql2.discover_instances</key>
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>de7dcb55db12430f9e1743ff8ec94242</uuid>
                             <name>MySQL {#INSTANCE} is running</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.is-alive[{#INSTANCE}]</key>
                             <history>1w</history>
                             <description>0 - MySQL server is down
 1 - MySQL server is up</description>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last(0)}&lt;&gt;1</expression>
+                                    <uuid>e4027128fc9e4e8da2782075abc4bd68</uuid>
+                                    <expression>last(/Template App MySQL/mysql2.is-alive[{#INSTANCE}])&lt;&gt;1 and ({#SEVERITY}=&quot;&quot; or {#SEVERITY}=&quot;5&quot;)</expression>
                                     <name>MySQL {#INSTANCE} is down on {HOST.NAME}</name>
                                     <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>6cc8c17bcdc14364a5c49d3ef3f37866</uuid>
+                                    <expression>last(/Template App MySQL/mysql2.is-alive[{#INSTANCE}])&lt;&gt;1 and {#SEVERITY}=&quot;4&quot;</expression>
+                                    <name>MySQL {#INSTANCE} is down on {HOST.NAME}</name>
+                                    <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>8954efa972db4e93a93a97286dd8f3d7</uuid>
                             <name>MySQL {#INSTANCE} show dbs time</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.perf.schemata[{#INSTANCE}]</key>
@@ -91,14 +107,16 @@
                             <trends>90d</trends>
                             <value_type>FLOAT</value_type>
                             <units>s</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0.3</expression>
+                                    <uuid>f51c48ccf1cd4830b9c34abb429d0ccf</uuid>
+                                    <expression>last(/Template App MySQL/mysql2.perf.schemata[{#INSTANCE}])&gt;0.3</expression>
                                     <name>Slow show-dbs of MySQL {#INSTANCE} on {HOST.NAME} (grastate?)</name>
                                     <opdata>last duration {ITEM.LASTVALUE1}s</opdata>
                                     <priority>HIGH</priority>
@@ -107,17 +125,13 @@
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>b47766ab4ca0469c9a87f316ddb9cc90</uuid>
                             <name>MySQL {#INSTANCE} bytes recv/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Bytes_received]</key>
                             <history>1w</history>
                             <units>Bps</units>
                             <description>The number of bytes received from all clients.</description>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -126,19 +140,21 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>457d145aaed74be9934f9ef856e300de</uuid>
                             <name>MySQL {#INSTANCE} bytes sent/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Bytes_sent]</key>
                             <history>1w</history>
                             <units>Bps</units>
                             <description>The number of bytes sent to all clients.</description>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -147,18 +163,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>0e27561caeff4626bae7fa480d627586</uuid>
                             <name>MySQL {#INSTANCE} begin ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_begin]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -167,18 +185,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>69646269fa8e42dc8c884bea41824fa3</uuid>
                             <name>MySQL {#INSTANCE} commit ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_commit]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -187,18 +207,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>302892c91be047779bd16c1285499039</uuid>
                             <name>MySQL {#INSTANCE} delete ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_delete]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -207,18 +229,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>dcccba075e1445ca9fec9ef256bf5023</uuid>
                             <name>MySQL {#INSTANCE} insert ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_insert]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -227,18 +251,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>27776778cdbb4c7691a19ff01b7a0a62</uuid>
                             <name>MySQL {#INSTANCE} rollback ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_rollback]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -247,18 +273,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>d89971bf557743af836645519a352bd1</uuid>
                             <name>MySQL {#INSTANCE} select ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_select]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -267,18 +295,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>af2bd4d1b9a64434a1f1e69ad8c58061</uuid>
                             <name>MySQL {#INSTANCE} update ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Com_update]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -287,18 +317,20 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>b90d882b8b784cfc82e02ee95376a2d2</uuid>
                             <name>MySQL {#INSTANCE} q/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Questions]</key>
                             <history>1w</history>
                             <units>qps</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -307,17 +339,19 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>98e583f7f23543ea9f8ee0a287addcef</uuid>
                             <name>MySQL {#INSTANCE} slow queries</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Slow_queries]</key>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>SIMPLE_CHANGE</type>
@@ -326,44 +360,65 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>002665d4fa8d414589d1b2d9ab5cf15c</uuid>
                             <name>MySQL {#INSTANCE} number of threads connected</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},threads_connected]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>62c7de293a17471b888932ddc91688fc</uuid>
                             <name>MySQL {#INSTANCE} uptime</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.status[{#INSTANCE},Uptime]</key>
                             <history>1w</history>
                             <units>s</units>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>0fbc0f7c4e5043de9b7b3894aae8d857</uuid>
                             <name>MySQL {#INSTANCE} max connections</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.system[{#INSTANCE},max_connections]</key>
-                            <delay>15s</delay>
+                            <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>5m</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>4411ae468d4141c59c5975f2cdc44688</uuid>
                             <name>MySQL {#INSTANCE} client version</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.version.client[{#INSTANCE}]</key>
@@ -371,13 +426,15 @@
                             <history>1w</history>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>a2ef32028f7f47e5b679966de7c43fa8</uuid>
                             <name>MySQL {#INSTANCE} server version</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.version.server[{#INSTANCE}]</key>
@@ -385,22 +442,25 @@
                             <history>1w</history>
                             <trends>0</trends>
                             <value_type>CHAR</value_type>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} instance</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} instance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <expression>{Template App MySQL:mysql2.system[{#INSTANCE},max_connections].last()}*0.8&lt;{Template App MySQL:mysql2.status[{#INSTANCE},threads_connected].last()}</expression>
+                            <uuid>0206a19b55f74d5880e58efc7389fb61</uuid>
+                            <expression>last(/Template App MySQL/mysql2.system[{#INSTANCE},max_connections])*0.8&lt;last(/Template App MySQL/mysql2.status[{#INSTANCE},threads_connected])</expression>
                             <name>MySQL {#INSTANCE} max_connections conf too low on {HOST.NAME}</name>
                             <priority>HIGH</priority>
                         </trigger_prototype>
                     </trigger_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
+                            <uuid>9fad18d746aa47438bc3d6d79c32f1a5</uuid>
                             <name>MySQL {#INSTANCE} bandwidth</name>
                             <graph_items>
                                 <graph_item>
@@ -423,6 +483,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
+                            <uuid>1da9562596714491a9a45dbfb0e7abe0</uuid>
                             <name>MySQL {#INSTANCE} operations</name>
                             <graph_items>
                                 <graph_item>
@@ -483,6 +544,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
+                            <uuid>7dfd69b12dfd43a398089ccacc38f764</uuid>
                             <name>MySQL {#INSTANCE} queries per second</name>
                             <type>STACKED</type>
                             <ymin_type_1>FIXED</ymin_type_1>
@@ -497,6 +559,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
+                            <uuid>63d56f28549b4b1c9dcef787d986e817</uuid>
                             <name>MySQL {#INSTANCE} threads connected</name>
                             <graph_items>
                                 <graph_item>
@@ -521,20 +584,25 @@
             </discovery_rules>
             <dashboards>
                 <dashboard>
+                    <uuid>223bd24a4d5e4da6a4464973b17b378f</uuid>
                     <name>MySQL performance</name>
-                    <widgets>
-                        <widget>
-                            <type>GRAPH_CLASSIC</type>
-                            <width>12</width>
-                            <height>7</height>
-                        </widget>
-                        <widget>
-                            <type>GRAPH_CLASSIC</type>
-                            <x>12</x>
-                            <width>12</width>
-                            <height>7</height>
-                        </widget>
-                    </widgets>
+                    <pages>
+                        <page>
+                            <widgets>
+                                <widget>
+                                    <type>graph</type>
+                                    <width>12</width>
+                                    <height>7</height>
+                                </widget>
+                                <widget>
+                                    <type>graph</type>
+                                    <x>12</x>
+                                    <width>12</width>
+                                    <height>7</height>
+                                </widget>
+                            </widgets>
+                        </page>
+                    </pages>
                 </dashboard>
             </dashboards>
         </template>

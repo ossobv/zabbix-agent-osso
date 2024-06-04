@@ -36,6 +36,15 @@ elif test "$bin" = discover_instances; then
     for cnf in /etc/zabbix/config/mysql2.*.cnf \
                /etc/zabbix/config/mysql.*.cnf; do
         if test -s "$cnf"; then
+            # Set: [zabbix] severity=5 for DISASTER, severity=4 for HIGH
+            severity=$(sed -e '
+                1,/^[[]zabbix[]]/d
+                /^[[]/,$d
+                /^severity=/!d
+                s/^[^=]*=//
+            ' "$cnf")
+            test -n "$severity" || severity=5
+
             if test "${cnf##*/mysql2.}" != "$cnf"; then
                 instance=${cnf##*/mysql2.}
             else
@@ -43,11 +52,12 @@ elif test "$bin" = discover_instances; then
             fi
             instance=${instance%.cnf}
             test -n "$notfirst" && echo -n ,; notfirst=1
-            echo "{\"{#INSTANCE}\": \"$instance\"}"
+            echo "{\"{#INSTANCE}\": \"$instance\",\
+\"{#SEVERITY}\": $severity}"
         fi
     done
     test -z "$notfirst" && test -s /etc/zabbix/mysql/.my.cnf &&
-        echo "{\"{#INSTANCE}\": \"default\"}"
+        echo "{\"{#INSTANCE}\": \"default\", \"{#SEVERITY}\": 5}"
     echo "]"
 elif test "$bin" = no-v2-conf; then
     for cnf in /etc/zabbix/config/mysql2.*.cnf \

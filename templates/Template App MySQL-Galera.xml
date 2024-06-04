@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2021-03-02T14:18:42Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>123b3d20914249b49c2d0a5c4625449f</uuid>
             <template>Template App MySQL-Galera</template>
             <name>Template App MySQL-Galera</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Applications</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Galera</name>
-                </application>
-            </applications>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>5be55a08ff8e404c9ae41f8add6e2f23</uuid>
                     <name>MySQL instance discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>mysql2.galera.discover_instances</key>
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>2837317e81c04d85bbcf0e7893129222</uuid>
                             <name>MySQL {#INSTANCE} is running (galera)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.is-alive[{#INSTANCE}]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <uuid>f3a6369cf92f4f068adba9896a45880e</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                     <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
                                     <priority>WARNING</priority>
                                     <description>Dupe trigger. Used for dependency only.</description>
@@ -49,41 +49,54 @@
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>5cad6c64e7e54645b3437d1cc3568179</uuid>
                             <name>MySQL {#INSTANCE} check cluster size</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_cluster_size]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&lt;&gt;{$GALERA_NODECOUNT}</expression>
+                                    <uuid>e95ad5a40ee943979679d6e80d0c146c</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_cluster_size])&lt;&gt;{$GALERA_NODECOUNT}
+and ({#SEVERITY}=&quot;&quot; or {#SEVERITY}=&quot;5&quot;)</expression>
                                     <name>Cluster {#INSTANCE} size is not {$GALERA_NODECOUNT} on {HOST.NAME}</name>
                                     <priority>DISASTER</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>010a4b00d7a04819bc288085f3e8075c</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_cluster_size])&lt;&gt;{$GALERA_NODECOUNT}
+and {#SEVERITY}=&quot;4&quot;</expression>
+                                    <name>Cluster {#INSTANCE} size is not {$GALERA_NODECOUNT} on {HOST.NAME}</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>c4561fad1bf74b168452b7f103abc0ce</uuid>
                             <name>MySQL {#INSTANCE} status of cluster component</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_cluster_status]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>REGEX</type>
@@ -95,31 +108,34 @@
                                     <error_handler_params>0</error_handler_params>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&lt;&gt;1</expression>
+                                    <uuid>9b7f221209914c6e8140d40070009ac2</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_cluster_status])&lt;&gt;1</expression>
                                     <name>Cluster {#INSTANCE} status of node {HOST.NAME} not Primary</name>
                                     <priority>AVERAGE</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>7c880a93037f4a01bd1b2cbbe31f0526</uuid>
                             <name>MySQL {#INSTANCE} connection with cluster</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_connected]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>BOOL_TO_DECIMAL</type>
@@ -128,84 +144,101 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{max(1m)}=0</expression>
+                                    <uuid>a06c2d3799a2453aaf8735220c892534</uuid>
+                                    <expression>max(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_connected],1m)=0</expression>
                                     <name>Cluster {#INSTANCE} on {HOST.NAME} is no longer connected</name>
                                     <priority>HIGH</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>f984fcba2365438abb547104947b89fe</uuid>
                             <name>MySQL {#INSTANCE} amount of lag between node and cluster</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_flow_control_paused]</key>
                             <delay>30s</delay>
                             <history>1w</history>
                             <value_type>FLOAT</value_type>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>f7b67105ea4f427cbaee8841c70963f9</uuid>
                             <name>MySQL {#INSTANCE} check cluster speed - data sent</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_flow_control_sent]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>4befe53bbaba4c1ca8cca69c02fbb48c</uuid>
                             <name>MySQL {#INSTANCE} check cluster speed - data in receive queue</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_local_recv_queue]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{min(60)}&gt;0</expression>
+                                    <uuid>85dee4b8b06a4308bf5b9750ad50ba14</uuid>
+                                    <expression>min(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_recv_queue],60s)&gt;0</expression>
                                     <name>Cluster {#INSTANCE} on {HOST.NAME} is busy, data still in receive queue</name>
                                     <priority>WARNING</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>d8e915574d614a089fe052a18106defe</uuid>
                             <name>MySQL {#INSTANCE} check node speed - data in send queue</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_local_send_queue_avg]</key>
                             <delay>30s</delay>
                             <history>1w</history>
                             <value_type>FLOAT</value_type>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>bab12582c80543a3b64fcf4f57ff62f9</uuid>
                             <name>MySQL {#INSTANCE} status of local cluster node</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_local_state]</key>
@@ -217,80 +250,96 @@
 3 - Joined - node has joined the cluster
 4 - Synced - node is synced with the cluster
 (or we could take wsrep_local_state_comment)</description>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}=3</expression>
+                                    <uuid>ec873edb993f48cca93f98e860b68e58</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state])=3</expression>
                                     <name>Cluster {#INSTANCE} node {HOST.NAME} has joined but not synced with Galera cluster</name>
                                     <priority>HIGH</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last()}=2</expression>
+                                    <uuid>8498d21591df46a5abe164a7c0498e83</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state])=2</expression>
                                     <name>Cluster {#INSTANCE} node {HOST.NAME} is Donor/Desynced in Galera cluster</name>
                                     <priority>HIGH</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last()}=1</expression>
+                                    <uuid>5647ac559dde4b6bab1f31c2dba4ead5</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state])=1</expression>
                                     <name>Cluster {#INSTANCE} node {HOST.NAME} is joining Galera cluster</name>
                                     <priority>HIGH</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last()}&lt;&gt;4</expression>
+                                    <uuid>288213ac309f4c8e819bfc044aa3e72c</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state])&lt;&gt;4</expression>
                                     <name>Cluster {#INSTANCE} node {HOST.NAME} is not synced with Galera cluster</name>
                                     <priority>HIGH</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last(#1)}&lt;&gt;4 and {last(#2)}&lt;&gt;4 and {last(#3)}&lt;&gt;4 and {last(#4)}&lt;&gt;4 and {last(#5)}&lt;&gt;4 and {last(#6)}&lt;&gt;4 and {last(#7)}&lt;&gt;4 and {last(#8)}&lt;&gt;4 and {last(#9)}&lt;&gt;4 and {last(#10)}&lt;&gt;4</expression>
+                                    <uuid>aa1efb9f4fc14227bdab36478d44dfe8</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#1)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#2)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#3)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#4)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#5)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#6)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#7)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#8)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#9)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#10)&lt;&gt;4 and {$DISABLE_GALERA_DESYNC_CRITICAL}&lt;&gt;1
+and ({#SEVERITY}=&quot;&quot; or {#SEVERITY}=&quot;5&quot;)</expression>
                                     <name>Cluster {#INSTANCE} node {HOST.NAME} is not synced with Galera cluster - 5 minutes</name>
                                     <priority>DISASTER</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>5e7d592a6d734a86a747b46bdfc2aac6</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#1)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#2)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#3)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#4)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#5)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#6)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#7)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#8)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#9)&lt;&gt;4 and last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_local_state],#10)&lt;&gt;4 and {$DISABLE_GALERA_DESYNC_CRITICAL}&lt;&gt;1
+and {#SEVERITY}=&quot;4&quot;</expression>
+                                    <name>Cluster {#INSTANCE} node {HOST.NAME} is not synced with Galera cluster - 5 minutes</name>
+                                    <priority>HIGH</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>7c0d6800853d4a8c9a3c352764510965</uuid>
                             <name>MySQL {#INSTANCE} server accepts SQL load</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>mysql2.galera.status[{#INSTANCE},wsrep_ready]</key>
                             <delay>30s</delay>
                             <history>1w</history>
-                            <application_prototypes>
-                                <application_prototype>
-                                    <name>MySQL {#INSTANCE} galera</name>
-                                </application_prototype>
-                            </application_prototypes>
                             <preprocessing>
                                 <step>
                                     <type>BOOL_TO_DECIMAL</type>
@@ -299,15 +348,22 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>MySQL {#INSTANCE} galera</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}=0</expression>
+                                    <uuid>bb6adb3888874381a23e34242c269708</uuid>
+                                    <expression>last(/Template App MySQL-Galera/mysql2.galera.status[{#INSTANCE},wsrep_ready])=0</expression>
                                     <name>Cluster {#INSTANCE} on {HOST.NAME} no longer accepts SQL load</name>
                                     <priority>WARNING</priority>
                                     <dependencies>
                                         <dependency>
                                             <name>MySQL {#INSTANCE} is down on {HOST.NAME} (galera)</name>
-                                            <expression>{Template App MySQL-Galera:mysql2.galera.is-alive[{#INSTANCE}].last()}&lt;&gt;1</expression>
+                                            <expression>last(/Template App MySQL-Galera/mysql2.galera.is-alive[{#INSTANCE}])&lt;&gt;1</expression>
                                         </dependency>
                                     </dependencies>
                                 </trigger_prototype>
@@ -317,6 +373,10 @@
                 </discovery_rule>
             </discovery_rules>
             <macros>
+                <macro>
+                    <macro>{$DISABLE_GALERA_DESYNC_CRITICAL}</macro>
+                    <value>0</value>
+                </macro>
                 <macro>
                     <macro>{$GALERA_NODECOUNT}</macro>
                     <value>3</value>
