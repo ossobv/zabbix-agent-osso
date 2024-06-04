@@ -1,3 +1,13 @@
+zabbix-agent-osso (0.74) stable; urgency=low
+
+  * daemon+kernelmisc: Ignore spurious journal-is-truncated from journalctl
+  * ipmi/zfs: Avoid length in awk (illegal reference to variable v)
+  * mysql2: Add optional severity setting per DB config file
+  * readserial: Explain what VMIN and VTIME do
+  * tempsens: Add temperature/humidity sensor through serial device reading
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 04 Jun 2024 12:23:51 +0200
+
 zabbix-agent-osso (0.73) stable; urgency=low
 
   * daemon: Ignore incidental ENOFILE from journalctl
