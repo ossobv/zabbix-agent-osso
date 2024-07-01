@@ -1,0 +1,27 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+#
+# journalctl, but without spurious error messages
+#
+# From journalctl we see spurious errors like this:
+#   An error was encountered while opening journal file or directory
+#   /var/log/journal/ca7481b701f04ff390e4e896fccea062/system.journal,
+#   ignoring file: No such file or directory
+# and:
+#   Journal file
+#   /var/log/journal/39b28fd795d54672b3f97e30775e4572/user-4525.journal
+#   is truncated, ignoring file.
+# We ignore those with the grep -v.
+#
+# Unfortunately, we lose the difference between stdout/stderr. The caller is
+# advised to cat the output to an intermediate file if the end product is
+# simply a count-of-lines. In that case we can read and fix additional issues
+# like above.
+
+if ! test -x /usr/bin/journalctl; then
+    exit 0
+fi
+
+/usr/bin/journalctl -q "$@" 2>&1 | grep -vE "\
+ is truncated, ignoring file[.]|\
+, ignoring file: No such file or directory"

@@ -3,24 +3,17 @@
 # Cron job to detect if the oom_killer has been active recently.
 #
 dest=/var/lib/zabbix/scripts/daemon.oom_kill
-temp=$(mktemp "$dest.XXXX")
 # "oom_kill_process.cold+0xb/0x10" is part of the call stack:
 if test -h /dev/log; then
     # We expect this to be a symlink to /run/systemd/journal/dev-log.
     # In that case we use journald. This is faster than a syslog
     # grep because of the _TRANSPORT=kernel filter.
-    #
-    # Note: we see spurious errors like this:
-    #   An error was encountered while opening journal file or directory
-    #   /var/log/journal/ca7481b701f04ff390e4e896fccea062/system.journal,
-    #   ignoring file: No such file or directory
-    # We ignore those with the grep -v.
-    #
-    journalctl -qS '-1d' --grep oom_kill_process _TRANSPORT=kernel 2>&1 |
-        grep -vE ' is truncated, ignoring file[.]|, ignoring file: No such file or directory' |
-        wc -l >"$temp"
+    /etc/zabbix/scripts/journalctl-silent \
+        -S '-1d' --grep oom_kill_process _TRANSPORT=kernel >"$dest.source"
 else
-    grep --count oom_kill_process /var/log/syslog >"$temp"
+    grep --count oom_kill_process /var/log/syslog >"$dest.source"
 fi
+temp=$(mktemp "$dest.XXXX")
+wc -l <"$dest.source" >"$temp"
 chmod a+r "$temp"
 mv "$temp" "$dest"
