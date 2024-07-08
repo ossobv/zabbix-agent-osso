@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>5fb1060cf5a2426e98238808c7401bb7</uuid>
+            <template>Template ks8-patroni postgres status</template>
+            <name>Template ks8-patroni postgres status</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>f690a7b15b744ca7aac4f6329a38941e</uuid>
+                    <name>Postgres status discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s-patroni.discovery</key>
+                    <description>discovery of the postgres statuses</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>d3cf71eb43ad4c61b07c549b33530c59</uuid>
+                            <name>Patroni {#MEMBER} lag</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.lag[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.lag</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>012f08aa642845deaad34962e73066a5</uuid>
+                                    <expression>last(/Template ks8-patroni postgres status/k8s-patroni.lag[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}],#3)&gt;0</expression>
+                                    <name>Patroni Postgres {#MEMBER} is having replication lag in namespace {#NAMESPACE}</name>
+                                    <priority>HIGH</priority>
+                                    <description>patroni postgres member is lagging behind with a value greater than 0</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>8b676ba7b4a64b438cb23d581d2ef8e4</uuid>
+                            <name>Patroni {#MEMBER} role</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.role</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>dfb182d4cc284e3a87db2d93182a7099</uuid>
+                                    <expression>change(/Template ks8-patroni postgres status/k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}])=1</expression>
+                                    <name>Patroni Postgres {#MEMBER} changed role in namespace {#NAMESPACE}</name>
+                                    <priority>DISASTER</priority>
+                                    <description>patroni postgres role changed</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>7bdb1e8c62b5461cbddafd497b06f679</uuid>
+                                    <expression>nodata(/Template ks8-patroni postgres status/k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}],5m)=1</expression>
+                                    <name>Patroni Postgres {#MEMBER} not running in namespace {#NAMESPACE}</name>
+                                    <priority>DISASTER</priority>
+                                    <description>patroni postgres pod not running</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>bf27472e1ce842e3b4ae071fd010ccec</uuid>
+                            <name>Patroni {#MEMBER} state</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.state[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.state</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>1db0a53605ed426eaa1a2d8a237b844b</uuid>
+                                    <expression>change(/Template ks8-patroni postgres status/k8s-patroni.state[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}])=1</expression>
+                                    <name>Patroni postgres {#MEMBER} state changed in namespace {#NAMESPACE}</name>
+                                    <priority>HIGH</priority>
+                                    <description>trigger for patroni postgres state change</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>b1d3cb168cd047eba5730f463c980cc9</uuid>
+                            <name>patroni-status {#MEMBER}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <history>1h</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

@@ -1,0 +1,31 @@
+k8s-patroni
+
+This patroni monitoring works by running a script as a sidecar.
+This script writes all statuses available in the container to a configmap.
+These confimaps are automaticly discovered by the zabbix agent.
+
+To use the patroni monitoring you have to do the following steps:
+
+1. Label the to be monitored namespaces `patroni-postgres-monitoring=true`
+2. Create a ubuntu sidecar in all patroni pods to be monitored.
+3. Give this sidecar a service account to create configmaps
+3. Mount the script (below) to the sidecar, and make it run in a loop.
+4. Load the template and enable the template for the hosts*.
+
+* The hosts should have kubectl and acces to the cluster and namespaces. 
+* You have to manualy create the config maps the first time. 
+* The serviceaccount only needs patch permissions, and can be limited to only the monitored namespaces.
+
+script:
+```
+while :
+do
+    STATUS=$(curl localhost:8008/cluster -s | sed 's/"/\\"/g' );
+    CA_CERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt";
+    PAYLOAD="[{\"op\" : \"replace\", \"path\" : \"/data/status\", \"value\" : \"${STATUS}\" }]"
+    curl --cacert ${CA_CERT} --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+    --header "Content-Type: application/json-patch+json" --request PATCH --data "${PAYLOAD}" \
+    https://kubernetes.default.svc:443/api/v1/namespaces/${POD_NAMESPACE}/configmaps/${POD_NAME} -k
+    sleep 30
+done
+```
