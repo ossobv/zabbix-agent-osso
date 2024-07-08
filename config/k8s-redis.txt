@@ -1,0 +1,32 @@
+k8s-redis
+
+this redis monitoring works by running a script as a sidecar.
+this script writes all statuses available in the container to a configmap.
+these confimaps are automaticly discovered by the zabbix agent.
+
+To use the redis monitoring you have to do the following steps:
+
+1. label the to be monitored namespaces `redis-monitoring=true`
+2. create a ubuntu sidecar in all redis pods to be monitored.
+3. give this sidecar a service account to create configmaps
+3. mount the script (below) to the sidecar, and make it run in a loop.
+4. load the template and enable the template for the hosts*.
+
+* the hosts should have kubectl and acces to the cluster and namespaces. 
+* You have to manualy create the config maps the first time. 
+* the serviceaccount only needs patch permissions
+* script expects a REDIS_INFO_PORT env variable
+
+script:
+    while :
+    do
+        STATUS=$(echo info | nc localhost ${REDIS_INFO_PORT} -w1 | tr -d '\r' | sed -ne '/^[^#]/s/^\([^:]*\):\(.*\)/"\1": "\2",/p
+        1i{
+        $a"zzz":"zzz"}' | tr -d '\n' | sed -e 's/\\//g;s/"/\\"/g')
+        CA_CERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt";
+        PAYLOAD="[{\"op\" : \"replace\", \"path\" : \"/data/status\", \"value\" : \"${STATUS}\" }]"
+        curl --cacert ${CA_CERT} --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+            --header "Content-Type: application/json-patch+json" --request PATCH --data "${PAYLOAD}" \
+            https://kubernetes.default.svc:443/api/v1/namespaces/${POD_NAMESPACE}/configmaps/status-${POD_NAME} -k
+        sleep 30
+    done
