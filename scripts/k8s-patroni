@@ -11,20 +11,21 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl get namespace -l patroni-postgres-monitoring=true \
-        --context $1 --no-headers 2>/dev/null \
-    | sed -e 's/namespace\///' 
+    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-patroni=true \
+            --context "$1" --no-headers 2>/dev/null |
+        sed -e 's/namespace\///'
 }
 
 get_configmaps() {
-    kubectl -n $1 --context $2 get cm -o name \
-    | sed -e 's/^configmap\///;/^citus-/!d'
+    kubectl -n "$1" --context "$2" get cm -o name |
+        sed -e 's/^configmap\///;/^citus-/!d'
 }
 
 make_json() {
-    kubectl -n $namespace --context $context get cm $name \
-        -o jsonpath='{.data.status}' \
-    | jq -r '.members[] | {"{#CONTEXT}":"'$context'","{#NAMESPACE}":"'$namespace'","{#CONFIGMAP}":"'$name'","{#MEMBER}":.name}'; 
+    kubectl -n "$namespace" --context "$context" get cm "$name" \
+            -o jsonpath='{.data.status}' |
+        jq -r '.members[] | {"{#CONTEXT}":"'$context'","{#NAMESPACE}":'"\
+"'"'$namespace'","{#CONFIGMAP}":"'$name'","{#MEMBER}":.name}'
 }
 
 if [ "$1" = "--discover" ]; then
