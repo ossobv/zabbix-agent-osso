@@ -25,7 +25,7 @@ INSERT INTO expressions (expressionid, regexpid, expression, expression_type, ex
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (25, 2, '^[A-Z0-9_]+$', 4, ',', 1);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
-  VALUES (41, 2, '^(br-|cali|docker|fwbr|fwln|fwpr|ppp|tap|tun|veth|vmbr)', 4, ',', 1);
+  VALUES (41, 2, '^(br-|cali|docker|fwbr|fwln|fwpr|lxc|ppp|tap|tun|veth|vmbr)', 4, ',', 1);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (3, 3, '^(Physical memory|Virtual memory|Memory buffers|Cached memory|Swap space)$', 4, ',', 1);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
@@ -46,6 +46,8 @@ INSERT INTO expressions (expressionid, regexpid, expression, expression_type, ex
   VALUES (26, 7, '^/media/', 4, ',', 0);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (27, 7, '^/mnt/', 4, ',', 0);
+INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
+  VALUES (42, 7, '^/var/lib/kubelet/plugins/kubernetes.io/csi/rook-ceph\.rbd\.csi\.ceph\.com/', 4, ',', 0);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (19, 9, '.', 3, ',', 0);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
