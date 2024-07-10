@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+:<?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.4</version>
     <template_groups>
@@ -26,9 +26,9 @@
                     <item_prototypes>
                         <item_prototype>
                             <uuid>49fd0cb7cf474e638f3d20e73e4a4eea</uuid>
-                            <name>{#CONFIGMAP} master_failover_state</name>
+                            <name>{#POD} master_failover_state</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-redis.master_failover_state[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <key>k8s-redis.master_failover_state[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -41,22 +41,22 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>9b18d32333f2440c9c990fd3454cc8a8</uuid>
-                                    <expression>change(/Template k8s-redis status/k8s-redis.master_failover_state[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}])=1</expression>
-                                    <name>redisfailover master_failover_state_changed {#CONFIGMAP} in namespace {#NAMESPACE}</name>
+                                    <expression>change(/Template k8s-redis status/k8s-redis.master_failover_state[{#CONTEXT},{#NAMESPACE},{#POD}])=1</expression>
+                                    <name>redisfailover master_failover_state_changed {#POD} in namespace {#NAMESPACE}</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <uuid>7ddd6713d8ba4d1290b38a4973f9667a</uuid>
-                            <name>{#CONFIGMAP} master_link_status</name>
+                            <name>{#POD} master_link_status</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-redis.master_link_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <key>k8s-redis.master_link_status[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -71,22 +71,22 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>a13bae3b97724feaae32862b5937b825</uuid>
-                                    <expression>change(/Template k8s-redis status/k8s-redis.master_link_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}])=1</expression>
-                                    <name>redisfailover {#CONFIGMAP} master_link_status changed in namespace {#NAMESPACE}</name>
+                                    <expression>change(/Template k8s-redis status/k8s-redis.master_link_status[{#CONTEXT},{#NAMESPACE},{#POD}])=1</expression>
+                                    <name>redisfailover {#POD} master_link_status changed in namespace {#NAMESPACE}</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <uuid>e107c2a60d894994b7b8123574cc2a82</uuid>
-                            <name>{#CONFIGMAP} redis version</name>
+                            <name>{#POD} redis version</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-redis.redis_version[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <key>k8s-redis.redis_version[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -99,14 +99,14 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
                         </item_prototype>
                         <item_prototype>
                             <uuid>5cf584dc5a3c4623ba35cbd15bc0dbd1</uuid>
-                            <name>{#CONFIGMAP} role</name>
+                            <name>{#POD} role</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-redis.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <key>k8s-redis.role[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -119,22 +119,22 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                                <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>3ece973bdb864aae8319940eb9e428a1</uuid>
-                                    <expression>change(/Template k8s-redis status/k8s-redis.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}])=1</expression>
-                                    <name>redisfailover role changed {#CONFIGMAP} in namespace {#NAMESPACE}</name>
+                                    <expression>change(/Template k8s-redis status/k8s-redis.role[{#CONTEXT},{#NAMESPACE},{#POD}])=1</expression>
+                                    <name>redisfailover role changed {#POD} in namespace {#NAMESPACE}</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <uuid>908308c540bc40c19519e6401fa96ea6</uuid>
-                            <name>redis failover {#CONFIGMAP}</name>
+                            <name>redis failover {#POD}</name>
                             <type>ZABBIX_ACTIVE</type>
-                            <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <key>k8s-redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
                         </item_prototype>
