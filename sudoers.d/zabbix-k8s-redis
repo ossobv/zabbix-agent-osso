@@ -1,0 +1,5 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+Cmnd_Alias REDIS = /etc/zabbix/scripts/k8s-redis *
+Defaults!REDIS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: REDIS
