@@ -25,19 +25,19 @@ make_json() {
     kubectl -n "$namespace" --context "$context" get cm "$name" \
             -o jsonpath='{.data.status}' |
         jq -r '.members[] | {"{#CONTEXT}":"'$context'","{#NAMESPACE}":'"\
-"'"'$namespace'","{#CONFIGMAP}":"'$name'","{#MEMBER}":.name}'
+"'"'$namespace'","{#POD}":"'$name'","{#MEMBER}":.name}'
 }
 
 if [ "$1" = "--discover" ]; then
     for context in $(get_contexts); do 
         for namespace in $(get_namespaces "$context"); do
             for name in $(get_configmaps "$namespace" "$context"); do
-                make_json "$namespace" "$context" "$name"
+                make_json "$namespace" "$context" "${name#status-}"
             done
         done
     done | jq -sc
     exit 0
 fi
 
-exec kubectl --context "$1" -n "$2" get cm "$3" -o jsonpath='{.data.status}' |
+exec kubectl --context "$1" -n "$2" get cm "status-$3" -o jsonpath='{.data.status}' |
     jq '.members[] | select(.name == "'"$4"'")'

@@ -29,7 +29,7 @@
                             <uuid>d3cf71eb43ad4c61b07c549b33530c59</uuid>
                             <name>Patroni {#MEMBER} lag</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-patroni.lag[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <key>k8s-patroni.lag[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -44,12 +44,12 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{POD},{#MEMBER}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>012f08aa642845deaad34962e73066a5</uuid>
-                                    <expression>last(/Template k8s-patroni postgres status/k8s-patroni.lag[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}],#3)&gt;0</expression>
+                                    <expression>last(/Template k8s-patroni postgres status/k8s-patroni.lag[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}],#3)&gt;0</expression>
                                     <name>Patroni Postgres {#MEMBER} is having replication lag in namespace {#NAMESPACE}</name>
                                     <priority>HIGH</priority>
                                     <description>patroni postgres member is lagging behind with a value greater than 0</description>
@@ -60,7 +60,7 @@
                             <uuid>8b676ba7b4a64b438cb23d581d2ef8e4</uuid>
                             <name>Patroni {#MEMBER} role</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <key>k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -73,19 +73,19 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>dfb182d4cc284e3a87db2d93182a7099</uuid>
-                                    <expression>change(/Template k8s-patroni postgres status/k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}])=1</expression>
+                                    <expression>change(/Template k8s-patroni postgres status/k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}])=1</expression>
                                     <name>Patroni Postgres {#MEMBER} changed role in namespace {#NAMESPACE}</name>
                                     <priority>DISASTER</priority>
                                     <description>patroni postgres role changed</description>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>7bdb1e8c62b5461cbddafd497b06f679</uuid>
-                                    <expression>nodata(/Template k8s-patroni postgres status/k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}],5m)=1</expression>
+                                    <expression>nodata(/Template k8s-patroni postgres status/k8s-patroni.role[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}],5m)=1</expression>
                                     <name>Patroni Postgres {#MEMBER} not running in namespace {#NAMESPACE}</name>
                                     <priority>DISASTER</priority>
                                     <description>patroni postgres pod not running</description>
@@ -96,7 +96,7 @@
                             <uuid>bf27472e1ce842e3b4ae071fd010ccec</uuid>
                             <name>Patroni {#MEMBER} state</name>
                             <type>DEPENDENT</type>
-                            <key>k8s-patroni.state[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <key>k8s-patroni.state[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
@@ -109,12 +109,12 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>1db0a53605ed426eaa1a2d8a237b844b</uuid>
-                                    <expression>change(/Template k8s-patroni postgres status/k8s-patroni.state[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}])=1</expression>
+                                    <expression>change(/Template k8s-patroni postgres status/k8s-patroni.state[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}])=1</expression>
                                     <name>Patroni postgres {#MEMBER} state changed in namespace {#NAMESPACE}</name>
                                     <priority>HIGH</priority>
                                     <description>trigger for patroni postgres state change</description>
@@ -125,7 +125,7 @@
                             <uuid>b1d3cb168cd047eba5730f463c980cc9</uuid>
                             <name>patroni-status {#MEMBER}</name>
                             <type>ZABBIX_ACTIVE</type>
-                            <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#POD},{#MEMBER}]</key>
                             <history>1h</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
