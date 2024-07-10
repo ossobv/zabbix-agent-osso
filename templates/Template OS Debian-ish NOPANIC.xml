@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-05-30T11:32:40Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>23d3d04101034dc1992f700b57df2aad</uuid>
             <template>Template OS Debian-ish NOPANIC</template>
             <name>Template OS Debian-ish NOPANIC</name>
             <templates>
@@ -21,9 +22,15 @@
             </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
+            <macros>
+                <macro>
+                    <macro>{$TEMPLATE_OS_DEBIANISH}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
         </template>
     </templates>
 </zabbix_export>

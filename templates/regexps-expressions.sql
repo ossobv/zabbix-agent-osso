@@ -47,8 +47,6 @@ INSERT INTO expressions (expressionid, regexpid, expression, expression_type, ex
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (27, 7, '^/mnt/', 4, ',', 0);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
-  VALUES (42, 7, '^/var/lib/kubelet/plugins/kubernetes.io/csi/rook-ceph\.rbd\.csi\.ceph\.com/', 4, ',', 0);
-INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (19, 9, '.', 3, ',', 0);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (39, 10, '^/var/lib/kubelet/plugins/kubernetes.io/csi/[^/]*(rbd|cephfs)[^/]*/', 3, ',', 0);

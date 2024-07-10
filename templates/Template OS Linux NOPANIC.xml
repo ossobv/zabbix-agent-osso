@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-05-30T11:31:40Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>9a28e8c1c1694281ab61c02530bdf7e7</uuid>
             <template>Template OS Linux NOPANIC</template>
             <name>Template OS Linux NOPANIC</name>
             <templates>
@@ -18,7 +19,7 @@
             </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>

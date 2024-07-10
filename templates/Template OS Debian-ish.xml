@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-05-30T11:33:34Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>98e04d43c47d4469b1e14eefbe903817</uuid>
             <template>Template OS Debian-ish</template>
             <name>Template OS Debian-ish</name>
             <templates>
@@ -21,42 +22,21 @@
             </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <items>
-                <item>
-                    <name>Check if rsyslog is running</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>proc.num[rsyslogd]</key>
-                    <history>7d</history>
-                    <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Processes</name>
-                        </application>
-                    </applications>
-                </item>
-                <item>
-                    <name>Check if syslog-ng is running</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>proc.num[syslog-ng]</key>
-                    <history>7d</history>
-                    <trends>30d</trends>
-                    <applications>
-                        <application>
-                            <name>Processes</name>
-                        </application>
-                    </applications>
-                </item>
-            </items>
+            <macros>
+                <macro>
+                    <macro>{$DISK_LEFT_CRIT}</macro>
+                    <value>10</value>
+                    <description>Percentage of disk space left free before a critical gets send</description>
+                </macro>
+                <macro>
+                    <macro>{$TEMPLATE_OS_DEBIANISH}</macro>
+                    <value>1</value>
+                    <description>Used to check if we have the Template OS Debian'ish assigned to a host</description>
+                </macro>
+            </macros>
         </template>
     </templates>
-    <triggers>
-        <trigger>
-            <expression>{Template OS Debian-ish:proc.num[rsyslogd].last()}=0 and {Template OS Debian-ish:proc.num[syslog-ng].last()}=0</expression>
-            <name>rsyslog | syslog-ng are not running on {HOST.NAME}</name>
-            <priority>HIGH</priority>
-        </trigger>
-    </triggers>
 </zabbix_export>

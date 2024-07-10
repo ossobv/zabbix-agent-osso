@@ -1,175 +1,170 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2022-05-30T11:34:01Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>edc9f0a5a5d54797bf68e37364743831</uuid>
             <template>Template OS Linux</template>
             <name>Template OS Linux</name>
             <templates>
                 <template>
-                    <name>Template App Zabbix Agent</name>
+                    <name>Zabbix agent active</name>
                 </template>
             </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>CPU</name>
-                </application>
-                <application>
-                    <name>Filesystems</name>
-                </application>
-                <application>
-                    <name>General</name>
-                </application>
-                <application>
-                    <name>Memory</name>
-                </application>
-                <application>
-                    <name>Network interfaces</name>
-                </application>
-                <application>
-                    <name>NTP</name>
-                </application>
-                <application>
-                    <name>OS</name>
-                </application>
-                <application>
-                    <name>Performance</name>
-                </application>
-                <application>
-                    <name>Processes</name>
-                </application>
-                <application>
-                    <name>Security</name>
-                </application>
-                <application>
-                    <name>Software</name>
-                </application>
-            </applications>
             <items>
                 <item>
+                    <uuid>6f0d30b413f746f1857c142a7d4ab2dc</uuid>
                     <name>Maximum number of opened files</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>kernel.maxfiles</key>
                     <delay>1h</delay>
                     <history>1w</history>
                     <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
-                    <applications>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last(0)}&lt;1024</expression>
+                            <uuid>d56828a661f9498a99cfb645cd8f30fa</uuid>
+                            <expression>last(/Template OS Linux/kernel.maxfiles)&lt;1024</expression>
                             <name>Configured max number of opened files is too low on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>679313e0039c461a8f34badfb9390545</uuid>
                     <name>Maximum number of processes</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>kernel.maxproc</key>
                     <delay>1h</delay>
                     <history>1w</history>
                     <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
-                    <applications>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last(0)}&lt;256</expression>
+                            <uuid>b9c6644db41a49fbaf84b22c30f72dc4</uuid>
+                            <expression>last(/Template OS Linux/kernel.maxproc)&lt;256</expression>
                             <name>Configured max number of processes is too low on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>ccb6fdbe1267475780e978c0c5de986c</uuid>
+                    <name>Number of processes</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num</key>
+                    <history>7d</history>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>2bb3314953be4cd290cce97926ad6276</uuid>
                     <name>Number of running processes</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>proc.num[,,run]</key>
                     <history>1w</history>
                     <description>Number of processes in running state.</description>
-                    <applications>
-                        <application>
-                            <name>Processes</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Processes</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last(0)}&gt;30</expression>
+                            <uuid>6ed477b7b2e249d3b822eecfd7988483</uuid>
+                            <expression>last(/Template OS Linux/proc.num[,,run])&gt;30</expression>
                             <name>Too many processes running on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>160ccce412104e75be08bcedd30c8d29</uuid>
                     <name>Number of processes</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>proc.num[]</key>
                     <history>1w</history>
                     <description>Total number of processes in any state.</description>
-                    <applications>
-                        <application>
-                            <name>Processes</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Processes</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}&gt;{$LIMIT_PROC_NUM}</expression>
+                            <uuid>1c5c2e99c2c44ced9ec61a13c1de81d5</uuid>
+                            <expression>last(/Template OS Linux/proc.num[])&gt;{$LIMIT_PROC_NUM}</expression>
                             <name>Too many processes on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>dbe46edd97724bb6bcad126dcfc21098</uuid>
                     <name>Host boot time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.boottime</key>
                     <delay>10m</delay>
                     <history>1w</history>
                     <units>unixtime</units>
-                    <applications>
-                        <application>
-                            <name>General</name>
-                        </application>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>4cead1ac32c142958f93fe4c1b17b0f8</uuid>
                     <name>Interrupts per second</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.intr</key>
                     <history>1w</history>
                     <units>ips</units>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
@@ -179,26 +174,40 @@
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>1cd6d414685a4ccbacf2b0d35b15c815</uuid>
                     <name>Processor load (1 min average per core)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.load[percpu,avg1]</key>
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <description>The processor load is calculates as system CPU load divided by number of CPU cores.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{avg(300)}&gt;2</expression>
+                            <uuid>225e921b489e464ebb03df9541e91bbc</uuid>
+                            <expression>avg(/Template OS Linux/system.cpu.load[percpu,avg1],300s)&gt;2</expression>
                             <name>Processor load is too high on {HOST.NAME}</name>
                             <status>DISABLED</status>
                             <priority>WARNING</priority>
@@ -206,60 +215,60 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>8cf7c02cf20e461e8cd2ece183a3549e</uuid>
                     <name>Processor load (5 min average per core)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.load[percpu,avg5]</key>
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <description>The processor load is calculates as system CPU load divided by number of CPU cores.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$DISABLE_CPU_LOAD}&lt;&gt;1 and {prev(0)}&gt;2</expression>
+                            <uuid>d0371ac6ab09436bb143d5ab0478bb18</uuid>
+                            <expression>{$DISABLE_CPU_LOAD}&lt;&gt;1 and last(/Template OS Linux/system.cpu.load[percpu,avg5],#2)&gt;2</expression>
                             <name>Processor load is too high on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>a8aa7983c18f4788855ff8cd9ec4c926</uuid>
                     <name>Processor load (15 min average per core)</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.load[percpu,avg15]</key>
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <description>The processor load is calculates as system CPU load divided by number of CPU cores.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>4e9dc5be89a04b53a3c51bfa757f24c1</uuid>
                     <name>Context switches per second</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.switches</key>
                     <history>1w</history>
                     <units>sps</units>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHANGE_PER_SECOND</type>
@@ -269,168 +278,273 @@
                         </step>
                     </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>9cb786aec7de4f749f33c6e5adfbaf75</uuid>
+                    <name>CPU utilization</name>
+                    <type>DEPENDENT</type>
+                    <key>system.cpu.util</key>
+                    <delay>0</delay>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>CPU utilization in %.</description>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>//Calculate utilization
+return (100 - value)</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>system.cpu.util[,idle]</key>
+                    </master_item>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>cpu</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>4ef463cc12da45e6b5a97cee93fd5ba0</uuid>
+                    <name>CPU guest time</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.cpu.util[,guest]</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>Guest  time (time  spent  running  a  virtual  CPU  for  a  guest  operating  system).</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>0cb7f1c9774241968208724ab56f4d86</uuid>
+                    <name>CPU guest nice time</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>system.cpu.util[,guest_nice]</key>
+                    <history>7d</history>
+                    <value_type>FLOAT</value_type>
+                    <units>%</units>
+                    <description>Time spent running a niced guest (virtual CPU for guest operating systems under the control of the Linux kernel).</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3f2ae412e35e4e77913c42bcb4ffbde2</uuid>
+                    <name>CPU idle time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,idle]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>The time the CPU has spent doing nothing.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>e2e95d5be1084c9c86543d4096047b03</uuid>
+                    <name>CPU interrupt time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,interrupt]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>The amount of time the CPU has been servicing hardware interrupts.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>46c5c8d4c6a54730a2e2f787a20c5b96</uuid>
+                    <name>CPU iowait time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,iowait]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>Amount of time the CPU has been waiting for I/O to complete.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{avg(120)}&gt;50</expression>
-                            <name>Disk I/O is overloaded on {HOST.NAME}</name>
-                            <status>DISABLED</status>
-                            <priority>WARNING</priority>
-                            <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.</description>
+                            <uuid>0e2bad106bf544ff842b40c6d197d4b9</uuid>
+                            <expression>avg(/Template OS Linux/system.cpu.util[,iowait],60m)&gt;25</expression>
+                            <name>CPU 25+% busy warning I/O for &gt;1h on {HOST.NAME}</name>
+                            <priority>HIGH</priority>
+                            <description>Same as the disaster version, but that one only triggers after 7h. By also having this High trigger, we can see what happened during the night and if it needs fixing.</description>
                         </trigger>
                         <trigger>
-                            <expression>{last(0)}&gt;75</expression>
-                            <name>Disk I/O is overloaded on {HOST.NAME}</name>
-                            <status>DISABLED</status>
-                            <priority>WARNING</priority>
+                            <uuid>b30787067890479ba8404c756645020f</uuid>
+                            <expression>avg(/Template OS Linux/system.cpu.util[,iowait],60m)&gt;25 and time()&gt;{$CRIT_START_TIME}</expression>
+                            <name>CPU 25+% busy with I/O for &gt;1h on {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
+                            <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.
+
+Only disaster if time &gt;= 07:00</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>a46bcaf1bf7747538fd0bb0bac0cfd3a</uuid>
+                            <expression>avg(/Template OS Linux/system.cpu.util[,iowait],5m)&gt;75</expression>
+                            <name>CPU 75% busy with I/O on {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
                             <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.</description>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>33c3075263ca4eff8ca6e2482e109986</uuid>
+                    <name>CPU nice time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,nice]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
-                    <description>The time the CPU has spent running users' proccess that have been niced.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <description>The time the CPU has spent running users' processes that have been niced.</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>685a286f36b84e1d835f660b045b9798</uuid>
+                    <name>CPU softirq time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,softirq]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>The amount of time the CPU has been servicing software interrupts.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>fe3b012c9c0c4a948053ab21f8c9eea0</uuid>
+                    <name>CPU steal time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,steal]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>The amount of CPU 'stolen' from this virtual machine by the hypervisor for other tasks (such as running another virtual machine).</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>1128787dc4fa4b97af14f048f00c373e</uuid>
+                    <name>CPU system time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,system]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>The time the CPU has spent running the kernel and its processes.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
-                    <name>CPU $2 time</name>
+                    <uuid>c8122476f16649ef950a23fe9f6c1e38</uuid>
+                    <name>CPU user time</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.cpu.util[,user]</key>
-                    <history>1w</history>
+                    <history>7d</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>The time the CPU has spent running users' processes that are not niced.</description>
-                    <applications>
-                        <application>
-                            <name>CPU</name>
-                        </application>
-                        <application>
-                            <name>Performance</name>
-                        </application>
-                    </applications>
-                    <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>CPU</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Performance</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>9e656b572c3840fc9289df61b8011bd6</uuid>
                     <name>Host name</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.hostname</key>
@@ -440,24 +554,36 @@
                     <value_type>CHAR</value_type>
                     <description>System host name.</description>
                     <inventory_link>NAME</inventory_link>
-                    <applications>
-                        <application>
-                            <name>General</name>
-                        </application>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{diff(0)}&gt;0</expression>
+                            <uuid>5f1c31b67601425c90fb98f4992317d7</uuid>
+                            <expression>(last(/Template OS Linux/system.hostname,#1)&lt;&gt;last(/Template OS Linux/system.hostname,#2))&gt;0</expression>
                             <name>Hostname was changed on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>b8a5f879099f4f33adc12e83097bf2c9</uuid>
                     <name>Host local time</name>
                     <key>system.localtime</key>
                     <history>1w</history>
@@ -465,52 +591,60 @@
                     <description>Passive, not active. Because:
 &quot;Trigger function fuzzytime() when used with system.localtime as active check became useless after -ZBX-12957-. The reason being it would always return 0.&quot;
 ZBX-15624 + ZBX-12957</description>
-                    <applications>
-                        <application>
-                            <name>General</name>
-                        </application>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{fuzzytime(8)}=0</expression>
+                            <uuid>d16984d440e94a8884a7d15c5930752c</uuid>
+                            <expression>fuzzytime(/Template OS Linux/system.localtime,8s)=0</expression>
                             <name>Possible clock drift on {HOST.NAME}: time is {ITEM.LASTVALUE}</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>25164c261b274ea786dd87524196929b</uuid>
                     <name>Free swap space</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.swap.size[,free]</key>
                     <history>1w</history>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>c42386b5947247e3a73bcdbffda72b30</uuid>
                     <name>Free swap space in %</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.swap.size[,pfree]</key>
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last(0)}&lt;5 and {last(10m)}&gt;0</expression>
+                            <uuid>99491a5a79d641b49189a4575f7f57f6</uuid>
+                            <expression>last(/Template OS Linux/system.swap.size[,pfree])&lt;5 and last(/Template OS Linux/system.swap.size[,pfree])&gt;0</expression>
                             <name>Lack of free swap space on {HOST.NAME} ( &lt; 5% )</name>
                             <priority>WARNING</priority>
                             <description>It probably means that the systems requires more physical memory.</description>
@@ -518,20 +652,31 @@ ZBX-15624 + ZBX-12957</description>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>4801328922504974a936f6585a0c696c</uuid>
                     <name>Total swap space</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.swap.size[,total]</key>
                     <delay>1h</delay>
                     <history>1w</history>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>e87dcaa3544e453dbc78a762627fe974</uuid>
                     <name>System information</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.uname</key>
@@ -541,75 +686,89 @@ ZBX-15624 + ZBX-12957</description>
                     <value_type>CHAR</value_type>
                     <description>The information as normally returned by 'uname -a'.</description>
                     <inventory_link>OS</inventory_link>
-                    <applications>
-                        <application>
-                            <name>General</name>
-                        </application>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{diff(0)}&gt;0</expression>
+                            <uuid>fa85891b0e6947f58e42dae3d212234e</uuid>
+                            <expression>(last(/Template OS Linux/system.uname,#1)&lt;&gt;last(/Template OS Linux/system.uname,#2))&gt;0</expression>
                             <name>Host information was changed on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>22214fa5dd054ff2b2d059693d454cb0</uuid>
                     <name>System uptime</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.uptime</key>
                     <delay>10m</delay>
                     <history>1w</history>
                     <units>uptime</units>
-                    <applications>
-                        <application>
-                            <name>General</name>
-                        </application>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{change(0)}&lt;0</expression>
+                            <uuid>517678f9284c43429c67bd81d5090c54</uuid>
+                            <expression>change(/Template OS Linux/system.uptime)&lt;0</expression>
                             <name>{HOST.NAME} has just been restarted</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>455f53504e424fd08c91b1c64354c1d1</uuid>
                     <name>Number of logged in users</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>system.users.num</key>
                     <history>1w</history>
                     <description>Number of users who are currently logged in.</description>
-                    <applications>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                        <application>
-                            <name>Security</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Security</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>ccd75e7da6454b20a52f02eca7ed4972</uuid>
                     <name>Bytes in /var/log/journal</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.dir.size[/var/log/journal]</key>
                     <delay>1d</delay>
                     <history>3d</history>
                     <trends>90d</trends>
-                    <applications>
-                        <application>
-                            <name>Processes</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHECK_NOT_SUPPORTED</type>
@@ -620,14 +779,22 @@ ZBX-15624 + ZBX-12957</description>
                             <error_handler_params>0</error_handler_params>
                         </step>
                     </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Processes</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{$JOURNALD_DISK}=1 and {last()}=0</expression>
+                            <uuid>41b7211ff1fb4017bff1622d5f198a9d</uuid>
+                            <expression>{$JOURNALD_DISK}=1 and last(/Template OS Linux/vfs.dir.size[/var/log/journal])=0</expression>
                             <name>Missing /var/log/journal on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                         </trigger>
                         <trigger>
-                            <expression>{$JOURNALD_DISK}=0 and {last()}&lt;&gt;0</expression>
+                            <uuid>bb1a6ca3725c4bf599996f5624ebb638</uuid>
+                            <expression>{$JOURNALD_DISK}=0 and last(/Template OS Linux/vfs.dir.size[/var/log/journal])&lt;&gt;0</expression>
                             <name>Unexpected /var/log/journal on {HOST.NAME}</name>
                             <priority>AVERAGE</priority>
                             <description>On some systems we want journald in memory only (because the disks do not cope with many writes)</description>
@@ -635,26 +802,38 @@ ZBX-15624 + ZBX-12957</description>
                     </triggers>
                 </item>
                 <item>
-                    <name>Checksum of $1</name>
+                    <uuid>f37e2658e2764108aea57bf3277618d3</uuid>
+                    <name>Checksum of /etc/passwd</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.cksum[/etc/passwd]</key>
-                    <delay>1h</delay>
+                    <delay>15m</delay>
                     <history>1w</history>
-                    <applications>
-                        <application>
-                            <name>Security</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Security</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{diff(0)}&gt;0</expression>
+                            <uuid>abc4e5489e8e4fad83868d5eab177963</uuid>
+                            <expression>(last(/Template OS Linux/vfs.file.cksum[/etc/passwd],#1)&lt;&gt;last(/Template OS Linux/vfs.file.cksum[/etc/passwd],#2))&gt;0</expression>
                             <name>/etc/passwd has been changed on {HOST.NAME}</name>
                             <priority>WARNING</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>845b8139c44a4e61a27806e88cab6299</uuid>
                     <name>Host timezone</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.contents[/etc/timezone]</key>
@@ -665,14 +844,6 @@ ZBX-15624 + ZBX-12957</description>
                     <description>It does not look useful to check system.localtime[local] against system.localtime[utc], because then we'd have to change the trigger to +1 and +2 every half year.
 
 Instead, we probably have this file everywhere, so we can just check whether it says Europe/Amsterdam.</description>
-                    <applications>
-                        <application>
-                            <name>General</name>
-                        </application>
-                        <application>
-                            <name>OS</name>
-                        </application>
-                    </applications>
                     <preprocessing>
                         <step>
                             <type>CHECK_NOT_SUPPORTED</type>
@@ -682,10 +853,27 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                             <error_handler>CUSTOM_VALUE</error_handler>
                             <error_handler_params>Etc/UTC</error_handler_params>
                         </step>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
                     </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{str(&quot;{$TIMEZONE}&quot;)}=0</expression>
+                            <uuid>983953c8b0f14a2893f850f81577f80a</uuid>
+                            <expression>find(/Template OS Linux/vfs.file.contents[/etc/timezone],,&quot;like&quot;,&quot;{$TIMEZONE}&quot;)=0</expression>
                             <name>Host {HOST.NAME} has unexpected timezone</name>
                             <opdata>tz={ITEM.LASTVALUE1}</opdata>
                             <priority>AVERAGE</priority>
@@ -693,58 +881,83 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                     </triggers>
                 </item>
                 <item>
+                    <uuid>5191543bd5b549fd9f6ae26e66d4195e</uuid>
                     <name>zabbix-agent-osso new style!</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf]</key>
                     <delay>5m</delay>
                     <history>1d</history>
                     <trends>0</trends>
-                    <applications>
-                        <application>
-                            <name>Software</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Software</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
-                            <expression>{last()}=0</expression>
+                            <uuid>491dc0aa6fe24558a135329e52d6ada2</uuid>
+                            <expression>last(/Template OS Linux/vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf])=0</expression>
                             <name>There is no zabbix-agent-osso, sad, it's true</name>
                             <priority>INFO</priority>
                         </trigger>
                         <trigger>
-                            <expression>{last()}=1</expression>
+                            <uuid>e4ec0e4ca9a948b8989c382414c0e46d</uuid>
+                            <expression>last(/Template OS Linux/vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf])=1 and {$TEMPLATE_OS_DEBIANISH}&lt;&gt;1</expression>
                             <name>zabbix-agent-osso exists, but we're not in Debianish template</name>
                             <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>a036ad926d954bf3bfc97c11c02bc4ee</uuid>
                     <name>Software RAID exists</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.regmatch[/proc/mdstat,raid]</key>
                     <history>1d</history>
                     <trends>0</trends>
-                    <applications>
-                        <application>
-                            <name>Filesystems</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Filesystems</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>3184fcc496f14bac8154066d9f517a0d</uuid>
                     <name>Software RAID degraded</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.regmatch[/proc/mdstat,_]</key>
                     <history>1d</history>
                     <trends>0</trends>
-                    <applications>
-                        <application>
-                            <name>Filesystems</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Filesystems</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>475ee9a6f9424c299977006cbe89ec5e</uuid>
                     <name>ZFS filesystem exists</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&quot;]</key>
@@ -755,35 +968,48 @@ Instead, we probably have this file everywhere, so we can just check whether it 
 Previous# grep -E ' zd[0-9]*$' /proc/partitions
 Now: vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&quot;]
 Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
-                    <applications>
-                        <application>
-                            <name>Filesystems</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Filesystems</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
+                            <uuid>798fd064c466423eab5cbf327502cbf9</uuid>
                             <expression>{$HAS_TEMPLATE_ZFS}=0 and
-{last()}=1</expression>
+last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&quot;])=1</expression>
                             <name>ZFS filesystem exists on {HOST.NAME}, but no ZFS zabbix template</name>
                             <priority>HIGH</priority>
                         </trigger>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>21e695f785f9449696dfd4c0266866c2</uuid>
                     <name>Available memory</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vm.memory.size[available]</key>
                     <history>1w</history>
                     <units>B</units>
                     <description>Available memory is defined as free+cached+buffers memory.</description>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>4a7fb93d9c1343ac9ff10f9748a35c45</uuid>
                     <name>Available memory in %</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vm.memory.size[pavailable]</key>
@@ -791,31 +1017,75 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>Available memory is defined as free+cached+buffers memory in %</description>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
                 </item>
                 <item>
+                    <uuid>29d122c53a1c471e9b5e7f083cd94a93</uuid>
                     <name>Total memory</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>vm.memory.size[total]</key>
                     <delay>1h</delay>
                     <history>1w</history>
                     <units>B</units>
-                    <applications>
-                        <application>
-                            <name>Memory</name>
-                        </application>
-                    </applications>
+                    <preprocessing>
+                        <step>
+                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                            <parameters>
+                                <parameter>1d</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                     <request_method>POST</request_method>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Memory</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>3587d746f75548cf8cac072edecefb3e</uuid>
+                    <name>Zabbix agent: Zabbix agent availability</name>
+                    <type>INTERNAL</type>
+                    <key>zabbix[host,agent,available]</key>
+                    <history>7d</history>
+                    <description>Monitoring the availability status of the agent.</description>
+                    <tags>
+                        <tag>
+                            <tag>component</tag>
+                            <value>system</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>7ca2ec69da25438684eaccedc1f74dd8</uuid>
+                            <expression>max(/Template OS Linux/zabbix[host,agent,available],{$AGENT.TIMEOUT})=0</expression>
+                            <name>Zabbix agent: Zabbix agent is not available</name>
+                            <event_name>Zabbix agent: Zabbix agent is not available (for {$AGENT.TIMEOUT})</event_name>
+                            <priority>AVERAGE</priority>
+                            <description>For passive only agents, host availability is used with {$AGENT.TIMEOUT} as time threshold.</description>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>scope</tag>
+                                    <value>availability</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
                 </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>b61ebb5701344b7c84d2b86217e954bd</uuid>
                     <name>Network interface discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>net.if.discovery</key>
                     <delay>1h</delay>
                     <filter>
@@ -827,45 +1097,17 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                             </condition>
                         </conditions>
                     </filter>
+                    <lifetime>10d</lifetime>
                     <description>Discovery of network interfaces as defined in global regular expression &quot;Network interfaces for discovery&quot;.</description>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>6ddcd9d6add44738966b62797f3cac9d</uuid>
                             <name>Incoming network drops on {#IFNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.in[{#IFNAME},dropped]</key>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Incoming network errors on {#IFNAME}</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>net.if.in[{#IFNAME},errors]</key>
-                            <history>1w</history>
-                            <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Incoming network errors/s on {#IFNAME}</name>
-                            <type>CALCULATED</type>
-                            <key>net.if.in[{#IFNAME},errors_per_second]</key>
-                            <history>1w</history>
-                            <trends>90d</trends>
                             <value_type>FLOAT</value_type>
-                            <params>last(&quot;net.if.in[{#IFNAME},errors]&quot;)</params>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -874,10 +1116,40 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>97a6388ad75e4c9ba16a11305cc8bc41</uuid>
+                            <name>Incoming network errors on {#IFNAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.in[{#IFNAME},errors]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <value_type>FLOAT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0.1 or
-{min(5m)}&gt;0.0</expression>
+                                    <uuid>159ba68a3dbc43f9bccddd692980846e</uuid>
+                                    <expression>last(/Template OS Linux/net.if.in[{#IFNAME},errors])&gt;0.1 or
+min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                                     <name>Incoming network errors/s on {HOST.NAME}: {#IFNAME}</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
@@ -886,16 +1158,12 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>Incoming network traffic on $1</name>
+                            <uuid>9dfcdcb258004c769b9c1d730f5552ac</uuid>
+                            <name>Incoming network traffic on {#IFNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.in[{#IFNAME}]</key>
                             <history>1w</history>
                             <units>bps</units>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -911,44 +1179,21 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>8e40b7a2bf9c48f392c4ce4a4bce4774</uuid>
                             <name>Outgoing network drops on {#IFNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.out[{#IFNAME},dropped]</key>
                             <history>1w</history>
                             <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Outgoing network errors on {#IFNAME}</name>
-                            <type>ZABBIX_ACTIVE</type>
-                            <key>net.if.out[{#IFNAME},errors]</key>
-                            <history>1w</history>
-                            <trends>90d</trends>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
-                        </item_prototype>
-                        <item_prototype>
-                            <name>Outgoing network errors/s on {#IFNAME}</name>
-                            <type>CALCULATED</type>
-                            <key>net.if.out[{#IFNAME},errors_per_second]</key>
-                            <history>1w</history>
-                            <trends>90d</trends>
                             <value_type>FLOAT</value_type>
-                            <params>last(&quot;net.if.out[{#IFNAME},errors]&quot;)</params>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -957,9 +1202,39 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                                     </parameters>
                                 </step>
                             </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>d2823e7d5cee4a13bea2aec71eedf1e3</uuid>
+                            <name>Outgoing network errors on {#IFNAME}</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>net.if.out[{#IFNAME},errors]</key>
+                            <history>1w</history>
+                            <trends>90d</trends>
+                            <value_type>FLOAT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last()}&gt;0.0</expression>
+                                    <uuid>af4b2cd0a2ca4a86b7e4e03ca374fb70</uuid>
+                                    <expression>last(/Template OS Linux/net.if.out[{#IFNAME},errors])&gt;0.0</expression>
                                     <name>Outgoing network errors/s on {HOST.NAME}: {#IFNAME}</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
@@ -967,16 +1242,12 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>Outgoing network traffic on $1</name>
+                            <uuid>0c3dd4e928de40eea133d2e376961f9b</uuid>
+                            <name>Outgoing network traffic on {#IFNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.out[{#IFNAME}]</key>
                             <history>1w</history>
                             <units>bps</units>
-                            <applications>
-                                <application>
-                                    <name>Network interfaces</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -992,14 +1263,64 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                                 </step>
                             </preprocessing>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Network interfaces</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
+                            <uuid>bb4a83d11e6248f3b20f7f5a15c95e57</uuid>
+                            <name>Network errors on {#IFNAME}</name>
+                            <ymin_type_1>FIXED</ymin_type_1>
+                            <graph_items>
+                                <graph_item>
+                                    <color>80FF00</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template OS Linux</host>
+                                        <key>net.if.in[{#IFNAME},dropped]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>BFFF00</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template OS Linux</host>
+                                        <key>net.if.in[{#IFNAME},errors]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <color>00FFFF</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template OS Linux</host>
+                                        <key>net.if.out[{#IFNAME},dropped]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>3</sortorder>
+                                    <color>00FFBF</color>
+                                    <calc_fnc>ALL</calc_fnc>
+                                    <item>
+                                        <host>Template OS Linux</host>
+                                        <key>net.if.out[{#IFNAME},errors]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <uuid>aa9f75260fc74786aed342426869c276</uuid>
                             <name>Network traffic on {#IFNAME}</name>
                             <ymin_type_1>FIXED</ymin_type_1>
                             <graph_items>
                                 <graph_item>
+                                    <sortorder>1</sortorder>
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>00AA00</color>
                                     <item>
@@ -1008,7 +1329,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                                     </item>
                                 </graph_item>
                                 <graph_item>
-                                    <sortorder>1</sortorder>
+                                    <sortorder>2</sortorder>
                                     <drawtype>GRADIENT_LINE</drawtype>
                                     <color>3333FF</color>
                                     <item>
@@ -1022,120 +1343,140 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
+                    <uuid>d99e64a41e6b4e57bb9126f761e235fe</uuid>
                     <name>Mounted filesystem discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
                     <key>vfs.fs.discovery</key>
                     <delay>1h</delay>
                     <filter>
                         <conditions>
                             <condition>
-                                <macro>{#FSTYPE}</macro>
-                                <value>@File systems for discovery</value>
-                                <formulaid>B</formulaid>
-                            </condition>
-                            <condition>
                                 <macro>{#FSNAME}</macro>
                                 <value>@Exclude filesystems for discovery</value>
                                 <formulaid>A</formulaid>
                             </condition>
+                            <condition>
+                                <macro>{#FSTYPE}</macro>
+                                <value>@File systems for discovery</value>
+                                <formulaid>B</formulaid>
+                            </condition>
                         </conditions>
                     </filter>
-                    <description>Discovery of file systems of different types as defined in global regular expression &quot;File systems for discovery&quot;.</description>
+                    <lifetime>5d</lifetime>
+                    <description>Discovery of file systems of different types as defined in global regular expression &quot;File systems for discovery&quot;.
+
+Shorter resource keep time so we don't lose ourselves in old rook-ceph filesystems.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <name>Free inodes on $1 (percentage)</name>
+                            <uuid>3fd5f0e4403f411986ed98dc911f9f5d</uuid>
+                            <name>Free inodes on {#FSNAME} (percentage)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>vfs.fs.inode[{#FSNAME},pfree]</key>
                             <history>1w</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <applications>
-                                <application>
-                                    <name>Filesystems</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last(0)}&lt;2</expression>
+                                    <uuid>502cb7b96eba40ff9f7e777b838bbbf0</uuid>
+                                    <expression>last(/Template OS Linux/vfs.fs.inode[{#FSNAME},pfree])&lt;2</expression>
                                     <name>Free inodes is less than 2% on volume {#FSNAME}</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last(0)}&lt;10</expression>
+                                    <uuid>285426332bd6453395fe09a350fa2344</uuid>
+                                    <expression>last(/Template OS Linux/vfs.fs.inode[{#FSNAME},pfree])&lt;10</expression>
                                     <name>Free inodes is less than 10% on volume {#FSNAME}</name>
                                     <priority>WARNING</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>Free disk space on $1</name>
+                            <uuid>8d0f848e29ef482c9ff4329fbbe47dab</uuid>
+                            <name>Free disk space on {#FSNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>vfs.fs.size[{#FSNAME},free]</key>
                             <history>1w</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>Filesystems</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
-                            <name>Free disk space on $1 (percentage)</name>
+                            <uuid>959519ac683e49579cd63bdbd22b2748</uuid>
+                            <name>Free disk space on {#FSNAME} (percentage)</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>vfs.fs.size[{#FSNAME},pfree]</key>
                             <history>1w</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <applications>
-                                <application>
-                                    <name>Filesystems</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{last(0)}&lt;3</expression>
+                                    <uuid>45aa4c58021a4dc983007d57cb022de8</uuid>
+                                    <expression>last(/Template OS Linux/vfs.fs.size[{#FSNAME},pfree])&lt;3</expression>
                                     <name>Free disk space on {HOST.NAME} is less than 2% on volume {#FSNAME}</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
-                                    <expression>{last(0)}&lt;10</expression>
+                                    <uuid>d43746fb4f684d6296919fc934ee3b9f</uuid>
+                                    <expression>last(/Template OS Linux/vfs.fs.size[{#FSNAME},pfree])&lt;10</expression>
                                     <name>Free disk space on {HOST.NAME} is less than 10% on volume {#FSNAME}</name>
                                     <priority>WARNING</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <name>Total disk space on $1</name>
+                            <uuid>244717e2a2814e7b9ef511e15874678a</uuid>
+                            <name>Total disk space on {#FSNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>vfs.fs.size[{#FSNAME},total]</key>
                             <delay>1h</delay>
                             <history>1w</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>Filesystems</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
-                            <name>Used disk space on $1</name>
+                            <uuid>0f1c38fb55b74deabae4db657534be2b</uuid>
+                            <name>Used disk space on {#FSNAME}</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>vfs.fs.size[{#FSNAME},used]</key>
                             <history>1w</history>
                             <units>B</units>
-                            <applications>
-                                <application>
-                                    <name>Filesystems</name>
-                                </application>
-                            </applications>
                             <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
+                            <uuid>b15c43ed55564882aff4432bcea20d07</uuid>
                             <name>Disk space usage {#FSNAME}</name>
                             <width>600</width>
                             <height>340</height>
@@ -1166,6 +1507,10 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                 </discovery_rule>
             </discovery_rules>
             <macros>
+                <macro>
+                    <macro>{$CRIT_START_TIME}</macro>
+                    <value>070000</value>
+                </macro>
                 <macro>
                     <macro>{$DISABLE_CPU_LOAD}</macro>
                     <value>0</value>
@@ -1209,6 +1554,11 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     <value>6442450944</value>
                 </macro>
                 <macro>
+                    <macro>{$TEMPLATE_OS_DEBIANISH}</macro>
+                    <value>0</value>
+                    <description>Used to check if we have the Template OS Debian'ish assigned to a host</description>
+                </macro>
+                <macro>
                     <macro>{$TIMEZONE}</macro>
                     <value>Europe/Amsterdam</value>
                     <description>expected timezone (Europe/Amsterdam or UTC)</description>
@@ -1216,119 +1566,127 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
             </macros>
             <dashboards>
                 <dashboard>
+                    <uuid>facf223bf2dd4fcaa11d3cdacdcb032a</uuid>
                     <name>System performance</name>
-                    <widgets>
-                        <widget>
-                            <type>GRAPH_CLASSIC</type>
-                            <width>12</width>
-                            <height>5</height>
-                            <fields>
-                                <field>
-                                    <type>GRAPH</type>
-                                    <name>graphid</name>
-                                    <value>
-                                        <name>CPU load</name>
-                                        <host>Template OS Linux</host>
-                                    </value>
-                                </field>
-                            </fields>
-                        </widget>
-                        <widget>
-                            <type>GRAPH_CLASSIC</type>
-                            <y>5</y>
-                            <width>12</width>
-                            <height>6</height>
-                            <fields>
-                                <field>
-                                    <type>GRAPH</type>
-                                    <name>graphid</name>
-                                    <value>
-                                        <name>CPU utilization</name>
-                                        <host>Template OS Linux</host>
-                                    </value>
-                                </field>
-                            </fields>
-                        </widget>
-                        <widget>
-                            <type>GRAPH_CLASSIC</type>
-                            <x>12</x>
-                            <width>12</width>
-                            <height>5</height>
-                            <fields>
-                                <field>
-                                    <type>INTEGER</type>
-                                    <name>source_type</name>
-                                    <value>1</value>
-                                </field>
-                                <field>
-                                    <type>ITEM</type>
-                                    <name>itemid</name>
-                                    <value>
-                                        <key>proc.num[,,run]</key>
-                                        <host>Template OS Linux</host>
-                                    </value>
-                                </field>
-                            </fields>
-                        </widget>
-                        <widget>
-                            <type>GRAPH_CLASSIC</type>
-                            <x>12</x>
-                            <y>5</y>
-                            <width>12</width>
-                            <height>6</height>
-                            <fields>
-                                <field>
-                                    <type>INTEGER</type>
-                                    <name>source_type</name>
-                                    <value>1</value>
-                                </field>
-                                <field>
-                                    <type>ITEM</type>
-                                    <name>itemid</name>
-                                    <value>
-                                        <key>vm.memory.size[available]</key>
-                                        <host>Template OS Linux</host>
-                                    </value>
-                                </field>
-                            </fields>
-                        </widget>
-                    </widgets>
+                    <pages>
+                        <page>
+                            <widgets>
+                                <widget>
+                                    <type>graph</type>
+                                    <width>12</width>
+                                    <height>5</height>
+                                    <fields>
+                                        <field>
+                                            <type>GRAPH</type>
+                                            <name>graphid</name>
+                                            <value>
+                                                <host>Template OS Linux</host>
+                                                <name>CPU load</name>
+                                            </value>
+                                        </field>
+                                    </fields>
+                                </widget>
+                                <widget>
+                                    <type>graph</type>
+                                    <y>5</y>
+                                    <width>12</width>
+                                    <height>6</height>
+                                    <fields>
+                                        <field>
+                                            <type>GRAPH</type>
+                                            <name>graphid</name>
+                                            <value>
+                                                <host>Template OS Linux</host>
+                                                <name>CPU usage</name>
+                                            </value>
+                                        </field>
+                                    </fields>
+                                </widget>
+                                <widget>
+                                    <type>graph</type>
+                                    <x>12</x>
+                                    <width>12</width>
+                                    <height>5</height>
+                                    <fields>
+                                        <field>
+                                            <type>ITEM</type>
+                                            <name>itemid</name>
+                                            <value>
+                                                <host>Template OS Linux</host>
+                                                <key>proc.num[,,run]</key>
+                                            </value>
+                                        </field>
+                                        <field>
+                                            <type>INTEGER</type>
+                                            <name>source_type</name>
+                                            <value>1</value>
+                                        </field>
+                                    </fields>
+                                </widget>
+                                <widget>
+                                    <type>graph</type>
+                                    <x>12</x>
+                                    <y>5</y>
+                                    <width>12</width>
+                                    <height>6</height>
+                                    <fields>
+                                        <field>
+                                            <type>ITEM</type>
+                                            <name>itemid</name>
+                                            <value>
+                                                <host>Template OS Linux</host>
+                                                <key>vm.memory.size[available]</key>
+                                            </value>
+                                        </field>
+                                        <field>
+                                            <type>INTEGER</type>
+                                            <name>source_type</name>
+                                            <value>1</value>
+                                        </field>
+                                    </fields>
+                                </widget>
+                            </widgets>
+                        </page>
+                    </pages>
                 </dashboard>
             </dashboards>
         </template>
     </templates>
     <triggers>
         <trigger>
-            <expression>{$DISABLE_MEMORY}&lt;&gt;1 and {Template OS Linux:vm.memory.size[pavailable].last(0)}&lt;{$LIMIT_MEM_FREE} and {Template OS Linux:vm.memory.size[available].last(0)}&lt;{$MIN_MEMORY_BYTES_FREE}</expression>
+            <uuid>a91f683743d742a29400712bb249fc4d</uuid>
+            <expression>{$DISABLE_MEMORY}&lt;&gt;1 and last(/Template OS Linux/vm.memory.size[pavailable])&lt;{$LIMIT_MEM_FREE} and last(/Template OS Linux/vm.memory.size[available])&lt;{$MIN_MEMORY_BYTES_FREE}</expression>
             <name>Lack of available memory on server {HOST.NAME}</name>
             <priority>INFO</priority>
         </trigger>
         <trigger>
-            <expression>{$DISABLE_MEMORY}&lt;&gt;1 and {Template OS Linux:vm.memory.size[pavailable].last(0)}&lt;{$LIMIT_MEM_FREE_DISASTER} and {Template OS Linux:vm.memory.size[available].last(0)}&lt;{$MIN_MEMORY_BYTES_FREE}</expression>
+            <uuid>1748c249c9e848df9b07ca4bfe726e2f</uuid>
+            <expression>{$DISABLE_MEMORY}&lt;&gt;1 and last(/Template OS Linux/vm.memory.size[pavailable])&lt;{$LIMIT_MEM_FREE_DISASTER} and last(/Template OS Linux/vm.memory.size[available])&lt;{$MIN_MEMORY_BYTES_FREE}</expression>
             <name>Less than {$LIMIT_MEM_FREE_DISASTER}% available memory on server {HOST.NAME}</name>
             <priority>HIGH</priority>
         </trigger>
         <trigger>
-            <expression>{Template OS Linux:vfs.file.regmatch[/proc/mdstat,raid].last(0)}&gt;0 and {Template OS Linux:vfs.file.regmatch[/proc/mdstat,_].last(0)}&gt;0</expression>
+            <uuid>170cae4e17e14f95bea98487800ba2bd</uuid>
+            <expression>last(/Template OS Linux/vfs.file.regmatch[/proc/mdstat,raid])&gt;0 and last(/Template OS Linux/vfs.file.regmatch[/proc/mdstat,_])&gt;0</expression>
             <name>Software RAID is degraded on {HOST.NAME}</name>
             <priority>HIGH</priority>
         </trigger>
     </triggers>
     <graphs>
         <graph>
+            <uuid>2e4890b0db694721b1e903ecf01c612c</uuid>
             <name>CPU jumps</name>
             <graph_items>
                 <graph_item>
-                    <sortorder>1</sortorder>
-                    <color>009900</color>
+                    <color>1A7C11</color>
                     <item>
                         <host>Template OS Linux</host>
                         <key>system.cpu.switches</key>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>2</sortorder>
-                    <color>000099</color>
+                    <sortorder>1</sortorder>
+                    <color>2774A4</color>
                     <item>
                         <host>Template OS Linux</host>
                         <key>system.cpu.intr</key>
@@ -1337,6 +1695,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
             </graph_items>
         </graph>
         <graph>
+            <uuid>ddbadd2946274c3abb1da2973b847a10</uuid>
             <name>CPU load</name>
             <ymin_type_1>FIXED</ymin_type_1>
             <graph_items>
@@ -1366,24 +1725,21 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
             </graph_items>
         </graph>
         <graph>
-            <name>CPU utilization</name>
-            <show_triggers>NO</show_triggers>
+            <uuid>382b0f47048b45c3a81c2b16e014e551</uuid>
+            <name>CPU usage</name>
             <type>STACKED</type>
             <ymin_type_1>FIXED</ymin_type_1>
             <ymax_type_1>FIXED</ymax_type_1>
             <graph_items>
                 <graph_item>
-                    <sortorder>1</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
-                    <color>FF5555</color>
+                    <color>FC6EA3</color>
                     <item>
                         <host>Template OS Linux</host>
                         <key>system.cpu.util[,steal]</key>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>2</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
+                    <sortorder>1</sortorder>
                     <color>55FF55</color>
                     <item>
                         <host>Template OS Linux</host>
@@ -1391,8 +1747,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>3</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
+                    <sortorder>2</sortorder>
                     <color>009999</color>
                     <item>
                         <host>Template OS Linux</host>
@@ -1400,8 +1755,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>4</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
+                    <sortorder>3</sortorder>
                     <color>990099</color>
                     <item>
                         <host>Template OS Linux</host>
@@ -1409,8 +1763,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>5</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
+                    <sortorder>4</sortorder>
                     <color>999900</color>
                     <item>
                         <host>Template OS Linux</host>
@@ -1418,8 +1771,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>6</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
+                    <sortorder>5</sortorder>
                     <color>990000</color>
                     <item>
                         <host>Template OS Linux</host>
@@ -1427,8 +1779,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>7</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
+                    <sortorder>6</sortorder>
                     <color>000099</color>
                     <item>
                         <host>Template OS Linux</host>
@@ -1436,17 +1787,25 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
                     </item>
                 </graph_item>
                 <graph_item>
-                    <sortorder>8</sortorder>
-                    <drawtype>FILLED_REGION</drawtype>
-                    <color>009900</color>
+                    <sortorder>7</sortorder>
+                    <color>F230E0</color>
                     <item>
                         <host>Template OS Linux</host>
-                        <key>system.cpu.util[,idle]</key>
+                        <key>system.cpu.util[,guest_nice]</key>
+                    </item>
+                </graph_item>
+                <graph_item>
+                    <sortorder>8</sortorder>
+                    <color>3030F2</color>
+                    <item>
+                        <host>Template OS Linux</host>
+                        <key>system.cpu.util[,guest]</key>
                     </item>
                 </graph_item>
             </graph_items>
         </graph>
         <graph>
+            <uuid>3bfa6862224b4abc972f592f84d5136d</uuid>
             <name>Memory usage</name>
             <ymin_type_1>FIXED</ymin_type_1>
             <graph_items>
@@ -1470,6 +1829,7 @@ Now# grep -E '^zfs [0-9]* [^0]' /proc/modules</description>
             </graph_items>
         </graph>
         <graph>
+            <uuid>229091297b684721b676add922834065</uuid>
             <name>Swap usage</name>
             <width>600</width>
             <height>340</height>
