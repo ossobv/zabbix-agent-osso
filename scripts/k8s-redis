@@ -29,7 +29,7 @@ if [ "$1" = "--discover" ]; then
     for context in $(get_contexts); do 
         for namespace in $(get_namespaces "$context"); do
             for name in $(get_configmaps "$namespace" "$context"); do
-                make_json "$context" "$namespace" "${name#status-}"
+                make_json "$context" "$namespace" "${name#status-}"
             done
         done
     done | jq -sc
