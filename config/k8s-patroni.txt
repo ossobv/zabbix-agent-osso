@@ -34,7 +34,7 @@ Script:
         PAYLOAD='[{"op":"replace","path":"/data/status","value":"'"${STATUS}"'"}]'
         curl --request PATCH --cacert ${CA_CERT} \
           --header @/tmp/auth --header "Content-Type: application/json-patch+json" \
-          -data "${PAYLOAD}" \
+          --data "${PAYLOAD}" \
           https://kubernetes.default.svc:443/api/v1/namespaces/${POD_NAMESPACE}/configmaps/status-${POD_NAME}
         sleep 30
     done
