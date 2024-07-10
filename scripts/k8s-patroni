@@ -11,33 +11,34 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-patroni=true \
-            --context "$1" --no-headers 2>/dev/null |
+    kubectl --context "$1" get namespace \
+            -l ossobv/zabbix-agent-osso.k8s-patroni=true \
+            --no-headers 2>/dev/null |
         sed -e 's/namespace\///'
 }
 
 get_configmaps() {
-    kubectl -n "$1" --context "$2" get cm -o name |
-        sed -e 's/^configmap\///;/^citus-/!d'
+    kubectl --context "$1" -n "$2" get cm -o name |
+        sed -e 's/^configmap\///;/^status-/!d'
 }
 
 make_json() {
-    kubectl -n "$namespace" --context "$context" get cm "$name" \
+    kubectl --context "$1" -n "$2" get cm "$3" \
             -o jsonpath='{.data.status}' |
-        jq -r '.members[] | {"{#CONTEXT}":"'$context'","{#NAMESPACE}":'"\
-"'"'$namespace'","{#POD}":"'$name'","{#MEMBER}":.name}'
+        jq -r '.members[] | {"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
+"'"{#POD}":"'$3'","{#MEMBER}":.name}'
 }
 
 if [ "$1" = "--discover" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
-            for name in $(get_configmaps "$namespace" "$context"); do
-                make_json "$namespace" "$context" "${name#status-}"
+            for name in $(get_configmaps "$context" "$namespace"); do
+                make_json "$context" "$namespace" "${name#status-}"
             done
         done
     done | jq -sc
     exit 0
 fi
 
-exec kubectl --context "$1" -n "$2" get cm "status-$3" -o jsonpath='{.data.status}' |
-    jq '.members[] | select(.name == "'"$4"'")'
+exec kubectl --context "$1" -n "$2" get cm "status-$3" \
+    -o jsonpath='{.data.status}' | jq '.members[] | select(.name == "'"$4"'")'
