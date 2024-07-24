@@ -2,8 +2,10 @@
 # [This file is part of the zabbix-agent-osso package]
 # REQUIRES: kubectl
 #
-#UserParameter=k8s-patroni.discovery, sudo /etc/zabbix/scripts/k8s-patroni --discover
-#UserParameter=k8s-patroni.values[*], sudo /etc/zabbix/scripts/k8s-patroni "$1" "$2" "$3" "$4"
+#UserParameter=k8s-patroni.discovery-members, sudo /etc/zabbix/scripts/k8s-patroni --discover-members
+#UserParameter=k8s-patroni.values-members[*], sudo /etc/zabbix/scripts/k8s-patroni --get-member "$1" "$2" "$3" "$4"
+#UserParameter=k8s-patroni.discovery-clusters, sudo /etc/zabbix/scripts/k8s-patroni --discover-clusters
+#UserParameter=k8s-patroni.values-clusters[*], sudo /etc/zabbix/scripts/k8s-patroni --get-cluster "$1" "$2" "$3"
 #
 
 get_contexts() {
@@ -11,34 +13,67 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl --context "$1" get namespace \
-            -l ossobv/zabbix-agent-osso.k8s-patroni=true \
-            --no-headers 2>/dev/null |
+    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-patroni=true \
+            --context "$1" -oname 2>/dev/null |
         sed -e 's/namespace\///'
 }
 
 get_configmaps() {
     kubectl --context "$1" -n "$2" get cm -o name |
-        sed -e 's/^configmap\///;/^status-/!d'
+        sed -e 's/^configmap\///;/^status-citus-/!d'
 }
 
-make_json() {
+make_json_clusters() {
+     echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
+        "'"{#CONFIGMAP}":"'$3'","{#CLUSTER}":"'${3##status-}'"}'
+}
+
+make_json_members() {
     kubectl --context "$1" -n "$2" get cm "$3" \
             -o jsonpath='{.data.status}' |
-        jq -r '.members[] | {"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
-"'"{#POD}":"'$3'","{#MEMBER}":.name}'
+        jq -r '.cluster_status.members[] | {"{#CONTEXT}":"'$1'",'"\
+            "'"{#NAMESPACE}":"'$2'","{#CONFIGMAP}":"'$3'",'"\
+            "'"{#CLUSTER}":"'${3##status-}'","{#MEMBER}":.name}'
 }
 
-if [ "$1" = "--discover" ]; then
+if [ "$1" = "--discover-clusters" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
-            for name in $(get_configmaps "$context" "$namespace"); do
-                make_json "$context" "$namespace" "${name#status-}"
+            for configmap in $(get_configmaps "$context" "$namespace"); do
+                make_json_clusters "$context" "$namespace" "$configmap"
             done
         done
     done | jq -sc
     exit 0
-fi
 
-exec kubectl --context "$1" -n "$2" get cm "status-$3" \
-    -o jsonpath='{.data.status}' | jq '.members[] | select(.name == "'"$4"'")'
+elif [ "$1" = "--discover-members" ]; then
+    for context in $(get_contexts); do
+        for namespace in $(get_namespaces "$context"); do
+            for configmap in $(get_configmaps "$context" "$namespace"); do
+                make_json_members "$context" "$namespace" "$configmap"
+            done
+        done
+    done | jq -sc
+    exit 0
+
+elif [ "$1" = "--get-member" ]; then
+    exec kubectl --context "$2" -n "$3" get cm "$4" \
+        -o jsonpath='{.data.status}' \
+        | jq '.cluster_status.members[] | select(.name == "'"$5"'")'
+    exit 0
+
+
+elif [ "$1" = "--get-cluster" ]; then
+    exec kubectl --context "$2" -n "$3" get cm "$4" -o jsonpath='{.data.status}'
+    exit 0
+
+
+else
+    echo "possible options:
+    --discover-clusters     no paramaters
+    --discover-members      no paramaters
+
+    --get-member  context namespace configmap member_name
+    --get-cluster context namespace configmap"
+    exit 1
+fi
