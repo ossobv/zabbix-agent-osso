@@ -19,11 +19,174 @@
             </groups>
             <discovery_rules>
                 <discovery_rule>
-                    <uuid>f690a7b15b744ca7aac4f6329a38941e</uuid>
-                    <name>Postgres status discovery</name>
-                    <key>k8s-patroni.discovery</key>
+                    <uuid>41fb33d165db4792b865e44e90e26668</uuid>
+                    <name>patroni cluster discovery</name>
+                    <key>k8s-patroni.discovery-clusters</key>
                     <delay>1h</delay>
-                    <description>discovery of the postgres statuses</description>
+                    <description>discovery of the postgres clusters</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>d48c7f3495e44cd3ace93c46940c01d1</uuid>
+                            <name>patroni cluster status {#CLUSTER} patroni_archive_command_set</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.patroni_archive_command_set[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.patroni_archive_command_set</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values-clusters[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>8fbd295f2d06451cb11a4f87bab51016</uuid>
+                                    <expression>find(/Template k8s-patroni postgres status/k8s-patroni.patroni_archive_command_set[{#CONTEXT},{#NAMESPACE},{#CLUSTER}],1,&quot;regexp&quot;,&quot;true&quot;)=0</expression>
+                                    <name>postgres cluster {#CLUSTER} patroni_archive_command_set NOT true</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>6266d7eb9a504b9ba07da44fa94e49f5</uuid>
+                                    <expression>find(/Template k8s-patroni postgres status/k8s-patroni.patroni_archive_command_set[{#CONTEXT},{#NAMESPACE},{#CLUSTER}],1,&quot;regexp&quot;,&quot;true&quot;)=0</expression>
+                                    <name>postgres cluster {#CLUSTER} patroni_archive_enabled NOT true</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>8648e9d7014c4b98ae2e872f9a96334f</uuid>
+                            <name>patroni cluster status {#CLUSTER} patroni_archive_enabled</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.patroni_archive_enabled[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.patroni_archive_enabled</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values-clusters[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>e376a9c5cfc34d52be25f1043bce0490</uuid>
+                            <name>patroni cluster status {#CLUSTER}</name>
+                            <key>k8s-patroni.values-clusters[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <history>0</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>caa485685f0d40daa535b30020e6c636</uuid>
+                            <name>patroni cluster {#CLUSTER} walg_integrity status</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.walg_integrity.integrity.status</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values-clusters[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>a958010862e24795b6072fd1c91038f1</uuid>
+                                    <expression>last(/Template k8s-patroni postgres status/k8s-patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}], #1)&lt;&gt;&quot;OK&quot; and last(/Template k8s-patroni postgres status/k8s-patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}], #2)&lt;&gt;&quot;OK&quot;</expression>
+                                    <name>postgres cluster {#CLUSTER} walg_integrity status NOT ok</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>afc98fe5de9d4acd8583a4bb64548a7d</uuid>
+                            <name>patroni cluster {#CLUSTER} walg_last_backup time</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.walg_last_backup[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.walg_last_backup.time</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>JAVASCRIPT</type>
+                                    <parameters>
+                                        <parameter>const date = new Date(value);
+const timestampSeconds = Math.floor(date.getTime() / 1000);
+return(timestampSeconds)</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values-clusters[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>30448abaf11e4e4dbd773493a42426b7</uuid>
+                                    <expression>(now()-last(/Template k8s-patroni postgres status/k8s-patroni.walg_last_backup[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]))&gt;691200</expression>
+                                    <name>postgres cluster {#CLUSTER} last backup more than a week old</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>9d3236b20db94568bdf6ca9ed55e49bc</uuid>
+                            <name>patroni cluster {#CLUSTER} walg_timeline status</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-patroni.walg_timeline[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.walg_timeline.timeline.status</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-patroni.values-clusters[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>658cd9c93c984e5c9e37a868a2020e71</uuid>
+                                    <expression>find(/Template k8s-patroni postgres status/k8s-patroni.walg_timeline[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}],5,&quot;regexp&quot;,&quot;OK&quot;)=0</expression>
+                                    <name>postgres cluster {#CLUSTER} walg_timeline status NOT ok</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>f690a7b15b744ca7aac4f6329a38941e</uuid>
+                    <name>patroni member discovery</name>
+                    <key>k8s-patroni.discovery-members</key>
+                    <delay>1h</delay>
+                    <description>discovery of the postgres member statuses</description>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>d3cf71eb43ad4c61b07c549b33530c59</uuid>
@@ -44,7 +207,7 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                                <key>k8s-patroni.values-members[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -73,7 +236,7 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                                <key>k8s-patroni.values-members[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -109,7 +272,7 @@
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                                <key>k8s-patroni.values-members[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
@@ -124,7 +287,7 @@
                         <item_prototype>
                             <uuid>b1d3cb168cd047eba5730f463c980cc9</uuid>
                             <name>patroni-status {#MEMBER}</name>
-                            <key>k8s-patroni.values[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
+                            <key>k8s-patroni.values-members[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#MEMBER}]</key>
                             <history>0</history>
                             <trends>0</trends>
                             <value_type>TEXT</value_type>
