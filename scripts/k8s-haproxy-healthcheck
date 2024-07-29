@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Script for healthchecking our local haproxy -> kube-api
+# returns 1 if /healthz returns 'ok'
+# returns 0 if anything else
+
+pkipath=/etc/kubernetes/pki
+cacert=$pkipath/ca.crt
+curl_args="--silent --max-time 5"
+url="http://127.0.0.1:8080/healthz"
+cert_args=""
+
+# Use admin cert on master nodes and kubelet cert on worker nodes.
+# If there are no certs use http without a certificate.
+for name in $pkipath/admin $pkipath/kubelet; do
+    if test -e $name.crt; then
+        url="https://127.0.0.1:8443/healthz"
+        cert_args="--cacert $cacert --key $name.key --cert $name.crt"
+        break
+    fi
+done
+
+if test "$(curl $curl_args $cert_args $url)" = 'ok'; then
+    echo 1
+else
+    echo 0
+fi
