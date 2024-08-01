@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>a3dab75daa044c62a27213adc46b3661</uuid>
+            <template>k8s-pod-ready</template>
+            <name>k8s-pod-ready</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>dcf4207059ab42548f44e0a0ca9aa4be</uuid>
+                    <name>k8s-pod-ready discovery</name>
+                    <key>k8s-pod-ready.discovery</key>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>dbb097e69711427dbe168578f60f17b8</uuid>
+                            <name>k8s-pod-ready values</name>
+                            <key>k8s-pod-ready.values[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}]</key>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <description>boolean, true is all pods are ready</description>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>29c651fc92b44b8d88607f0e03b3d1cc</uuid>
+                                    <expression>last(/k8s-pod-ready/k8s-pod-ready.values[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}])=&quot;false&quot;</expression>
+                                    <name>{#CONTEXT}: {#STARTSWITH} pods in namespace {#NAMESPACE} are not ready</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

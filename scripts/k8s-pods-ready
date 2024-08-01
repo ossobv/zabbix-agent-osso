@@ -1,0 +1,43 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: kubectl
+#
+#UserParameter=k8s-pod-ready.discovery, sudo /etc/zabbix/scripts/k8s-pod-ready --discovery
+#UserParameter=k8s-pod-ready.values[*], sudo /etc/zabbix/scripts/k8s-pod-ready --get-values "$1" "$2" "$3"
+#
+
+get_contexts() {
+    kubectl config get-contexts -oname
+}
+
+get_namespaces() {
+    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-pod-ready=true \
+            --context "$1" -oname 2>/dev/null |
+        sed -e 's/namespace\///'
+}
+
+if [ "$1" = "--discover" ]; then
+    for context in $(get_contexts); do
+        for namespace in $(get_namespaces "$context"); do
+            startswith=$(kubectl --context $context get namespace $namespace \
+                -ojsonpath='{.metadata.labels}' |
+                jq -r '."ossobv/zabbix-agent-osso.k8s-pod-ready-startswith"')
+            echo '{"{#CONTEXT}":"'$context'","{#NAMESPACE}":"'$namespace'",'"\
+                "'"{#STARTSWITH}":"'$startswith'"}'
+        done
+    done | jq -sc 
+    exit 0  
+
+elif [ "$1" = "--get-values" ]; then
+    kubectl --context $2 get pods -n $3 -ojson |
+        jq -r '[.items[] | select(.metadata.name | startswith("'"$4"'")) |
+            .status.containerStatuses[] | .ready==true] | all '
+    exit 0
+
+else
+    echo "possible options:
+    --discover
+    --get-values $context $namespace $startswith"
+    exit 1
+fi
+
