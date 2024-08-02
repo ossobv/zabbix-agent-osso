@@ -1,3 +1,4 @@
+# [This file is part of the zabbix-agent-osso package]
 k8s-patroni
 ===========
 
@@ -14,7 +15,7 @@ To use the patroni monitoring you have to do the following steps:
 
 * if you use the script in a cron we advise using run-one and timeout:
 ```
- * * * * * postgres run-one timeout 1m envdir /tmp/scripts/postgres-status.sh 
+ * * * * * postgres run-one timeout 1m envdir /tmp/scripts/postgres-status.sh
 ```
 
 3. Give this sidecar a serviceaccount to create configmaps.
