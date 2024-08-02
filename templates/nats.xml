@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
+            <name>Templates</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>3f405fa19af948bfb535f5d3e3c285d2</uuid>
+            <template>zabbix-agent-osso nats</template>
+            <name>zabbix-agent-osso nats</name>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>ffd6e54453054864ad074c29e614e5a0</uuid>
+                    <name>nats stream discovery</name>
+                    <key>nats.discovery</key>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>9d05b2e9f71f4470bd21a60e3e5d0006</uuid>
+                            <name>nats stream {#NATSSTREAM} consumer count</name>
+                            <type>DEPENDENT</type>
+                            <key>nats.values-consumer-count[{#NATSSTREAM}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.state.consumer_count</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>nats.values[{#NATSSTREAM}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>02d9ecb63ab1451eaea5e4a1a3a78399</uuid>
+                            <name>nats stream {#NATSSTREAM} messages</name>
+                            <type>DEPENDENT</type>
+                            <key>nats.values-messages[{#NATSSTREAM}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.state.messages</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>nats.values[{#NATSSTREAM}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>e932d2f1eb0e4d419ed8d4952e8d8807</uuid>
+                            <name>nats stream {#NATSSTREAM} info</name>
+                            <key>nats.values[{#NATSSTREAM}]</key>
+                            <history>0</history>
+                            <trends>0</trends>
+                            <value_type>TEXT</value_type>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>dc3b9b036aee4fb48b0d494a34b60799</uuid>
+                                    <expression>nodata(/zabbix-agent-osso nats/nats.values[{#NATSSTREAM}],5m)=1</expression>
+                                    <name>Nats stream {#NATSSTREAM} possibly offline (nodata)</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
