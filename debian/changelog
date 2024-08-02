@@ -1,3 +1,13 @@
+zabbix-agent-osso (0.75) stable; urgency=low
+
+  * k8s-pod-ready: Monitor the readiness of containers
+  * k8s-patroni: Monitor patroni pods
+  * k8s-redis: Monitor redis pods
+  * k8s-haproxy-healthcheck: kube api haproxy healthchecks
+  * journalctl-silent: journalctl, but without spurious error messages
+
+ -- Harm Geerts <hgeerts@osso.nl>  Fri, 02 Aug 2024 13:39:11 +0200
+
 zabbix-agent-osso (0.74) stable; urgency=low
 
   * daemon+kernelmisc: Ignore spurious journal-is-truncated from journalctl
