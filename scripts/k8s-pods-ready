@@ -25,8 +25,8 @@ if [ "$1" = "--discover" ]; then
             echo '{"{#CONTEXT}":"'$context'","{#NAMESPACE}":"'$namespace'",'"\
                 "'"{#STARTSWITH}":"'$startswith'"}'
         done
-    done | jq -sc 
-    exit 0  
+    done | jq -sc
+    exit 0
 
 elif [ "$1" = "--get-values" ]; then
     kubectl --context $2 get pods -n $3 -ojson |
