@@ -1,0 +1,28 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: nats
+#
+#UserParameter=nats.discovery, sudo /etc/zabbix/scripts/nats --discover
+#UserParameter=nats.values[*], sudo /etc/zabbix/scripts/nats --get-values "$1"
+#
+
+. /etc/zabbix/config/natscli.env
+
+if [ "$1" = "--discover" ]; then
+    streams=$(nats stream ls -n)
+    for stream in $streams; do
+        echo '{"{#NATSSTREAM}":"'$stream'"}'
+    done | jq -sc
+    exit 0
+
+elif [ "$1" = "--get-values" ]; then
+    nats stream info $2 --json
+    exit 0
+
+else
+    echo "possible options:
+    --discover
+    --get-values $natsstream"
+    exit 1
+fi
+
