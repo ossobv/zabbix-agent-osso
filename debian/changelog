@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.76) stable; urgency=low
+
+  * nats: Monitor nats streams
+
+ -- Harm Geerts <hgeerts@osso.nl>  Fri, 09 Aug 2024 13:34:06 +0200
+
 zabbix-agent-osso (0.75) stable; urgency=low
 
   * k8s-pod-ready: Monitor the readiness of containers
