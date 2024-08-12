@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.77) stable; urgency=low
+
+  * k8s-haproxy: Use sudo to run k8s-haproxy-healthcheck script
+
+ -- Harm Geerts <hgeerts@osso.nl>  Mon, 12 Aug 2024 14:30:59 +0200
+
 zabbix-agent-osso (0.76) stable; urgency=low
 
   * nats: Monitor nats streams
