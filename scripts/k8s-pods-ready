@@ -1,9 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: kubectl
-#
-#UserParameter=k8s-pod-ready.discovery, sudo /etc/zabbix/scripts/k8s-pod-ready --discovery
-#UserParameter=k8s-pod-ready.values[*], sudo /etc/zabbix/scripts/k8s-pod-ready --get-values "$1" "$2" "$3"
+# REQUIRES: kubectl, jq
 #
 
 get_contexts() {

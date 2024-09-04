@@ -1,9 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: kubectl
-#
-#UserParameter=k8s-redis.discovery, sudo /etc/zabbix/scripts/k8s-redis --discover
-#UserParameter=k8s-redis.values[*], sudo /etc/zabbix/scripts/k8s-redis "$1" "$2" "$3" "$4"
+# REQUIRES: kubectl, jq
 #
 
 get_contexts() {
