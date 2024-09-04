@@ -2,9 +2,6 @@
 # [This file is part of the zabbix-agent-osso package]
 # RECOMMENDS: nvme-cli (only on hardware nodes)
 #
-# UserParameter=nvme.device.discover, /etc/zabbix/scripts/nvme.device --discover
-# UserParameter=nvme.device.smart[*], /etc/zabbix/scripts/nvme.device --smart "$1" "$2"
-#
 
 nvme_cli=/usr/sbin/nvme
 

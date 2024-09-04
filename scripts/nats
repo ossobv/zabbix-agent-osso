@@ -1,9 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: nats
-#
-#UserParameter=nats.discovery, sudo /etc/zabbix/scripts/nats --discover
-#UserParameter=nats.values[*], sudo /etc/zabbix/scripts/nats --get-values "$1"
+# REQUIRES: nats, jq
 #
 
 . /etc/zabbix/config/natscli.env
