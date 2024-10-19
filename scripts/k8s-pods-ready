@@ -8,7 +8,7 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-pod-ready=true \
+    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
             --context "$1" -oname 2>/dev/null |
         sed -e 's/namespace\///'
 }
@@ -18,7 +18,7 @@ if [ "$1" = "--discover" ]; then
         for namespace in $(get_namespaces "$context"); do
             startswith=$(kubectl --context $context get namespace $namespace \
                 -ojsonpath='{.metadata.labels}' |
-                jq -r '."ossobv/zabbix-agent-osso.k8s-pod-ready-startswith"')
+                jq -r '."ossobv/zabbix-agent-osso.k8s-pods-ready-startswith"')
             echo '{"{#CONTEXT}":"'$context'","{#NAMESPACE}":"'$namespace'",'"\
                 "'"{#STARTSWITH}":"'$startswith'"}'
         done
