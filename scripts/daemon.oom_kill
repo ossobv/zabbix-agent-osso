@@ -4,16 +4,17 @@
 #
 dest=/var/lib/zabbix/scripts/daemon.oom_kill
 # "oom_kill_process.cold+0xb/0x10" is part of the call stack:
-if test -h /dev/log; then
+if test -h /dev/log &&
+        journalctl --version 2>/dev/null | grep -q -- '+PCRE2\b'; then
     # We expect this to be a symlink to /run/systemd/journal/dev-log.
     # In that case we use journald. This is faster than a syslog
     # grep because of the _TRANSPORT=kernel filter.
     /etc/zabbix/scripts/journalctl-silent \
-        -S '-1d' --grep oom_kill_process _TRANSPORT=kernel >"$dest.source"
+        -S '-1d' --grep oom_kill_process _TRANSPORT=kernel >"${dest}.source"
 else
-    grep --count oom_kill_process /var/log/syslog >"$dest.source"
+    grep oom_kill_process /var/log/syslog >"${dest}.source"
 fi
-temp=$(mktemp "$dest.XXXX")
-wc -l <"$dest.source" >"$temp"
+temp=$(mktemp "${dest}.XXXX")
+wc -l <"${dest}.source" >"$temp"
 chmod a+r "$temp"
 mv "$temp" "$dest"

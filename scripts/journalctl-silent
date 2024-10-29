@@ -24,4 +24,5 @@ fi
 
 /usr/bin/journalctl -q "$@" 2>&1 | grep -vE "\
  is truncated, ignoring file[.]|\
-, ignoring file: No such file or directory"
+, ignoring file: No such file or directory|\
+^Compiled without pattern matching support\$"
