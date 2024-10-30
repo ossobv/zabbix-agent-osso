@@ -1,3 +1,13 @@
+zabbix-agent-osso (0.78) stable; urgency=low
+
+  * cleanup: Fix multiple issues in script and agentd.d descriptions
+  * k8s-etcd: Add support for in-cluster etcd monitoring with k8s-etcd script
+  * ipmi: Ignore stderr on ipmi calls
+  * k8s-pods-ready: Fix naming inconsistencies (not k8s-pod-ready)
+  * misc: Improvement of journalctl vs syslog search
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 30 Oct 2024 08:45:24 +0100
+
 zabbix-agent-osso (0.77) stable; urgency=low
 
   * k8s-haproxy: Use sudo to run k8s-haproxy-healthcheck script
