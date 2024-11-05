@@ -15,7 +15,7 @@ get_namespaces() {
 
 get_configmaps() {
     kubectl --context "$1" -n "$2" get cm -o name |
-        sed -e 's/^configmap\///;/^status-citus-/!d'
+        sed -e 's/^configmap\///;/^status-\(citus\|postgres\)-/!d'
 }
 
 make_json_clusters() {
