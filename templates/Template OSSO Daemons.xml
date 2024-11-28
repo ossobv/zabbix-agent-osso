@@ -690,7 +690,28 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     </triggers>
                 </item>
             </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>871953f71f994a0ca04dec638064a8fb</uuid>
+                    <name>Discover daemon procmem processes</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>daemon.procmem.discover[{$DAEMON_PROCMEM_PROCESSES}]</key>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>422f0af0898648faab0f56346bee7bc5</uuid>
+                            <name>Daemon {#PROC} rss usage</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>daemon.procmem.rss[{#PROC}]</key>
+                            <units>B</units>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
             <macros>
+                <macro>
+                    <macro>{$DAEMON_PROCMEM_PROCESES}</macro>
+                    <description>put &quot;nats-server processx processy&quot; here</description>
+                </macro>
                 <macro>
                     <macro>{$DISABLE_GOCOLLECT}</macro>
                     <value>0</value>
