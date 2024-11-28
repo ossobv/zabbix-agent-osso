@@ -35,7 +35,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -53,7 +52,7 @@
                         </trigger>
                         <trigger>
                             <uuid>caecd8d25880496d851863446e404d4e</uuid>
-                            <expression>time()&gt;103000 and time()&lt;220000 and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;5</expression>
+                            <expression>{$HAS_DISASTER}=1 and time()&gt;103000 and time()&lt;220000 and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;5</expression>
                             <name>Certificate(s) about to expire on {HOST.NAME} (&lt;5 days)</name>
                             <opdata>{ITEM.LASTVALUE} left</opdata>
                             <priority>DISASTER</priority>
@@ -83,7 +82,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -121,7 +119,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -159,7 +156,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -197,8 +193,15 @@
                     </tags>
                     <triggers>
                         <trigger>
+                            <uuid>809a0dbb8328488e9f076aa84179aa65</uuid>
+                            <expression>{$HAS_DISASTER}=0 and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
+                            <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
+                            <opdata>{ITEM.LASTVALUE} logins</opdata>
+                            <priority>HIGH</priority>
+                        </trigger>
+                        <trigger>
                             <uuid>f87e3674770240b4a6fcadd2d5fcaa2a</uuid>
-                            <expression>last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
+                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
                             <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
                             <opdata>{ITEM.LASTVALUE} logins</opdata>
                             <priority>DISASTER</priority>
@@ -233,7 +236,6 @@
                     <key>daemon.mail.localdate</key>
                     <delay>1d</delay>
                     <units>unixtime</units>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -248,7 +250,6 @@
                     <key>daemon.mail.localsize</key>
                     <delay>1d</delay>
                     <units>B</units>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -271,7 +272,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -281,7 +281,7 @@
                     <triggers>
                         <trigger>
                             <uuid>b004ff6748944231be16bb25f50c20ae</uuid>
-                            <expression>last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
+                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
                             <name>Mail queue on {HOST.NAME} reached &gt;= {ITEM.VALUE}</name>
                             <opdata>Now: {ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
@@ -310,7 +310,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -323,8 +322,8 @@
                     <name>Process (name) with relatively most open files</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.max_files.process</key>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -333,7 +332,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -356,7 +354,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -379,7 +376,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -403,8 +399,8 @@
                     <key>daemon.psdiff.extra</key>
                     <delay>5m</delay>
                     <history>1w</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -413,7 +409,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -429,13 +424,6 @@
                             <priority>INFO</priority>
                             <description>Use `psdiff show` and `psdiff write` to update the DB. (Fires if last three values are all non-empty.)</description>
                         </trigger>
-                        <trigger>
-                            <uuid>12cc70f81ef943e78ddc16ade1f13733</uuid>
-                            <expression>find(/Template OSSO Daemons/daemon.psdiff.extra,,&quot;regexp&quot;,&quot;[+][[:blank:]]+(/usr)?/bin/login &quot;)=1</expression>
-                            <name>Local tty login on {HOST.NAME}; please logout (old trigger)</name>
-                            <opdata>{ITEM.LASTVALUE}</opdata>
-                            <priority>HIGH</priority>
-                        </trigger>
                     </triggers>
                 </item>
                 <item>
@@ -445,8 +433,8 @@
                     <key>daemon.psdiff.missing</key>
                     <delay>5m</delay>
                     <history>1w</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -455,7 +443,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -480,8 +467,8 @@
                     <key>daemon.systemd.failed</key>
                     <delay>5m</delay>
                     <history>1w</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <description>systemctl list-units --all --failed --no-legend</description>
                     <preprocessing>
                         <step>
@@ -548,7 +535,6 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -580,7 +566,6 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -603,10 +588,23 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <key>vfs.file.exists[/srv/in_maintenance]</key>
                     <history>1d</history>
                     <trends>0</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
                     <triggers>
                         <trigger>
+                            <uuid>a4646b349c9c49f28a6f12a0292469d4</uuid>
+                            <expression>{$HAS_DISASTER}=0 and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
+                            <name>in_maintenance file exists on {HOST.NAME}</name>
+                            <priority>HIGH</priority>
+                            <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
+                        </trigger>
+                        <trigger>
                             <uuid>7a9740a4a38643abb18c885a9537e2b6</uuid>
-                            <expression>last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
+                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
                             <name>in_maintenance file exists on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                             <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
@@ -632,12 +630,24 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <value>0</value>
                 </macro>
                 <macro>
+                    <macro>{$HAS_DISASTER}</macro>
+                    <value>1</value>
+                </macro>
+                <macro>
                     <macro>{$MAIL_QUEUE_CRITICAL}</macro>
                     <value>1000</value>
                 </macro>
                 <macro>
                     <macro>{$MAIL_QUEUE_HIGH}</macro>
                     <value>750</value>
+                </macro>
+                <macro>
+                    <macro>{$MAX_FILES_PROMILLE_HIGH}</macro>
+                    <value>800</value>
+                </macro>
+                <macro>
+                    <macro>{$MAX_FILES_PROMILLE_WARN}</macro>
+                    <value>600</value>
                 </macro>
             </macros>
         </template>
@@ -651,22 +661,22 @@ last(/Template OSSO Daemons/daemon.mail.localdate)&gt;0</expression>
             <priority>INFO</priority>
         </trigger>
         <trigger>
+            <uuid>679db3e877784e9e8b054a02f578a089</uuid>
+            <expression>(last(/Template OSSO Daemons/daemon.max_files.promille)&gt;{$MAX_FILES_PROMILLE_HIGH} and
+ find(/Template OSSO Daemons/daemon.max_files.process,,&quot;like&quot;,&quot;&quot;)=1 and
+ last(/Template OSSO Daemons/daemon.max_files.pid)&gt;1)</expression>
+            <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
+            <opdata>Now: {ITEM.LASTVALUE1}%o</opdata>
+            <priority>HIGH</priority>
+        </trigger>
+        <trigger>
             <uuid>7148951507ad430a993066815598869c</uuid>
-            <expression>(last(/Template OSSO Daemons/daemon.max_files.promille)&gt;600 and
+            <expression>(last(/Template OSSO Daemons/daemon.max_files.promille)&gt;{$MAX_FILES_PROMILLE_WARN} and
  find(/Template OSSO Daemons/daemon.max_files.process,,&quot;like&quot;,&quot;&quot;)=1 and
  last(/Template OSSO Daemons/daemon.max_files.pid)&gt;1)</expression>
             <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
             <opdata>Latest: {ITEM.LASTVALUE1}%o</opdata>
             <priority>WARNING</priority>
-        </trigger>
-        <trigger>
-            <uuid>679db3e877784e9e8b054a02f578a089</uuid>
-            <expression>(last(/Template OSSO Daemons/daemon.max_files.promille)&gt;800 and
- find(/Template OSSO Daemons/daemon.max_files.process,,&quot;like&quot;,&quot;&quot;)=1 and
- last(/Template OSSO Daemons/daemon.max_files.pid)&gt;1)</expression>
-            <name>{ITEM.VALUE2} (pid {ITEM.VALUE3}) has too many files open on {HOST.NAME} ({ITEM.VALUE1}%o of max).</name>
-            <opdata>Now: {ITEM.LASTVALUE1}%o</opdata>
-            <priority>AVERAGE</priority>
         </trigger>
     </triggers>
 </zabbix_export>
