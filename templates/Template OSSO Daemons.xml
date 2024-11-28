@@ -551,6 +551,84 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     </triggers>
                 </item>
                 <item>
+                    <uuid>a2ee610304a64c6699af097710a20182</uuid>
+                    <name>systemd-journald is running</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[,,,/lib/systemd/systemd-journald]</key>
+                    <history>1d</history>
+                    <trends>14d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>c766c0c60f564f028583a7fd367dab1b</uuid>
+                            <expression>{$DISABLE_JOURNALD}&lt;&gt;1 and last(/Template OSSO Daemons/proc.num[,,,/lib/systemd/systemd-journald])=0</expression>
+                            <name>systemd-journald not running on {HOST.NAME}</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <uuid>6d0245ce07004ce88cb4afbb6d45ea4d</uuid>
+                    <name>systemd-timesyncd is running</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[,,,/lib/systemd/systemd-timesyncd]</key>
+                    <history>1d</history>
+                    <trends>14d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>ef67949350ce42768f3717207bb91c33</uuid>
+                    <name>ntpd is running</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[,,,/usr/sbin/ntpd]</key>
+                    <history>1d</history>
+                    <trends>14d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>df9d6a03e1f1480cb2d44c28a97fbb3c</uuid>
+                    <name>rsyslog is running</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[,,,/usr/sbin/rsyslogd]</key>
+                    <history>1d</history>
+                    <trends>14d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
+                    <uuid>125272fa6115408b89ea4052ba454c5b</uuid>
+                    <name>rsyslog is running (old cmdline arg)</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>proc.num[,,,rsyslogd]</key>
+                    <history>1d</history>
+                    <trends>14d</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
+                </item>
+                <item>
                     <uuid>b84a630a828648119cfe8a7e26985abe</uuid>
                     <name>Gocollect config existence</name>
                     <type>ZABBIX_ACTIVE</type>
@@ -618,11 +696,23 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <value>0</value>
                 </macro>
                 <macro>
+                    <macro>{$DISABLE_JOURNALD}</macro>
+                    <value>0</value>
+                </macro>
+                <macro>
                     <macro>{$DISABLE_LOCALMAIL}</macro>
                     <value>0</value>
                 </macro>
                 <macro>
+                    <macro>{$DISABLE_NTP}</macro>
+                    <value>0</value>
+                </macro>
+                <macro>
                     <macro>{$DISABLE_PSDIFF}</macro>
+                    <value>0</value>
+                </macro>
+                <macro>
+                    <macro>{$DISABLE_RSYSLOG}</macro>
                     <value>0</value>
                 </macro>
                 <macro>
@@ -659,6 +749,18 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
 last(/Template OSSO Daemons/daemon.mail.localdate)&gt;0</expression>
             <name>Local mail on {HOST.NAME} since {ITEM.VALUE2}</name>
             <priority>INFO</priority>
+        </trigger>
+        <trigger>
+            <uuid>67930c3277fb4e3d935898bac0e6f9f7</uuid>
+            <expression>{$DISABLE_NTP}&lt;&gt;1 and last(/Template OSSO Daemons/proc.num[,,,/lib/systemd/systemd-timesyncd])=0 and last(/Template OSSO Daemons/proc.num[,,,/usr/sbin/ntpd])=0</expression>
+            <name>Neither ntpd nor systemd-timesyncd are running on {HOST.NAME}</name>
+            <priority>HIGH</priority>
+        </trigger>
+        <trigger>
+            <uuid>e52424396dcc4fa3902c2b799af11ca3</uuid>
+            <expression>{$DISABLE_JOURNALD}&lt;&gt;1 and {$DISABLE_RSYSLOG}&lt;&gt;1 and last(/Template OSSO Daemons/proc.num[,,,/usr/sbin/rsyslogd])=0 and last(/Template OSSO Daemons/proc.num[,,,/lib/systemd/systemd-journald])=0 and last(/Template OSSO Daemons/proc.num[,,,rsyslogd])=0</expression>
+            <name>Neither rsyslogd nor systemd-journald are running on {HOST.NAME}</name>
+            <priority>HIGH</priority>
         </trigger>
         <trigger>
             <uuid>679db3e877784e9e8b054a02f578a089</uuid>
