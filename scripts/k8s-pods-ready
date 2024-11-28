@@ -1,6 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: kubectl, jq
+# REQUIRES: jq, kubectl
 #
 
 get_contexts() {
@@ -8,9 +8,14 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
-            --context "$1" -oname 2>/dev/null |
-        sed -e 's/namespace\///'
+    kubectl --context "$1" get namespace \
+        -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
+        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
+        2>/dev/null
+}
+
+make_json() {
+    echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'","{#STARTSWITH}":"'$3'"}'
 }
 
 if [ "$1" = "--discover" ]; then
@@ -19,22 +24,21 @@ if [ "$1" = "--discover" ]; then
             startswith=$(kubectl --context $context get namespace $namespace \
                 -ojsonpath='{.metadata.labels}' |
                 jq -r '."ossobv/zabbix-agent-osso.k8s-pods-ready-startswith"')
-            echo '{"{#CONTEXT}":"'$context'","{#NAMESPACE}":"'$namespace'",'"\
-                "'"{#STARTSWITH}":"'$startswith'"}'
+            make_json "$context" "$namespace" "$startswith"
         done
     done | jq -sc
     exit 0
 
 elif [ "$1" = "--get-values" ]; then
-    kubectl --context $2 get pods -n $3 -ojson |
+    exec kubectl --context "$2" get pods -n "$3" -ojson |
         jq -r '[.items[] | select(.metadata.name | startswith("'"$4"'")) |
-            .status.containerStatuses[] | .ready==true] | all '
-    exit 0
+            .status.containerStatuses[] | .ready==true] | all'
+    exit 3
 
 else
-    echo "possible options:
+    echo "possible actions:
     --discover
-    --get-values $context $namespace $startswith"
+
+    --get-values context namespace startswith" 2>&1
     exit 1
 fi
-

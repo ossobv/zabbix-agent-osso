@@ -1,6 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: kubectl, jq
+# REQUIRES: jq, kubectl
 #
 
 get_contexts() {
@@ -8,13 +8,14 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-patroni=true \
-            --context "$1" -oname 2>/dev/null |
-        sed -e 's/namespace\///'
+    kubectl --context "$1" get namespace \
+        -l ossobv/zabbix-agent-osso.k8s-patroni=true \
+        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
+        2>/dev/null
 }
 
 get_configmaps() {
-    kubectl --context "$1" -n "$2" get cm -o name |
+    kubectl --context "$1" -n "$2" get configmap -oname |
         sed -e 's/^configmap\///;/^status-\(citus\|postgres\)-/!d'
 }
 
@@ -24,7 +25,7 @@ make_json_clusters() {
 }
 
 make_json_members() {
-    kubectl --context "$1" -n "$2" get cm "$3" \
+    kubectl --context "$1" -n "$2" get configmap "$3" \
             -o jsonpath='{.data.status}' |
         jq -r '.cluster_status.members[] | {"{#CONTEXT}":"'$1'",'"\
             "'"{#NAMESPACE}":"'$2'","{#CONFIGMAP}":"'$3'",'"\
@@ -52,23 +53,23 @@ elif [ "$1" = "--discover-members" ]; then
     exit 0
 
 elif [ "$1" = "--get-member" ]; then
-    exec kubectl --context "$2" -n "$3" get cm "$4" \
-        -o jsonpath='{.data.status}' \
-        | jq '.cluster_status.members[] | select(.name == "'"$5"'")'
-    exit 0
+    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+            -o jsonpath='{.data.status}' |
+        jq '.cluster_status.members[] | select(.name == "'"$5"'")'
+    exit 3
 
 
 elif [ "$1" = "--get-cluster" ]; then
-    exec kubectl --context "$2" -n "$3" get cm "$4" -o jsonpath='{.data.status}'
-    exit 0
-
+    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+        -o jsonpath='{.data.status}'
+    exit 3
 
 else
-    echo "possible options:
-    --discover-clusters     no paramaters
-    --discover-members      no paramaters
+    echo "possible actions:
+    --discover-clusters
+    --discover-members
 
-    --get-member  context namespace configmap member_name
-    --get-cluster context namespace configmap"
+    --get-cluster context namespace configmap
+    --get-member context namespace configmap member_name" >&2
     exit 1
 fi

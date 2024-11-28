@@ -1,9 +1,10 @@
-# [This file is part of the zabbix-agent-osso package]
 #!/bin/sh
-
-# Script for healthchecking our local haproxy -> kube-api
-# returns 1 if /healthz returns 'ok'
-# returns 0 if anything else
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: curl
+#
+# Script for health checking our local haproxy -> kube-api
+# prints 1 if /healthz returns 'ok'
+# prints 0 for anything else
 
 pkipath=/etc/kubernetes/pki
 cacert=$pkipath/ca.crt
@@ -21,7 +22,7 @@ for name in $pkipath/admin $pkipath/kubelet; do
     fi
 done
 
-if test "$(curl $curl_args $cert_args $url)" = 'ok'; then
+if test "$(curl $curl_args $cert_args $url 2>&1)" = 'ok'; then
     echo 1
 else
     echo 0

@@ -1,6 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: kubectl, jq
+# REQUIRES: jq, kubectl
 #
 
 get_contexts() {
@@ -8,9 +8,20 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl get namespace -l ossobv/zabbix-agent-osso.k8s-etcd=true \
-            --context "$1" -oname 2>/dev/null |
-        sed -e 's/namespace\///'
+    kubectl --context "$1" get namespace \
+        -l ossobv/zabbix-agent-osso.k8s-etcd=true \
+        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
+        2>/dev/null
+}
+
+get_endpoints() {
+    kubectl --context "$1" -n "$2" get configmap "$3" \
+        -ojsonpath='{.data.status}' | jq -r '.etcd_health[] | .endpoint'
+}
+
+make_json() {
+    echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",' \
+        '"{#STATUS_NAME}":"'$3'","{#ENDPOINT}":"'$4'"}'
 }
 
 if [ "$1" = "--discover" ]; then
@@ -19,33 +30,33 @@ if [ "$1" = "--discover" ]; then
             status_name=$(kubectl --context $context get namespace $namespace \
                 -ojsonpath='{.metadata.labels}' |
                 jq -r '."ossobv/zabbix-agent-osso.k8s-etcd-status-name"')
-            endpoints=$(kubectl --context $context  -n $namespace get cm \ 
-                $status_name -ojsonpath='{.data.status}' |
-                jq -r '.etcd_health[]|.endpoint')
+            endpoints=$(get_endpoints "$context" "$namespace" "$status_name")
             for endpoint in $endpoints; do
-                echo '{'"{#CONTEXT}":"'$context'",' \
-                    '"{#NAMESPACE}":"'$namespace'",' \
-                    '"{#STATUS_NAME}":"'$status_name'",' \
-                    '"{#ENDPOINT}":"'$endpoint'"'}'
+                make_json "$context" "$namespace" "$status_name" "$endpoint"
             done
         done
     done | jq -sc
     exit 0
 
 elif [ "$1" = "--get-status-json" ]; then
-    kubectl --context $2  -n $3 get cm $4 -ojsonpath='{.data.status}' |
-      jq '.etcd_status[] | select(.Endpoint ==  "'"$5"'")'
-    exit 0
+    # NOTE: Yes, .Endpoint (uppercase) here.
+    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+            -ojsonpath='{.data.status}' |
+        jq '.etcd_status[] | select(.Endpoint ==  "'"$5"'")'
+    exit 3
 
 elif [ "$1" = "--get-health-json" ]; then
-    kubectl --context $2  -n $3 get cm $4 -ojsonpath='{.data.status}' |
-      jq '.etcd_health[] | select(.endpoint ==  "'"$5"'")'
-    exit 0
+    # NOTE: Yes, .endpoint (lowercase) here.
+    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+            -ojsonpath='{.data.status}' |
+        jq '.etcd_health[] | select(.endpoint ==  "'"$5"'")'
+    exit 3
 
 else
-    echo "possible options:
+    echo "possible actions:
     --discover
-    --get-status-json context namespace statusname endpoint
-    --get-health-json context namespace statusname endpoint" >&2
+
+    --get-health-json context namespace status_name endpoint
+    --get-status-json context namespace status_name endpoint" >&2
     exit 1
 fi
