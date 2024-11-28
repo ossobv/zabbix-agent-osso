@@ -30,10 +30,10 @@ if [ "$1" = "--discover" ]; then
     exit 0
 
 elif [ "$1" = "--get-values" ]; then
-    exec kubectl --context "$2" get pods -n "$3" -ojson |
+    kubectl --context "$2" get pods -n "$3" -ojson |
         jq -r '[.items[] | select(.metadata.name | startswith("'"$4"'")) |
             .status.containerStatuses[] | .ready==true] | all'
-    exit 3
+    exit 0
 
 else
     echo "possible actions:

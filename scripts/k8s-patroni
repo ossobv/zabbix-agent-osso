@@ -53,10 +53,10 @@ elif [ "$1" = "--discover-members" ]; then
     exit 0
 
 elif [ "$1" = "--get-member" ]; then
-    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+    kubectl --context "$2" -n "$3" get configmap "$4" \
             -o jsonpath='{.data.status}' |
         jq '.cluster_status.members[] | select(.name == "'"$5"'")'
-    exit 3
+    exit 0
 
 
 elif [ "$1" = "--get-cluster" ]; then

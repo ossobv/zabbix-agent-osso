@@ -40,17 +40,17 @@ if [ "$1" = "--discover" ]; then
 
 elif [ "$1" = "--get-status-json" ]; then
     # NOTE: Yes, .Endpoint (uppercase) here.
-    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+    kubectl --context "$2" -n "$3" get configmap "$4" \
             -ojsonpath='{.data.status}' |
         jq '.etcd_status[] | select(.Endpoint ==  "'"$5"'")'
-    exit 3
+    exit 0
 
 elif [ "$1" = "--get-health-json" ]; then
     # NOTE: Yes, .endpoint (lowercase) here.
-    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+    kubectl --context "$2" -n "$3" get configmap "$4" \
             -ojsonpath='{.data.status}' |
         jq '.etcd_health[] | select(.endpoint ==  "'"$5"'")'
-    exit 3
+    exit 0
 
 else
     echo "possible actions:
