@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.79) stable; urgency=low
+
+  * cleanup: Updated templates, consistency in k8s-* internals
+  * daemon: Add means to monitor mem usage of named processes
+  * k8s-patroni: Adjust configmap naming to discover
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 03 Dec 2024 11:40:23 +0100
+
 zabbix-agent-osso (0.78) stable; urgency=low
 
   * cleanup: Fix multiple issues in script and agentd.d descriptions
