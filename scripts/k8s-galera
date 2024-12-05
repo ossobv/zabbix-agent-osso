@@ -22,7 +22,7 @@ get_clusters() {
 
 make_json_clusters() {
     echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
-    "'"{#CLUSTER}":"'$3'"}'
+        "'"{#CLUSTER}":"'$3'"}'
 }
 
 make_json_cluster_status() {
