@@ -1,6 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: jq, kubectl, cut
+# REQUIRES: cut, jq, kubectl
 #
 
 get_contexts() {
@@ -9,15 +9,15 @@ get_contexts() {
 
 get_namespaces() {
     kubectl --context "$1" get namespace \
-    -l ossobv/zabbix-agent-osso.k8s-galera=true \
-    -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
-    2>/dev/null
+        -l ossobv/zabbix-agent-osso.k8s-galera=true \
+        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
+        2>/dev/null
 }
 
 get_clusters() {
     kubectl --context "$1" -n "$2" \
-    get mariadbs.k8s.mariadb.com -oname 2>/dev/null \
-    | cut -d'/' -f2
+        get mariadbs.k8s.mariadb.com -oname 2>/dev/null |
+        cut -d'/' -f2
 }
 
 make_json_clusters() {
@@ -26,37 +26,14 @@ make_json_clusters() {
 }
 
 make_json_cluster_status() {
-    CURRENT_PRIMARY_POD_INDEX=$(exec kubectl --context "$1" -n "$2" \
-    get mariadbs.k8s.mariadb.com "$3" \
-    -o jsonpath='{.status.currentPrimaryPodIndex}')
-
-    CURRENT_REPLICA_COUNT=$(exec kubectl --context "$1" -n "$2" \
-    get mariadbs.k8s.mariadb.com "$3" \
-    -o jsonpath='{.status.replicas}')
-    
-    GALERY_READY=$(exec kubectl --context "$1" -n "$2" \
-    get mariadbs.k8s.mariadb.com "$3" -o json | jq -r \
-    '.status.conditions | .[] | select(.reason == "GaleraReady") | .status')
-
-    DESIRED_REPLICA_COUNT=$(exec kubectl --context "$1" -n "$2" \
-    get mariadbs.k8s.mariadb.com "$3" \
-    -o jsonpath='{.spec.replicas}')
-    
-    STS_READY=$(exec kubectl --context "$1" -n "$2" \
-    get mariadbs.k8s.mariadb.com "$3" -o json | jq -r \
-    '.status.conditions | .[] | select(.reason == "StatefulSetReady") | .status')
-
-    echo '{}' | jq -c \
-    --arg cpi "$CURRENT_PRIMARY_POD_INDEX" \
-    --arg crc "$CURRENT_REPLICA_COUNT" \
-    --arg gal "$GALERY_READY" \
-    --arg drc "$DESIRED_REPLICA_COUNT" \
-    --arg sts "$STS_READY" \
-    '.current_primary_pod_index = $cpi |
-    .current_replica_count = $crc |
-    .galera_ready = $gal |
-    .desired_replica_count = $drc |
-    .sts_ready = $sts'
+    kubectl --context "$1" -n "$2" get mariadbs.k8s.mariadb.com "$3" -o json |
+        jq -c '{
+            currentPrimaryPodIndex: .status.currentPrimaryPodIndex,
+            replicas: .status.replicas,
+            galeraReadyStatus: (.status.conditions[] | select(.reason == "GaleraReady") | .status),
+            specReplicas: .spec.replicas,
+            statefulSetReadyStatus: (.status.conditions[] | select(.reason == "StatefulSetReady") | .status)
+        }'
 }
 
 
@@ -78,6 +55,6 @@ else
     echo "possible actions:
     --discover-clusters
     
-    --get-cluster context namespace cluster"
+    --get-cluster context namespace cluster" >&2
     exit 1
 fi
