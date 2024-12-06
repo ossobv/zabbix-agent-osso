@@ -1,6 +1,6 @@
 #!/bin/sh
 # [This file is part of the zabbix-agent-osso package]
-# REQUIRES: cut, jq, kubectl
+# REQUIRES: jq, kubectl
 #
 
 get_contexts() {

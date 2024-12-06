@@ -9,7 +9,6 @@ For more information about the mariadb kubernetes operator, visit the [project h
 
 Before setting up galera monitoring make sure your hosts have the following packages installed:
 
-- `cut`
 - `jq`
 - `kubectl`
 
