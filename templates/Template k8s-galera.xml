@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>dfb8263cf05842f5bc3d8d7f3f11bcbf</uuid>
+            <template>Template k8s-galera mariadb status</template>
+            <name>Template k8s-galera mariadb status</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>b1134c1839a5481eb653131795ad65ce</uuid>
+                    <name>Galera cluster discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s-galera.discover-clusters</key>
+                    <delay>1h</delay>
+                    <description>Discovery of the mariadb clusters</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>0c03b14cfb904f8aaef6a74b493b3598</uuid>
+                            <name>Galera cluster status {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} current_primary_pod_index</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-galera.current_primary_pod_index[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.current_primary_pod_index</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-galera.values-clusters[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>3dc862e0a0ee4cd7ac9160a97e55fd34</uuid>
+                                    <expression>change(/Template k8s-galera mariadb status/k8s-galera.current_primary_pod_index[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])=1</expression>
+                                    <name>Galera {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} primary pod changed</name>
+                                    <priority>DISASTER</priority>
+                                    <description>The primary galera pod changed</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>c529c403c1c347da87deadca49fe0c5a</uuid>
+                            <name>Galera cluster status {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} current_replica_count</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-galera.current_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.current_replica_count</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-galera.values-clusters[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>6a9217c4869a4e4eb14d0501eea24514</uuid>
+                            <name>Galera cluster status {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} desired_replica_count</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-galera.desired_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.desired_replica_count</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-galera.values-clusters[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>f0a7572b28844f13b41eb5e2220172fb</uuid>
+                            <name>Galera cluster status {#CONTEXT}:{#NAMESPACE}:{#CLUSTER}</name>
+                            <key>k8s-galera.values-clusters[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>25c7d11ad7914a68b437e23d7c999ac7</uuid>
+                            <name>Galera cluster status {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} statefulsets_ready</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-galera.sts_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.sts_ready</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-galera.values-clusters[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>6cca177db16f4c85a3b941c7847c61d3</uuid>
+                            <name>Galera cluster status {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} galera_ready</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-galera.galera_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <delay>0</delay>
+                            <history>1d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.galera_ready</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-galera.values-clusters[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>4117b5e785c04152bc0645e0239cde13</uuid>
+                                    <expression>last(/Template k8s-galera mariadb status/k8s-galera.galera_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])=&quot;False&quot;</expression>
+                                    <name>Galera {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} galera status not ready</name>
+                                    <priority>DISASTER</priority>
+                                    <description>Galera is not ready</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>ca1f90d277f64dc291b86698cb295fb1</uuid>
+                                    <expression>last(/Template k8s-galera mariadb status/k8s-galera.galera_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])=&quot;False&quot;</expression>
+                                    <name>Galera {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} statefulsets are not ready</name>
+                                    <priority>DISASTER</priority>
+                                    <description>Galera statefullsets are not ready</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                    <trigger_prototypes>
+                        <trigger_prototype>
+                            <uuid>9fa67ad96f584e0a9600b997596db986</uuid>
+                            <expression>last(/Template k8s-galera mariadb status/k8s-galera.current_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]) &lt;&gt; last(/Template k8s-galera mariadb status/k8s-galera.desired_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])</expression>
+                            <name>Galera {#CONTEXT}:{#NAMESPACE}:{#CLUSTER} replicas different than expected</name>
+                            <priority>DISASTER</priority>
+                            <description>Galera replica count is different compared to what is expected</description>
+                        </trigger_prototype>
+                    </trigger_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>application</tag>
+                    <value>galera</value>
+                </tag>
+            </tags>
+        </template>
+    </templates>
+</zabbix_export>
