@@ -54,7 +54,7 @@ elif [ "$1" = "--get-cluster" ]; then
 else
     echo "possible actions:
     --discover-clusters
-    
+
     --get-cluster context namespace cluster" >&2
     exit 1
 fi
