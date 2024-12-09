@@ -1,0 +1,73 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: jq, kubectl
+#
+
+get_contexts() {
+    kubectl config get-contexts -oname
+}
+
+get_namespaces() {
+    kubectl --context "$1" get namespace \
+        -l ossobv/zabbix-agent-osso.k8s-galera=true \
+        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
+        2>/dev/null
+}
+
+get_clusters() {
+    kubectl --context "$1" -n "$2" \
+        get mariadbs.k8s.mariadb.com -oname 2>/dev/null |
+        cut -d'/' -f2
+}
+
+make_json_clusters() {
+    echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
+        "'"{#CLUSTER}":"'$3'"}'
+}
+
+make_json_cluster_status() {
+    json=$(kubectl --context "$1" -n "$2" get mariadbs.k8s.mariadb.com "$3" \
+        -o json |
+            jq -c '{
+                current_primary_pod_index: .status.currentPrimaryPodIndex,
+                current_replica_count: .status.replicas,
+                galera_ready: (.status.conditions[] |
+                    select(.reason == "GaleraReady") | .status),
+                desired_replica_count: .spec.replicas,
+                sts_ready: (.status.conditions[] |
+                    select(.reason == "StatefulSetReady") | .status)
+            }')
+
+    if [ -z "$json" ]; then
+        echo '{"current_primary_pod_index":"0",'"\
+            "'"current_replica_count":"0",'"\
+            "'"galera_ready":"False",'"\
+            "'"desired_replica_count":"0",'"\
+            "'"sts_ready":"False"}'
+    else
+        echo "$json"
+    fi
+}
+
+
+if [ "$1" = "--discover-clusters" ]; then
+    for context in $(get_contexts); do
+        for namespace in $(get_namespaces "$context"); do
+            for cluster in $(get_clusters "$context" "$namespace"); do
+                make_json_clusters "$context" "$namespace" "$cluster"
+            done
+        done
+    done | jq -sc
+    exit 0
+
+elif [ "$1" = "--get-cluster" ]; then
+    make_json_cluster_status "$2" "$3" "$4"
+    exit 0
+
+else
+    echo "possible actions:
+    --discover-clusters
+
+    --get-cluster context namespace cluster" >&2
+    exit 1
+fi
