@@ -20,7 +20,7 @@ get_configmaps() {
 }
 
 make_json_clusters() {
-     echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
+    echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'",'"\
         "'"{#CONFIGMAP}":"'$3'","{#CLUSTER}":"'${3##status-}'"}'
 }
 
