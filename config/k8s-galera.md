@@ -1,4 +1,4 @@
-# [This file is part of the zabbix-agent-osso package]
+<!-- [This file is part of the zabbix-agent-osso package] -->
 
 # k8s-galera
 
