@@ -1,13 +1,14 @@
-# [This file is part of the zabbix-agent-osso package]
-k8s-etcd
-===========
+<!-- [This file is part of the zabbix-agent-osso package] -->
+
+# k8s-etcd
 
 K8s-etcd monitors an in-cluster etcd setup.
 The status of the etcd is written to a configmap with the following (example)
 pod.
 
 statefulset:
-```
+
+```yml
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -30,36 +31,36 @@ spec:
     spec:
       serviceAccountName: etcd-status-sender
       containers:
-      - image: harbor.osso.io/ossobv/etcdctl:3.5.15
-        name: etcd-status-sender
-        env:
-        - name: ETCD_ENDPOINTS
-          value: patroni-etcd-0.patroni-etcd:2379,patroni-etcd-1.patroni-etcd:2379,patroni-etcd-2.patroni-etcd:2379
-        - name: POD_NAMESPACE
-          valueFrom:
-            fieldRef:
-              apiVersion: v1
-              fieldPath: metadata.namespace
-        - name: ETCD_CM_STATUS_NAME
-          value: zao-etcd-status  # customize if needed
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
-          privileged: false
-          runAsNonRoot: true
-          seccompProfile:
-            type: RuntimeDefault
-        volumeMounts:
-        - mountPath: /tmp/scripts
-          name: etcd-status-script
-        command: ["/tmp/scripts/etcd-status.sh"]
+        - image: harbor.osso.io/ossobv/etcdctl:3.5.15
+          name: etcd-status-sender
+          env:
+            - name: ETCD_ENDPOINTS
+              value: patroni-etcd-0.patroni-etcd:2379,patroni-etcd-1.patroni-etcd:2379,patroni-etcd-2.patroni-etcd:2379
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+            - name: ETCD_CM_STATUS_NAME
+              value: zao-etcd-status # customize if needed
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            runAsNonRoot: true
+            seccompProfile:
+              type: RuntimeDefault
+          volumeMounts:
+            - mountPath: /tmp/scripts
+              name: etcd-status-script
+          command: ["/tmp/scripts/etcd-status.sh"]
       volumes:
-      - name: etcd-status-script
-        configMap:
-          name: etcd-status-script
-          defaultMode: 0775
+        - name: etcd-status-script
+          configMap:
+            name: etcd-status-script
+            defaultMode: 0775
       securityContext:
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
@@ -70,8 +71,10 @@ spec:
       restartPolicy: Always
 status: {}
 ```
+
 script:
-```
+
+```yml
 apiVersion: v1
 data:
   etcd-status.sh: |
@@ -106,11 +109,13 @@ metadata:
 
 To enable the zabbix-agent-osso you need to label the namespace the configmap
 is saved to.
-```
+
+```sh
 kubectl label namespaces production-postgres ossobv/zabbix-agent-osso.k8s-etcd=true
 kubectl label namespaces production-postgres ossobv/zabbix-agent-osso.k8s-etcd-status-name=zao-etcd-status
 
 ```
+
 Now enable the template on the host and the new items and triggers in the
 template will be found automatically.
 The template has triggers for the health and the etcd database size, this
