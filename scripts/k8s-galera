@@ -16,8 +16,9 @@ get_namespaces() {
 
 get_clusters() {
     kubectl --context "$1" -n "$2" \
-        get mariadbs.k8s.mariadb.com -oname 2>/dev/null |
-        cut -d'/' -f2
+        get mariadbs.k8s.mariadb.com \
+        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
+        2>/dev/null
 }
 
 make_json_clusters() {
