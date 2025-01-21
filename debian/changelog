@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.80) stable; urgency=low
+
+  * cleanup: Update docs
+  * diskio: Add free disk space monitoring of more mount points
+  * k8s-galera: Add galera in K8S monitoring
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 21 Jan 2025 17:13:13 +0100
+
 zabbix-agent-osso (0.79) stable; urgency=low
 
   * cleanup: Updated templates, consistency in k8s-* internals
