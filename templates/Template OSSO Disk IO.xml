@@ -1,48 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>5.2</version>
-    <date>2021-07-14T14:17:31Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>a2cea0400b354f009572dacd00f82d5d</uuid>
             <template>Template OSSO Disk IO</template>
             <name>Template OSSO Disk IO</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Filesystems</name>
-                </application>
-                <application>
-                    <name>Performance</name>
-                </application>
-            </applications>
+            <items>
+                <item>
+                    <uuid>a59957ab6bf140d8ad27cacac9fcd57b</uuid>
+                    <name>Show disk usage for all mounts</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>diskio.show_dumounts</key>
+                    <history>0</history>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <description>Used by diskio.discover_dumounts discovery rule.</description>
+                </item>
+            </items>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>5ea162b1b32a48df8ce18498952efc50</uuid>
                     <name>Disk discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>diskio.discover_disks</key>
                     <delay>1h</delay>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>dc10a7e506dc406fa5f7241eb283ea0a</uuid>
                             <name>Disk:{#DEVICENAME}:R:ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.ops[{#DEVICENAME}]</key>
                             <history>30d</history>
                             <units>ops/s</units>
                             <description>This is the total number of reads completed successfully.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -51,20 +53,21 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Performance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>0fe59932f2034cb5b2b09cd32880b21d</uuid>
                             <name>Disk:{#DEVICENAME}:R:B/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.read.sectors[{#DEVICENAME}]</key>
                             <history>30d</history>
                             <units>B/sec</units>
                             <description>This is the total number of sectors read successfully.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -79,20 +82,21 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Performance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>2f29dc8d581f46eb9c4ca97ae59b2e45</uuid>
                             <name>Disk:{#DEVICENAME}:W:ops/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.write.ops[{#DEVICENAME}]</key>
                             <history>30d</history>
                             <units>ops/s</units>
                             <description>This is the total number of writes completed successfully.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -101,20 +105,21 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Performance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>5d15a8f1ba4948d1b1bc42c08e01d022</uuid>
                             <name>Disk:{#DEVICENAME}:W:B/s</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.dev.write.sectors[{#DEVICENAME}]</key>
                             <history>30d</history>
                             <units>B/sec</units>
                             <description>This is the total number of sectors written successfully.</description>
-                            <applications>
-                                <application>
-                                    <name>Performance</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -129,11 +134,17 @@
                                     </parameters>
                                 </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Performance</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                     <graph_prototypes>
                         <graph_prototype>
+                            <uuid>83b51488ba01447fa939b7f295f5808e</uuid>
                             <name>Disk {#DEVICENAME} - B/s</name>
                             <graph_items>
                                 <graph_item>
@@ -154,6 +165,7 @@
                             </graph_items>
                         </graph_prototype>
                         <graph_prototype>
+                            <uuid>c46ad2b7068c4ddebfd2b0b1579fd766</uuid>
                             <name>Disk {#DEVICENAME} - ops/s</name>
                             <graph_items>
                                 <graph_item>
@@ -177,7 +189,68 @@
                     <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
-                    <name>Mount discovery</name>
+                    <uuid>da9b7428daab4bb2954e8a0dd2197192</uuid>
+                    <name>Mount discovery for disk usage</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>diskio.discover_dumounts</key>
+                    <delay>10m</delay>
+                    <lifetime>1h</lifetime>
+                    <description>Keep data only a short while. We care about free space, not about removed mount points here.</description>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>2b2314782afd4371ae8d6ce4bfdee94b</uuid>
+                            <name>Free mount space in % on {#FSTARGET}</name>
+                            <type>DEPENDENT</type>
+                            <key>diskio.dumount.pct_free[{#FSTARGET}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$[&quot;{#FSTARGET}&quot;].pct_free</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>diskio.show_dumounts</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>1473ab838f894dcd8ac4a1b8acc4cb6c</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OSSO Disk IO/diskio.dumount.pct_free[{#FSTARGET}])&lt;{$DISKIO_MOUNT_FREE_BELOW_DISASTER}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>{$HAS_DISASTER}=0 or (({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and last(/Template OSSO Disk IO/diskio.dumount.pct_free[{#FSTARGET}])&gt;({$DISKIO_MOUNT_FREE_BELOW_DISASTER}+5))</recovery_expression>
+                                    <name>{HOST.NAME}: Mount free space below {$DISKIO_MOUNT_FREE_BELOW_DISASTER}% on {#FSTARGET}</name>
+                                    <opdata>{ITEM.LASTVALUE}%</opdata>
+                                    <priority>DISASTER</priority>
+                                    <description>Hysteresis with disk-free+5%</description>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>b7f5f2cd3d0a44c088b5f9ff01dc285e</uuid>
+                                    <expression>last(/Template OSSO Disk IO/diskio.dumount.pct_free[{#FSTARGET}])&lt;{$DISKIO_MOUNT_FREE_BELOW_HIGH}</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template OSSO Disk IO/diskio.dumount.pct_free[{#FSTARGET}])&gt;({$DISKIO_MOUNT_FREE_BELOW_HIGH}+5)</recovery_expression>
+                                    <name>{HOST.NAME}: Mount free space below {$DISKIO_MOUNT_FREE_BELOW_HIGH}% on {#FSTARGET}</name>
+                                    <opdata>{ITEM.LASTVALUE}%</opdata>
+                                    <priority>HIGH</priority>
+                                    <description>Hysteresis with disk-free+5%</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>fd165d6f9c174742958365186a9c110a</uuid>
+                    <name>Mount discovery for writability</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>diskio.discover_mounts</key>
                     <delay>1h</delay>
@@ -193,17 +266,13 @@
                     <lifetime>1w</lifetime>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>c5cab31015334bf082541c857cf139cc</uuid>
                             <name>Mount {#FSNAME} is writable</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>diskio.mount.writable[{#FSNAME}]</key>
                             <delay>5m</delay>
                             <history>1w</history>
                             <trends>1w</trends>
-                            <applications>
-                                <application>
-                                    <name>Filesystems</name>
-                                </application>
-                            </applications>
                             <preprocessing>
                                 <step>
                                     <type>BOOL_TO_DECIMAL</type>
@@ -211,14 +280,26 @@
                                         <parameter/>
                                     </parameters>
                                 </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>({TRIGGER.VALUE}=0 and
- {diff(0)}&lt;&gt;0) or
+                                    <uuid>5e2f3a02fcb34aaa8af1085755598754</uuid>
+                                    <expression>{$HAS_DISASTER}=1 and ({TRIGGER.VALUE}=0 and
+ (last(/Template OSSO Disk IO/diskio.mount.writable[{#FSNAME}],#1)&lt;&gt;last(/Template OSSO Disk IO/diskio.mount.writable[{#FSNAME}],#2))&lt;&gt;0) or
 ({TRIGGER.VALUE}=1 and
- {last(0)}=0)</expression>
+ last(/Template OSSO Disk IO/diskio.mount.writable[{#FSNAME}])=0)</expression>
                                     <name>Mount {#FSNAME} changed rw state on {HOST.NAME}!</name>
                                     <priority>DISASTER</priority>
                                     <manual_close>YES</manual_close>
@@ -229,6 +310,18 @@
                     <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
+            <macros>
+                <macro>
+                    <macro>{$DISKIO_MOUNT_FREE_BELOW_DISASTER}</macro>
+                    <value>10</value>
+                    <description>Percent free disk space</description>
+                </macro>
+                <macro>
+                    <macro>{$DISKIO_MOUNT_FREE_BELOW_HIGH}</macro>
+                    <value>20</value>
+                    <description>Percent free disk space</description>
+                </macro>
+            </macros>
         </template>
     </templates>
 </zabbix_export>

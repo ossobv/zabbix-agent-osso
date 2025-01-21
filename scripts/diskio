@@ -1,0 +1,118 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+#
+# Script to fetch mount disk usage. Hopefully this is smart enough not
+# to list all useless mount points and only list things that we might be
+# interested in, like root filesystem and k8s local storage mount points
+# and root pvcs.
+#
+# Zabbix configuration:
+#   UserParameter=diskio.discover_dumounts, sudo /etc/zabbix/scripts/diskio ...
+#   UserParameter=diskio.show_dumounts, sudo /etc/zabbix/scripts/diskio show...
+#
+# WARNING: Zabbix triggers/items are limited to 255 chars. The sed regex
+# tries to keep them around 220 so there is room for the key name as well.
+
+list_interesting_filesystems() {
+    # - Get all mounts;
+    # - remove those where filesystem type equals filesystem source
+    #   (pstore==pstore);
+    # - remove some other filesystems that we know we don't want
+    #   (cgroup, devtmpfs, etc..);
+    # - ignore /containerd/ because that's where all (docker/k8s) container
+    #   images will be started from.
+    awk '
+      $1!=$3 &&
+      $3!~/^(autofs|cgroup2|devtmpfs|ramfs|tmpfs)$/ &&
+      $1!~/\/containerd\// {print $2}' /proc/mounts
+}
+
+list_df_only_filesystems() {
+    df -lB1 --output=target
+}
+
+list_useful_filesystems() {
+    {
+        list_interesting_filesystems | sort -u
+        list_df_only_filesystems | sort -u
+    } | sort | uniq -c | sed -ne 's@^[[:blank:]]*[^1 ] /@/@p'
+}
+
+get_filesystem_info() {
+    local info target  # target mount
+    info=$1
+    target=$2
+    df -lB1 --output="target,$info" | awk '
+        BEGIN{res=0}
+        $1=="'$target'"{res=$2}
+        END{print res}'
+}
+
+get_filesystem_bytes_percent_free() {
+    # Fall back to showing 100% free for bad values.
+    local info target  # target mount
+    target=$1
+    df -lB1 --output="target,size,used" | awk '
+        BEGIN{s=0;u=0}
+        $1=="'$target'"{s=$2;u=$3}
+        END{
+            if(s==0){print 100000;exit}
+            if (u>s){u=s}
+            printf("%.1f\n",(100.0-100.0*u/s))
+    }'
+}
+
+print_useful_filesystems() {
+    for fs in $(list_useful_filesystems); do
+        printf '%15s  %15s  %5.1f  %s\n' \
+            $(get_filesystem_info used "$fs") \
+            $(get_filesystem_info size "$fs") \
+            $(get_filesystem_bytes_percent_free "$fs") \
+            "$fs"
+    done
+}
+
+zabbix_discover_filesystems() {
+    # NOTE: Assuming there won't be any double quotes in the filenames.
+    # NOTE: We can replace shitty chars here as long as we do it in
+    # show_filesystems as well. (Zabbix does not like "~" in parameters.)
+    list_useful_filesystems |
+        sed -e 's@\\@\\\\@g;s/^[^ ]\{3\}[^ ]*\?\([^ ]\{220\}\)/...\1/' |
+        awk '
+        BEGIN{print "["}
+        {if(n)printf ",";n=1;printf "{\"{#FSTARGET}\":\"%s\"}\n",$1;}
+        END{print "]"}'
+}
+
+zabbix_show_filesystems() {
+    # Fall back to showing 100% free for bad values.
+    {
+        list_useful_filesystems
+        echo --
+        df -lB1 --output="target,size,used"
+    } | sed -e 's@\\@\\\\@g;s/^[^ ]\{3\}[^ ]*\?\([^ ]\{220\}\)/...\1/' |
+        awk '
+        BEGIN{print "{"}
+        NF==1 {use_fs[$1] = 1}
+        NF>1  {if(use_fs[$1]){
+            if(n)printf ",";n=1;
+            s=$2;u=$3;if(u>s){u=0;s=0;pct=100.0}else{pct=100.0-100.0*u/s}
+            printf(\
+              "\"%s\":{\"total\":\"%s\",\"used\":\"%s\",\"pct_free\":%.2f}\n",
+              $1, s, u, pct);
+        }}
+        END{print "}"}'
+}
+
+case $1 in
+discover-dumounts)
+    zabbix_discover_filesystems
+    ;;
+show-dumounts)
+    zabbix_show_filesystems
+    ;;
+*)
+    #list_useful_filesystems
+    print_useful_filesystems
+    ;;
+esac

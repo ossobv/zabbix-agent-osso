@@ -1,0 +1,6 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+# Root is needed for various statfs calls (for disk space in use).
+Cmnd_Alias ZABBIX_DISKIO = /etc/zabbix/scripts/diskio
+Defaults!CERT_FINDER !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_DISKIO
