@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.81) stable; urgency=low
+
+  * diskio: Forgot exec perms on new script
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 21 Jan 2025 17:31:28 +0100
+
 zabbix-agent-osso (0.80) stable; urgency=low
 
   * cleanup: Update docs
