@@ -1,5 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias PDNS_STATS = /usr/bin/pdns_control show *, /usr/bin/rec_control get *, /usr/bin/rec_control get-all
-Defaults!PDNS_STATS !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: PDNS_STATS
+# pdns interface is available to root.
+Cmnd_Alias ZABBIX_PDNS = /usr/bin/pdns_control show *, /usr/bin/rec_control get *, /usr/bin/rec_control get-all
+Defaults!ZABBIX_PDNS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_PDNS

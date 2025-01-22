@@ -1,6 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
 # You need root to view updates-available.
-Cmnd_Alias CAT_UPDATES = /bin/cat /var/lib/update-notifier/updates-available
-Defaults!CAT_UPDATES !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: CAT_UPDATES
+Cmnd_Alias ZABBIX_DPKG = /bin/cat /var/lib/update-notifier/updates-available
+Defaults!ZABBIX_DPKG !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_DPKG

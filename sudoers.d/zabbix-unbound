@@ -1,5 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias UNBOUND_STATS = /usr/sbin/unbound-control stats_noreset
-Defaults!UNBOUND_STATS !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: UNBOUND_STATS
+# unbound interface is available to root.
+Cmnd_Alias ZABBIX_UNBOUND = /usr/sbin/unbound-control stats_noreset
+Defaults!ZABBIX_UNBOUND !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_UNBOUND

@@ -1,5 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias REDIS = /etc/zabbix/scripts/k8s-redis *
-Defaults!REDIS !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: REDIS
+# kubectl perms to localhost are granted to root.
+Cmnd_Alias ZABBIX_K8S_REDIS = /etc/zabbix/scripts/k8s-redis *
+Defaults!ZABBIX_K8S_REDIS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_K8S_REDIS

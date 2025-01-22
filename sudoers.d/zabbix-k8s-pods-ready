@@ -1,6 +1,7 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias K8S_PODS_READY = /etc/zabbix/scripts/k8s-pods-ready *
-Defaults!K8S_POD_READY !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: K8S_PODS_READY
+# kubectl perms to localhost are granted to root.
+Cmnd_Alias ZABBIX_K8S_PODS_READY = /etc/zabbix/scripts/k8s-pods-ready *
+Defaults!ZABBIX_K8S_PODS_READY !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_K8S_PODS_READY
 

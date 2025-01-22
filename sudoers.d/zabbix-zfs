@@ -3,6 +3,6 @@
 # ZFS zpool/zfs list commands.
 # We cannot limit '*' to only a single word. We'll have to trust zfs-get to not
 # allow anything destructive.
-Cmnd_Alias ZFS_INFO = /sbin/zpool list -Ho name, /sbin/zpool list -Ho health *, /sbin/zpool status, /sbin/zfs list -Ho name, /sbin/zfs get -Hpo value *
-Defaults!ZFS_INFO !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: ZFS_INFO
+Cmnd_Alias ZABBIX_ZFS = /sbin/zpool list -Ho name, /sbin/zpool list -Ho health *, /sbin/zpool status, /sbin/zfs list -Ho name, /sbin/zfs get -Hpo value *
+Defaults!ZABBIX_ZFS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_ZFS

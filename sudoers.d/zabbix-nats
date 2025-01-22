@@ -1,5 +1,7 @@
 # [This file is part of the zabbix-agent-osso package]
-Cmnd_Alias NATS = /etc/zabbix/scripts/nats *
-Defaults!NATS !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: NATS
+#
+# nats cli perms to localhost are granted to root.
+Cmnd_Alias ZABBIX_NATS = /etc/zabbix/scripts/nats *
+Defaults!ZABBIX_NATS !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_NATS
 

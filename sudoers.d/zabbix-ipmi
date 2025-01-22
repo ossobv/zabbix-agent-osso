@@ -1,5 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias IPMITOOL_READ = /usr/bin/ipmitool dcmi power reading, /usr/bin/ipmitool lan print
-Defaults!IPMITOOL_READ !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: IPMITOOL_READ
+# ipmitool needs root perms.
+Cmnd_Alias ZABBIX_IPMI = /usr/bin/ipmitool dcmi power reading, /usr/bin/ipmitool lan print
+Defaults!ZABBIX_IPMI !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_IPMI

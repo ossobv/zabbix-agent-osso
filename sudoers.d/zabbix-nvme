@@ -1,5 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias NVME_DEVICE = /etc/zabbix/scripts/nvme.device *
-Defaults!NVME_DEVICE !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: NVME_DEVICE
+# root perms are needed for nvme cli.
+Cmnd_Alias ZABBIX_NVME = /etc/zabbix/scripts/nvme.device *
+Defaults!ZABBIX_NVME !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_NVME

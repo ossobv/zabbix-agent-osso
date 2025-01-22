@@ -1,5 +1,6 @@
 # [This file is part of the zabbix-agent-osso package]
 #
-Cmnd_Alias IPTABLES_S = /usr/sbin/iptables -S*, /sbin/iptables -S*, /usr/sbin/ip6tables -S*, /sbin/ip6tables -S*
-Defaults!IPTABLES_S !log_allowed, !pam_session
-zabbix ALL=NOPASSWD: IPTABLES_S
+# Viewing iptables rules requires root.
+Cmnd_Alias ZABBIX_KERNELMISC_IPTABLES_S = /usr/sbin/iptables -S*, /sbin/iptables -S*, /usr/sbin/ip6tables -S*, /sbin/ip6tables -S*
+Defaults!ZABBIX_KERNELMISC_IPTABLES_S !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_KERNELMISC_IPTABLES_S
