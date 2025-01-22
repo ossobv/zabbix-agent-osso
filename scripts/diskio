@@ -13,6 +13,12 @@
 # WARNING: Zabbix triggers/items are limited to 255 chars. The sed regex
 # tries to keep them around 220 so there is room for the key name as well.
 
+# The LC_ALL value takes precedence over the values of all the other
+# environment variables. Set it for LC_CTYPE for stable sort and LC_NUMERIC
+# for consistent float values (period as decimal separator).
+LC_ALL=C
+export LC_ALL
+
 list_interesting_filesystems() {
     # - Get all mounts;
     # - remove those where filesystem type equals filesystem source
