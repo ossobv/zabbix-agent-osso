@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
+            <name>Templates/Kubernetes</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>b917278d33494ff49bdd718dffd5727c</uuid>
+            <template>Template k8s-pvolume</template>
+            <name>Template k8s-pvolume</name>
+            <groups>
+                <group>
+                    <name>Templates/Kubernetes</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>a018338bdbfe4306bd9bd60a002711a6</uuid>
+                    <name>k8s-pvolume discover-filesystems</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s-pvolume.discover_filesystems</key>
+                    <delay>1h</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>def537bdf97a443490a06e959569d777</uuid>
+                            <name>Free K8S PV space in % in {#NAME} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s-pvolume.pct_free[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <value_type>FLOAT</value_type>
+                            <units>%</units>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.pct_free</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s-pvolume.show_filesystem[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>3c6d63b149c94e07a50ce4a73ad27901</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template k8s-pvolume/k8s-pvolume.pct_free[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}])&lt;10</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>{$HAS_DISASTER}=0 or (({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and last(/Template k8s-pvolume/k8s-pvolume.pct_free[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}])&gt;(10+5))</recovery_expression>
+                                    <name>{HOST.NAME}: Free K8S PV space below 10% in {#NAME} ({#CONTEXT})</name>
+                                    <opdata>{ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>73705750b8ff4aa5a03005d42a11e55c</uuid>
+                                    <expression>last(/Template k8s-pvolume/k8s-pvolume.pct_free[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}])&lt;20</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>last(/Template k8s-pvolume/k8s-pvolume.pct_free[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}])&gt;(20+5)</recovery_expression>
+                                    <name>{HOST.NAME}: Free K8S PV space below 20% in {#NAME} ({#CONTEXT})</name>
+                                    <opdata>{ITEM.LASTVALUE}</opdata>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>a974822eb4cc497a88ecbe0084a7d617</uuid>
+                            <name>K8S PV info {#NAME} ({#CONTEXT})</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8s-pvolume.show_filesystem[{#CONTEXT},{#NAME},{#BACKEND},{#LOOKUPID}]</key>
+                            <delay>15m</delay>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Filesystems</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

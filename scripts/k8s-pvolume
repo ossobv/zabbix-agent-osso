@@ -1,0 +1,177 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: jq, kubectl
+#
+# This script complements the diskio dumount checks. Kubernetes
+# persistent volumes come in various flavors. The diskio dumount checks
+# find local-storage mount points and ceph-block storage devices. This
+# script finds ceph-filesystem storage classes and needs to be called
+# from somewhere with k8s access.
+
+get_contexts() {
+    kubectl config get-contexts -oname
+}
+
+get_rookceph_pods() {
+    local context ns
+    context=$1
+    ns=$2  # optional
+
+    if [ -z "$ns" ]; then
+        kubectl --context "$1" get pods \
+            --all-namespaces -l app=rook-ceph-tools \
+            -o go-template='{{range .items}}{{.metadata.namespace}}/'"\
+"'{{.metadata.name}}{{"\n"}}{{end}}' \
+            2>/dev/null
+    else
+        kubectl --context "$1" -n "$ns" get pods \
+            -l app=rook-ceph-tools \
+            -o go-template='{{range .items}}{{.metadata.namespace}}/'"\
+"'{{.metadata.name}}{{"\n"}}{{end}}' \
+            2>/dev/null
+    fi
+}
+
+get_rookceph_pv_name() {
+    local context volume subvolumegroup subvolume tpl name
+    context=$1
+    volume=$2           # ignore
+    subvolumegroup=$3   # used in spec key ("csi")
+    subvolume=$4        # used in subvolumeName value
+
+    name='{{.spec.'$subvolumegroup'.volumeAttributes.subvolumeName}}'
+    tpl="{{range .items}}{{.metadata.name}} $name{{\"\\n\"}}{{end}}"
+
+    kubectl --context "$context" get persistentvolumes \
+        -o go-template="$tpl" | LC_ALL=C sort | awk -vV="$subvolume" '
+        BEGIN{n="unknown"} $2==V&&n=="unknown"{n=$1} END{print n}'
+}
+
+rookceph_discover_filesystems() {
+    local context ns toolpod
+    context=$1
+
+    for rookceph_pod in $(get_rookceph_pods "$context"); do
+        ns=${rookceph_pod%%/*}
+        toolpod=${rookceph_pod#*/}
+        rookceph_discover_filesystems_in_toolpod "$context" "$ns" "$toolpod"
+    done
+}
+
+rookceph_discover_filesystems_in_toolpod() {
+    local context ns pod
+    context=$1; ns=$2; pod=$3
+
+    local volume volumes subvolume subvolumes subvolumegroup subvolumegroups
+    volumes=$(kubectl --context="$context" -n "$ns" exec "$pod" -- \
+        ceph -f json fs volume ls | jq -r '.[] | .name')
+
+    for volume in $volumes; do
+        subvolumes=$(kubectl --context="$context" -n "$ns" exec "$pod" -- \
+            ceph -f json fs subvolume ls "$volume" | jq -c)
+        if test "$subvolumes" != '[]'; then
+            echo "ERROR: subvolumegroup-less volumes? $subvolumes" >&2
+        fi
+
+        subvolumegroups=$(kubectl --context="$context" -n "$ns" exec "$pod" --\
+            ceph -f json fs subvolumegroup ls "$volume" | jq -r '.[] | .name')
+        for subvolumegroup in $subvolumegroups; do
+            subvolumes=$(kubectl --context="$context" -n "$ns" exec "$pod" -- \
+                ceph -f json fs subvolume ls "$volume" "$subvolumegroup" |
+                jq -r '.[] | .name')
+            for subvolume in $subvolumes; do
+                local friendly_name lookupid
+                friendly_name=$(get_rookceph_pv_name \
+                    "$context" "$volume" "$subvolumegroup" "$subvolume")
+                lookupid=$ns,$volume,$subvolumegroup,$subvolume
+                echo $friendly_name rookceph $context $lookupid
+            done
+        done
+    done
+}
+
+rookceph_show_filesystem() {
+    local context lookupid
+    context=$1
+    lookupid=$2
+
+    local ns volume subvolumegroup subvolume
+    ns=${lookupid%%,*}; lookupid=${lookupid#*,}
+    volume=${lookupid%%,*}; lookupid=${lookupid#*,}
+    subvolumegroup=${lookupid%%,*}; lookupid=${lookupid#*,}
+    subvolume=${lookupid%%,*}; lookupid=${lookupid#*,}
+
+    for rookceph_pod in $(get_rookceph_pods "$context" "$ns"); do
+        ns=${rookceph_pod%%/*}
+        toolpod=${rookceph_pod#*/}
+        rookceph_show_filesystem_in_toolpod "$context" "$ns" "$toolpod" \
+            "$volume" "$subvolumegroup" "$subvolume"
+        break  # we only expect one result
+    done
+}
+
+rookceph_show_filesystem_in_toolpod() {
+    local context ns pod volume subvolumegroup subvolume
+    context=$1
+    ns=$2
+    pod=$3
+    volume=$4
+    subvolumegroup=$5
+    subvolume=$6
+
+    kubectl --context="$context" -n "$ns" \
+        exec "$pod" -- ceph -f json fs subvolume info \
+            "$volume" "$subvolume" "$subvolumegroup" |
+    jq -c '{
+        total: .bytes_quota|tostring,
+        used: .bytes_used|tostring,
+        pct_free: (100.0-(.bytes_pcent|tonumber))
+    }'  # <-- output consistent with ./diskio
+}
+
+
+if [ "$1" = "discover-filesystems" ]; then
+    for context in $(get_contexts); do
+        # Instead of going from 'get persistentvolumes' down to the specific
+        # volumes, we do the inverse. Go to the filesystem backends that we
+        # know and try to map what we find back to a pv.
+        echo '['
+        n=0
+        # Get all of rook/ceph. Right now we only get
+        # storageClass='ceph-filesystem'. The storageClass='ceph-block' will be
+        # picked up by the "diskio" script on the storage nodes.
+        # OUTPUT: $context $friendly_name $backend $other,relevant,info
+        #
+        rookceph_discover_filesystems "$context" |
+        while read friendly_name backend context other_info; do
+            test $n -gt 0 && echo -n , || n=1
+            echo '{"{#CONTEXT}":"'$context'","{#NAME}":"'$friendly_name'",' \
+                '"{#BACKEND}":"'$backend'","{#LOOKUPID}":"'$other_info'"}'
+            false
+        done || n=1
+        # Maybe get more PV types here in the future...
+        echo ']'
+    done
+    exit 0
+
+elif [ "$1" = "show-filesystem" ]; then
+    context=$2
+    friendly_name=$3  # ignore this
+    backend=$4
+    lookupid=$5  # XXX: is this one arg? or all the args?
+    case "$backend" in
+    rookceph)
+        rookceph_show_filesystem "$context" "$lookupid"
+        ;;
+    *)
+        echo "ERROR: unknown backend '$backend'" >&2
+        exit 1
+    esac
+    exit 0
+
+else
+    echo "possible actions:
+    discover-filesystems
+    show-filesystem context name backend lookupid..." >&2
+    exit 1
+fi
