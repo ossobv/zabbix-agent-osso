@@ -25,12 +25,12 @@ list_interesting_filesystems() {
     #   (pstore==pstore);
     # - remove some other filesystems that we know we don't want
     #   (cgroup, devtmpfs, etc..);
-    # - ignore /containerd/ because that's where all (docker/k8s) container
-    #   images will be started from.
+    # - ignore /containerd/ and /docker/ because that's where all
+    #   (docker/k8s) container images will be started from.
     awk '
       $1!=$3 &&
       $3!~/^(autofs|cgroup2|devtmpfs|ramfs|tmpfs)$/ &&
-      $1!~/\/containerd\// {print $2}' /proc/mounts
+      $1!~/\/(containerd|docker)\// {print $2}' /proc/mounts
 }
 
 list_df_only_filesystems() {
