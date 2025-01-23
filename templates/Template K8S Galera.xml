@@ -23,8 +23,8 @@
                     <name>K8S galera cluster discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>k8s.galera.discover_clusters</key>
+                    <delay>1h</delay>
                     <lifetime>1d</lifetime>
-                    <description>Discovery of the mariadb clusters</description>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>0c03b14cfb904f8aaef6a74b493b3598</uuid>
