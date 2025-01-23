@@ -44,13 +44,19 @@
                                 <step>
                                     <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                                     <parameters>
-                                        <parameter>3600</parameter>
+                                        <parameter>900</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
                                 <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Redis</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>9b18d32333f2440c9c990fd3454cc8a8</uuid>
@@ -81,13 +87,19 @@
                                 <step>
                                     <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                                     <parameters>
-                                        <parameter>3600</parameter>
+                                        <parameter>900</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
                                 <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Redis</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>a13bae3b97724feaae32862b5937b825</uuid>
@@ -116,13 +128,19 @@
                                 <step>
                                     <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                                     <parameters>
-                                        <parameter>3600</parameter>
+                                        <parameter>900</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
                                 <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Redis</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>3ece973bdb864aae8319940eb9e428a1</uuid>
@@ -167,14 +185,20 @@
                             <master_item>
                                 <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Redis</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                 </discovery_rule>
             </discovery_rules>
             <tags>
                 <tag>
-                    <tag>application</tag>
-                    <value>redis</value>
+                    <tag>Application</tag>
+                    <value>Redis</value>
                 </tag>
             </tags>
         </template>
