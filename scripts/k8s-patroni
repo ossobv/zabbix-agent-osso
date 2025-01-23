@@ -32,7 +32,8 @@ make_json_members() {
             "'"{#CLUSTER}":"'${3##status-}'","{#MEMBER}":.name}'
 }
 
-if [ "$1" = "--discover-clusters" ]; then
+
+if [ "$1" = "discover-clusters" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
             for configmap in $(get_configmaps "$context" "$namespace"); do
@@ -42,7 +43,7 @@ if [ "$1" = "--discover-clusters" ]; then
     done | jq -sc
     exit 0
 
-elif [ "$1" = "--discover-members" ]; then
+elif [ "$1" = "discover-members" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
             for configmap in $(get_configmaps "$context" "$namespace"); do
@@ -52,24 +53,22 @@ elif [ "$1" = "--discover-members" ]; then
     done | jq -sc
     exit 0
 
-elif [ "$1" = "--get-member" ]; then
+elif [ "$1" = "show-cluster" ]; then
+    exec kubectl --context "$2" -n "$3" get configmap "$4" \
+        -o jsonpath='{.data.status}'
+    exit 3
+
+elif [ "$1" = "show-member" ]; then
     kubectl --context "$2" -n "$3" get configmap "$4" \
             -o jsonpath='{.data.status}' |
         jq '.cluster_status.members[] | select(.name == "'"$5"'")'
     exit 0
 
-
-elif [ "$1" = "--get-cluster" ]; then
-    exec kubectl --context "$2" -n "$3" get configmap "$4" \
-        -o jsonpath='{.data.status}'
-    exit 3
-
 else
     echo "possible actions:
-    --discover-clusters
-    --discover-members
-
-    --get-cluster context namespace configmap
-    --get-member context namespace configmap member_name" >&2
+    discover-clusters
+    show-cluster context namespace configmap
+    discover-members
+    show-member context namespace configmap member_name" >&2
     exit 1
 fi

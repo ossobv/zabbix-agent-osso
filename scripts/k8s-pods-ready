@@ -18,7 +18,8 @@ make_json() {
     echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'","{#STARTSWITH}":"'$3'"}'
 }
 
-if [ "$1" = "--discover" ]; then
+
+if [ "$1" = "discover" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
             startswith=$(kubectl --context $context get namespace $namespace \
@@ -29,7 +30,7 @@ if [ "$1" = "--discover" ]; then
     done | jq -sc
     exit 0
 
-elif [ "$1" = "--get-values" ]; then
+elif [ "$1" = "values" ]; then
     kubectl --context "$2" get pods -n "$3" -ojson |
         jq -r '[.items[] | select(.metadata.name | startswith("'"$4"'")) |
             .status.containerStatuses[] | .ready==true] | all'
@@ -37,8 +38,7 @@ elif [ "$1" = "--get-values" ]; then
 
 else
     echo "possible actions:
-    --discover
-
-    --get-values context namespace startswith" 2>&1
+    discover
+    values context namespace startswith" 2>&1
     exit 1
 fi
