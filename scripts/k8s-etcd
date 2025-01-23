@@ -24,7 +24,8 @@ make_json() {
         '"{#STATUS_NAME}":"'$3'","{#ENDPOINT}":"'$4'"}'
 }
 
-if [ "$1" = "--discover" ]; then
+
+if [ "$1" = "discover" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
             status_name=$(kubectl --context $context get namespace $namespace \
@@ -38,25 +39,24 @@ if [ "$1" = "--discover" ]; then
     done | jq -sc
     exit 0
 
-elif [ "$1" = "--get-status-json" ]; then
-    # NOTE: Yes, .Endpoint (uppercase) here.
-    kubectl --context "$2" -n "$3" get configmap "$4" \
-            -ojsonpath='{.data.status}' |
-        jq '.etcd_status[] | select(.Endpoint ==  "'"$5"'")'
-    exit 0
-
-elif [ "$1" = "--get-health-json" ]; then
+elif [ "$1" = "show-health-json" ]; then
     # NOTE: Yes, .endpoint (lowercase) here.
     kubectl --context "$2" -n "$3" get configmap "$4" \
             -ojsonpath='{.data.status}' |
         jq '.etcd_health[] | select(.endpoint ==  "'"$5"'")'
     exit 0
 
+elif [ "$1" = "show-status-json" ]; then
+    # NOTE: Yes, .Endpoint (uppercase) here.
+    kubectl --context "$2" -n "$3" get configmap "$4" \
+            -ojsonpath='{.data.status}' |
+        jq '.etcd_status[] | select(.Endpoint ==  "'"$5"'")'
+    exit 0
+
 else
     echo "possible actions:
-    --discover
-
-    --get-health-json context namespace status_name endpoint
-    --get-status-json context namespace status_name endpoint" >&2
+    discover
+    show-health-json context namespace status_name endpoint
+    show-status-json context namespace status_name endpoint" >&2
     exit 1
 fi

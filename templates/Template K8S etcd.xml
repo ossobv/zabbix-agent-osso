@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
+            <name>Templates/Kubernetes</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>c6cf89b0590c4245ab9bf81637e0eafb</uuid>
+            <template>Templates K8S etcd</template>
+            <name>Templates K8S etcd</name>
+            <groups>
+                <group>
+                    <name>Templates/Kubernetes</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>b972f3ac7aa34d8cbebd5fbd8393b227</uuid>
+                    <name>K8S etcd discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s.etcd.discovery</key>
+                    <delay>1h</delay>
+                    <lifetime>7d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>e6e525d7e29045da94e1952b9ed592b1</uuid>
+                            <name>k8s.etcd db size {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.etcd.db_size[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <units>B</units>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.Status.dbSize</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.etcd.status-json[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>14d14757a28040acbb4b1288431515cc</uuid>
+                                    <expression>last(/Templates K8S etcd/k8s.etcd.db_size[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}])&gt;100000000</expression>
+                                    <name>K8S etcd db size &gt; 100MB {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <opdata>{ITEM.LASTVALUE}</opdata>
+                                    <priority>AVERAGE</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>627ce33ff8aa465ca8a078764eb35bef</uuid>
+                            <name>K8S etcd health {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8s.etcd.health-json[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>f956d80f4b114f19b42c2aa34d50f879</uuid>
+                            <name>K8S etcd healthy {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.etcd.healthy[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.health</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>BOOL_TO_DECIMAL</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.etcd.health-json[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>667b9f5808ac4802ad5ad5ae1cb65a8a</uuid>
+                                    <expression>last(/Templates K8S etcd/k8s.etcd.healthy[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}])&lt;&gt;1</expression>
+                                    <name>K8S etcd not healthy {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>5240e9ef11a64d2d880ab7f57311ee4b</uuid>
+                            <name>K8S etcd status {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8s.etcd.status-json[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
