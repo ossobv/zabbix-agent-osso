@@ -27,6 +27,10 @@ list_interesting_filesystems() {
     #   (cgroup, devtmpfs, etc..);
     # - ignore /containerd/ and /docker/ because that's where all
     #   (docker/k8s) container images will be started from.
+    #   We do still get /var/lib/docker itself and e.g.
+    #   local-storage/containerd that maps to
+    #   /var/lib/containerd/io.containerd.snapshotter.v1.zfs if they are
+    #   separate sources.
     awk '
       $1!=$3 &&
       $3!~/^(autofs|cgroup2|devtmpfs|ramfs|tmpfs)$/ &&
