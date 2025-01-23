@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
+            <name>Templates/Kubernetes</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>80eb9b622beb4be19395133bbdb0d393</uuid>
+            <template>Template K8S Redis</template>
+            <name>Template K8S Redis</name>
+            <groups>
+                <group>
+                    <name>Templates/Kubernetes</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>a6ecd99edb7d4ae9b75fc35e7d619af6</uuid>
+                    <name>K8S redis discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s.redis.discovery</key>
+                    <delay>1h</delay>
+                    <lifetime>7d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>49fd0cb7cf474e638f3d20e73e4a4eea</uuid>
+                            <name>K8S redis master_failover_state {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.redis.master_failover_state[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.master_failover_state</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>3600</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>9b18d32333f2440c9c990fd3454cc8a8</uuid>
+                                    <expression>change(/Template K8S Redis/k8s.redis.master_failover_state[{#CONTEXT},{#NAMESPACE},{#POD}])=1</expression>
+                                    <name>K8S redis failover {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <opdata>value: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>7ddd6713d8ba4d1290b38a4973f9667a</uuid>
+                            <name>K8S redis master_link_status {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.redis.master_link_status[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.master_link_status</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>up</error_handler_params>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>3600</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>a13bae3b97724feaae32862b5937b825</uuid>
+                                    <expression>change(/Template K8S Redis/k8s.redis.master_link_status[{#CONTEXT},{#NAMESPACE},{#POD}])=1</expression>
+                                    <name>K8S redis link changed {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <opdata>value: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>5cf584dc5a3c4623ba35cbd15bc0dbd1</uuid>
+                            <name>K8S redis role {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.redis.role[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.role</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>3600</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>3ece973bdb864aae8319940eb9e428a1</uuid>
+                                    <expression>change(/Template K8S Redis/k8s.redis.role[{#CONTEXT},{#NAMESPACE},{#POD}])=1</expression>
+                                    <name>K8S redis role changed {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <opdata>value: {ITEM.LASTVALUE}</opdata>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>908308c540bc40c19519e6401fa96ea6</uuid>
+                            <name>K8S redis status {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>e107c2a60d894994b7b8123574cc2a82</uuid>
+                            <name>K8S redis version {#POD} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.redis.version[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.redis_version</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>86400</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.redis.values[{#CONTEXT},{#NAMESPACE},{#POD}]</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>application</tag>
+                    <value>redis</value>
+                </tag>
+            </tags>
+        </template>
+    </templates>
+</zabbix_export>
