@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
+            <name>Templates/Kubernetes</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>420b59597479431f8e439bb8bf1021c5</uuid>
+            <template>Template k8s-base</template>
+            <name>Template k8s-base</name>
+            <groups>
+                <group>
+                    <name>Templates/Kubernetes</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>03cfb78dd1214145b67810dfa0f2237d</uuid>
+                    <name>Local haproxy healthcheck on /healthz</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s.haproxy-healthcheck</key>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <description>This check runs a script against a local haproxy instance that passes traffic through to the Kubernetes API and checks /healthz there. If this is OK, it returns a 1. If it's broken, it returns a 0</description>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Kubernetes</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>76466bc8172540e89c55f80bcba46c6d</uuid>
+                            <expression>last(/Template k8s-base/k8s.haproxy-healthcheck)&lt;&gt;1</expression>
+                            <name>{HOST.NAME}: Issues connecting to kubernetes API via local haproxy</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+        </template>
+    </templates>
+</zabbix_export>
