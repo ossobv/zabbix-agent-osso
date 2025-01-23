@@ -51,7 +51,7 @@ make_json_cluster_status() {
 }
 
 
-if [ "$1" = "--discover-clusters" ]; then
+if [ "$1" = "discover-clusters" ]; then
     for context in $(get_contexts); do
         for namespace in $(get_namespaces "$context"); do
             for cluster in $(get_clusters "$context" "$namespace"); do
@@ -61,14 +61,13 @@ if [ "$1" = "--discover-clusters" ]; then
     done | jq -sc
     exit 0
 
-elif [ "$1" = "--get-cluster" ]; then
+elif [ "$1" = "show-cluster" ]; then
     make_json_cluster_status "$2" "$3" "$4"
     exit 0
 
 else
     echo "possible actions:
-    --discover-clusters
-
-    --get-cluster context namespace cluster" >&2
+    discover-clusters
+    show-cluster context namespace cluster" >&2
     exit 1
 fi
