@@ -29,6 +29,11 @@ if [ "$1" = configure ]; then
         rm /etc/zabbix/config/mysql.myinstance.cnf.example
     fi
 
+    # Remove obsolete config files
+    dpkg-query -s zabbix-agent-osso |
+      sed -e '/^Conffiles:/,/^[^ ]/!d;/^ /!d;/ obsolete$/!d;s/^ *//;s/ .*//' |
+      xargs --no-run-if-empty rm
+
     # Make sure a lib directory exists, with zabbix permissions.
     mkdir -p /var/lib/zabbix/scripts
     # Make it writable by zabbix, but do not croak if user is missing.
