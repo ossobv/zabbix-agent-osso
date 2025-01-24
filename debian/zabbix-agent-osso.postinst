@@ -33,6 +33,11 @@ if [ "$1" = configure ]; then
     mkdir -p /var/lib/zabbix/scripts
     # Make it writable by zabbix, but do not croak if user is missing.
     chown zabbix:zabbix /var/lib/zabbix/scripts || true
+    # Set correct file permissions for zabbix scripts
+    find /etc/zabbix/scripts/ \
+      -mindepth 1 -maxdepth 1 -type f '!' -perm -100 ! -name '.*' -print0 |
+      xargs --no-run-if-empty -0 grep -Zlm1 '^#!' |
+      xargs --no-run-if-empty -0 chmod 755
 
     # Bugfix for bad perms on config dir:
     # The config could contain secrets and auth tokens. Don't let just
