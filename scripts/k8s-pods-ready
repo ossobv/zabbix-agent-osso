@@ -8,10 +8,20 @@ get_contexts() {
 }
 
 get_namespaces() {
-    kubectl --context "$1" get namespace \
-        -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
-        -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}' \
-        2>/dev/null
+    local context ns
+    context=$1
+    ns=$2
+    if [ -z "$ns" ]; then
+        kubectl --context "$1" get namespace \
+            -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
+            -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'\
+            2>/dev/null
+    else
+        kubectl --context "$1" -n "$ns" get namespace \
+            -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
+            -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'\
+            2>/dev/null
+    fi
 }
 
 make_json() {
@@ -31,9 +41,28 @@ if [ "$1" = "discover" ]; then
     exit 0
 
 elif [ "$1" = "values" ]; then
-    kubectl --context "$2" get pods -n "$3" -ojson |
+    # First, check whether this is something for us.
+    if [ -z "$(get_namespaces "$2" "$3")" ]; then
+        # FIXME: What do we do if the namespace is not matched anymore?
+        # Does that mean it is gone and everything has to Panic?
+        # Or does it mean that we disabled the ready check because we're doing
+        # maint, or are done with this trigger?
+        # Right now, we'll go with "maint".
+        echo '{"all_ready": true, "warning": "not_found"}'
+        exit 0
+    fi
+    # For now, eat errors so they turn into all_ready=false.
+    bool=$(kubectl --context "$2" get pods -n "$3" -ojson 2>&1 |
         jq -r '[.items[] | select(.metadata.name | startswith("'"$4"'")) |
-            .status.containerStatuses[] | .ready==true] | all'
+        .status.containerStatuses[] | .ready==true] | all' 2>&1)
+    # This is a temporary output which we may improve on later on. By starting
+    # out with a json object, we can more easily expand on it with other
+    # values.
+    if [ "$bool" = true ]; then
+        echo '{"all_ready": true}'
+    else
+        echo '{"all_ready": false}'
+    fi
     exit 0
 
 else

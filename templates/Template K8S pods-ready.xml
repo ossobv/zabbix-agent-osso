@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>6.4</version>
+    <template_groups>
+        <template_group>
+            <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
+            <name>Templates/Kubernetes</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>a3dab75daa044c62a27213adc46b3661</uuid>
+            <template>Template K8S pods-ready</template>
+            <name>Template K8S pods-ready</name>
+            <groups>
+                <group>
+                    <name>Templates/Kubernetes</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>dcf4207059ab42548f44e0a0ca9aa4be</uuid>
+                    <name>K8S pods-ready discovery</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s.pods-ready.discovery</key>
+                    <delay>20m</delay>
+                    <lifetime>14d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>3cce013fef5b4d1c948998aa0679b729</uuid>
+                            <name>K8S pods-ready all_ready {#STARTSWITH} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.pods-ready.all_ready[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}]</key>
+                            <delay>0</delay>
+                            <history>7d</history>
+                            <trends>90d</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.all_ready</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>BOOL_TO_DECIMAL</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.pods-ready.values[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>29c651fc92b44b8d88607f0e03b3d1cc</uuid>
+                                    <expression>last(/Template K8S pods-ready/k8s.pods-ready.all_ready[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}], #1)&lt;&gt;1 and last(/Template K8S pods-ready/k8s.pods-ready.all_ready[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}], #2)&lt;&gt;1 and last(/Template K8S pods-ready/k8s.pods-ready.all_ready[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}], #3)&lt;&gt;1</expression>
+                                    <name>K8S pods not ready {#STARTSWITH} {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>dbb097e69711427dbe168578f60f17b8</uuid>
+                            <name>K8S pods-ready values {#STARTSWITH} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>ZABBIX_ACTIVE</type>
+                            <key>k8s.pods-ready.values[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>50ff5f8e3d144327b335f181f3e1aff3</uuid>
+                            <name>K8S pods-ready warning {#STARTSWITH} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.pods-ready.warning[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}]</key>
+                            <delay>0</delay>
+                            <history>30d</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.warning</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.pods-ready.values[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>eaf563cbdae5434ab6251fbd3ef99be3</uuid>
+                                    <expression>last(/Template K8S pods-ready/k8s.pods-ready.warning[{#CONTEXT},{#NAMESPACE},{#STARTSWITH}])&lt;&gt;&quot;&quot;</expression>
+                                    <name>K8S pods warning {#STARTSWITH} {#NAMESPACE} ({#CONTEXT})</name>
+                                    <opdata>{ITEM.LASTVALUE}</opdata>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
