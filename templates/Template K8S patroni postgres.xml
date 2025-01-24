@@ -23,6 +23,7 @@
                     <name>K8S patroni postgres cluster discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>k8s.patroni.discover_clusters</key>
+                    <delay>1h</delay>
                     <lifetime>7d</lifetime>
                     <item_prototypes>
                         <item_prototype>
@@ -199,6 +200,7 @@ time()&lt;220000</expression>
                     <name>K8S patroni postgres member discovery</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>k8s.patroni.discover_members</key>
+                    <delay>1h</delay>
                     <lifetime>7d</lifetime>
                     <item_prototypes>
                         <item_prototype>
