@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.82) stable; urgency=low
+
+  * diskio: Skips not only /containerd/ but also /docker/
+  * install: Removes obsolete configs from /etc/zabbix/* and fixes missing 755
+    perms
+  * k8s-*: Consistency fixes
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 24 Jan 2025 16:13:09 +0100
+
 zabbix-agent-osso (0.81) stable; urgency=low
 
   * diskio: Forgot exec perms on new script
