@@ -52,7 +52,7 @@
                         </trigger>
                         <trigger>
                             <uuid>caecd8d25880496d851863446e404d4e</uuid>
-                            <expression>{$HAS_DISASTER}=1 and time()&gt;103000 and time()&lt;220000 and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;5</expression>
+                            <expression>({$HAS_DISASTER}=1 or {$HAS_DISASTER}=&quot;9to5&quot;) and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END} and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;5</expression>
                             <name>Certificate(s) about to expire on {HOST.NAME} (&lt;5 days)</name>
                             <opdata>{ITEM.LASTVALUE} left</opdata>
                             <priority>DISASTER</priority>
@@ -193,6 +193,13 @@
                     </tags>
                     <triggers>
                         <trigger>
+                            <uuid>a10a6a837c0e432d84b585a9383fedc3</uuid>
+                            <expression>{$HAS_DISASTER}=&quot;9to5&quot; and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0 and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END}</expression>
+                            <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
+                            <opdata>{ITEM.LASTVALUE} logins</opdata>
+                            <priority>DISASTER</priority>
+                        </trigger>
+                        <trigger>
                             <uuid>809a0dbb8328488e9f076aa84179aa65</uuid>
                             <expression>{$HAS_DISASTER}=0 and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
                             <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
@@ -279,6 +286,13 @@
                         </tag>
                     </tags>
                     <triggers>
+                        <trigger>
+                            <uuid>5583b423d0974e39aaddf34414079bd6</uuid>
+                            <expression>{$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END} and last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
+                            <name>Mail queue on {HOST.NAME} reached &gt;= {ITEM.VALUE}</name>
+                            <opdata>Now: {ITEM.LASTVALUE}</opdata>
+                            <priority>DISASTER</priority>
+                        </trigger>
                         <trigger>
                             <uuid>b004ff6748944231be16bb25f50c20ae</uuid>
                             <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
@@ -674,6 +688,13 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     </tags>
                     <triggers>
                         <trigger>
+                            <uuid>abcc1e4d971b4622aa9b01cd1eb90d8d</uuid>
+                            <expression>{$HAS_DISASTER}=&quot;9to5&quot; and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1 and  time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END}</expression>
+                            <name>in_maintenance file exists on {HOST.NAME}</name>
+                            <priority>DISASTER</priority>
+                            <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
+                        </trigger>
+                        <trigger>
                             <uuid>a4646b349c9c49f28a6f12a0292469d4</uuid>
                             <expression>{$HAS_DISASTER}=0 and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
                             <name>in_maintenance file exists on {HOST.NAME}</name>
@@ -709,7 +730,7 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
             </discovery_rules>
             <macros>
                 <macro>
-                    <macro>{$DAEMON_PROCMEM_PROCESES}</macro>
+                    <macro>{$DAEMON_PROCMEM_PROCESSES}</macro>
                     <description>put &quot;nats-server processx processy&quot; here</description>
                 </macro>
                 <macro>
