@@ -164,7 +164,7 @@ pve nodes hebben van de 128GB, 4GB tot 32GB aan ARC&quot;, i.e. 3%..85%.</descri
                     <uuid>0ea4706358d5456da9d8981e144ca649</uuid>
                     <name>ZFS ARC stat meta</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>zfs.arcstats[meta]</key>
+                    <key>zfs.arcstats[metadata_size]</key>
                     <delay>15m</delay>
                     <history>30d</history>
                     <trends>90d</trends>
