@@ -10,8 +10,8 @@
     <templates>
         <template>
             <uuid>c6cf89b0590c4245ab9bf81637e0eafb</uuid>
-            <template>Templates K8S etcd</template>
-            <name>Templates K8S etcd</name>
+            <template>Template K8S etcd</template>
+            <name>Template K8S etcd</name>
             <groups>
                 <group>
                     <name>Templates/Kubernetes</name>
@@ -48,7 +48,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>14d14757a28040acbb4b1288431515cc</uuid>
-                                    <expression>last(/Templates K8S etcd/k8s.etcd.db_size[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}])&gt;100000000</expression>
+                                    <expression>last(/Template K8S etcd/k8s.etcd.db_size[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}])&gt;100000000</expression>
                                     <name>K8S etcd db size &gt; 100MB {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
                                     <opdata>{ITEM.LASTVALUE}</opdata>
                                     <priority>AVERAGE</priority>
@@ -91,7 +91,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>667b9f5808ac4802ad5ad5ae1cb65a8a</uuid>
-                                    <expression>last(/Templates K8S etcd/k8s.etcd.healthy[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}])&lt;&gt;1</expression>
+                                    <expression>last(/Template K8S etcd/k8s.etcd.healthy[{#CONTEXT},{#NAMESPACE},{#STATUS_NAME},{#ENDPOINT}])&lt;&gt;1</expression>
                                     <name>K8S etcd not healthy {#ENDPOINT} in {#NAMESPACE} ({#CONTEXT})</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
