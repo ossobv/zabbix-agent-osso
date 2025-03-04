@@ -1,3 +1,15 @@
+zabbix-agent-osso (0.83) stable; urgency=low
+
+  * k8smgmt: Allow API_CERT/API_KEY instead of API_TOKEN
+  * k8s-patroni: Add better no update trigger
+  * k8s-pods-ready: Remove obsolete OLD naming
+  * templates: Missed the 1h discovery on k8s-postgres
+  * templates: OSSO Daemon template has 9to5 triggers now
+  * templates: Quick rename
+  * zfs: Alter arcstats to read metadata_size
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 04 Mar 2025 16:33:17 +0100
+
 zabbix-agent-osso (0.82) stable; urgency=low
 
   * diskio: Skips not only /containerd/ but also /docker/
