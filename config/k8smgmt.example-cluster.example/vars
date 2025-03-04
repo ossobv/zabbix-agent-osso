@@ -1,5 +1,8 @@
 API_URL=https://k8sapi.example.com/api
-API_TOKEN=eyJ...
+API_TOKEN=eyJ...    # optional token
+API_CA=             # defaults to ca.pem in this directory (backward compat)
+API_CERT=           # optional client cert
+API_KEY=            # optional key belonging to client cert
 
 # Optional: if you don't care about "erroredPods", you can set
 # DISABLE_ERROREDPODS=1. This will force the erroredPods value to 0.

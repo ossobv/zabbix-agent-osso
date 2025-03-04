@@ -28,6 +28,7 @@ get_clusters() {
 k8s_human_to_bytes() {
     # Do a string-comparison of 1<<31<<20 with 2251799813685248 to double
     # check that this bash/dash/sh supports large integers (2^51, 2.25E15).
+    local value
     test "$((2147483648 * 1024 * 1024))" != "2251799813685248" &&
         echo "ZBX_ERROR: No 64-bit arithmetic" >&2 && exit 1
     value=$1
@@ -48,12 +49,25 @@ k8s_human_to_bytes() {
 }
 
 fetch_cluster_info() {
+    local api_url api_token ca_pem cert_pem key_pem
+
     # See also:
     # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.16/
     #
     api_url=$1      # https://k8sapi.example.com/api/v1/nodes
     api_token=$2    # ...
     ca_pem=$3       # /path/to/ca.pem-file (taken from CONFDIR/PREFIX)
+    cert_pem=$4     # /path/to/cert.pem
+    key_pem=$5      # /path/to/key.pem
+
+    if test -n "$cert_pem"; then
+        set -- -sS --fail --cacert "$ca_pem" \
+            --cert "$cert_pem" --key "$key_pem" \
+            -H "Accept: application/json"
+    else
+        set -- -sS --fail --cacert "$ca_pem" \
+            -H "Accept: application/json"
+    fi
 
     # > Starting in curl 7.55.0, this option can take an argument in @filename
     # > style, which then adds a header for each line in the input file. Using
@@ -68,32 +82,38 @@ fetch_cluster_info() {
     #  "$api_url"
     # But, because we also have older curl, we'll have to do it differently,
     # using a "curl config" file instead.
-    tmp_config="$(dirname "$ca_pem")/curlconfig"
-    touch "$tmp_config" && chmod 600 "$tmp_config" &&
-      echo "-H \"Authorization: Bearer $api_token\"" >"$tmp_config"
-    timeout 30s curl \
-      -sS --fail \
-      --cacert "$ca_pem" \
-      -H "Accept: application/json" \
-      -K "$tmp_config" \
-      "$api_url"
+    if test -n "$api_token"; then
+        tmp_config="$(dirname "$ca_pem")/curlconfig"
+        touch "$tmp_config" && chmod 600 "$tmp_config" &&
+          echo "-H \"Authorization: Bearer $api_token\"" >"$tmp_config"
+        timeout 30s curl "$@" -K "$tmp_config" "$api_url"
+    else
+        timeout 30s curl "$@" "$api_url"
+    fi
 }
 
 update_cluster_info() {
+    local cluster cluster_conf out_path
+    local API_URL API_TOKEN API_CA API_CERT API_KEY
     cluster=$1
     cluster_conf=$CONFDIR/$PREFIX$cluster/vars
     API_URL=
     API_TOKEN=
-    if ! . "$cluster_conf" || test -z "$API_URL" || test -z "$API_TOKEN"; then
-        echo "k8smgmt: Missing API_URL/API_TOKEN config in $cluster_conf" >&2
+    API_CA=
+    API_CERT=
+    API_KEY=
+    if ! . "$cluster_conf" || test -z "$API_URL"; then
+        echo "k8smgmt: Missing API_URL config in $cluster_conf" >&2
         false
         return
     fi
-    CA=$CONFDIR/$PREFIX$cluster/ca.pem
+    if test -z "$API_CA"; then
+        API_CA=$CONFDIR/$PREFIX$cluster/ca.pem
+    fi
 
     out_path=$OUTDIR/$PREFIX$cluster.nodes
-    if ! fetch_cluster_info "$API_URL/v1/nodes" "$API_TOKEN" "$CA" \
-            >"$out_path.raw"; then
+    if ! fetch_cluster_info "$API_URL/v1/nodes" "$API_TOKEN" "$API_CA" \
+            "$API_CERT" "$API_KEY" >"$out_path.raw"; then
         echo "k8smgmt: Error fetching cluster '$cluster' nodes" >&2
         false
         return
@@ -102,8 +122,8 @@ update_cluster_info() {
     mv "$out_path.valid" "$out_path.json"
 
     out_path=$OUTDIR/$PREFIX$cluster.pods
-    if ! fetch_cluster_info "$API_URL/v1/pods" "$API_TOKEN" "$CA" \
-            >"$out_path.raw"; then
+    if ! fetch_cluster_info "$API_URL/v1/pods" "$API_TOKEN" "$API_CA" \
+            "$API_CERT" "$API_KEY" >"$out_path.raw"; then
         echo "k8smgmt: Error fetching cluster '$cluster' pods" >&2
         false
         return
@@ -113,6 +133,7 @@ update_cluster_info() {
 }
 
 update_all_cluster_info() {
+    local fetch_all_cluster_info__err
     fetch_all_cluster_info__err=0
     get_clusters
     for cluster in $CLUSTERS; do
@@ -125,6 +146,7 @@ update_all_cluster_info() {
 }
 
 discover_clusters() {
+    local n
     get_clusters
     echo "["
     n=0
@@ -137,6 +159,7 @@ discover_clusters() {
 }
 
 discover_clusternodes() {
+    local now cluster_json updated
     get_clusters
     now=$(date +%s)
     for cluster in $CLUSTERS; do
@@ -153,6 +176,7 @@ discover_clusternodes() {
 }
 
 is_fresh() {
+    local cluster_prefix now
     cluster_prefix=$OUTDIR/$PREFIX$1
     now=$(date +%s)
     if test $(( now - $(stat -c%Y "$cluster_prefix.nodes.json" 2>/dev/null ||
@@ -167,6 +191,7 @@ is_fresh() {
 }
 
 node_condition() {
+    local cluster_json node condition conversion value
     cluster_json=$OUTDIR/$PREFIX$1.nodes.json
     node=$2
     condition=$3
@@ -200,6 +225,7 @@ node_condition() {
 }
 
 node_info_js() {
+    local cluster_json node
     cluster_json=$OUTDIR/$PREFIX$1.nodes.json
     node=$2
     jq ".items[] | select(.metadata.name == \"$node\") | .status.nodeInfo" \
@@ -207,6 +233,7 @@ node_info_js() {
 }
 
 node_res() {
+    local cluster_json node type res value
     cluster_json=$OUTDIR/$PREFIX$1.nodes.json
     node=$2
     type=$3  # allocatable|capacity
@@ -217,6 +244,7 @@ node_res() {
 }
 
 node_schedulable() {
+    local cluster_json node
     cluster_json=$OUTDIR/$PREFIX$1.nodes.json
     node=$2
     jq ".items[] | select(.metadata.name == \"$node\") |\
