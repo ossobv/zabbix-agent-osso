@@ -142,7 +142,7 @@
                                 <trigger_prototype>
                                     <uuid>a958010862e24795b6072fd1c91038f1</uuid>
                                     <expression>last(/Template K8S patroni postgres/k8s.patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}], #1)=&quot;FAILURE&quot; and
-last(/Template K8S patroni postgres/k8s.patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}], #2)=&quot;FAILURE&quot; and 
+last(/Template K8S patroni postgres/k8s.patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}], #2)=&quot;FAILURE&quot; and
 last(/Template K8S patroni postgres/k8s.patroni.walg_integrity[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP}], #3)=&quot;FAILURE&quot; and
 time()&gt;090000 and
 time()&lt;220000</expression>

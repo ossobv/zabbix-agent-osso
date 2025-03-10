@@ -18,7 +18,7 @@ To setup patroni monitoring you have to follow the following steps:
     ```cron
     * * * * * postgres run-one timeout 1m /tmp/scripts/postgres-status.sh
     ```
-    
+
     Or when using the zalando postgres operator you can use the our custom sidecar image:   [Zalando-postgres-scraper](https://git.osso.nl/pub/docker/zalando-postgres-scraper).
     This image includes the script, and needs wal-g environment settings.
     See the project's README for an example.
@@ -46,7 +46,7 @@ To setup patroni monitoring you have to follow the following steps:
             "port": 5432,
             "timeline": 10,
             "lag": 0
-          } 
+          }
           ...
         ],
         "scope": "acid-postgres"
