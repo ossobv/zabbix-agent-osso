@@ -22,7 +22,7 @@
                     <uuid>03cfb78dd1214145b67810dfa0f2237d</uuid>
                     <name>Local haproxy healthcheck on /healthz</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>k8s.haproxy-healthcheck</key>
+                    <key>k8s.haproxy.healthy</key>
                     <history>30d</history>
                     <trends>0</trends>
                     <description>This check runs a script against a local haproxy instance that passes traffic through to the Kubernetes API and checks /healthz there. If this is OK, it returns a 1. If it's broken, it returns a 0</description>
@@ -35,7 +35,7 @@
                     <triggers>
                         <trigger>
                             <uuid>76466bc8172540e89c55f80bcba46c6d</uuid>
-                            <expression>last(/Template K8S base/k8s.haproxy-healthcheck)&lt;&gt;1</expression>
+                            <expression>last(/Template K8S base/k8s.haproxy.healthy)&lt;&gt;1</expression>
                             <name>{HOST.NAME}: Issues connecting to kubernetes API via local haproxy</name>
                             <priority>HIGH</priority>
                         </trigger>
