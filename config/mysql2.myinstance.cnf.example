@@ -12,6 +12,14 @@ socket=/run/mysqld/MYINSTANCE-mysqld.sock
 user=zabbix-check
 password=SUPER_SECRET_PASSWORD
 
-# You can lower severity from Dister (5) to something lower here:
+# You can lower severity from Disaster (5) to something lower here:
 #[zabbix]
 #severity=4
+
+# Exclude DBs from healthchecks if wanted.
+# Defaults to empty value = no exclusions.
+# Multiple DBs separated by whitespaces without quotes.
+# Asterisk excludes all databases, returns DISABLED string to Zabbix.
+# exclude_healthcheck_dbs=information_schema performance_schema sys
+# exclude_healthcheck_dbs=*
+#exclude_healthcheck_dbs=
