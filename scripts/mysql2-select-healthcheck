@@ -1,0 +1,69 @@
+#!/bin/sh
+# NOTE: The zabbix user requires SELECT privileges on all databases/fields in
+# order for this to work.
+
+if test -s "/etc/zabbix/config/mysql2.$1.cnf"; then
+    cnf="/etc/zabbix/config/mysql2.$1.cnf"
+elif test -s "/etc/zabbix/config/mysql.$1.cnf"; then
+    cnf="/etc/zabbix/config/mysql.$1.cnf"
+elif test "$1" = default && test -s /etc/zabbix/mysql/.my.cnf; then
+    cnf=/etc/zabbix/mysql/.my.cnf
+else
+    echo "ZBX_ERROR: missing instance $1 cnf" >&2
+    exit 1
+fi
+
+# Check for additional tables to exclude and prepare them
+# for use in an SQL query.
+exclude_dbs=$(awk '
+    /^\[zabbix\]/ { in_section=1; next }
+    /^\[/ { in_section=0 }
+    in_section && /^exclude_healthcheck_dbs=/ {
+        split($0, a, "=")
+        split(a[2], dbs, " ")
+        for (i in dbs) {
+            if (n++) var = var ","
+            var = var "'"'"'" dbs[i] "'"'"'"
+        }
+        print var
+        exit
+    }
+    ' "$cnf" | sed 's/,$//')
+
+# Return a DISABLED string if we exclude everything so we can see in Zabbix
+# that we disabled the checks on purpose.
+if test "$exclude_dbs" = "'*'"; then
+    echo "DISABLED"
+    exit 0
+fi
+
+if test -n "$exclude_dbs"; then
+    exclude_dbs_where="AND table_schema NOT IN ($exclude_dbs)"
+fi
+
+# Build up the query for use in our for loop and better readability.
+query="SELECT CONCAT(table_schema, '.', table_name) AS tbl
+       FROM information_schema.tables
+       WHERE table_type = 'BASE TABLE'
+       $exclude_dbs_where;"
+
+for table in $(mysql --defaults-file="$cnf" -NB -e "$query" | \
+        sed -e 's/[^A-Za-z0-9_.-]//g'); do
+    # We'll need to split this up because we want to use `` in queries.
+    # If we don't, we might run into weird errors because people / scripts use odd naming
+    # like e.g. database.mytable-with-dashes
+    db="${table%%.*}"
+    tbl="${table#*.}"
+
+    # Only store errors in the error_msg variable.
+    error_msg=$(mysql --defaults-file="$cnf" -NB -e \
+        "SELECT * FROM \`$db\`.\`$tbl\` LIMIT 1;" 2>&1 >/dev/null)
+    if test $? -ne 0; then
+        echo "$db.$tbl: $error_msg"
+        exit 1
+    fi
+done
+
+# If we didn't abort earlier in the script, all should be fine and we can
+# return OK.
+echo "OK"
