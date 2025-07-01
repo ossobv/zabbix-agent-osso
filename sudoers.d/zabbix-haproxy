@@ -1,0 +1,5 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+Cmnd_Alias ZABBIX_HAPROXY = /etc/zabbix/scripts/haproxy *
+Defaults!ZABBIX_HAPROXY !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_HAPROXY
