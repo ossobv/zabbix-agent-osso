@@ -4,4 +4,3 @@
 Cmnd_Alias ZABBIX_NATS = /etc/zabbix/scripts/nats *
 Defaults!ZABBIX_NATS !log_allowed, !pam_session
 zabbix ALL=NOPASSWD: ZABBIX_NATS
-

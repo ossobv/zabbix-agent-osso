@@ -1,3 +1,5 @@
+# [This file is part of the zabbix-agent-osso package]
+
 # We'll set the shell to bash and do a random sleep to avoid all machines
 # running checks at the same exact time.
 SHELL=/bin/bash

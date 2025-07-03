@@ -1,4 +1,5 @@
 #!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
 # NOTE: The zabbix user requires SELECT privileges on all databases/fields in
 # order for this to work.
 
