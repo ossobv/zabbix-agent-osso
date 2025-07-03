@@ -103,14 +103,14 @@
                             <uuid>4ce61f67a78445bbb2d2e05aafb49781</uuid>
                             <name>Haproxy {#SOCKET} {#NAME} frontend connection utilization</name>
                             <type>DEPENDENT</type>
-                            <key>haproxy.frontend.connection_pct[{#SOCKET}, {#NAME}]</key>
+                            <key>haproxy.frontend.conn_pct[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
                             <trends>0</trends>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
                                     <parameters>
-                                        <parameter>$[&quot;{#SOCKET}&quot;][&quot;FRONTEND&quot;][&quot;{#NAME}&quot;].connection_pct</parameter>
+                                        <parameter>$[&quot;{#SOCKET}&quot;][&quot;FRONTEND&quot;][&quot;{#NAME}&quot;].conn_pct</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
@@ -120,7 +120,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>8a6cf76755104030abb34839b593ca48</uuid>
-                                    <expression>last(/Template App Haproxy/haproxy.frontend.connection_pct[{#SOCKET}, {#NAME}])&gt;80</expression>
+                                    <expression>last(/Template App Haproxy/haproxy.frontend.conn_pct[{#SOCKET},{#NAME}])&gt;80</expression>
                                     <name>Haproxy {#SOCKET} {#NAME} frontend connection utilization above 80%</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
