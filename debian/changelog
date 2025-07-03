@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.84) stable; urgency=low
+
+  * haproxy: Add haproxy state monitoring
+  * mysql2: Add simple SELECT ... LIMIT 1; healthcheck as an extra way to
+    detect corrupted tables.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 03 Jul 2025 16:30:10 +0200
+
 zabbix-agent-osso (0.83) stable; urgency=low
 
   * k8smgmt: Allow API_CERT/API_KEY instead of API_TOKEN
