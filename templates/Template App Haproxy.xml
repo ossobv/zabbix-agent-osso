@@ -31,11 +31,46 @@
             <discovery_rules>
                 <discovery_rule>
                     <uuid>93b245189088414187d009e17e16ee61</uuid>
-                    <name>Haproxy discover backends</name>
+                    <name>Haproxy discovery backends</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.discover_backends</key>
                     <lifetime>1d</lifetime>
                     <item_prototypes>
+                        <item_prototype>
+                            <uuid>cd71312666024592abba5119597d4505</uuid>
+                            <name>Haproxy {#SOCKET} {#NAME} servers down</name>
+                            <type>DEPENDENT</type>
+                            <key>haproxy.backend.servers_down[{#SOCKET},{#NAME}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$[&quot;{#SOCKET}&quot;][&quot;BACKEND&quot;][&quot;{#NAME}&quot;].servers_down</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED</type>
+                                    <parameters>
+                                        <parameter/>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>haproxy.data</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>e1c0ca22f68540ac85914534b4cc365c</uuid>
+                                    <expression>last(/Template App Haproxy/haproxy.backend.servers_down[{#SOCKET},{#NAME}])&lt;&gt;&quot;&quot;</expression>
+                                    <name>Haproxy {#SOCKET} {#NAME} backend servers down</name>
+                                    <opdata>{ITEM.LASTVALUE}</opdata>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
                         <item_prototype>
                             <uuid>d8ce6a42b815471ebf5c9b8dfe53c452</uuid>
                             <name>Haproxy {#SOCKET} {#NAME} backend server up percentage</name>
@@ -53,14 +88,6 @@
                             <master_item>
                                 <key>haproxy.data</key>
                             </master_item>
-                            <trigger_prototypes>
-                                <trigger_prototype>
-                                    <uuid>e1c0ca22f68540ac85914534b4cc365c</uuid>
-                                    <expression>last(/Template App Haproxy/haproxy.backend.servers_up_pct[{#SOCKET},{#NAME}])&lt;100</expression>
-                                    <name>Haproxy {#SOCKET} {#NAME} backend servers UP below 100%</name>
-                                    <priority>HIGH</priority>
-                                </trigger_prototype>
-                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <uuid>5beadfea3a5844c1ac67e9c18a9932ce</uuid>
@@ -75,6 +102,12 @@
                                     <type>JSONPATH</type>
                                     <parameters>
                                         <parameter>$[&quot;{#SOCKET}&quot;][&quot;BACKEND&quot;][&quot;{#NAME}&quot;].status</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED</type>
+                                    <parameters>
+                                        <parameter/>
                                     </parameters>
                                 </step>
                             </preprocessing>
@@ -94,7 +127,7 @@
                 </discovery_rule>
                 <discovery_rule>
                     <uuid>d969b8a6d495417caa9fdd9d399d1f50</uuid>
-                    <name>Haproxy discover frontends</name>
+                    <name>Haproxy discovery frontends</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.discover_frontends</key>
                     <lifetime>1d</lifetime>

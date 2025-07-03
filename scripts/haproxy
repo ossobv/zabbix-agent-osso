@@ -102,17 +102,22 @@ def get_stats(file):
         server_up_count = len(
             [line for line in servers
              if line[STATUS_INDEX] == 'UP'])
+        servers_down = [
+            line[SERVICE_NAME_INDEX] for line in servers
+            if not line[STATUS_INDEX] == 'UP']
         if server_count > 0:
             backend_server_up_pct = int(
                 (server_up_count / server_count) * 100)
         else:
-            backend_server_up_pct = 0
+            # All of 0 hosts are up.
+            backend_server_up_pct = 100
 
         output['BACKEND'][name] = {
             'status': status,
             'servers_total': server_count,
             'servers_up': server_up_count,
             'servers_up_pct': backend_server_up_pct,
+            'servers_down': ','.join(servers_down),
         }
 
     return output
