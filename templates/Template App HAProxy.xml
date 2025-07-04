@@ -10,8 +10,8 @@
     <templates>
         <template>
             <uuid>6f165a707b684d2690f6c37cca2657e8</uuid>
-            <template>Template App Haproxy</template>
-            <name>Template App Haproxy</name>
+            <template>Template App HAProxy</template>
+            <name>Template App HAProxy</name>
             <groups>
                 <group>
                     <name>Templates/Applications</name>
@@ -20,7 +20,7 @@
             <items>
                 <item>
                     <uuid>494b643756094504960356e2f2b7f8c6</uuid>
-                    <name>Haproxy all data</name>
+                    <name>HAProxy all data</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.data</key>
                     <history>0</history>
@@ -31,14 +31,15 @@
             <discovery_rules>
                 <discovery_rule>
                     <uuid>93b245189088414187d009e17e16ee61</uuid>
-                    <name>Haproxy discover backends</name>
+                    <name>HAProxy discover backends</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.discover_backends</key>
-                    <lifetime>1d</lifetime>
+                    <delay>1h</delay>
+                    <lifetime>7d</lifetime>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>cd71312666024592abba5119597d4505</uuid>
-                            <name>Haproxy {#SOCKET} {#NAME} servers down</name>
+                            <name>HAProxy {#SOCKET} {#NAME} servers down</name>
                             <type>DEPENDENT</type>
                             <key>haproxy.backend.servers_down[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
@@ -64,8 +65,8 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>e1c0ca22f68540ac85914534b4cc365c</uuid>
-                                    <expression>last(/Template App Haproxy/haproxy.backend.servers_down[{#SOCKET},{#NAME}])&lt;&gt;&quot;&quot;</expression>
-                                    <name>Haproxy {#SOCKET} {#NAME} backend {ITEM.VALUE} down</name>
+                                    <expression>last(/Template App HAProxy/haproxy.backend.servers_down[{#SOCKET},{#NAME}])&lt;&gt;&quot;&quot;</expression>
+                                    <name>HAProxy {#SOCKET} {#NAME} backend {ITEM.VALUE} down</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
@@ -73,10 +74,13 @@
                         </item_prototype>
                         <item_prototype>
                             <uuid>d8ce6a42b815471ebf5c9b8dfe53c452</uuid>
-                            <name>Haproxy {#SOCKET} {#NAME} backend server up percentage</name>
+                            <name>HAProxy {#SOCKET} {#NAME} backend server up percentage</name>
                             <type>DEPENDENT</type>
                             <key>haproxy.backend.servers_up_pct[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
+                            <history>30d</history>
+                            <status>DISABLED</status>
+                            <discover>NO_DISCOVER</discover>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -91,7 +95,7 @@
                         </item_prototype>
                         <item_prototype>
                             <uuid>5beadfea3a5844c1ac67e9c18a9932ce</uuid>
-                            <name>Haproxy {#SOCKET} {#NAME} backend server status</name>
+                            <name>HAProxy {#SOCKET} {#NAME} backend server status</name>
                             <type>DEPENDENT</type>
                             <key>haproxy.backend.status[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
@@ -117,8 +121,8 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>2041b779c7bd42a38369f970764cdb71</uuid>
-                                    <expression>last(/Template App Haproxy/haproxy.backend.status[{#SOCKET},{#NAME}])&lt;&gt;&quot;UP&quot;</expression>
-                                    <name>Haproxy {#SOCKET} {#NAME} backend DOWN</name>
+                                    <expression>last(/Template App HAProxy/haproxy.backend.status[{#SOCKET},{#NAME}])&lt;&gt;&quot;UP&quot;</expression>
+                                    <name>HAProxy {#SOCKET} {#NAME} backends DOWN</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
@@ -127,18 +131,19 @@
                 </discovery_rule>
                 <discovery_rule>
                     <uuid>d969b8a6d495417caa9fdd9d399d1f50</uuid>
-                    <name>Haproxy discover frontends</name>
+                    <name>HAProxy discover frontends</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.discover_frontends</key>
-                    <lifetime>1d</lifetime>
+                    <delay>1h</delay>
+                    <lifetime>7d</lifetime>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>4ce61f67a78445bbb2d2e05aafb49781</uuid>
-                            <name>Haproxy {#SOCKET} {#NAME} frontend connection utilization</name>
+                            <name>HAProxy {#SOCKET} {#NAME} frontend connection utilization</name>
                             <type>DEPENDENT</type>
                             <key>haproxy.frontend.conn_pct[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
-                            <trends>0</trends>
+                            <history>30d</history>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -153,8 +158,9 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>8a6cf76755104030abb34839b593ca48</uuid>
-                                    <expression>last(/Template App Haproxy/haproxy.frontend.conn_pct[{#SOCKET},{#NAME}])&gt;80</expression>
-                                    <name>Haproxy {#SOCKET} {#NAME} frontend connection utilization above 80%</name>
+                                    <expression>last(/Template App HAProxy/haproxy.frontend.conn_pct[{#SOCKET},{#NAME}])&gt;80</expression>
+                                    <name>HAProxy {#SOCKET} {#NAME} connections above 80%</name>
+                                    <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
