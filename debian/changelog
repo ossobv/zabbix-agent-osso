@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.85) stable; urgency=low
+
+  * haproxy: Make production ready
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 04 Jul 2025 11:27:22 +0200
+
 zabbix-agent-osso (0.84) stable; urgency=low
 
   * haproxy: Add haproxy state monitoring
