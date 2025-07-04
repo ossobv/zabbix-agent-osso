@@ -117,7 +117,7 @@ def get_stats(file):
             'servers_total': server_count,
             'servers_up': server_up_count,
             'servers_up_pct': backend_server_up_pct,
-            'servers_down': ','.join(servers_down),
+            'servers_down': ','.join(sorted(servers_down)),
         }
 
     return output
