@@ -1,3 +1,9 @@
+zabbix-agent-osso (0.86) stable; urgency=low
+
+  * mysql2: Correct cron job
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Mon, 07 Jul 2025 11:21:38 +0200
+
 zabbix-agent-osso (0.85) stable; urgency=low
 
   * haproxy: Make production ready
