@@ -7,4 +7,4 @@ SHELL=/bin/bash
 # Run a daily SELECT ... LIMIT 1; check on all databases.
 # When the database consists of many smaller schemas, we'll run into issues
 # with the duration of the script.
-10 10 * * *  root  sleep $((RANDOM \% 1800)); for CNF in $(find /etc/zabbix/config/ -maxdepth 1 -name 'mysql2.*.cnf' -type f); do CNF=${CNF##*/mysql2.}; CLUSTER="${CNF\%\%.*}"; DST=/var/lib/zabbix/scripts/mysql2.$CLUSTER; /etc/zabbix/scripts/mysql2-select-healthcheck $CLUSTER >$DST.tmp; mv $DST.tmp $DST; done
+10 10 * * *  root  sleep $((RANDOM \% 1800)); for CNF in $(find /etc/zabbix/config/ -maxdepth 1 -name 'mysql.*.cnf' -type f); do CNF=${CNF##*/mysql2.}; CLUSTER="${CNF\%\%.*}"; DST=/var/lib/zabbix/scripts/mysql2.$CLUSTER; /etc/zabbix/scripts/mysql2-select-healthcheck $CLUSTER >$DST.tmp; mv $DST.tmp $DST; done
