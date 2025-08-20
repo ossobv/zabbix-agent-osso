@@ -1,0 +1,4 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# Discovery of PVC's.
+0 * * * *  root  bash -c 'command -v kubectl >/dev/null || exit 0; DST=/var/lib/zabbix/scripts/k8s.pvolumes; /etc/zabbix/scripts/k8s-pvolume discover-filesystems >"$DST.tmp" && mv "$DST.tmp" "$DST"'
