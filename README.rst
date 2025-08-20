@@ -5,7 +5,10 @@ Common zabbix ``UserParameters`` and the necessary support scripts.
 
 This package attempts to address our common zabbix configuration needs.
 
+`Build/release`_ details how to build/release the internal package at OSSO.
 
+
+------------
 Installation
 ------------
 
@@ -31,6 +34,7 @@ Installation
 .. _`Zabbix Templates`: https://github.com/ossobv/zabbix-agent-osso/tree/master/templates
 
 
+-------
 Sources
 -------
 
@@ -61,3 +65,38 @@ Sources
 | ``sudoers.d/``        | Sudoers files for zabbix scripts that require more |
 |                       | permissions.                                       |
 +-----------------------+----------------------------------------------------+
+
+
+-------------
+Build/release
+-------------
+
+Merging + building + releasing a new version into the OSSO ppa:
+
+* **All** new commits are pushed on the ``main`` branch.
+
+* Update ``debian/changelog``. See previous versions and previous
+  commits titled *"version: Bump to vXXXX"*.
+
+* Run ``make`` in case you hadn't already. It does a few tests.
+
+* Tag the version using ``git tag -sm vXXX vXXX`` and push it.
+
+* Build the package using ``dpkg-buildpackage -sa`` (add ``-us -uc`` if
+  you cannot sign). This creates a bunch of ``zabbix-agent-osso*`` files in
+  ``..``.
+
+* Copy the files to the PPA server. Add them to the appropriate
+  repositories. Normally add it to *all* release versions (codenames) for
+  the ``osso`` component::
+
+    # aptly-repo-add-alldist osso /path/to/zabbix-agent-osso_XXX
+
+  Additionally, add it to the ``osso-ops`` component with the
+  ``anydist`` codename/suite::
+
+    # aptly repo add osso-ops/anydist /path/to/zabbix-agent-osso_XXX
+
+  Keep the repo signing key at hand, and then::
+
+    # aptly-snapshot-publish-and-prune
