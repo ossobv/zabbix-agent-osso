@@ -1,0 +1,7 @@
+# [This file is part of the zabbix-agent-osso package]
+# Minio credentials in the following format, mulitple minio instances are
+# supported.
+[my-minio]  
+username = adminuser  
+password = supersecret  
+host = minio.example.com
