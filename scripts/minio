@@ -1,0 +1,207 @@
+#!/usr/bin/env python3
+# [This file is part of the zabbix-agent-osso package]
+
+import argparse
+import os
+import shutil
+import configparser
+import json
+import subprocess
+
+
+def test_cli_availability():
+    cli_available = shutil.which('mcli') is not None
+    assert cli_available, 'Minio cli is not availble, please install mcli.'
+
+
+def get_cli():
+    return shutil.which('mcli')
+
+
+def get_config():
+    config = configparser.ConfigParser()
+    config.read('/etc/zabbix/config/minio')
+    return config
+
+
+def discover_instances():
+    """
+    Discover minio instances from config file.
+    """
+    ouput = []
+    config = get_config()
+    for section in config.sections():
+        ouput.append(
+            {
+                '{#MINIO_NAME}': section,
+            }
+        )
+    print(json.dumps(ouput))
+
+
+def discover_pools():
+    """
+    Discover pools from minio admin info.
+    """
+    output = []
+    config = get_config()
+    minio_instances = config.sections()
+    for minio in minio_instances:
+        admin_info = get_admin_info(config[minio])
+        for pool in admin_info['pools']:
+            output.append({
+                        '{#MINIO_NAME}': minio,
+                        '{#POOL_ID}': pool
+            })
+    print(json.dumps(output))
+
+
+def exec_minio_command(instance_config, args):
+    """
+    Exec minio command with the correct environment.
+    """
+    username = instance_config.get('username')
+    password = instance_config.get('password')
+    host = instance_config.get('host')
+
+    url = f"https://{username}:{password}@{host}"
+
+    env = os.environ.copy()
+    env['MC_HOST_myminio'] = url
+    process = subprocess.Popen(
+        [get_cli(), *args],
+        env=env,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True  # decode to str instead of bytes
+    )
+    stdout, stderr = process.communicate()
+    assert process.returncode == 0, (
+        f'Process failed with {process.returncode} {stderr} {stdout}')
+    return stdout
+
+
+def get_admin_info(instance_config):
+    """
+    Get info from `admin info`.
+    """
+    json_info = json.loads(
+        exec_minio_command(
+            instance_config, ['admin', 'info', 'myminio', '--json']))
+    return json_info['info']
+
+
+def get_decom_info(instance_config):
+    """
+    Get info from `decom status`.
+    """
+    json_result = json.loads(
+        exec_minio_command(
+            instance_config,
+            ['admin', 'decom', 'status', 'myminio', '--json']))
+    return json_result
+
+
+def get_global_data(minio_instance):
+    """
+    Get tenant wide data.
+    """
+    config = get_config()
+    try:
+        instance_config = config[minio_instance]
+    except KeyError:
+        raise KeyError('Unexpected minio instance name')
+    admin_info = get_admin_info(instance_config)
+    decom_info = get_decom_info(instance_config)
+
+    online_disks = admin_info['backend']['onlineDisks']
+    offline_disks = admin_info['backend']['offlineDisks']
+    disks = []
+    for server in admin_info['servers']:
+        disks.extend(server['drives'])
+    highest_disk_usage = max(
+        [drive['usedspace']/drive['totalspace'] for drive in disks])
+
+    any_failed_decoms = any(
+        decom['decommissionInfo']['failed'] for decom in decom_info)
+    any_failed_decom_bytes = any(
+        decom['decommissionInfo']['bytesDecommissionedFailed']
+        for decom in decom_info)
+
+    output = {
+        'online_disks': online_disks,
+        'offline_disks': offline_disks,
+        'highest_disk_usage': highest_disk_usage,
+        'any_failed_decoms': any_failed_decoms,
+        'any_failed_decom_bytes': any_failed_decom_bytes,
+    }
+    print(json.dumps(output))
+
+
+def get_pool_data(minio_instance, pool_id):
+    """
+    Get data for one specific pool
+    """
+    config = get_config()
+    instance_config = config[minio_instance]
+    admin_info = get_admin_info(instance_config)
+    decom_info = get_decom_info(instance_config)
+
+    # The extra ["0"] index is the same for all pools in the CLI response.
+    pool_info = admin_info['pools'][pool_id]["0"]
+    # Filter on matching pool_id.
+    decom_pool_info = next(
+        pool for pool in decom_info if pool['id'] == int(pool_id))
+
+    output = {
+        'healDisks': pool_info['healDisks'],
+        'raw_used': pool_info['rawUsage']/pool_info['rawCapacity'],
+        'object_count': pool_info['objectsCount'],
+        'decom_failed': decom_pool_info['decommissionInfo']['failed'],
+        'decom_failed_bytes': (
+            decom_pool_info['decommissionInfo']['bytesDecommissionedFailed']),
+        'decom_failed_objects': (
+            decom_pool_info['decommissionInfo']['objectsDecommissionedFailed']
+            ),
+    }
+    print(json.dumps(output))
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        'minio', description='Minio zabbix monitoring')
+    parser.add_argument(
+        'command',
+        choices=('discover-pools', 'discover-instances', 'get-data'),
+        help='Which command to run')
+    parser.add_argument(
+        'minio_instance',
+        nargs="?",   # optional (so discover works without it).
+        help='Minio instance name to get data for'
+    )
+    parser.add_argument(
+        'pool_id',
+        nargs="?",   # optional (so discover works without it).
+        help='Pool id to get data for'
+    )
+
+    args = parser.parse_args()
+
+    test_cli_availability()
+
+    if args.command == 'discover-instances':
+        discover_instances()
+    if args.command == 'discover-pools':
+        discover_pools()
+    elif args.command == 'get-data':
+        if not args.minio_instance:
+            print('get-data requires passing along a minio instance name')
+            return
+        if not args.pool_id:
+            get_global_data(args.minio_instance)
+        else:
+            get_pool_data(args.minio_instance, args.pool_id)
+
+
+if __name__ == "__main__":
+    main()
