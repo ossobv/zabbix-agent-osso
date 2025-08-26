@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>69482f0ad48b4df394413dac521d16d4</uuid>
+            <template>Template App MinIO</template>
+            <name>Template App MinIO</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>216b51e6d20e48419e3360287cbd35c9</uuid>
+                    <name>discover-instances</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>minio.discover-instances</key>
+                    <delay>1h</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>d5900ad17db5490cad5c59c504ced550</uuid>
+                            <name>MinIO instance {#MINIO_INSTANCE} json</name>
+                            <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>eb51b2289c8b4fdba42318d16c48424a</uuid>
+                            <name>MinIO instance {#MINIO_INSTANCE} failed decommissioning bytes</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.instance-failed-decommissioning-bytes[{#MINIO_INSTANCE}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.any_failed_decom_bytes</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>40000cbdd6704bb6b939a6e27a50225b</uuid>
+                            <name>MinIO instance {#MINIO_INSTANCE} failed decommissionings</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.instance-failed-decommissionings[{#MINIO_INSTANCE}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.any_failed_decoms</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>6801544b09ed4209a6423a0cd834cb3a</uuid>
+                                    <expression>last(/Template App MinIO/minio.instance-failed-decommissionings[{#MINIO_INSTANCE}])&gt;0</expression>
+                                    <name>MinIO instance {#MINIO_INSTANCE} had failed decommissioning</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>0acf355dba91402d8bb42483596c7e3a</uuid>
+                            <name>MinIO instance {#MINIO_INSTANCE} highest disk usage</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.instance-highest-disk-usage[{#MINIO_INSTANCE}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.highest_disk_usage</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>6cdd53f6ffd245f6a898a8c18ab8969f</uuid>
+                            <name>MinIO instance {#MINIO_INSTANCE} offline disks</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.instance-offline-disks[{#MINIO_INSTANCE}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.offline_disks</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>02327db5c3ba469bb635cf4506890088</uuid>
+                                    <expression>last(/Template App MinIO/minio.instance-offline-disks[{#MINIO_INSTANCE}])&gt;0</expression>
+                                    <name>MinIO instance {#MINIO_INSTANCE} has offline disks</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>27ab130cbfc846918ae2e3a10e233ccc</uuid>
+                            <name>MinIO instance {#MINIO_INSTANCE} online disks</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.instance-online-disks[{#MINIO_INSTANCE}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.online_disks</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
+                            </master_item>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <uuid>c2b21fd47c4140ffbcddaadf8f21df4f</uuid>
+                    <name>discover-pools</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>minio.discover-pools</key>
+                    <delay>1h</delay>
+                    <lifetime>1d</lifetime>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>b795549d796644728d921d77c63394e9</uuid>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning failed bytes</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.data-decommissioning-failed-bytes[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.decom_failed_bytes</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>5a5e563edba94e21b2c679deb5879b00</uuid>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning failed objects</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.data-decommissioning-failed-objects[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.decom_failed_objects</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>09d432187d3e44e7bb2b1ab0b79e9e63</uuid>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning failed</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.data-decommissioning-failed[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.decom_failed</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>95b4acee16b14ca6a2c5bdbe4f715ab4</uuid>
+                                    <expression>(last(/Template App MinIO/minio.data-decommissioning-failed[{#MINIO_INSTANCE},{#POOL_ID}])&lt;&gt;&quot;false&quot;) and (time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})</expression>
+                                    <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning failed</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>def47e900fe549a38c196e6bcd36db14</uuid>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} healed disks</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.data-pool-healed-disks[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.heal_disks</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            </master_item>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>c3537837b3b148ff9c534af5f04acf71</uuid>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} raw used</name>
+                            <type>DEPENDENT</type>
+                            <key>minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <delay>0</delay>
+                            <value_type>FLOAT</value_type>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.raw_used</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>51f58daa679443a5a8b2e0d89bbb7cdf</uuid>
+                                    <expression>last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.70 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;=0.80</expression>
+                                    <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} Usage above 70%</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>53d50b61b3c147e581f54d67c39fab28</uuid>
+                                    <expression>(last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.80 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;=0.85) and (time() &gt;{$OFFICE_HOURS_BEGIN} and time() &lt;{$OFFICE_HOURS_END})</expression>
+                                    <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} Usage above 80%</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>a1c0bb71d936455ebdfcec5501de9519</uuid>
+                                    <expression>last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.85</expression>
+                                    <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} Usage above 85%</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>86b8d194679c47018281290f3d9c79cb</uuid>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} json</name>
+                            <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>

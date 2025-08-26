@@ -1,0 +1,6 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+# kubectl perms to localhost are granted to root.
+Cmnd_Alias ZABBIX_MINIO = /etc/zabbix/scripts/minio *
+Defaults!ZABBIX_MINIO !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_MINIO
