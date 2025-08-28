@@ -98,6 +98,14 @@
                             <master_item>
                                 <key>minio.instance-data[{#MINIO_INSTANCE}]</key>
                             </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>6aa72cd326c5422d88344c208a733ff1</uuid>
+                                    <expression>nodata(/Template App MinIO/minio.instance-highest-disk-usage[{#MINIO_INSTANCE}],5m)=1</expression>
+                                    <name>MinIO instance {#MINIO_INSTANCE} no data for 5 minutes</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
                             <uuid>6cdd53f6ffd245f6a898a8c18ab8969f</uuid>
@@ -256,6 +264,12 @@
                                 <key>minio.pool-data[{#MINIO_INSTANCE},{#POOL_ID}]</key>
                             </master_item>
                             <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>54238a73999e4d14a204d6ef6182e4bf</uuid>
+                                    <expression>nodata(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}],5m)=1</expression>
+                                    <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} no data for 5 minutes</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>51f58daa679443a5a8b2e0d89bbb7cdf</uuid>
                                     <expression>last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.70 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;=0.80</expression>
