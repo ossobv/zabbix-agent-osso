@@ -45,7 +45,7 @@
                                 <step>
                                     <type>JSONPATH</type>
                                     <parameters>
-                                        <parameter>$.any_failed_decom_bytes</parameter>
+                                        <parameter>$.failed_decom_bytes</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
@@ -64,7 +64,7 @@
                                 <step>
                                     <type>JSONPATH</type>
                                     <parameters>
-                                        <parameter>$.any_failed_decoms</parameter>
+                                        <parameter>$.failed_decoms</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>

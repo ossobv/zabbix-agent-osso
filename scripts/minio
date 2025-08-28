@@ -128,8 +128,10 @@ def get_global_data(minio_instance):
     disks = []
     for server in admin_info['servers']:
         disks.extend(server['drives'])
+    # Offline drives do not have a `usedspace` property.
     highest_disk_usage = max(
-        [drive['usedspace']/drive['totalspace'] for drive in disks])
+        [drive['usedspace'] / drive['totalspace'] for drive in disks
+         if drive['state'] == 'ok'])
 
     failed_decoms = sum(
         1 for decom in decom_info if decom['decommissionInfo']['failed'])
