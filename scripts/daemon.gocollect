@@ -1,0 +1,31 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: grep
+
+if [ "$1" = "healthy" ]; then
+    # We consider gocollect healthy if it has pushed a core.id message
+    # to the server successfully in the last 6 hours.
+    #
+    # On older machines, we have a crippled journalctl that has neither
+    # --grep nor --since. In that case we forego the --since and do a
+    # manual grep.
+    # On even older machines, there might only be syslog.
+    # In the latter two cases, we skip the time check.
+    # THIS MIGHT PRODUCE FALSE NEGATIVES (but not on newer systems).
+    #
+    # (In the future we may choose to change the boolean int to a
+    # last-success timestamp. For now just keep 0 and 1.)
+    if command -v journalctl >/dev/null; then
+        journalctl -S '-6 hours' \
+            -u gocollect@mgmt.service -u gocollect.service \
+            --grep '/core.id/[]]: got {"data": {}}' 2>/dev/null ||
+        journalctl -u gocollect@mgmt.service -u gocollect.service |
+            grep '/core.id/[]]: got {"data": {}}'
+    else
+        grep -h 'gocollect.*/core.id/[]]: got {"data": {}}' \
+            /var/log/syslog.1 /var/log/syslog 2>/dev/null
+    fi | grep -qF '' && echo 1 || echo 0
+else
+    echo "$0: unknown command" >&2
+    exit 1
+fi

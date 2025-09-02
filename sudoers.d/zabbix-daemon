@@ -1,6 +1,10 @@
 # [This file is part of the zabbix-agent-osso package]
 #
 # We generally need root for access to various configs and certificates.
+Cmnd_Alias ZABBIX_DAEMON_GOCOLLECT = /etc/zabbix/scripts/daemon.gocollect
+Defaults!ZABBIX_DAEMON_GOCOLLECT !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_DAEMON_GOCOLLECT
+#
 Cmnd_Alias ZABBIX_DAEMON_FINDER = /usr/bin/cert-expiry-finder, /usr/local/bin/cert-expiry-finder
 Defaults!ZABBIX_DAEMON_FINDER !log_allowed, !pam_session
 zabbix ALL=NOPASSWD: ZABBIX_DAEMON_FINDER

@@ -61,6 +61,28 @@
                     </triggers>
                 </item>
                 <item>
+                    <uuid>a96bad6dd98e4a799adf6ed476400f46</uuid>
+                    <name>Daemon gocollect is healthy</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>daemon.gocollect.healthy</key>
+                    <delay>1h</delay>
+                    <trends>0</trends>
+                    <tags>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>Daemon</value>
+                        </tag>
+                    </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>cc4d756ae8da4b24af22e304493ad8c0</uuid>
+                            <expression>{$DISABLE_GOCOLLECT}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.gocollect.healthy)=0</expression>
+                            <name>Gocollect is not healthy (no push?)</name>
+                            <priority>HIGH</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
                     <uuid>a736fa24129a4a25852679c5b5265d1b</uuid>
                     <name>Daemon cron is running</name>
                     <type>ZABBIX_ACTIVE</type>
