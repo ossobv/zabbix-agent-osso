@@ -1,8 +1,16 @@
+zabbix-agent-osso (0.88) stable; urgency=low
+
+  * daemon: Add gocollect.healthy monitoring check
+  * k8s-pvolume: Move discovery to cron because of long execution times
+  * minio: Add basic MinIO monitoring support
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 02 Sep 2025 16:23:26 +0200
+
 zabbix-agent-osso (0.87) stable; urgency=low
 
   * mysql2: Correct cron job, part II
 
- -- Walter Doekes (work) <wjdoekes@osso.nl>  Thy, 10 Jul 2025 15:10:44 +0200
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 10 Jul 2025 15:10:44 +0200
 
 zabbix-agent-osso (0.86) stable; urgency=low
 
