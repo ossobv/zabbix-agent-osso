@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>6.4</version>
+    <version>7.0</version>
     <template_groups>
         <template_group>
             <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
@@ -43,19 +43,19 @@
                     </tags>
                     <triggers>
                         <trigger>
-                            <uuid>fdf47ce7a07940339b30552b588aeeee</uuid>
-                            <expression>last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;14</expression>
-                            <name>Certificate(s) about to expire on {HOST.NAME}</name>
-                            <opdata>{ITEM.LASTVALUE} left</opdata>
-                            <priority>HIGH</priority>
-                            <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
-                        </trigger>
-                        <trigger>
                             <uuid>caecd8d25880496d851863446e404d4e</uuid>
-                            <expression>({$HAS_DISASTER}=1 or {$HAS_DISASTER}=&quot;9to5&quot;) and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END} and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;5</expression>
+                            <expression>({$HAS_DISASTER}=1 or {$HAS_DISASTER}=&quot;9to5&quot;) and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END} and last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;{$CERT_EXPIRY_CRIT}</expression>
                             <name>Certificate(s) about to expire on {HOST.NAME} (&lt;5 days)</name>
                             <opdata>{ITEM.LASTVALUE} left</opdata>
                             <priority>DISASTER</priority>
+                            <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>fdf47ce7a07940339b30552b588aeeee</uuid>
+                            <expression>last(/Template OSSO Daemons/daemon.cert.minexpiry)&lt;{$CERT_EXPIRY_HIGH}</expression>
+                            <name>Certificate(s) about to expire on {HOST.NAME} ({ITEM.LASTVALUE} days left)</name>
+                            <opdata>{ITEM.LASTVALUE} left</opdata>
+                            <priority>HIGH</priority>
                             <description>One or more certificates will soon expire. Log onto the host and run cert-expiry-finder for details.</description>
                         </trigger>
                     </triggers>
@@ -177,14 +177,6 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.logins.non-pts</key>
                     <history>3d</history>
-                    <preprocessing>
-                        <step>
-                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                            <parameters>
-                                <parameter>1d</parameter>
-                            </parameters>
-                        </step>
-                    </preprocessing>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -193,8 +185,8 @@
                     </tags>
                     <triggers>
                         <trigger>
-                            <uuid>a10a6a837c0e432d84b585a9383fedc3</uuid>
-                            <expression>{$HAS_DISASTER}=&quot;9to5&quot; and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0 and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END}</expression>
+                            <uuid>f87e3674770240b4a6fcadd2d5fcaa2a</uuid>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
                             <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
                             <opdata>{ITEM.LASTVALUE} logins</opdata>
                             <priority>DISASTER</priority>
@@ -206,13 +198,6 @@
                             <opdata>{ITEM.LASTVALUE} logins</opdata>
                             <priority>HIGH</priority>
                         </trigger>
-                        <trigger>
-                            <uuid>f87e3674770240b4a6fcadd2d5fcaa2a</uuid>
-                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/daemon.logins.non-pts)&lt;&gt;0</expression>
-                            <name>Local non-pts login(s) on {HOST.NAME}; please logout</name>
-                            <opdata>{ITEM.LASTVALUE} logins</opdata>
-                            <priority>DISASTER</priority>
-                        </trigger>
                     </triggers>
                 </item>
                 <item>
@@ -221,14 +206,6 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.logins.pts</key>
                     <history>3d</history>
-                    <preprocessing>
-                        <step>
-                            <type>DISCARD_UNCHANGED_HEARTBEAT</type>
-                            <parameters>
-                                <parameter>1d</parameter>
-                            </parameters>
-                        </step>
-                    </preprocessing>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -242,6 +219,7 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.mail.localdate</key>
                     <delay>1d</delay>
+                    <history>90d</history>
                     <units>unixtime</units>
                     <tags>
                         <tag>
@@ -256,6 +234,7 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.mail.localsize</key>
                     <delay>1d</delay>
+                    <history>90d</history>
                     <units>B</units>
                     <tags>
                         <tag>
@@ -287,15 +266,8 @@
                     </tags>
                     <triggers>
                         <trigger>
-                            <uuid>5583b423d0974e39aaddf34414079bd6</uuid>
-                            <expression>{$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END} and last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
-                            <name>Mail queue on {HOST.NAME} reached &gt;= {ITEM.VALUE}</name>
-                            <opdata>Now: {ITEM.LASTVALUE}</opdata>
-                            <priority>DISASTER</priority>
-                        </trigger>
-                        <trigger>
                             <uuid>b004ff6748944231be16bb25f50c20ae</uuid>
-                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OSSO Daemons/daemon.mail.queued)&gt;{$MAIL_QUEUE_CRITICAL}</expression>
                             <name>Mail queue on {HOST.NAME} reached &gt;= {ITEM.VALUE}</name>
                             <opdata>Now: {ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
@@ -336,6 +308,7 @@
                     <name>Process (name) with relatively most open files</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.max_files.process</key>
+                    <history>90d</history>
                     <value_type>TEXT</value_type>
                     <trends>0</trends>
                     <preprocessing>
@@ -503,6 +476,7 @@
                             <uuid>e690c1714ae247ebad6a738a0514b2bc</uuid>
                             <expression>{$DISABLE_PSDIFF}&lt;&gt;1 and length(last(/Template OSSO Daemons/daemon.systemd.failed))&gt;0</expression>
                             <name>Failed systemd daemons on {HOST.NAME}: {ITEM.VALUE}</name>
+                            <opdata>(Current: {ITEM.VALUE})</opdata>
                             <priority>HIGH</priority>
                             <description>Cron jobs email you their errors and output, but systemd timers quietly swallow all errors and output into the systemd journal.
 
@@ -558,7 +532,7 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <triggers>
                         <trigger>
                             <uuid>3cb8f63d933544a9a244b0282944a1c5</uuid>
-                            <expression>{$DISABLE_SEC_UPDATES}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.wcheckrestart.count)&gt;0</expression>
+                            <expression>{$DISABLE_NEEDSUPDATES}&lt;&gt;1 and {$DISABLE_NEEDSRESTART}&lt;&gt;1 and last(/Template OSSO Daemons/daemon.wcheckrestart.count)&gt;0</expression>
                             <name>Services require restart on {HOST.NAME}: {ITEM.VALUE}</name>
                             <priority>INFO</priority>
                         </trigger>
@@ -688,8 +662,8 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     </tags>
                     <triggers>
                         <trigger>
-                            <uuid>abcc1e4d971b4622aa9b01cd1eb90d8d</uuid>
-                            <expression>{$HAS_DISASTER}=&quot;9to5&quot; and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1 and  time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END}</expression>
+                            <uuid>7a9740a4a38643abb18c885a9537e2b6</uuid>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
                             <name>in_maintenance file exists on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                             <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
@@ -701,13 +675,6 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                             <priority>HIGH</priority>
                             <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
                         </trigger>
-                        <trigger>
-                            <uuid>7a9740a4a38643abb18c885a9537e2b6</uuid>
-                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Daemons/vfs.file.exists[/srv/in_maintenance])=1</expression>
-                            <name>in_maintenance file exists on {HOST.NAME}</name>
-                            <priority>DISASTER</priority>
-                            <description>This is not a problem, during maintenance. But afterwards it should be resolved.</description>
-                        </trigger>
                     </triggers>
                 </item>
             </items>
@@ -717,12 +684,15 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <name>Discover daemon procmem processes</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>daemon.procmem.discover[{$DAEMON_PROCMEM_PROCESSES}]</key>
+                    <lifetime>30d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>422f0af0898648faab0f56346bee7bc5</uuid>
                             <name>Daemon {#PROC} rss usage</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>daemon.procmem.rss[{#PROC}]</key>
+                            <history>90d</history>
                             <units>B</units>
                         </item_prototype>
                     </item_prototypes>
@@ -746,6 +716,14 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                     <value>0</value>
                 </macro>
                 <macro>
+                    <macro>{$DISABLE_NEEDSRESTART}</macro>
+                    <value>0</value>
+                </macro>
+                <macro>
+                    <macro>{$DISABLE_NEEDSUPDATES}</macro>
+                    <value>0</value>
+                </macro>
+                <macro>
                     <macro>{$DISABLE_NTP}</macro>
                     <value>0</value>
                 </macro>
@@ -755,10 +733,6 @@ Do a HIGH error in Zabbix instead if we have failed services.</description>
                 </macro>
                 <macro>
                     <macro>{$DISABLE_RSYSLOG}</macro>
-                    <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$DISABLE_SEC_UPDATES}</macro>
                     <value>0</value>
                 </macro>
                 <macro>

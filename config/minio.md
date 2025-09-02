@@ -18,7 +18,7 @@ The following statistics are passed along but have no triggers (yet):
 - Decommissioning objects failed
 - Decommissioning bytes failed
 
-Discovery of the items and triggers is split between items/triggers on the 
+Discovery of the items and triggers is split between items/triggers on the
 tenant level and those on the pool level. Sadly the pool name is not available
 in all commands, so we use the index as an shared key. You will have to
 match the index to the pool name during manual investigation.
