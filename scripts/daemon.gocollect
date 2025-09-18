@@ -2,6 +2,43 @@
 # [This file is part of the zabbix-agent-osso package]
 # REQUIRES: grep
 
+get_log() {
+    local msgregex ret
+    msgregex='/core.id/[]]: got {"data": {}}'
+
+    if command -v journalctl >/dev/null; then
+        ret=$(journalctl --quiet -S '-6 hours' \
+            -u gocollect@mgmt.service -u gocollect.service \
+            --grep "$msgregex" 2>/dev/null)
+        # It might print "Compiled without pattern matching support" and
+        # return 0 :( -- but it's silent when using "--quiet". It should've
+        # returned non-zero :(
+        if test $? -ne 0; then
+            # Either it is not found, or we don't accept -S.
+            # (Very old systemd, like 215.)
+            if journalctl --help | grep -q -- -S; then
+                :  # not found
+            else
+                # This is slow, as it does no time limit.
+                journalctl -u gocollect@mgmt.service -u gocollect.service |
+                    grep --text -- "$msgregex"
+            fi
+        elif test -z "$ret"; then  # and $? -eq 0
+            # Either is it not found, or journald doesn't do --grep.
+            # (Old installs, e.g. Debian/Buster with systemd 241.)
+            journalctl --quiet -S '-6 hours' \
+                -u gocollect@mgmt.service -u gocollect.service |
+                grep --text -- "$msgregex"
+        else
+            printf '%s' "$ret"
+        fi
+    else
+        grep --text -h "gocollect.*$msgregex" \
+            /var/log/syslog.1 /var/log/syslog 2>/dev/null
+    fi
+}
+
+
 if [ "$1" = "healthy" ]; then
     # We consider gocollect healthy if it has pushed a core.id message
     # to the server successfully in the last 6 hours.
@@ -15,16 +52,8 @@ if [ "$1" = "healthy" ]; then
     #
     # (In the future we may choose to change the boolean int to a
     # last-success timestamp. For now just keep 0 and 1.)
-    if command -v journalctl >/dev/null; then
-        journalctl -S '-6 hours' \
-            -u gocollect@mgmt.service -u gocollect.service \
-            --grep '/core.id/[]]: got {"data": {}}' 2>/dev/null ||
-        journalctl -u gocollect@mgmt.service -u gocollect.service |
-            grep '/core.id/[]]: got {"data": {}}'
-    else
-        grep -h 'gocollect.*/core.id/[]]: got {"data": {}}' \
-            /var/log/syslog.1 /var/log/syslog 2>/dev/null
-    fi | grep -qF '' && echo 1 || echo 0
+    val=$(get_log)
+    test -z "$val" && echo 0 || echo 1
 else
     echo "$0: unknown command" >&2
     exit 1
