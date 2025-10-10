@@ -1,3 +1,16 @@
+zabbix-agent-osso (0.89) stable; urgency=low
+
+  * daemon: Cope with medium-old systemd without compiled-in regex
+  * haproxy: Update template with % around utilization
+  * k8s-pods-ready: Updated discovery, rule:
+    ossobv/zabbix-agent-osso.k8s-pods-ready='{}' monitors all.
+    And '{"startswith":["deployment1","deployment2"]}' monitors some
+  * minio: Fix a few issues with decommissioning info / triggers
+  * nvme: Fix so nvme-cli does not suddenly start printing Fahrenheit.
+    See: https://github.com/linux-nvme/nvme-cli/issues/2456
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 10 Oct 2025 10:43:30 +0200
+
 zabbix-agent-osso (0.88) stable; urgency=low
 
   * daemon: Add gocollect.healthy monitoring check
