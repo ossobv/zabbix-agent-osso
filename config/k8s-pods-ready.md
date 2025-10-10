@@ -18,7 +18,7 @@ kubectl annotate ns target ossobv/zabbix-agent-osso.k8s-pods-ready='{"startswith
 ```
 
 You can set as many prefixes to match as wanted, they will show up as separate
-triggers and items in zabbix. 
+triggers and items in zabbix.
 
 Note that when monitoring all pods we insert an 'ANY' into the zabbix
-startswith field for compatibility. 
+startswith field for compatibility.
