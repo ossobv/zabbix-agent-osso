@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>b4cc6bb6190c43e78a01d3f759c51c32</uuid>
+            <template>Template OSSO ISMS</template>
+            <name>Template OSSO ISMS</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>76177f7322e84808b1473f3b14ef7d84</uuid>
+                    <name>ISMS type</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>isms.type</key>
+                    <delay>1d</delay>
+                    <history>365d</history>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <inventory_link>TYPE</inventory_link>
+                </item>
+            </items>
+            <macros>
+                <macro>
+                    <macro>{$ISMS_DATACLASS_LEVEL}</macro>
+                    <value>2</value>
+                    <description>ISMS category integer</description>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>c9cc84a8135e40a1b0c1eaa88741101e</uuid>
+            <template>Template OSSO ISMS cat3</template>
+            <name>Template OSSO ISMS cat3</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$ISMS_DATACLASS_LEVEL}</macro>
+                    <value>3</value>
+                    <description>ISMS category integer</description>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>9f7c0ba8ebb445868147c9c0714a85eb</uuid>
+            <template>Template OSSO ISMS cat4</template>
+            <name>Template OSSO ISMS cat4</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$ISMS_DATACLASS_LEVEL}</macro>
+                    <value>4</value>
+                    <description>ISMS category integer</description>
+                </macro>
+            </macros>
+        </template>
+    </templates>
+</zabbix_export>
