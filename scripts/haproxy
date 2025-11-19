@@ -15,6 +15,7 @@ MAX_CONNECTION_INDEX = 6
 NAME_INDEX = 0
 SERVICE_NAME_INDEX = 1
 STATUS_INDEX = 17
+STATUS_INDEX_UP = ('UP', 'no check')
 
 
 def send_command(socket_path, command):
@@ -101,10 +102,10 @@ def get_stats(file):
         server_count = len(servers)
         server_up_count = len(
             [line for line in servers
-             if line[STATUS_INDEX] == 'UP'])
+             if line[STATUS_INDEX] in STATUS_INDEX_UP])
         servers_down = [
             line[SERVICE_NAME_INDEX] for line in servers
-            if line[STATUS_INDEX] != 'UP']
+            if line[STATUS_INDEX] not in STATUS_INDEX_UP]
         if server_count > 0:
             backend_server_up_pct = int(
                 (server_up_count / server_count) * 100)
