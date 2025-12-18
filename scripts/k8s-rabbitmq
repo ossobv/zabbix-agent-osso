@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+# [This file is part of the zabbix-agent-osso package]
+
+import argparse
+import json
+import subprocess
+
+
+def get_cm_data(context, namespace, configmap):
+    data = subprocess.check_output(
+        ['kubectl', '--context', context, '-n', namespace, 'get', 'cm',
+         configmap, '-ojson'], text=True)
+    return data
+
+
+def get_nodes_in_configmap(context, namespace, configmap):
+    data = json.loads(get_cm_data(context, namespace, configmap))
+    valid_keys = []
+    # Valid value:
+    # {"status": "ok", "alarm_status": "ok", "in_service": "Failed",
+    # "timestamp": 1765880490.93634}}
+    for key in data['data'].keys():
+        if data['data'][key].startswith('{"status'):
+            valid_keys.append(key)
+    return valid_keys
+
+
+def build_zabbix_discovery_json(context, namespace, configmap, node):
+    data = {
+        "{#CONTEXT}": context,
+        "{#NAMESPACE}": namespace,
+        "{#CONFIGMAP}": configmap,
+        "{#NODE}": node
+    }
+    return data
+
+
+def get_contexts():
+    """
+    Get list of kubernetes contexts.
+    """
+    output = subprocess.check_output(
+        ['kubectl', 'config', 'get-contexts', '-oname'], text=True)
+    return output.splitlines()
+
+
+def get_namespaces(context):
+    """
+    Get namespaces in kubernetes context.
+    """
+    output = subprocess.check_output(
+            ['kubectl', '--context', context, 'get', 'namespaces', '-l',
+             'ossobv/zabbix-agent-osso.k8s-rabbitmq=true', '-oname'],
+            text=True)
+    return output.splitlines()
+
+
+def get_configmaps(context, namespace):
+    """
+    Get configmaps in namespace and filter on name starting with
+    status-rabbitmq.
+    """
+    configmaps = subprocess.check_output(
+        ['kubectl', '--context', context, '-n', namespace, 'get', 'configmap',
+         '-oname'], text=True)
+    configmaps = [
+        cm.removeprefix('configmap/') for cm in configmaps.splitlines()]
+    configmaps = [
+        cm for cm in configmaps if cm.startswith('status-rabbitmq')]
+    return configmaps
+
+
+def discover_instances():
+    """
+    Discover instances and report back in zabbix discovery json format.
+    """
+    output = []
+    for context in get_contexts():
+        for namespace in get_namespaces(context):
+            namespace = namespace.removeprefix('namespace/')
+            configmaps = get_configmaps(context, namespace)
+            if not configmaps:
+                # No matched found.
+                return
+            for configmap in configmaps:
+                nodes = get_nodes_in_configmap(context, namespace, configmap)
+                for node in nodes:
+                    output.append(
+                        build_zabbix_discovery_json(
+                            context, namespace, configmap, node))
+    print(json.dumps(output))
+
+
+def get_data(context, namespace, cm, node):
+    """
+    Get data from configmap based on input from zabbix.
+    """
+    data = json.loads(get_cm_data(context, namespace, cm))
+    if node not in data['data'].keys():
+        # Node not found in configmap
+        print('ZBX_NOTSUPPORTED')
+    else:
+        print(data['data'][node])
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        'k8s-rabbitmq', description='Rabbitmq  zabbix monitoring')
+    subparsers = parser.add_subparsers(dest="command", required=True)
+
+    subparsers.add_parser('discover-instances', help='Run Zabbix discovery')
+
+    get_data_parser = subparsers.add_parser('get-data', help='Get data')
+    get_data_parser.add_argument('--context', required=True)
+    get_data_parser.add_argument('--namespace', required=True)
+    get_data_parser.add_argument('--cm', required=True)
+    get_data_parser.add_argument('--node', required=True)
+
+    args = parser.parse_args()
+
+    if args.command == 'discover-instances':
+        discover_instances()
+    elif args.command == 'get-data':
+        get_data(args.context, args.namespace, args.cm, args.node)
+
+
+if __name__ == '__main__':
+    main()
