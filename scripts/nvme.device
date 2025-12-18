@@ -3,6 +3,13 @@
 # RECOMMENDS: nvme-cli (only on hardware nodes)
 #
 
+# Flush locale info, which might be en_US.UTF-8 causing nvme-cli to print
+# Fahrenheit values from nvme-cli 2.10 upwards:
+# https://github.com/linux-nvme/nvme-cli/issues/2910
+# https://github.com/linux-nvme/nvme-cli/issues/2456
+LC_ALL=C
+export LC_ALL
+
 nvme_cli=/usr/sbin/nvme
 
 get_smart_log_add() {

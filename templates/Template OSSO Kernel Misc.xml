@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>6.4</version>
+    <version>7.0</version>
     <template_groups>
         <template_group>
             <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
@@ -25,15 +25,25 @@
                     <key>iproute.prohibit</key>
                     <delay>5m</delay>
                     <history>3d</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <triggers>
                         <trigger>
                             <uuid>fe1c7df492fd40078fe055307d177434</uuid>
-                            <expression>{$HAS_DISASTER}=1 and last(/Template OSSO Kernel Misc/iproute.prohibit)&lt;&gt;&quot;&quot;</expression>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OSSO Kernel Misc/iproute.prohibit)&lt;&gt;&quot;&quot;</expression>
                             <name>One or more IPs prohibited on {HOST.NAME}</name>
                             <opdata>Current: {ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
+                            <description>This indicates maintenance somewhere. For instance OpenStack Swift nodes temporarily blocked from the Proxies because the nodes are faulty.
+
+When the nodes are healthy, we want to resolve this trigger by removing the prohibit action.</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>283c58187ddc47c19d18b7a04a86c477</uuid>
+                            <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and last(/Template OSSO Kernel Misc/iproute.prohibit)&lt;&gt;&quot;&quot;</expression>
+                            <name>One or more IPs prohibited on {HOST.NAME} (NOPANIC)</name>
+                            <opdata>Current: {ITEM.LASTVALUE}</opdata>
+                            <priority>HIGH</priority>
                             <description>This indicates maintenance somewhere. For instance OpenStack Swift nodes temporarily blocked from the Proxies because the nodes are faulty.
 
 When the nodes are healthy, we want to resolve this trigger by removing the prohibit action.</description>
@@ -54,8 +64,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <type>ZABBIX_ACTIVE</type>
                     <key>kernel.emerg.log</key>
                     <history>3d</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED</type>
@@ -74,7 +84,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <history>1w</history>
                     <trends>90d</trends>
                     <description>Kernel entropy interval must not be 5m (using 4.5m). On some systems (Debian Stretch? Kernel 4.9.0-3? Systemd 232-25+deb9u1?) the entropy is reset every 5 minutes. Unsure who causes this, but it appears to be a system daemon (systemd-* or kernel itself); as turning off as many daemons as possible did not stop the entropy drain/reset.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -151,8 +160,9 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.get_ext_ip4</key>
                     <delay>20m</delay>
-                    <trends>0</trends>
+                    <history>90d</history>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <inventory_link>HOST_ROUTER</inventory_link>
                     <preprocessing>
                         <step>
@@ -175,8 +185,9 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.get_ext_ip6</key>
                     <delay>20m</delay>
-                    <trends>0</trends>
+                    <history>90d</history>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -214,7 +225,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -245,7 +255,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -260,7 +269,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>net.tcpretranssegs</key>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -274,8 +282,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <type>CALCULATED</type>
                     <key>net.tcpretranssegs.delta</key>
                     <delay>30s</delay>
+                    <history>90d</history>
                     <params>change(//net.tcpretranssegs)</params>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -290,7 +298,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>net.tcpsynretrans</key>
                     <history>1w</history>
                     <trends>30d</trends>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -304,8 +311,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <type>CALCULATED</type>
                     <key>net.tcpsynretrans.delta</key>
                     <delay>30s</delay>
+                    <history>90d</history>
                     <params>change(//net.tcpsynretrans)</params>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -317,7 +324,7 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <uuid>2fb3f93c4109464f9feb1dbbd948b866</uuid>
                     <name>CPU cores</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>system.cpu.cores</key>
+                    <key>system.cpu.num</key>
                     <delay>1h</delay>
                     <history>1w</history>
                     <trends>90d</trends>
@@ -326,17 +333,25 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                             <parameters>
-                                <parameter>1d</parameter>
+                                <parameter>1h</parameter>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
                             <value>CPU</value>
                         </tag>
                     </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>7ef499c82084490095d95dba2e4ca013</uuid>
+                            <expression>{$ENABLE_CPU_COUNT_TRIGGER}=1 and last(/Template OSSO Kernel Misc/system.cpu.num)&lt;&gt;{$CPU_COUNT_WANTED}</expression>
+                            <name>{HOST.NAME}: current CPU count of {ITEM.LASTVALUE} does not match wanted {$CPU_COUNT_WANTED} core(s)</name>
+                            <priority>HIGH</priority>
+                            <description>Defined in {$CPU_COUNT_WANTED}</description>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <uuid>67731816287644e1a8bc29f2567fbc10</uuid>
@@ -345,8 +360,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>system.dmi.bios</key>
                     <delay>12h</delay>
                     <history>15d</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -355,7 +370,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -370,8 +384,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>system.dmi.chassis</key>
                     <delay>12h</delay>
                     <history>15d</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -380,7 +394,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -404,8 +417,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>system.dmi.product</key>
                     <delay>12h</delay>
                     <history>15d</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -414,7 +427,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -429,8 +441,8 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>system.hw.cpu[0,model]</key>
                     <delay>12h</delay>
                     <history>15d</history>
-                    <trends>0</trends>
                     <value_type>TEXT</value_type>
+                    <trends>0</trends>
                     <preprocessing>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
@@ -439,7 +451,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -456,6 +467,7 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <key>net.ip6tables.discover_chains</key>
                     <delay>15m</delay>
                     <lifetime>3d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>f7dd6901b18d4c05b410d6c4092f59ac</uuid>
@@ -466,7 +478,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             <history>1h</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -483,7 +494,6 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                             <history>1h</history>
                             <trends>90d</trends>
                             <units>rules</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -509,7 +519,6 @@ Better would be to check: (has_any_ip6 &amp;&amp; (has_ext_ip4 || has_ext_ip6))
 XXX: temp, on Warning instead of High</description>
                         </trigger_prototype>
                     </trigger_prototypes>
-                    <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
                     <uuid>212c7f5b3cbb4c7c89461188e157974f</uuid>
@@ -517,6 +526,8 @@ XXX: temp, on Warning instead of High</description>
                     <type>ZABBIX_ACTIVE</type>
                     <key>net.iptables.discover_chains</key>
                     <delay>15m</delay>
+                    <lifetime>30d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>cd15d0d0736546a9874ef46ea9a34e4e</uuid>
@@ -527,7 +538,6 @@ XXX: temp, on Warning instead of High</description>
                             <history>1h</history>
                             <trends>90d</trends>
                             <units>ADR?</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -544,7 +554,6 @@ XXX: temp, on Warning instead of High</description>
                             <history>1h</history>
                             <trends>90d</trends>
                             <units>rules</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -555,25 +564,24 @@ XXX: temp, on Warning instead of High</description>
                     </item_prototypes>
                     <trigger_prototypes>
                         <trigger_prototype>
-                            <uuid>c326a20677be4506b58c5fef9eaba3c7</uuid>
-                            <expression>{$HAS_DISASTER}=0 and {$DISABLE_FIREWALL}&lt;&gt;1 and
-last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
-(max(/Template OSSO Kernel Misc/net.iptables.policy[{#CHAIN}],#2)=0 and
- max(/Template OSSO Kernel Misc/net.iptables.rules[{#CHAIN}],#2)=0)</expression>
-                            <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
-                            <priority>HIGH</priority>
-                        </trigger_prototype>
-                        <trigger_prototype>
                             <uuid>64c3fa927b2c431c96113eae07d65283</uuid>
-                            <expression>{$HAS_DISASTER}=1 and {$DISABLE_FIREWALL}&lt;&gt;1 and
-last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and {$DISABLE_FIREWALL}&lt;&gt;1 and
+({$ISMS_DATACLASS_LEVEL}&gt;=4 or last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1) and
 (max(/Template OSSO Kernel Misc/net.iptables.policy[{#CHAIN}],#2)=0 and
  max(/Template OSSO Kernel Misc/net.iptables.rules[{#CHAIN}],#2)=0)</expression>
                             <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
                         </trigger_prototype>
+                        <trigger_prototype>
+                            <uuid>c326a20677be4506b58c5fef9eaba3c7</uuid>
+                            <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and {$DISABLE_FIREWALL}&lt;&gt;1 and
+last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
+(max(/Template OSSO Kernel Misc/net.iptables.policy[{#CHAIN}],#2)=0 and
+ max(/Template OSSO Kernel Misc/net.iptables.rules[{#CHAIN}],#2)=0)</expression>
+                            <name>No IPv4 firewall in chain {#CHAIN} on {HOST.NAME} (NOPANIC)</name>
+                            <priority>HIGH</priority>
+                        </trigger_prototype>
                     </trigger_prototypes>
-                    <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
             <macros>
@@ -607,11 +615,19 @@ last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
         </trigger>
         <trigger>
             <uuid>ae0b61490b4e4264b2f3eedccf2e9f39</uuid>
-            <expression>last(/Template OSSO Kernel Misc/kernel.emerg.count)&lt;&gt;0 or
-last(/Template OSSO Kernel Misc/kernel.emerg.log)&lt;&gt;&quot;&quot;</expression>
+            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and (last(/Template OSSO Kernel Misc/kernel.emerg.count)&lt;&gt;0 or
+ last(/Template OSSO Kernel Misc/kernel.emerg.log)&lt;&gt;&quot;&quot;)</expression>
             <name>{HOST.NAME} has kernel emergency</name>
             <opdata>{ITEM.LASTVALUE1}: {ITEM.LASTVALUE2}</opdata>
             <priority>DISASTER</priority>
+        </trigger>
+        <trigger>
+            <uuid>89c2885117474941845c60aa65142ee3</uuid>
+            <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and (last(/Template OSSO Kernel Misc/kernel.emerg.count)&lt;&gt;0 or
+ last(/Template OSSO Kernel Misc/kernel.emerg.log)&lt;&gt;&quot;&quot;)</expression>
+            <name>{HOST.NAME} has kernel emergency (NOPANIC)</name>
+            <opdata>{ITEM.LASTVALUE1}: {ITEM.LASTVALUE2}</opdata>
+            <priority>HIGH</priority>
         </trigger>
     </triggers>
 </zabbix_export>

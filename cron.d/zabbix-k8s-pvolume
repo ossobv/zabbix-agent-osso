@@ -1,0 +1,8 @@
+# [This file is part of the zabbix-agent-osso package]
+
+# We'll set the shell to bash and do a random sleep to avoid all machines
+# running checks at the same exact time.
+SHELL=/bin/bash
+
+# Discovery of PVC's.
+0 * * * *  root  command -v kubectl >/dev/null || exit 0; sleep $((RANDOM \% 1800)); DST=/var/lib/zabbix/scripts/k8s.pvolume.discover_filesystems; /etc/zabbix/scripts/k8s-pvolume discover-filesystems >"$DST.tmp" && mv "$DST.tmp" "$DST"

@@ -1,5 +1,5 @@
 # [This file is part of the zabbix-agent-osso package]
 # MinIO credentials in the following format, multiple MinIO instances are
 # supported.
-[my-minio]  
+[my-minio]
 url = https://user:secret@host

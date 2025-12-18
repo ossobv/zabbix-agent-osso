@@ -163,22 +163,40 @@ def get_pool_data(minio_instance, pool_id):
     decom_info = get_decom_info(instance_config)
 
     # The extra ['0'] index is the same for all pools in the CLI response.
+    # There are in fact two. Erasure sets '0' and '1'. We're just reading '0'
+    # right now. We sum the values together below.
     try:
-        pool_info = admin_info['pools'][pool_id]['0']
+        # These pools are indexed by pool_id string.
+        pool_infos = admin_info['pools'][pool_id].values()
     except KeyError:
         raise MissingInstance(f'Missing pool instance {pool_id}')
-    # Filter on matching pool_id.
+
+    # Filter on matching pool_id. These are ordered by the same order as the
+    # pools. They have a decom_info['id'], but that is an unrelated task_id
+    # (and can even have duplicates).
     try:
-        decom_pool_info = next(
-            pool for pool in decom_info if pool['id'] == int(pool_id))
-    except StopIteration:
-        raise MissingInstance(f'Missing pool instance {pool_id}')
+        decom_pool_info = decom_info[int(pool_id)]
+    except IndexError:
+        raise MissingInstance(f'Missing decom info for pool {pool_id}')
+
+    if decom_pool_info['decommissionInfo']['complete']:
+        decom_running_since = 'DONE'
+    elif decom_pool_info['decommissionInfo']['failed']:
+        decom_running_since = 'FAILED'
+    elif (decom_pool_info['decommissionInfo']['startTime'] ==
+          '0001-01-01T00:00:00Z'):
+        decom_running_since = ''
+    else:
+        # 2025-08-28T19:21:56.532079551Z
+        decom_running_since = decom_pool_info['decommissionInfo']['startTime']
 
     output = {
-        'heal_disks': pool_info['healDisks'],
-        'raw_used': pool_info['rawUsage'] / pool_info['rawCapacity'],
-        'object_count': pool_info['objectsCount'],
-        'decom_failed': decom_pool_info['decommissionInfo']['failed'],
+        'heal_disks': sum(i['healDisks'] for i in pool_infos),
+        'raw_used': (
+            sum(i['rawUsage'] for i in pool_infos) /
+            sum(i['rawCapacity'] for i in pool_infos)),
+        'object_count': sum(i['objectsCount'] for i in pool_infos),
+        'decom_running_since': decom_running_since,
         'decom_failed_bytes': (
             decom_pool_info['decommissionInfo']['bytesDecommissionedFailed']),
         'decom_failed_objects': (

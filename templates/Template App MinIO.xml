@@ -20,7 +20,7 @@
             <discovery_rules>
                 <discovery_rule>
                     <uuid>216b51e6d20e48419e3360287cbd35c9</uuid>
-                    <name>discover-instances</name>
+                    <name>Discover MinIO instances</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>minio.discover-instances</key>
                     <delay>1h</delay>
@@ -74,7 +74,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>6801544b09ed4209a6423a0cd834cb3a</uuid>
-                                    <expression>last(/Template App MinIO/minio.instance-failed-decommissionings[{#MINIO_INSTANCE}])&gt;0</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template App MinIO/minio.instance-failed-decommissionings[{#MINIO_INSTANCE}])&gt;0</expression>
                                     <name>MinIO instance {#MINIO_INSTANCE} had failed decommissioning</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
@@ -101,7 +101,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>6aa72cd326c5422d88344c208a733ff1</uuid>
-                                    <expression>nodata(/Template App MinIO/minio.instance-highest-disk-usage[{#MINIO_INSTANCE}],5m)=1</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and nodata(/Template App MinIO/minio.instance-highest-disk-usage[{#MINIO_INSTANCE}],5m)=1</expression>
                                     <name>MinIO instance {#MINIO_INSTANCE} no data for 5 minutes</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
@@ -127,7 +127,7 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>02327db5c3ba469bb635cf4506890088</uuid>
-                                    <expression>last(/Template App MinIO/minio.instance-offline-disks[{#MINIO_INSTANCE}])&gt;0</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template App MinIO/minio.instance-offline-disks[{#MINIO_INSTANCE}])&gt;0</expression>
                                     <name>MinIO instance {#MINIO_INSTANCE} has offline disks</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
@@ -155,7 +155,7 @@
                 </discovery_rule>
                 <discovery_rule>
                     <uuid>c2b21fd47c4140ffbcddaadf8f21df4f</uuid>
-                    <name>discover-pools</name>
+                    <name>Discover MinIO pools</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>minio.discover-pools</key>
                     <delay>1h</delay>
@@ -201,17 +201,27 @@
                         </item_prototype>
                         <item_prototype>
                             <uuid>09d432187d3e44e7bb2b1ab0b79e9e63</uuid>
-                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning failed</name>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning running since</name>
                             <type>DEPENDENT</type>
-                            <key>minio.data-decommissioning-failed[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <key>minio.data-decommissioning-running-since[{#MINIO_INSTANCE},{#POOL_ID}]</key>
                             <delay>0</delay>
                             <value_type>TEXT</value_type>
                             <trends>0</trends>
+                            <description>This value can be a timestamp (as text) -&gt; running.
+It can be FAILED -&gt; failed.
+It can be DONE -&gt; complete.
+It can be empty -&gt; not-running/not-started.</description>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
                                     <parameters>
-                                        <parameter>$.decom_failed</parameter>
+                                        <parameter>$.decom_running_since</parameter>
+                                    </parameters>
+                                </step>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>86400</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
@@ -220,8 +230,14 @@
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
+                                    <uuid>501e15dd2cbc43efbca66fe04ed79c9e</uuid>
+                                    <expression>(({$HAS_DISASTER}=1 or {$HAS_DISASTER}=&quot;9to5&quot;) and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END}) and  (last(/Template App MinIO/minio.data-decommissioning-running-since[{#MINIO_INSTANCE},{#POOL_ID}])=&quot;DONE&quot;)</expression>
+                                    <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning done</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
                                     <uuid>95b4acee16b14ca6a2c5bdbe4f715ab4</uuid>
-                                    <expression>(last(/Template App MinIO/minio.data-decommissioning-failed[{#MINIO_INSTANCE},{#POOL_ID}])&lt;&gt;&quot;false&quot;) and (time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})</expression>
+                                    <expression>(({$HAS_DISASTER}=1 or {$HAS_DISASTER}=&quot;9to5&quot;) and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END}) and  (last(/Template App MinIO/minio.data-decommissioning-running-since[{#MINIO_INSTANCE},{#POOL_ID}])=&quot;FAILED&quot;)</expression>
                                     <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} decommissioning failed</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
@@ -229,9 +245,9 @@
                         </item_prototype>
                         <item_prototype>
                             <uuid>def47e900fe549a38c196e6bcd36db14</uuid>
-                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} healed disks</name>
+                            <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} healing disks</name>
                             <type>DEPENDENT</type>
-                            <key>minio.data-pool-healed-disks[{#MINIO_INSTANCE},{#POOL_ID}]</key>
+                            <key>minio.data-pool-healing-disks[{#MINIO_INSTANCE},{#POOL_ID}]</key>
                             <delay>0</delay>
                             <preprocessing>
                                 <step>
@@ -266,27 +282,29 @@
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>54238a73999e4d14a204d6ef6182e4bf</uuid>
-                                    <expression>nodata(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}],5m)=1</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and nodata(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}],5m)=1</expression>
                                     <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} no data for 5 minutes</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>51f58daa679443a5a8b2e0d89bbb7cdf</uuid>
-                                    <expression>last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.70 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;=0.80</expression>
+                                    <expression>last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;=0.70 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;0.80</expression>
                                     <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} Usage above 70%</name>
                                     <priority>HIGH</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>53d50b61b3c147e581f54d67c39fab28</uuid>
-                                    <expression>(last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.80 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;=0.85) and (time() &gt;{$OFFICE_HOURS_BEGIN} and time() &lt;{$OFFICE_HOURS_END})</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and (last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;=0.80 and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&lt;0.86) and (time() &gt;{$OFFICE_HOURS_BEGIN} and time() &lt;{$OFFICE_HOURS_END})</expression>
                                     <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} Usage above 80%</name>
                                     <priority>DISASTER</priority>
+                                    <description>85% is a magic value in MinIO. When pool usage goes above that, it tries to populate other pools first. This trigger alerts us that we've reached that point for one pool.</description>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>a1c0bb71d936455ebdfcec5501de9519</uuid>
-                                    <expression>last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;0.85</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template App MinIO/minio.data-pool-raw-used[{#MINIO_INSTANCE},{#POOL_ID}])&gt;=0.86</expression>
                                     <name>MinIO {#MINIO_INSTANCE} pool {#POOL_ID} Usage above 85%</name>
                                     <priority>DISASTER</priority>
+                                    <description>85% is a magic value in MinIO. When pool usage goes above that, it tries to populate other pools first. (86% in trigger so we will start noticing first when we reach above it.)</description>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>

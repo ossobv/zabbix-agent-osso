@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>6.4</version>
+    <version>7.0</version>
     <template_groups>
         <template_group>
             <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
@@ -35,7 +35,7 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.discover_backends</key>
                     <delay>1h</delay>
-                    <lifetime>7d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>cd71312666024592abba5119597d4505</uuid>
@@ -43,6 +43,7 @@
                             <type>DEPENDENT</type>
                             <key>haproxy.backend.servers_down[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
+                            <history>90d</history>
                             <value_type>TEXT</value_type>
                             <trends>0</trends>
                             <preprocessing>
@@ -62,6 +63,12 @@
                             <master_item>
                                 <key>haproxy.data</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>HAProxy</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>e1c0ca22f68540ac85914534b4cc365c</uuid>
@@ -69,6 +76,12 @@
                                     <name>HAProxy {#SOCKET} {#NAME} backend {ITEM.VALUE} down</name>
                                     <opdata>Current: {ITEM.LASTVALUE}</opdata>
                                     <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>Application</tag>
+                                            <value>HAProxy</value>
+                                        </tag>
+                                    </tags>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -92,6 +105,12 @@
                             <master_item>
                                 <key>haproxy.data</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>HAProxy</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                         <item_prototype>
                             <uuid>5beadfea3a5844c1ac67e9c18a9932ce</uuid>
@@ -99,6 +118,7 @@
                             <type>DEPENDENT</type>
                             <key>haproxy.backend.status[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
+                            <history>90d</history>
                             <value_type>TEXT</value_type>
                             <trends>0</trends>
                             <preprocessing>
@@ -118,12 +138,24 @@
                             <master_item>
                                 <key>haproxy.data</key>
                             </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>HAProxy</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>2041b779c7bd42a38369f970764cdb71</uuid>
                                     <expression>last(/Template App HAProxy/haproxy.backend.status[{#SOCKET},{#NAME}])&lt;&gt;&quot;UP&quot;</expression>
                                     <name>HAProxy {#SOCKET} {#NAME} backends DOWN</name>
                                     <priority>HIGH</priority>
+                                    <tags>
+                                        <tag>
+                                            <tag>Application</tag>
+                                            <value>HAProxy</value>
+                                        </tag>
+                                    </tags>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
@@ -135,15 +167,16 @@
                     <type>ZABBIX_ACTIVE</type>
                     <key>haproxy.discover_frontends</key>
                     <delay>1h</delay>
-                    <lifetime>7d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
                             <uuid>4ce61f67a78445bbb2d2e05aafb49781</uuid>
-                            <name>HAProxy {#SOCKET} {#NAME} frontend connection utilization</name>
+                            <name>HAProxy {#SOCKET} {#NAME} frontend connection utilization pct</name>
                             <type>DEPENDENT</type>
                             <key>haproxy.frontend.conn_pct[{#SOCKET},{#NAME}]</key>
                             <delay>0</delay>
                             <history>30d</history>
+                            <units>%</units>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>

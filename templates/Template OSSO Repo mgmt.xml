@@ -1,69 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2021-02-11T13:50:54Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>fa37c2b81f9f41ada0eda4625d375640</uuid>
             <template>Template OSSO Repo mgmt</template>
             <name>Template OSSO Repo mgmt</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
-            <applications>
-                <application>
-                    <name>Versioning</name>
-                </application>
-            </applications>
             <discovery_rules>
                 <discovery_rule>
+                    <uuid>b72dbb45ac6a419eb0fe0dab252dacdc</uuid>
                     <name>Discover local reposities</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>repomgmt.discover_repos</key>
                     <delay>1h</delay>
+                    <lifetime>30d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
+                            <uuid>bf1e4545ff9e4c5a9d199a500bbc4361</uuid>
                             <name>Repository {#REPOTYPE}:{#REPOPATH} dirty state</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>repomgmt.is_dirty[{#REPOTYPE},{#REPOPATH}]</key>
-                            <delay>30m</delay>
-                            <history>30d</history>
+                            <delay>3m</delay>
+                            <history>1d</history>
                             <trends>30d</trends>
-                            <applications>
-                                <application>
-                                    <name>Versioning</name>
-                                </application>
-                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Versioning</value>
+                                </tag>
+                            </tags>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <expression>{min(5h)}&lt;&gt;0 and
-{time()}&gt;100000 and
-{time()}&lt;160000 and
-{dayofweek()}&lt;=5</expression>
-                                    <name>Uncommited stuff in {#REPOPATH} on {HOST.NAME}</name>
+                                    <uuid>b810eeb71e46426589a8c730f5012c57</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and min(/Template OSSO Repo mgmt/repomgmt.is_dirty[{#REPOTYPE},{#REPOPATH}],5h)&lt;&gt;0 and
+time()&gt;100000 and
+time()&lt;160000 and
+dayofweek()&lt;=5</expression>
+                                    <name>Uncommitted stuff in {#REPOPATH} on {HOST.NAME}</name>
                                     <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>489bbb884b664d9787d4ff6c2cc92423</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and min(/Template OSSO Repo mgmt/repomgmt.is_dirty[{#REPOTYPE},{#REPOPATH}],5h)&lt;&gt;0 and
+time()&gt;100000 and
+time()&lt;160000 and
+dayofweek()&lt;=5</expression>
+                                    <name>Uncommitted stuff in {#REPOPATH} on {HOST.NAME} (NOPANIC)</name>
+                                    <priority>HIGH</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
+                            <uuid>a04055775b384324bfdaf145f04a9f9c</uuid>
                             <name>Repository {#REPOTYPE}:{#REPOPATH} version</name>
                             <type>ZABBIX_ACTIVE</type>
                             <key>repomgmt.version[{#REPOTYPE},{#REPOPATH}]</key>
                             <delay>1d</delay>
                             <history>365d</history>
-                            <trends>0</trends>
                             <value_type>TEXT</value_type>
-                            <applications>
-                                <application>
-                                    <name>Versioning</name>
-                                </application>
-                            </applications>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>DISCARD_UNCHANGED_HEARTBEAT</type>
+                                    <parameters>
+                                        <parameter>1d</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Versioning</value>
+                                </tag>
+                            </tags>
                         </item_prototype>
                     </item_prototypes>
                 </discovery_rule>

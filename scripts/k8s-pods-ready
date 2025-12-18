@@ -7,42 +7,41 @@ get_contexts() {
     kubectl config get-contexts -oname
 }
 
-get_namespaces() {
-    local context ns
-    context=$1
-    ns=$2
-    if [ -z "$ns" ]; then
-        kubectl --context "$1" get namespace \
-            -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
-            -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'\
-            2>/dev/null
-    else
-        kubectl --context "$1" -n "$ns" get namespace \
-            -l ossobv/zabbix-agent-osso.k8s-pods-ready=true \
-            -o go-template='{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}'\
-            2>/dev/null
-    fi
-}
-
 make_json() {
     echo '{"{#CONTEXT}":"'$1'","{#NAMESPACE}":"'$2'","{#STARTSWITH}":"'$3'"}'
 }
 
+get_namespace_info() {
+    for context in $(get_contexts); do
+        kubectl --context "$context" get namespace -o json \
+        | jq -r --arg context "$context" '
+            .items[]
+            | {
+                namespace: .metadata.name,
+                startswith: (
+                    .metadata.annotations[
+                        "ossobv/zabbix-agent-osso.k8s-pods-ready"]
+                    | select(. != null)
+                    | fromjson
+                    | if has("startswith") then .startswith[] else "ANY" end
+                )
+            }
+            | [$context, .namespace, .startswith] | join("|")
+        '
+    done
+}
 
 if [ "$1" = "discover" ]; then
-    for context in $(get_contexts); do
-        for namespace in $(get_namespaces "$context"); do
-            startswith=$(kubectl --context $context get namespace $namespace \
-                -ojsonpath='{.metadata.labels}' |
-                jq -r '."ossobv/zabbix-agent-osso.k8s-pods-ready-startswith"')
-            make_json "$context" "$namespace" "$startswith"
-        done
+    get_namespace_info | while IFS="|" read -r context ns startswith; do
+        make_json "$context" "$ns" "$startswith"
     done | jq -sc
     exit 0
 
 elif [ "$1" = "values" ]; then
     # First, check whether this is something for us.
-    if [ -z "$(get_namespaces "$2" "$3")" ]; then
+    expected_match="${2}|${3}|${4}"
+
+    if ! get_namespace_info | grep -Fxq "$expected_match"; then
         # FIXME: What do we do if the namespace is not matched anymore?
         # Does that mean it is gone and everything has to Panic?
         # Or does it mean that we disabled the ready check because we're doing
@@ -51,9 +50,16 @@ elif [ "$1" = "values" ]; then
         echo '{"all_ready": true, "warning": "not_found"}'
         exit 0
     fi
+
+    if [ "$4" = "ANY" ]; then
+        startswith=
+    else
+        startswith=$4
+    fi
+
     # For now, eat errors so they turn into all_ready=false.
     bool=$(kubectl --context "$2" get pods -n "$3" -ojson 2>&1 |
-        jq -r '[.items[] | select(.metadata.name | startswith("'"$4"'")) |
+        jq -r '[.items[] | select(.metadata.name | startswith("'"$startswith"'")) |
         .status.containerStatuses[] | .ready==true] | all' 2>&1)
     # This is a temporary output which we may improve on later on. By starting
     # out with a json object, we can more easily expand on it with other
