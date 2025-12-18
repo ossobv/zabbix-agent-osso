@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>f70d183486844a5ea588b87ca3c5c165</uuid>
+            <template>Template K8S RabbitMQ</template>
+            <name>Template K8S RabbitMQ</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>137907d2173b4ababfaa601156fb27a5</uuid>
+                    <name>Discover instances</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>k8s.rabbitmq.discover_instances</key>
+                    <delay>1h</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>3fb27541d83e4084ae03caee03fcd707</uuid>
+                            <name>K8S RabbitMQ alarm status {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE}</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.rabbitmq.alarm_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.alarm_status</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.rabbitmq.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>7c536e352fdc42fab0d6115997164642</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S RabbitMQ/k8s.rabbitmq.alarm_status[ {#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}])&lt;&gt;&quot;ok&quot;</expression>
+                                    <name>RabbitMQ Node {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE} alarm status not OK</name>
+                                    <priority>DISASTER</priority>
+                                    <description>Alarm_status from rabbitmq api. not ok</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>3de22e7319fb4c63bf16a383521c03a1</uuid>
+                            <name>RabbitMQ data {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE}</name>
+                            <key>k8s.rabbitmq.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>4c7e6cb46c9246edb410dd25b70c24cd</uuid>
+                            <name>K8S RabbitMQ node status {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE}</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.rabbitmq.node_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.status</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.rabbitmq.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>b3f65a4315274b19821b42baca0d01a4</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S RabbitMQ/k8s.rabbitmq.node_status[ {#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}])&lt;&gt;&quot;ok&quot;</expression>
+                                    <name>RabbitMQ Node {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE} node status not OK</name>
+                                    <priority>DISASTER</priority>
+                                    <description>node status from rabbitmq api</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>2c33511776a24df99cf6de615e26b639</uuid>
+                            <name>K8S RabbitMQ last timestamp {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE}</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.rabbitmq.timestamp[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.timestamp</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.rabbitmq.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>a4bab7c603944941b875aeb811e1f4af</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S RabbitMQ/k8s.rabbitmq.timestamp[ {#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt; (now()-300)</expression>
+                                    <name>RabbitMQ Node {#CONTEXT} {#NAMESPACE} {#CONFIGMAP} {#NODE} timestamp older than 5m</name>
+                                    <priority>DISASTER</priority>
+                                    <description>Alarm_status from rabbitmq api not ok</description>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+</zabbix_export>
