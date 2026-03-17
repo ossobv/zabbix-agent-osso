@@ -6,8 +6,8 @@ INSERT INTO regexps (regexpid, name) VALUES (4, 'ZFS dataset discovery');
 INSERT INTO regexps (regexpid, name) VALUES (7, 'Exclude filesystems for discovery');
 INSERT INTO regexps (regexpid, name) VALUES (9, 'RabbitMQ vhost discovery');
 INSERT INTO regexps (regexpid, name) VALUES (10, 'Rook ceph rbd csi filesystems for discovery');
-INSERT INTO regexps (regexpid, name) VALUES (11, 'Minio filesystems for discovery');
 INSERT INTO regexps (regexpid, name) VALUES (12, 'Exclude tank for discovery');
+INSERT INTO regexps (regexpid, name) VALUES (13, 'Exclude snap for discovery');
 
 -- SELECT 'INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)'||
 --   E'\n  '||'VALUES ('||expressionid||', '||regexpid||', '''||REPLACE(expression, '''', '''''')||''', '||
@@ -52,6 +52,6 @@ INSERT INTO expressions (expressionid, regexpid, expression, expression_type, ex
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (39, 10, '^/var/lib/kubelet/plugins/kubernetes.io/csi/[^/]*(rbd|cephfs)[^/]*/', 3, ',', 0);
 INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
-  VALUES (40, 11, '^/mnt/minio*', 3, ',', 0);
-INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
   VALUES (44, 12, '^/tank/.*', 4, ',', 0);
+INSERT INTO expressions (expressionid, regexpid, expression, expression_type, exp_delimiter, case_sensitive)
+  VALUES (46, 13, '^/snap/.*', 4, ',', 0);
