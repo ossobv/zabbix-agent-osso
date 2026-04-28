@@ -1,3 +1,15 @@
+zabbix-agent-osso (0.90) stable; urgency=low
+
+  * daemon: last(1) does not report tty logins on Noble anymore; fix
+  * haproxy: Count haproxy backends in "no check" as "UP"
+  * isms: Add cat3/cat4 to {INVENTORY.TYPE} and add ISMS templates
+  * k8s-rabbitmq: Initial version
+  * macros/regexps: Make new export of the global macros + regexps
+  * mysql2: Skip sleep in cron if there are no instances to process
+  * repomgmt: Update template from live
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 28 Apr 2026 13:57:17 +0200
+
 zabbix-agent-osso (0.89) stable; urgency=low
 
   * daemon: Cope with medium-old systemd without compiled-in regex
