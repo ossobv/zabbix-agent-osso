@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>6.2</version>
-    <date>2022-12-07T14:14:01Z</date>
+    <version>7.0</version>
     <template_groups>
         <template_group>
-            <uuid>257cb9ff74e04915a115f902c91bc372</uuid>
-            <name>TEMPLATES</name>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
         </template_group>
     </template_groups>
     <templates>
@@ -26,7 +25,7 @@
             </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>

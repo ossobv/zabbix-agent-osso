@@ -1,19 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>4.4</version>
-    <date>2019-12-06T12:14:03Z</date>
-    <groups>
-        <group>
-            <name>TEMPLATES</name>
-        </group>
-    </groups>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>a571c0d144b14fd4a87a9d9b2aa9fcd6</uuid>
+            <name>Templates/Applications</name>
+        </template_group>
+        <template_group>
+            <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
+            <name>Templates/Operating systems</name>
+        </template_group>
+    </template_groups>
     <templates>
         <template>
+            <uuid>1ee9cd5c18d74b999658b06473f8f4f3</uuid>
+            <template>Template Disable AIDE</template>
+            <name>Template Disable AIDE</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_AIDE}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>2b61873de18049b5b7f54350d99e7f18</uuid>
+            <template>Template Disable Alloy</template>
+            <name>Template Disable Alloy</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_ALLOY}</macro>
+                    <value>1</value>
+                    <description>Disables Alloy related triggers</description>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>0796db2b999a437fa739b6a616d4c850</uuid>
+            <template>Template Disable Cilium</template>
+            <name>Template Disable Cilium</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_CILIUM}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>cb0f2f4dc41c4d90813d9134a1869f90</uuid>
+            <template>Template Disable Fail2ban</template>
+            <name>Template Disable Fail2ban</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_FAIL2BAN}</macro>
+                    <value>1</value>
+                    <description>Disables fail2ban related triggers</description>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>cbe0482fb5ec4643a440ddfaf6bd0ab7</uuid>
             <template>Template Disable firewall</template>
             <name>Template Disable firewall</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -24,11 +95,28 @@
             </macros>
         </template>
         <template>
+            <uuid>5fa6309684d246f0ab09ed800f35843b</uuid>
+            <template>Template Disable Galera triggers</template>
+            <name>Template Disable Galera triggers</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_GALERATRIGGERS}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>b3dab644a7d0424e9da98c9a250f11e8</uuid>
             <template>Template Disable gocollect</template>
             <name>Template Disable gocollect</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -39,12 +127,13 @@
             </macros>
         </template>
         <template>
+            <uuid>44c61ede1716434cab1e8e85af36b2b3</uuid>
             <template>Template Disable hardware needs template</template>
             <name>Template Disable hardware needs template</name>
             <description>Add this template to machines that incorrectly get matches as hardware machines and trigger because of a missing Template OSSO Hardware .</description>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -55,12 +144,30 @@
             </macros>
         </template>
         <template>
-            <template>Template Disable memory messages</template>
-            <name>Template Disable memory messages</name>
-            <description>Want PointerBP docker swarm bende GAAT ALLEEN MAAR OOM DIKKE BENDE</description>
+            <uuid>98541f86a0d54420ae212069004555c2</uuid>
+            <template>Template Disable IOWait triggers</template>
+            <name>Template Disable IOWait triggers</name>
+            <description>Disables IO wait triggers via the macro  DISABLE_IOWAIT = 1</description>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_IOWAIT}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>2ef4fe03af694eae8a363d68370392af</uuid>
+            <template>Template Disable memory messages</template>
+            <name>Template Disable memory messages</name>
+            <description>Trigger to disable OOM messages</description>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -75,26 +182,28 @@
             </macros>
         </template>
         <template>
-            <template>Template Disable ossec</template>
-            <name>Template Disable ossec</name>
+            <uuid>fafc4ade91b64ea9977ac83d75e39b12</uuid>
+            <template>Template Disable NTP</template>
+            <name>Template Disable NTP</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
                 <macro>
-                    <macro>{$DISABLE_OSSEC}</macro>
+                    <macro>{$DISABLE_NTP}</macro>
                     <value>1</value>
                 </macro>
             </macros>
         </template>
         <template>
+            <uuid>90ab934d0a3342e58e421932532956b3</uuid>
             <template>Template Disable postfix and localmail checks</template>
             <name>Template Disable postfix and localmail checks</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -105,12 +214,30 @@
             </macros>
         </template>
         <template>
+            <uuid>c8314ccb6a964143965adeee4a9a74db</uuid>
+            <template>Template Disable processes need restart</template>
+            <name>Template Disable processes need restart</name>
+            <description>When you're using unattended upgrades, we don't want to see your missing restarts.</description>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_NEEDSRESTART}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>7688946d7a004ada8d864ae87f773e11</uuid>
             <template>Template Disable processor load messages</template>
             <name>Template Disable processor load messages</name>
             <description>Want PointerBP docker swarm bende loopt alleen maar CPU te vreten!</description>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -121,11 +248,12 @@
             </macros>
         </template>
         <template>
+            <uuid>79832ec4234042528bc86c699df97f6b</uuid>
             <template>Template Disable psdiff</template>
             <name>Template Disable psdiff</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -136,11 +264,12 @@
             </macros>
         </template>
         <template>
+            <uuid>e14e5316a4904e43b4f56238d024d361</uuid>
             <template>Template Disable RabbitMQ clustering</template>
             <name>Template Disable RabbitMQ clustering</name>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
@@ -151,16 +280,71 @@
             </macros>
         </template>
         <template>
-            <template>Template Disable update notifications</template>
-            <name>Template Disable update notifications</name>
+            <uuid>6d49b931f83d409b99613ef368799972</uuid>
+            <template>Template Disable RabbitMQ critical queue triggers</template>
+            <name>Template Disable RabbitMQ critical queue triggers</name>
+            <templates>
+                <template>
+                    <name>Template App RabbitMQ node by Zabbix agent</name>
+                </template>
+            </templates>
             <groups>
                 <group>
-                    <name>TEMPLATES</name>
+                    <name>Templates/Operating systems</name>
                 </group>
             </groups>
             <macros>
                 <macro>
-                    <macro>{$DISABLE_SEC_UPDATES}</macro>
+                    <macro>{$DISABLE_RABBITMQ_QUEUE_CRITICAL_TRIGGERS}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>9a6331be230743878f50afdcae5c093d</uuid>
+            <template>Template Disable Rsyslog</template>
+            <name>Template Disable Rsyslog</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_RSYSLOG}</macro>
+                    <value>1</value>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>877ef0f5b21a4bc6b9a1b356232de4eb</uuid>
+            <template>Template Disable Tetragon</template>
+            <name>Template Disable Tetragon</name>
+            <groups>
+                <group>
+                    <name>Templates/Applications</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_TETRAGON}</macro>
+                    <value>1</value>
+                    <description>Disables Tetragon related triggers</description>
+                </macro>
+            </macros>
+        </template>
+        <template>
+            <uuid>87415f036de24e4e8f07078c2e62b9ff</uuid>
+            <template>Template Disable update notifications</template>
+            <name>Template Disable update notifications</name>
+            <groups>
+                <group>
+                    <name>Templates/Operating systems</name>
+                </group>
+            </groups>
+            <macros>
+                <macro>
+                    <macro>{$DISABLE_NEEDSUPDATES}</macro>
                     <value>1</value>
                 </macro>
             </macros>

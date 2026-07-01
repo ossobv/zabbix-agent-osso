@@ -586,21 +586,9 @@ last(/Template OSSO Kernel Misc/net.has_ext_ip4)=1 and
             </discovery_rules>
             <macros>
                 <macro>
-                    <macro>{$DISABLE_FIREWALL}</macro>
+                    <macro>{$ISMS_DATACLASS_LEVEL}</macro>
                     <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$DISABLE_ZBXNOHW}</macro>
-                    <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$HAS_DISASTER}</macro>
-                    <value>1</value>
-                </macro>
-                <macro>
-                    <macro>{$KERNEL_SLABPCT}</macro>
-                    <value>20</value>
-                    <description>Expect less than N% kernel slab usage (increase on ZFS systems)</description>
+                    <description>default/lowest dataclass level</description>
                 </macro>
             </macros>
         </template>
