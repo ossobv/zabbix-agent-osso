@@ -458,6 +458,26 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                         </tag>
                     </tags>
                 </item>
+                <item>
+                    <uuid>2dafc792679e46a0b96788cdcec72dd7</uuid>
+                    <name>Intel NIC ice-mode</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode]</key>
+                    <delay>5m</delay>
+                    <history>1h</history>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <triggers>
+                        <trigger>
+                            <uuid>88c4426295684ae2aa7afc01bdcde20d</uuid>
+                            <expression>last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;ddp&quot;</expression>
+                            <name>Intel NIC ice-mode not DDP</name>
+                            <opdata>mode={ITEM.LASTVALUE}</opdata>
+                            <priority>DISASTER</priority>
+                            <description>If the Intel E8xx NIC ice driver is not in DDP mode, it will be way slower than we want. Alert early. (If the value does not exist, then ignore.)</description>
+                        </trigger>
+                    </triggers>
+                </item>
             </items>
             <discovery_rules>
                 <discovery_rule>

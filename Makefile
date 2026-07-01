@@ -4,7 +4,8 @@ check: cleanup check-header check-sudo
 
 check-header:
 	# Checking that every file has a leading "zabbix-agent-osso" header.
-	@! find zabbix_agent?.d/ scripts/ config/ cron.d/ sudoers.d/ \
+	@! find zabbix_agent?.d/ config/ cron.d/ \
+	  scripts/ scripts/onboot.d/ sudoers.d/ \
 	  -maxdepth 1 -type f | xargs \
 	  grep -FL '[This file is part of the zabbix-agent-osso package]' | \
 	  grep ''
@@ -46,3 +47,6 @@ install:
 	# sudoers.d
 	install -d -o root $(DESTDIR)/etc/sudoers.d
 	install -o root -m 0400 -t $(DESTDIR)/etc/sudoers.d/ sudoers.d/*
+	# sbin
+	install -d -o root $(DESTDIR)/usr/sbin
+	install -o root -m 0755 -t $(DESTDIR)/usr/sbin/ bin/zabbix_onboot

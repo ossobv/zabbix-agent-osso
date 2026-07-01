@@ -1,0 +1,57 @@
+#!/bin/sh
+set -eu
+CACHE=/var/lib/zabbix/scripts
+DMESG="$CACHE/onboot.dmesg"
+ONBOOT_D=/etc/zabbix/scripts/onboot.d
+
+# zabbix_onboot will:
+# - capture the early boot dmesg
+# - call onboot.d scripts that process it
+#
+# The reasoning is:
+# - dmesg/journalctl might get rotated/lost or slow when growing large
+# - this script is supposed to be called late enough that a filesystem
+#   exists and the relevant boot sequence has been performed
+# - then we can check these small logs and cache the results
+
+# This files writes dmesg to a public location. Ensure that only root and
+# zabbix can read it.
+# If user:group is not zabbix:zabbix we'll find out quickly enough.
+chmod 2750 "$(dirname "$DMESG")"
+umask 0022
+
+# Check journalctl capabilities. We don't need many features though.
+# SYSTEMDVER=$(
+#     journalctl --version 2>/dev/null |
+#     awk 'BEGIN{n=0} /^systemd/{n=$2;exit} END{print int(n)}')
+# if test "$SYSTEMDVER" -lt 215; then
+#     echo "ERROR: systemd version too low, aborting" >&2
+#     exit 0  # don't fail on older systems
+# fi
+if ! command -v journalctl >/dev/null; then
+    # Wipe dmesg file in case we want to check its existence.
+    mv -f "$DMESG" "${DMESG}.1" 2>/dev/null || true
+    exit 0  # no systemd/journalctl; odd system, but okay
+fi
+
+# Did we write a file after boot? (We prefix it with the boot id.)
+# If not (or there was no file), then write anew.
+cur_bootid=$(cat /proc/sys/kernel/random/boot_id)
+file_bootid=$(head -n1 "$DMESG" 2>/dev/null || true)
+if test "$file_bootid" != "$cur_bootid"; then
+    # Move the old one for inspection, if it existed.
+    mv -f "$DMESG" "${DMESG}.1" 2>/dev/null || true
+    # Start a fresh file with the id.
+    echo "$cur_bootid" >"$DMESG"
+    # Minimal journalctl feature set. Just check since boot in the kernel
+    # transport.
+    journalctl -o cat -b 0 _TRANSPORT=kernel >>"$DMESG"
+fi
+
+# Cool. That was the hard part. Now we're free to inspect the dmesg for
+# anomalies. Have drop-in scripts do that.
+set +e  # don't die on individual script errors
+for script in "$ONBOOT_D/"*.sh; do
+    test -x "$script" || continue  # only process found executables
+    CACHE=$CACHE DMESG=$DMESG "$script"
+done

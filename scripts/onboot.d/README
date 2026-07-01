@@ -1,0 +1,11 @@
+[This file is part of the zabbix-agent-osso package]
+
+Drop-in dir for onboot called scripts that can check a bunch of parameters
+early in boot.
+
+Files ending with .sh are executed in lexicographical order. Other files are
+ignored.
+
+Environment passed:
+- CACHE = path where we can place files to be read by userparameters
+- DMESG = path to a file with early dmesg boot info.

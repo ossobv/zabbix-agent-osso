@@ -1,0 +1,12 @@
+[Unit]
+Description=Capture boot logs and inspect them for errors
+Documentation=https://github.com/ossobv/zabbix-agent-osso/blob/main/scripts/onboot.d/README
+After=local-fs.target systemd-journald.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/sbin/zabbix_onboot
+
+[Install]
+WantedBy=multi-user.target
