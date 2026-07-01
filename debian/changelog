@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.91) stable; urgency=low
+
+  * onboot.d: Add onboot check infra
+  * kernel.intel.ice-mode: Add Intel ice module check for DDP safe mode;
+    triggers Disaster
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Wed, 01 Jul 2026 10:39:54 +0200
+
 zabbix-agent-osso (0.90) stable; urgency=low
 
   * daemon: last(1) does not report tty logins on Noble anymore; fix
