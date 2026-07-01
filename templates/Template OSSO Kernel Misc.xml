@@ -470,11 +470,14 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <triggers>
                         <trigger>
                             <uuid>88c4426295684ae2aa7afc01bdcde20d</uuid>
-                            <expression>last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;ddp&quot;</expression>
+                            <expression>last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;ddp&quot; and 
+last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;no_ddp&quot;</expression>
                             <name>Intel NIC ice-mode not DDP</name>
                             <opdata>mode={ITEM.LASTVALUE}</opdata>
                             <priority>DISASTER</priority>
-                            <description>If the Intel E8xx NIC ice driver is not in DDP mode, it will be way slower than we want. Alert early. (If the value does not exist, then ignore.)</description>
+                            <description>If the Intel E8xx NIC ice driver is not in DDP mode, it will be way slower than we want. Alert early. (If the value does not exist, then ignore.)
+
+For the no_ddp case, it appears the module is not used (yet) and this is not a problem. For now assume this is the case. (If lshw lists driver=ice when no_ddp, then we need to fix.)</description>
                         </trigger>
                     </triggers>
                 </item>

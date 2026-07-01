@@ -14,18 +14,22 @@ if ! grep -q '^ice:' "$DMESG"; then
     exit 0
 fi
 
-intel_ice_mode=no_ddp
 if grep -q '^ice[: ].*The DDP package was successfully loaded' "$DMESG"; then
-    intel_ice_mode=ddp
+    intel_ice_mode=ddp  # good
+else
+    intel_ice_mode=no_ddp  # unknown
+fi
 
-    # Find out whether it also failed. All module logs pertaining to safe mode
-    # have "Entering Safe Mode".
-    if grep -q '^ice[: ].*Entering Safe Mode' "$DMESG"; then
-        intel_ice_mode=safe_mode  # not good
-    elif grep -qE '^ice[: ].*(ice_init_hw failed|[Ff]irmware recovery mode)' \
-            "$DMESG"; then
-        intel_ice_mode=hw_fail    # even worse
-    fi
+# Find out whether DDP loading failed. All module logs pertaining to safe mode
+# have "Entering Safe Mode".
+if grep -q '^ice[: ].*Entering Safe Mode' "$DMESG"; then
+    # This can be in conjunction "The DDP package was successfully loaded" but
+    # also without.
+    intel_ice_mode=safe_mode  # not good
+fi
+if grep -qE '^ice[: ].*(ice_init_hw failed|[Ff]irmware recovery mode)' \
+        "$DMESG"; then
+    intel_ice_mode=hw_fail    # even worse
 fi
 
 # We want DDP when we have ICE (I think). So store the state and have zabbix
