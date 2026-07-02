@@ -1,3 +1,11 @@
+zabbix-agent-osso (0.92) stable; urgency=low
+
+  * kernel.intel.ice-mode: Fix trigger failure on Safe Mode (without earlier
+    DDP success message). No Disaster/trigger when the module is loaded but
+    not used (no DDP message at all).
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Thu, 02 Jul 2026 08:18:55 +0200
+
 zabbix-agent-osso (0.91) stable; urgency=low
 
   * onboot.d: Add onboot check infra
