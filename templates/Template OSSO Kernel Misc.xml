@@ -470,7 +470,7 @@ When the nodes are healthy, we want to resolve this trigger by removing the proh
                     <triggers>
                         <trigger>
                             <uuid>88c4426295684ae2aa7afc01bdcde20d</uuid>
-                            <expression>last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;ddp&quot; and 
+                            <expression>last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;ddp&quot; and
 last(/Template OSSO Kernel Misc/vfs.file.contents[/var/lib/zabbix/scripts/kernel.intel.ice-mode])&lt;&gt;&quot;no_ddp&quot;</expression>
                             <name>Intel NIC ice-mode not DDP</name>
                             <opdata>mode={ITEM.LASTVALUE}</opdata>
