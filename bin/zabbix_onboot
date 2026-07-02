@@ -46,12 +46,17 @@ if test "$file_bootid" != "$cur_bootid"; then
     # Minimal journalctl feature set. Just check since boot in the kernel
     # transport.
     journalctl -o cat -b 0 _TRANSPORT=kernel >>"$DMESG"
+elif mtime=$(stat -c%Y "$DMESG") && now=$(date +%s) &&
+        test $((now - mtime)) -ge 600; then
+    # If we're rerunning this, add a bit of dmesg. This is a hack to allow us
+    # to do fixups. If you rerun this a lot, the dmesg file will grow a lot.
+    journalctl -o cat -b 0 -S '-10 minutes' _TRANSPORT=kernel >>"$DMESG" ||
+        true
 fi
 
 # Cool. That was the hard part. Now we're free to inspect the dmesg for
 # anomalies. Have drop-in scripts do that.
-set +e  # don't die on individual script errors
 for script in "$ONBOOT_D/"*.sh; do
     test -x "$script" || continue  # only process found executables
-    CACHE=$CACHE DMESG=$DMESG "$script"
+    CACHE=$CACHE DMESG=$DMESG "$script" || true  # continue with next script
 done
