@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>6.4</version>
+    <version>7.0</version>
     <template_groups>
         <template_group>
             <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
@@ -9,7 +9,7 @@
     </template_groups>
     <templates>
         <template>
-            <uuid>dfb8263cf05842f5bc3d8d7f3f11bcbf</uuid>
+            <uuid>0abdca6f5ef94a0bb75a86fc5d49b78f</uuid>
             <template>Template K8S Galera</template>
             <name>Template K8S Galera</name>
             <groups>
@@ -19,162 +19,236 @@
             </groups>
             <discovery_rules>
                 <discovery_rule>
-                    <uuid>b1134c1839a5481eb653131795ad65ce</uuid>
+                    <uuid>14aec76875a44b6db89193c72dd0565e</uuid>
                     <name>K8S galera cluster discovery</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>k8s.galera.discover_clusters</key>
+                    <key>k8s.galera.discover_instances</key>
                     <delay>1h</delay>
                     <lifetime>1d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <item_prototypes>
                         <item_prototype>
-                            <uuid>0c03b14cfb904f8aaef6a74b493b3598</uuid>
-                            <name>K8S galera cluster {#CLUSTER} ({#CONTEXT}) current_primary_pod_index</name>
+                            <uuid>31fe902eebe643eaaaff52ce8a136472</uuid>
+                            <name>K8S galera current_timestamp {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
                             <type>DEPENDENT</type>
-                            <key>k8s.galera.current_primary_pod_index[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <key>k8s.galera.current_timestamp[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
                             <delay>0</delay>
-                            <history>1d</history>
+                            <trends>0</trends>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
                                     <parameters>
-                                        <parameter>$.current_primary_pod_index</parameter>
+                                        <parameter>$.current_timestamp</parameter>
                                     </parameters>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s.galera.show_cluster[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                                <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
                             </master_item>
                             <trigger_prototypes>
                                 <trigger_prototype>
-                                    <uuid>3dc862e0a0ee4cd7ac9160a97e55fd34</uuid>
-                                    <expression>change(/Template K8S Galera/k8s.galera.current_primary_pod_index[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])=1</expression>
-                                    <name>K8S galera primary pod changed on {#CLUSTER} ({#CONTEXT})</name>
+                                    <uuid>9605368c0c6e42cfaa91c6f511cc6ba6</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.current_timestamp[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt; (now() - 600)</expression>
+                                    <name>K8S galera status not updated (10 min) {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>5de8e51462584075897a2324aceff95c</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.current_timestamp[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt; (now() - 600)</expression>
+                                    <name>K8S galera status not updated (10 min) {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
                                     <priority>DISASTER</priority>
                                 </trigger_prototype>
                             </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <uuid>c529c403c1c347da87deadca49fe0c5a</uuid>
-                            <name>K8S galera cluster {#CLUSTER} ({#CONTEXT}) current_replica_count</name>
-                            <type>DEPENDENT</type>
-                            <key>k8s.galera.current_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
-                            <delay>0</delay>
-                            <history>1d</history>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$.current_replica_count</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>k8s.galera.show_cluster[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
-                            </master_item>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>6a9217c4869a4e4eb14d0501eea24514</uuid>
-                            <name>K8S galera cluster {#CLUSTER} ({#CONTEXT}) desired_replica_count</name>
-                            <type>DEPENDENT</type>
-                            <key>k8s.galera.desired_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
-                            <delay>0</delay>
-                            <history>1d</history>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$.desired_replica_count</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>k8s.galera.show_cluster[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
-                            </master_item>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>6cca177db16f4c85a3b941c7847c61d3</uuid>
-                            <name>K8S galera cluster {#CLUSTER} ({#CONTEXT}) galera_ready</name>
-                            <type>DEPENDENT</type>
-                            <key>k8s.galera.galera_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
-                            <delay>0</delay>
-                            <history>1d</history>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$.galera_ready</parameter>
-                                    </parameters>
-                                </step>
-                                <step>
-                                    <type>JAVASCRIPT</type>
-                                    <parameters>
-                                        <parameter>return value === &quot;True&quot; ? 1 : &quot;False&quot; === false ? 0 : null;
-</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>k8s.galera.show_cluster[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
-                            </master_item>
-                            <trigger_prototypes>
-                                <trigger_prototype>
-                                    <uuid>4117b5e785c04152bc0645e0239cde13</uuid>
-                                    <expression>last(/Template K8S Galera/k8s.galera.galera_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])=0</expression>
-                                    <name>K8S galera not-ready on {#CLUSTER} ({#CONTEXT})</name>
-                                    <priority>DISASTER</priority>
-                                </trigger_prototype>
-                                <trigger_prototype>
-                                    <uuid>ca1f90d277f64dc291b86698cb295fb1</uuid>
-                                    <expression>last(/Template K8S Galera/k8s.galera.galera_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])=0</expression>
-                                    <name>K8S galera sts not-ready on {#CLUSTER} ({#CONTEXT})</name>
-                                    <priority>DISASTER</priority>
-                                </trigger_prototype>
-                            </trigger_prototypes>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>f0a7572b28844f13b41eb5e2220172fb</uuid>
-                            <name>K8S galera cluster {#CLUSTER} ({#CONTEXT})</name>
+                            <uuid>204faaa45ab74e10a6b1e52c542d52a0</uuid>
+                            <name>K8S galera data {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
                             <type>ZABBIX_ACTIVE</type>
-                            <key>k8s.galera.show_cluster[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
                             <history>0</history>
                             <value_type>TEXT</value_type>
                             <trends>0</trends>
                         </item_prototype>
                         <item_prototype>
-                            <uuid>25c7d11ad7914a68b437e23d7c999ac7</uuid>
-                            <name>K8S galera cluster {#CLUSTER} ({#CONTEXT}) statefulsets_ready</name>
+                            <uuid>b010dbee0c53492aa90c3e7544fa0a4f</uuid>
+                            <name>K8S galera wsrep_cluster_size {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
                             <type>DEPENDENT</type>
-                            <key>k8s.galera.sts_ready[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                            <key>k8s.galera.wsrep_cluster_size[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
                             <delay>0</delay>
-                            <history>1d</history>
+                            <trends>0</trends>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
                                     <parameters>
-                                        <parameter>$.sts_ready</parameter>
+                                        <parameter>$.wsrep_cluster_size</parameter>
                                     </parameters>
-                                </step>
-                                <step>
-                                    <type>JAVASCRIPT</type>
-                                    <parameters>
-                                        <parameter>return value === &quot;True&quot; ? 1 : value === &quot;False&quot; ? 0 : null;</parameter>
-                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>0</error_handler_params>
                                 </step>
                             </preprocessing>
                             <master_item>
-                                <key>k8s.galera.show_cluster[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]</key>
+                                <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
                             </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>ffc2828626364b26919e6f1c647175e8</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_cluster_size[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; 3</expression>
+                                    <name>K8S galera wsrep_cluster_size not 3 {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>f12642cb23e149098e1ac73b81c81b1d</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_cluster_size[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; 3</expression>
+                                    <name>K8S galera wsrep_cluster_size not 3 {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>47aedab6e5ec44a7b39f022133d2ba94</uuid>
+                            <name>K8S galera wsrep_cluster_status {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.galera.wsrep_cluster_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.wsrep_cluster_status</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>&quot;Failed&quot;</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>a7d5770bf67d477e816c6b05900637d9</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_cluster_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}])&lt;&gt; &quot;Primary&quot;</expression>
+                                    <name>K8S galera wsrep_cluster_status not primary {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>f8055005f914481a904541d68f35e6b8</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_cluster_status[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}])&lt;&gt; &quot;Primary&quot;</expression>
+                                    <name>K8S galera wsrep_cluster_status not primary {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>6ceb1b0f5b284a5b83dc2ef799786535</uuid>
+                            <name>K8S galera wsrep_connected {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.galera.wsrep_connected[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.wsrep_connected</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>&quot;Failed&quot;</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>bc629057304d4c1d81c03ac50bb59573</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_connected[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; &quot;ON&quot;</expression>
+                                    <name>K8S galera wsrep not connected {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>82146ec44aa94367aab93a86cb38594a</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_connected[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; &quot;ON&quot;</expression>
+                                    <name>K8S galera wsrep not connected {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>abdb66d7d2c64d54a5f4f4417d045431</uuid>
+                            <name>K8S galera wsrep_local_state_comment {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.galera.wsrep_local_state_comment[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.wsrep_local_state_comment</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>&quot;Failed&quot;</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>57d0ce5e2c5548a0b704858778339c91</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and last(/Template K8S Galera/k8s.galera.wsrep_local_state_comment[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; &quot;Synced&quot;</expression>
+                                    <name>K8S galera NOT synced {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>10bc2bc3a8914eb98af51fcb2d1a2aac</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_local_state_comment[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; &quot;Synced&quot;</expression>
+                                    <name>K8S galera NOT synced {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>43cfe3b71cb24ae2828f5d4b29449254</uuid>
+                            <name>K8S galera wsrep_ready {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.galera.wsrep_ready[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            <delay>0</delay>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.wsrep_ready</parameter>
+                                    </parameters>
+                                    <error_handler>CUSTOM_VALUE</error_handler>
+                                    <error_handler_params>&quot;Failed&quot;</error_handler_params>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.galera.data[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]</key>
+                            </master_item>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>4fb1fdddc2a34038ad34eefbd4a63170</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_ready[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; &quot;ON&quot;</expression>
+                                    <name>K8S galera wsrep not ready {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>17871fcdb6744deb9934c76a457dfe7a</uuid>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template K8S Galera/k8s.galera.wsrep_ready[{#CONTEXT},{#NAMESPACE},{#CONFIGMAP},{#NODE}]) &lt;&gt; &quot;ON&quot;</expression>
+                                    <name>K8S galera wsrep not ready {#NODE} in {#NAMESPACE} ({#CONTEXT})</name>
+                                    <priority>DISASTER</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                     </item_prototypes>
-                    <trigger_prototypes>
-                        <trigger_prototype>
-                            <uuid>9fa67ad96f584e0a9600b997596db986</uuid>
-                            <expression>last(/Template K8S Galera/k8s.galera.current_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}]) &lt;&gt; last(/Template K8S Galera/k8s.galera.desired_replica_count[{#CONTEXT},{#NAMESPACE},{#CLUSTER}])</expression>
-                            <name>K8S galera low replica count on {#CLUSTER} ({#CONTEXT})</name>
-                            <opdata>{ITEM.LASTVALUE1} &lt; {ITEM.LASTVALUE2}</opdata>
-                            <priority>DISASTER</priority>
-                        </trigger_prototype>
-                    </trigger_prototypes>
                 </discovery_rule>
             </discovery_rules>
             <tags>
