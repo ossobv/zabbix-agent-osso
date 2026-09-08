@@ -1,0 +1,6 @@
+# [This file is part of the zabbix-agent-osso package]
+#
+# Access to pve files requires root.
+Cmnd_Alias ZABBIX_PVE = /etc/zabbix/scripts/pve memory
+Defaults!ZABBIX_PVE !log_allowed, !pam_session
+zabbix ALL=NOPASSWD: ZABBIX_PVE

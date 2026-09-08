@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>7841cebfb6fa49cfaa0622102a7631cf</uuid>
+            <name>Templates/Roles</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>a78526ad6a8c4d009ddc52947f9f7423</uuid>
+            <template>Template Role PVE</template>
+            <name>Template Role PVE</name>
+            <groups>
+                <group>
+                    <name>Templates/Roles</name>
+                </group>
+            </groups>
+            <items>
+                <item>
+                    <uuid>5f0edaafd0c248819fdb72350bdaf689</uuid>
+                    <name>PVE mem provisioning</name>
+                    <type>ZABBIX_ACTIVE</type>
+                    <key>pve.memory</key>
+                    <delay>15m</delay>
+                    <history>0</history>
+                    <value_type>TEXT</value_type>
+                    <trends>0</trends>
+                    <description>{&quot;mem_g&quot;:503,&quot;vm_g&quot;:492,&quot;pct&quot;:97.8131}</description>
+                </item>
+                <item>
+                    <uuid>ab330258aa1040418dab086acfa8109c</uuid>
+                    <name>PVE mem provisioning free gb</name>
+                    <type>DEPENDENT</type>
+                    <key>pve.memory.free_gb</key>
+                    <delay>0</delay>
+                    <value_type>FLOAT</value_type>
+                    <preprocessing>
+                        <step>
+                            <type>JAVASCRIPT</type>
+                            <parameters>
+                                <parameter>var obj = JSON.parse(value);
+if (obj.mem_gb == 0) {
+    return -1.0;
+}
+return Math.max(obj.mem_g - obj.vm_g, 0.0);</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>pve.memory</key>
+                    </master_item>
+                </item>
+                <item>
+                    <uuid>7c4321879ce141be9af11907d1713338</uuid>
+                    <name>PVE mem provisioning use percent</name>
+                    <type>DEPENDENT</type>
+                    <key>pve.memory.pct</key>
+                    <delay>0</delay>
+                    <history>3d</history>
+                    <value_type>FLOAT</value_type>
+                    <trends>31d</trends>
+                    <units>%</units>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.pct</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
+                    <master_item>
+                        <key>pve.memory</key>
+                    </master_item>
+                </item>
+            </items>
+        </template>
+    </templates>
+    <triggers>
+        <trigger>
+            <uuid>6c2e7483edb5478793cfbe5f0db56027</uuid>
+            <expression>last(/Template Role PVE/pve.memory.pct)&gt;95 and
+last(/Template Role PVE/pve.memory.free_gb)&lt;8</expression>
+            <name>PVE mem provisioning over 95% and below 8GB</name>
+            <opdata>{ITEM.LASTVALUE1}% and {ITEM.LASTVALUE2}G free</opdata>
+            <priority>DISASTER</priority>
+        </trigger>
+    </triggers>
+</zabbix_export>
