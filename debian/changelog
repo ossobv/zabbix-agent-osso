@@ -1,3 +1,13 @@
+zabbix-agent-osso (0.93) stable; urgency=low
+
+  * k8s-galera: Update to work with sidecar monitoring
+  * kernel.intel: Per PCI address, read the latest state
+  * onboot: Allow the onboot script to get 10 extra minutes of dmesg
+  * pve: Add Role PVE with memory overprovisioning checks
+  * scripts: Clearer use of which/command and ZBX_NOTSUPPORTED on stdout
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 08 Sep 2026 09:47:27 +0200
+
 zabbix-agent-osso (0.92) stable; urgency=low
 
   * kernel.intel.ice-mode: Fix trigger failure on Safe Mode (without earlier
