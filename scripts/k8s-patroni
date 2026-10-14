@@ -67,8 +67,8 @@ elif [ "$1" = "show-member" ]; then
 else
     echo "possible actions:
     discover-clusters
-    show-cluster context namespace configmap
+    show-cluster CONTEXT NAMESPACE CONFIGMAP
     discover-members
-    show-member context namespace configmap member_name" >&2
+    show-member CONTEXT NAMESPACE CONFIGMAP MEMBER_NAME" >&2
     exit 1
 fi

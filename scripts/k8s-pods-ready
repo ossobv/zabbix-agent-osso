@@ -74,6 +74,6 @@ elif [ "$1" = "values" ]; then
 else
     echo "possible actions:
     discover
-    values context namespace startswith" 2>&1
+    values CONTEXT NAMESPACE STARTSWITH" 2>&1
     exit 1
 fi

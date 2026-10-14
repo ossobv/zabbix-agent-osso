@@ -41,6 +41,6 @@ elif [ "$1" = "values" ]; then
 else
     echo "possible actions:
     discover
-    values context namespace pod" >&2
+    values CONTEXT NAMESPACE POD" >&2
     exit 1
 fi

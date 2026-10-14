@@ -172,6 +172,6 @@ elif [ "$1" = "show-filesystem" ]; then
 else
     echo "possible actions:
     discover-filesystems
-    show-filesystem context name backend lookupid..." >&2
+    show-filesystem CONTEXT NAME BACKEND LOOKUPID..." >&2
     exit 1
 fi

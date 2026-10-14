@@ -56,7 +56,7 @@ elif [ "$1" = "show-status-json" ]; then
 else
     echo "possible actions:
     discover
-    show-health-json context namespace status_name endpoint
-    show-status-json context namespace status_name endpoint" >&2
+    show-health-json CONTEXT NAMESPACE STATUS_NAME ENDPOINT
+    show-status-json CONTEXT NAMESPACE STATUS_NAME ENDPOINT" >&2
     exit 1
 fi
