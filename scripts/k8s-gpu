@@ -1,0 +1,63 @@
+#!/bin/sh
+# [This file is part of the zabbix-agent-osso package]
+# REQUIRES: jq, kubectl
+#
+set -eu
+
+get_contexts() {
+    kubectl config get-contexts -oname 2>/dev/null
+}
+
+# Only get nodes with allocatable nvidia.com/gpu label
+get_gpu_nodes() {
+    kubectl --context "$1" get nodes -o json 2>/dev/null |
+        jq -r '.items[]? | select(
+            .status.allocatable["nvidia.com/gpu"] != null
+        ) | .metadata.name'
+}
+
+make_json() {
+    echo '{"{#CONTEXT}":"'$1'","{#NODE}":"'$2'"}'
+}
+
+# Get per node data of allocatable GPU, GPU memory and GPU core
+# Note: GPU core is a percentage ranging from 0 to 100 per GPU
+get_node_data() {
+    local context="$1"
+    local node="$2"
+
+    local node_json="$(
+        kubectl --context "$context" get node "$node" -o json 2>/dev/null
+    )"
+
+    if [ -n "${node_json:-}" ]; then
+        echo "$node_json" | jq -c '{
+            gpu: (.status.allocatable["nvidia.com/gpu"] // "0" | tonumber),
+            gpumem: (((.metadata.annotations["hami.io/node-nvidia-register"]
+                // "[]" | fromjson? // []) | map(.devmem) | add) // 0),
+            gpucores: (((.metadata.annotations["hami.io/node-nvidia-register"]
+                // "[]" | fromjson? // []) | map(.devcore) | add) // 0)
+        }'
+    else
+        echo '{"gpu":0,"gpumem":0,"gpucores":0}'
+    fi
+}
+
+if [ "${1:-}" = "discover" ]; then
+    for context in $(get_contexts); do
+        for node in $(get_gpu_nodes "$context"); do
+            make_json "$context" "$node"
+        done
+    done | jq -sc
+    exit 0
+
+elif [ "${1:-}" = "values" ]; then
+    get_node_data "$2" "$3"
+    exit 0
+
+else
+    echo "possible actions:
+    discover
+    values CONTEXT NODE" >&2
+    exit 1
+fi
