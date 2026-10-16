@@ -4,7 +4,7 @@
 
 The k8s redis monitoring works by running a script as a sidecar.
 This script writes all statuses available in the container to a configmap.
-These confimaps are automatically discovered by the zabbix-agent.
+These configmaps are automatically discovered by the zabbix-agent.
 
 To use the redis monitoring you have to do the following steps:
 

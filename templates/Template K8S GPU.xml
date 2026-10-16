@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>7.0</version>
+    <template_groups>
+        <template_group>
+            <uuid>e5d6f8dc34ac4aeb93db32e35c0d7dbd</uuid>
+            <name>Templates/Kubernetes</name>
+        </template_group>
+    </template_groups>
+    <templates>
+        <template>
+            <uuid>35c1896d4ea74ab4b1f0e49b293852f3</uuid>
+            <template>Template K8S GPU</template>
+            <name>Template K8S GPU</name>
+            <groups>
+                <group>
+                    <name>Templates/Kubernetes</name>
+                </group>
+            </groups>
+            <discovery_rules>
+                <discovery_rule>
+                    <uuid>8d5c456605c645579a0cdaf923825164</uuid>
+                    <name>K8S GPU discovery</name>
+                    <key>k8s.gpu.discovery</key>
+                    <item_prototypes>
+                        <item_prototype>
+                            <uuid>bbc297782a3e4fecbf26ca725c9ed8b3</uuid>
+                            <name>K8s Node [{#NODE}]: Total GPU Compute Capacity</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.gpu.cores[{#CONTEXT},{#NODE}]</key>
+                            <delay>0</delay>
+                            <units>%</units>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.gpucores</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.gpu.get[{#CONTEXT},{#NODE}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Gpu</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>b958904e46c64550a3901e29a250bede</uuid>
+                            <name>K8S GPU status</name>
+                            <key>k8s.gpu.get[{#CONTEXT},{#NODE}]</key>
+                            <history>0</history>
+                            <value_type>TEXT</value_type>
+                            <trends>0</trends>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Gpu</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>bc7360f6124245239f6a5e1313d05012</uuid>
+                            <name>K8s Node [{#NODE}]: Allocatable GPU Slots</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.gpu.slots[{#CONTEXT},{#NODE}]</key>
+                            <delay>0</delay>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.gpu</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.gpu.get[{#CONTEXT},{#NODE}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Gpu</value>
+                                </tag>
+                            </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>0397f4a85c014298a091137fcfe41c6c</uuid>
+                                    <expression>max(/Template K8S GPU/k8s.gpu.slots[{#CONTEXT},{#NODE}],#3)=0</expression>
+                                    <name>K8s [{#NODE}]: GPU not schedulable</name>
+                                    <priority>HIGH</priority>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                        <item_prototype>
+                            <uuid>a6c5e73f95da487d985bf370786d6c54</uuid>
+                            <name>K8s Node [{#NODE}]: Total GPU VRAM</name>
+                            <type>DEPENDENT</type>
+                            <key>k8s.gpu.vram[{#CONTEXT},{#NODE}]</key>
+                            <delay>0</delay>
+                            <units>MB</units>
+                            <preprocessing>
+                                <step>
+                                    <type>JSONPATH</type>
+                                    <parameters>
+                                        <parameter>$.gpumem</parameter>
+                                    </parameters>
+                                </step>
+                            </preprocessing>
+                            <master_item>
+                                <key>k8s.gpu.get[{#CONTEXT},{#NODE}]</key>
+                            </master_item>
+                            <tags>
+                                <tag>
+                                    <tag>Application</tag>
+                                    <value>Gpu</value>
+                                </tag>
+                            </tags>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+            <tags>
+                <tag>
+                    <tag>Application</tag>
+                    <value>Gpu</value>
+                </tag>
+            </tags>
+        </template>
+    </templates>
+</zabbix_export>
