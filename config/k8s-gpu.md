@@ -18,4 +18,4 @@ To use this script you need:
 
 2. Load the template and enable the template for the hosts:
 
-    - The hosts should have kubectl and have get/list RBAC to view nodes 
+    - The hosts should have kubectl and have get/list RBAC to view nodes
