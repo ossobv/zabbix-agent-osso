@@ -826,26 +826,14 @@ ZBX-15624 + ZBX-12957</description>
                     </triggers>
                 </item>
                 <item>
-                    <uuid>845b8139c44a4e61a27806e88cab6299</uuid>
-                    <name>Host timezone</name>
+                    <uuid>5191543bd5b549fd9f6ae26e66d4195e</uuid>
+                    <name>zabbix-agent-osso new style!</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>vfs.file.contents[/etc/timezone]</key>
-                    <delay>8h</delay>
-                    <history>3d</history>
+                    <key>vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf]</key>
+                    <delay>5m</delay>
+                    <history>1d</history>
                     <trends>0</trends>
-                    <value_type>TEXT</value_type>
-                    <description>It does not look useful to check system.localtime[local] against system.localtime[utc], because then we'd have to change the trigger to +1 and +2 every half year.
-
-Instead, we probably have this file everywhere, so we can just check whether it says Europe/Amsterdam.</description>
                     <preprocessing>
-                        <step>
-                            <type>CHECK_NOT_SUPPORTED</type>
-                            <parameters>
-                                <parameter/>
-                            </parameters>
-                            <error_handler>CUSTOM_VALUE</error_handler>
-                            <error_handler_params>Etc/UTC</error_handler_params>
-                        </step>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                             <parameters>
@@ -875,14 +863,28 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                     </triggers>
                 </item>
                 <item>
-                    <uuid>5191543bd5b549fd9f6ae26e66d4195e</uuid>
-                    <name>zabbix-agent-osso new style!</name>
+                    <uuid>845b8139c44a4e61a27806e88cab6299</uuid>
+                    <name>Host timezone</name>
                     <type>ZABBIX_ACTIVE</type>
-                    <key>vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf]</key>
-                    <delay>5m</delay>
-                    <history>1d</history>
+                    <key>vfs.file.realpath[/etc/localtime]</key>
+                    <delay>8h</delay>
+                    <history>3d</history>
+                    <value_type>TEXT</value_type>
                     <trends>0</trends>
+                    <description>It does not look useful to check system.localtime[local] against system.localtime[utc], because then we'd have to change the trigger to +1 and +2 every half year.
+
+Instead, we probably have this file everywhere, so we can just check whether it says Europe/Amsterdam.
+
+Except, we changed it from /etc/timezone to /etc/localtime, so now we have to check for /usr/share/zoneinfo/Europe/Amsterdam instead.</description>
                     <preprocessing>
+                        <step>
+                            <type>CHECK_NOT_SUPPORTED</type>
+                            <parameters>
+                                <parameter>-1</parameter>
+                            </parameters>
+                            <error_handler>CUSTOM_VALUE</error_handler>
+                            <error_handler_params>/usr/share/zoneinfo/Etc/UTC</error_handler_params>
+                        </step>
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                             <parameters>
@@ -902,16 +904,11 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                     </tags>
                     <triggers>
                         <trigger>
-                            <uuid>491dc0aa6fe24558a135329e52d6ada2</uuid>
-                            <expression>last(/Template OS Linux/vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf])=0</expression>
-                            <name>There is no zabbix-agent-osso, sad, it's true</name>
-                            <priority>INFO</priority>
-                        </trigger>
-                        <trigger>
-                            <uuid>e4ec0e4ca9a948b8989c382414c0e46d</uuid>
-                            <expression>last(/Template OS Linux/vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf])=1 and {$TEMPLATE_OS_DEBIANISH}&lt;&gt;1</expression>
-                            <name>zabbix-agent-osso exists, but we're not in Debianish template</name>
-                            <priority>INFO</priority>
+                            <uuid>983953c8b0f14a2893f850f81577f80a</uuid>
+                            <expression>find(/Template OS Linux/vfs.file.realpath[/etc/localtime],,&quot;like&quot;,&quot;{$ZONEINFO}&quot;)=0</expression>
+                            <name>Host {HOST.NAME} has unexpected zoneinfo</name>
+                            <opdata>tz={ITEM.LASTVALUE1}</opdata>
+                            <priority>HIGH</priority>
                         </trigger>
                     </triggers>
                 </item>

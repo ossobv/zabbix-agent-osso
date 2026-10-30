@@ -15,7 +15,7 @@ INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (14,
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (15, '{$DISKIO_MOUNT_FREE_BELOW_HIGH}', '20', 'High alert when disk free% reaches below', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (16, '{$DISK_LEFT_CRIT}', '10', 'Percentage of disk space left free before a critical gets send (XXX OLD? used in Template Debian-ish -> Mounted filesystem discovery)', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (17, '{$DISABLE_IOWAIT}', '0', 'Set to 1 to disable IO Wait triggers', 0);
-INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (18, '{$TIMEZONE}', 'Europe/Amsterdam', 'expected timezone', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (18, '{$ZONEINFO}', '/usr/share/zoneinfo/Europe/Amsterdam', 'expected zoneinfo file', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (19, '{$DISABLE_CPU_LOAD}', '0', 'Set to 1 to disable CPU load triggers', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (20, '{$DISABLE_MEMORY}', '0', 'Set to 1 to disable lack of available memory triggers', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (21, '{$DISABLE_OOM}', '0', 'Set  to 1 to disable recent oomkill detected triggers', 0);
