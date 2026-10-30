@@ -1,3 +1,12 @@
+zabbix-agent-osso (0.94) stable; urgency=low
+
+  * k8s-*: Help cleanup and configmap error fix in k8s-redis.
+  * k8s-gpu: Monitor GPUs with Hami-operator
+  * vfs: Add vfs.file.realpath/readlink to read /etc/timezone; fixes
+    localtime/timezone lookup support on newer Linux.
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Fri, 30 Oct 2026 15:52:14 +0100
+
 zabbix-agent-osso (0.93) stable; urgency=low
 
   * k8s-galera: Update to work with sidecar monitoring
