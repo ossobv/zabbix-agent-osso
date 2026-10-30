@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
-    <version>6.4</version>
+    <version>7.0</version>
     <template_groups>
         <template_group>
             <uuid>846977d1dfed4968bc5f8bdb363285bc</uuid>
@@ -31,7 +31,6 @@
                     <delay>1h</delay>
                     <history>1w</history>
                     <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -55,7 +54,6 @@
                     <delay>1h</delay>
                     <history>1w</history>
                     <description>It could be increased by using sysctl utility or modifying file /etc/sysctl.conf.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -72,26 +70,12 @@
                     </triggers>
                 </item>
                 <item>
-                    <uuid>ccb6fdbe1267475780e978c0c5de986c</uuid>
-                    <name>Number of processes</name>
-                    <type>ZABBIX_ACTIVE</type>
-                    <key>proc.num</key>
-                    <history>7d</history>
-                    <tags>
-                        <tag>
-                            <tag>component</tag>
-                            <value>system</value>
-                        </tag>
-                    </tags>
-                </item>
-                <item>
                     <uuid>2bb3314953be4cd290cce97926ad6276</uuid>
                     <name>Number of running processes</name>
                     <type>ZABBIX_ACTIVE</type>
                     <key>proc.num[,,run]</key>
                     <history>1w</history>
                     <description>Number of processes in running state.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -114,7 +98,6 @@
                     <key>proc.num[]</key>
                     <history>1w</history>
                     <description>Total number of processes in any state.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -146,7 +129,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -173,7 +155,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -193,7 +174,6 @@
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <description>The processor load is calculates as system CPU load divided by number of CPU cores.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -222,7 +202,6 @@
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <description>The processor load is calculates as system CPU load divided by number of CPU cores.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -250,7 +229,6 @@
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <description>The processor load is calculates as system CPU load divided by number of CPU cores.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -277,7 +255,6 @@
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -427,18 +404,43 @@ return (100 - value)</parameter>
                         </trigger>
                         <trigger>
                             <uuid>b30787067890479ba8404c756645020f</uuid>
-                            <expression>avg(/Template OS Linux/system.cpu.util[,iowait],60m)&gt;25 and time()&gt;{$CRIT_START_TIME}</expression>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and {$DISABLE_IOWAIT}&lt;&gt;1 and avg(/Template OS Linux/system.cpu.util[,iowait],60m)&gt;25 and time()&lt;{$NIGHTTIME_HOURS_BEGIN} and time()&gt;{$NIGHTTIME_HOURS_END}</expression>
                             <name>CPU 25+% busy with I/O for &gt;1h on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
+                            <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.
+
+Only disaster if time is before {$NIGHTTIME_HOURS_BEGIN} and after {$NIGHTTIME_HOURS_END (e.g. &lt;23:00 and &gt;07:00}</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>e1983efffdb4458e89cfdc9d6e6dc56b</uuid>
+                            <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and {$DISABLE_IOWAIT}&lt;&gt;1 and avg(/Template OS Linux/system.cpu.util[,iowait],60m)&gt;25</expression>
+                            <name>CPU 25+% busy with I/O for &gt;1h on {HOST.NAME} (NOPANIC)</name>
+                            <priority>HIGH</priority>
                             <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.
 
 Only disaster if time &gt;= 07:00</description>
                         </trigger>
                         <trigger>
+                            <uuid>02fdb50806ce48d8a675affb33d6f240</uuid>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and {$DISABLE_IOWAIT}&lt;&gt;1 and avg(/Template OS Linux/system.cpu.util[,iowait],60m)&gt;25 and time()&lt;{$OFFICE_HOURS_BEGIN} and time()&gt;{$OFFICE_HOURS_END}</expression>
+                            <name>CPU 25+% busy with I/O for &gt;1h on {HOST.NAME} (outside office hours)</name>
+                            <priority>HIGH</priority>
+                            <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.
+
+Only disaster if office hours</description>
+                        </trigger>
+                        <trigger>
                             <uuid>a46bcaf1bf7747538fd0bb0bac0cfd3a</uuid>
-                            <expression>avg(/Template OS Linux/system.cpu.util[,iowait],5m)&gt;75</expression>
+                            <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and {$DISABLE_IOWAIT}&lt;&gt;1 and avg(/Template OS Linux/system.cpu.util[,iowait],5m)&gt;75</expression>
                             <name>CPU 75% busy with I/O on {HOST.NAME}</name>
                             <priority>DISASTER</priority>
+                            <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.</description>
+                        </trigger>
+                        <trigger>
+                            <uuid>17773ba26d9a4f5abfe0290e443507fe</uuid>
+                            <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and {$DISABLE_IOWAIT}&lt;&gt;1 and avg(/Template OS Linux/system.cpu.util[,iowait],5m)&gt;75</expression>
+                            <name>CPU 75% busy with I/O on {HOST.NAME} (NOPANIC)</name>
+                            <priority>HIGH</priority>
                             <description>OS spends significant time waiting for I/O (input/output) operations. It could be indicator of performance issues with storage system.</description>
                         </trigger>
                     </triggers>
@@ -550,8 +552,8 @@ Only disaster if time &gt;= 07:00</description>
                     <key>system.hostname</key>
                     <delay>1h</delay>
                     <history>1w</history>
-                    <trends>0</trends>
                     <value_type>CHAR</value_type>
+                    <trends>0</trends>
                     <description>System host name.</description>
                     <inventory_link>NAME</inventory_link>
                     <preprocessing>
@@ -562,7 +564,6 @@ Only disaster if time &gt;= 07:00</description>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -591,7 +592,6 @@ Only disaster if time &gt;= 07:00</description>
                     <description>Passive, not active. Because:
 &quot;Trigger function fuzzytime() when used with system.localtime as active check became useless after -ZBX-12957-. The reason being it would always return 0.&quot;
 ZBX-15624 + ZBX-12957</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -618,7 +618,6 @@ ZBX-15624 + ZBX-12957</description>
                     <key>system.swap.size[,free]</key>
                     <history>1w</history>
                     <units>B</units>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -634,7 +633,6 @@ ZBX-15624 + ZBX-12957</description>
                     <history>1w</history>
                     <value_type>FLOAT</value_type>
                     <units>%</units>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -667,7 +665,6 @@ ZBX-15624 + ZBX-12957</description>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -682,8 +679,8 @@ ZBX-15624 + ZBX-12957</description>
                     <key>system.uname</key>
                     <delay>1h</delay>
                     <history>1w</history>
-                    <trends>0</trends>
                     <value_type>CHAR</value_type>
+                    <trends>0</trends>
                     <description>The information as normally returned by 'uname -a'.</description>
                     <inventory_link>OS</inventory_link>
                     <preprocessing>
@@ -694,7 +691,6 @@ ZBX-15624 + ZBX-12957</description>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -722,7 +718,6 @@ ZBX-15624 + ZBX-12957</description>
                     <delay>10m</delay>
                     <history>1w</history>
                     <units>uptime</units>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -749,7 +744,6 @@ ZBX-15624 + ZBX-12957</description>
                     <key>system.users.num</key>
                     <history>1w</history>
                     <description>Number of users who are currently logged in.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -773,7 +767,7 @@ ZBX-15624 + ZBX-12957</description>
                         <step>
                             <type>CHECK_NOT_SUPPORTED</type>
                             <parameters>
-                                <parameter/>
+                                <parameter>-1</parameter>
                             </parameters>
                             <error_handler>CUSTOM_VALUE</error_handler>
                             <error_handler_params>0</error_handler_params>
@@ -816,7 +810,6 @@ ZBX-15624 + ZBX-12957</description>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -863,20 +856,21 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                     <tags>
                         <tag>
                             <tag>Application</tag>
-                            <value>General</value>
-                        </tag>
-                        <tag>
-                            <tag>Application</tag>
-                            <value>OS</value>
+                            <value>Software</value>
                         </tag>
                     </tags>
                     <triggers>
                         <trigger>
-                            <uuid>983953c8b0f14a2893f850f81577f80a</uuid>
-                            <expression>find(/Template OS Linux/vfs.file.contents[/etc/timezone],,&quot;like&quot;,&quot;{$TIMEZONE}&quot;)=0</expression>
-                            <name>Host {HOST.NAME} has unexpected timezone</name>
-                            <opdata>tz={ITEM.LASTVALUE1}</opdata>
-                            <priority>AVERAGE</priority>
+                            <uuid>491dc0aa6fe24558a135329e52d6ada2</uuid>
+                            <expression>last(/Template OS Linux/vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf])=0</expression>
+                            <name>There is no zabbix-agent-osso, sad, it's true</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                        <trigger>
+                            <uuid>e4ec0e4ca9a948b8989c382414c0e46d</uuid>
+                            <expression>last(/Template OS Linux/vfs.file.exists[/etc/zabbix/zabbix_agentd.d/dpkg.conf])=1 and {$TEMPLATE_OS_DEBIANISH}&lt;&gt;1</expression>
+                            <name>zabbix-agent-osso exists, but we're not in Debianish template</name>
+                            <priority>INFO</priority>
                         </trigger>
                     </triggers>
                 </item>
@@ -896,11 +890,14 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
-                            <value>Software</value>
+                            <value>General</value>
+                        </tag>
+                        <tag>
+                            <tag>Application</tag>
+                            <value>OS</value>
                         </tag>
                     </tags>
                     <triggers>
@@ -933,7 +930,6 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -948,7 +944,6 @@ Instead, we probably have this file everywhere, so we can just check whether it 
                     <key>vfs.file.regmatch[/proc/mdstat,_]</key>
                     <history>1d</history>
                     <trends>0</trends>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -1000,7 +995,6 @@ last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&q
                     <history>1w</history>
                     <units>B</units>
                     <description>Available memory is defined as free+cached+buffers memory.</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -1017,7 +1011,6 @@ last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&q
                     <value_type>FLOAT</value_type>
                     <units>%</units>
                     <description>Available memory is defined as free+cached+buffers memory in %</description>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
@@ -1037,17 +1030,30 @@ last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&q
                         <step>
                             <type>DISCARD_UNCHANGED_HEARTBEAT</type>
                             <parameters>
-                                <parameter>1d</parameter>
+                                <parameter>1h</parameter>
                             </parameters>
                         </step>
                     </preprocessing>
-                    <request_method>POST</request_method>
                     <tags>
                         <tag>
                             <tag>Application</tag>
                             <value>Memory</value>
                         </tag>
                     </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>2d5c2f58c2634c738ac4c51b88f691c0</uuid>
+                            <expression>{$ENABLE_RAM_COUNT_TRIGGER}=1 and (last(/Template OS Linux/vm.memory.size[total])&lt;({$RAM_COUNT_WANTED}-100000000) or last(/Template OS Linux/vm.memory.size[total])&gt;({$RAM_COUNT_WANTED}+100000000))</expression>
+                            <name>{HOST.NAME}: Total RAM {ITEM.LASTVALUE} does not match desired RAM count</name>
+                            <priority>HIGH</priority>
+                            <description>See the macro {$RAM_COUNT_WANTED} for the value in bytes.
+
+{$RAM_COUNT_WANTED} / 1024 / 1024 / 1024 = GB's
+
+
+Note that Zabbix does not always get the EXACT 12GB from the VM and there might be slight differences. Therefore we do a doublecheck on a ~95MB diff for now.</description>
+                        </trigger>
+                    </triggers>
                 </item>
                 <item>
                     <uuid>3587d746f75548cf8cac072edecefb3e</uuid>
@@ -1098,6 +1104,7 @@ last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&q
                         </conditions>
                     </filter>
                     <lifetime>10d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <description>Discovery of network interfaces as defined in global regular expression &quot;Network interfaces for discovery&quot;.</description>
                     <item_prototypes>
                         <item_prototype>
@@ -1106,8 +1113,8 @@ last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&q
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.in[{#IFNAME},dropped]</key>
                             <history>1w</history>
-                            <trends>90d</trends>
                             <value_type>FLOAT</value_type>
+                            <trends>90d</trends>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -1129,8 +1136,8 @@ last(/Template OS Linux/vfs.file.regmatch[/proc/modules,&quot;^zfs [0-9]* [^0]&q
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.in[{#IFNAME},errors]</key>
                             <history>1w</history>
-                            <trends>90d</trends>
                             <value_type>FLOAT</value_type>
+                            <trends>90d</trends>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -1178,7 +1185,6 @@ min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                                     </parameters>
                                 </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1192,8 +1198,8 @@ min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.out[{#IFNAME},dropped]</key>
                             <history>1w</history>
-                            <trends>90d</trends>
                             <value_type>FLOAT</value_type>
+                            <trends>90d</trends>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -1215,8 +1221,8 @@ min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                             <type>ZABBIX_ACTIVE</type>
                             <key>net.if.out[{#IFNAME},errors]</key>
                             <history>1w</history>
-                            <trends>90d</trends>
                             <value_type>FLOAT</value_type>
+                            <trends>90d</trends>
                             <preprocessing>
                                 <step>
                                     <type>CHANGE_PER_SECOND</type>
@@ -1262,7 +1268,6 @@ min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                                     </parameters>
                                 </step>
                             </preprocessing>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1340,7 +1345,6 @@ min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                             </graph_items>
                         </graph_prototype>
                     </graph_prototypes>
-                    <request_method>POST</request_method>
                 </discovery_rule>
                 <discovery_rule>
                     <uuid>d99e64a41e6b4e57bb9126f761e235fe</uuid>
@@ -1363,6 +1367,7 @@ min(/Template OS Linux/net.if.in[{#IFNAME},errors],5m)&gt;0.0</expression>
                         </conditions>
                     </filter>
                     <lifetime>5d</lifetime>
+                    <enabled_lifetime_type>DISABLE_NEVER</enabled_lifetime_type>
                     <description>Discovery of file systems of different types as defined in global regular expression &quot;File systems for discovery&quot;.
 
 Shorter resource keep time so we don't lose ourselves in old rook-ceph filesystems.</description>
@@ -1375,7 +1380,6 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <history>1w</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1385,9 +1389,15 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>502cb7b96eba40ff9f7e777b838bbbf0</uuid>
-                                    <expression>last(/Template OS Linux/vfs.fs.inode[{#FSNAME},pfree])&lt;2</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OS Linux/vfs.fs.inode[{#FSNAME},pfree])&lt;2</expression>
                                     <name>Free inodes is less than 2% on volume {#FSNAME}</name>
                                     <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>758e8efcc37d4e31b445778a49c2c5cb</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and last(/Template OS Linux/vfs.fs.inode[{#FSNAME},pfree])&lt;2</expression>
+                                    <name>Free inodes is less than 2% on volume {#FSNAME} (NOPANIC)</name>
+                                    <priority>HIGH</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>285426332bd6453395fe09a350fa2344</uuid>
@@ -1404,7 +1414,6 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <key>vfs.fs.size[{#FSNAME},free]</key>
                             <history>1w</history>
                             <units>B</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1420,7 +1429,6 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <history>1w</history>
                             <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1430,9 +1438,15 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <trigger_prototypes>
                                 <trigger_prototype>
                                     <uuid>45aa4c58021a4dc983007d57cb022de8</uuid>
-                                    <expression>last(/Template OS Linux/vfs.fs.size[{#FSNAME},pfree])&lt;3</expression>
+                                    <expression>({$HAS_DISASTER}=1 or ({$HAS_DISASTER}=&quot;9to5&quot; and time()&gt;{$OFFICE_HOURS_BEGIN} and time()&lt;{$OFFICE_HOURS_END})) and last(/Template OS Linux/vfs.fs.size[{#FSNAME},pfree])&lt;3</expression>
                                     <name>Free disk space on {HOST.NAME} is less than 2% on volume {#FSNAME}</name>
                                     <priority>DISASTER</priority>
+                                </trigger_prototype>
+                                <trigger_prototype>
+                                    <uuid>c566eb8659924bd08273b0af490a805d</uuid>
+                                    <expression>({$HAS_DISASTER}=0 or ({$HAS_DISASTER}=&quot;9to5&quot; and (time()&lt;{$OFFICE_HOURS_BEGIN} or time()&gt;{$OFFICE_HOURS_END}))) and last(/Template OS Linux/vfs.fs.size[{#FSNAME},pfree])&lt;3</expression>
+                                    <name>Free disk space on {HOST.NAME} is less than 2% on volume {#FSNAME} (NOPANIC)</name>
+                                    <priority>HIGH</priority>
                                 </trigger_prototype>
                                 <trigger_prototype>
                                     <uuid>d43746fb4f684d6296919fc934ee3b9f</uuid>
@@ -1450,7 +1464,6 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <delay>1h</delay>
                             <history>1w</history>
                             <units>B</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1465,7 +1478,6 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <key>vfs.fs.size[{#FSNAME},used]</key>
                             <history>1w</history>
                             <units>B</units>
-                            <request_method>POST</request_method>
                             <tags>
                                 <tag>
                                     <tag>Application</tag>
@@ -1503,67 +1515,8 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             </graph_items>
                         </graph_prototype>
                     </graph_prototypes>
-                    <request_method>POST</request_method>
                 </discovery_rule>
             </discovery_rules>
-            <macros>
-                <macro>
-                    <macro>{$CRIT_START_TIME}</macro>
-                    <value>070000</value>
-                </macro>
-                <macro>
-                    <macro>{$DISABLE_CPU_LOAD}</macro>
-                    <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$DISABLE_MEMORY}</macro>
-                    <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$DISABLE_OOM}</macro>
-                    <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$HAS_DISASTER}</macro>
-                    <value>1</value>
-                    <description>disable for NOPANIC template</description>
-                </macro>
-                <macro>
-                    <macro>{$HAS_TEMPLATE_ZFS}</macro>
-                    <value>0</value>
-                </macro>
-                <macro>
-                    <macro>{$JOURNALD_DISK}</macro>
-                    <value>1</value>
-                    <description>require journald logs on disk vs. require them in memory only</description>
-                </macro>
-                <macro>
-                    <macro>{$LIMIT_MEM_FREE}</macro>
-                    <value>10</value>
-                </macro>
-                <macro>
-                    <macro>{$LIMIT_MEM_FREE_DISASTER}</macro>
-                    <value>2</value>
-                </macro>
-                <macro>
-                    <macro>{$LIMIT_PROC_NUM}</macro>
-                    <value>750</value>
-                </macro>
-                <macro>
-                    <macro>{$MIN_MEMORY_BYTES_FREE}</macro>
-                    <value>6442450944</value>
-                </macro>
-                <macro>
-                    <macro>{$TEMPLATE_OS_DEBIANISH}</macro>
-                    <value>0</value>
-                    <description>Used to check if we have the Template OS Debian'ish assigned to a host</description>
-                </macro>
-                <macro>
-                    <macro>{$TIMEZONE}</macro>
-                    <value>Europe/Amsterdam</value>
-                    <description>expected timezone (Europe/Amsterdam or UTC)</description>
-                </macro>
-            </macros>
             <dashboards>
                 <dashboard>
                     <uuid>facf223bf2dd4fcaa11d3cdacdcb032a</uuid>
@@ -1573,7 +1526,7 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                             <widgets>
                                 <widget>
                                     <type>graph</type>
-                                    <width>12</width>
+                                    <width>36</width>
                                     <height>5</height>
                                     <fields>
                                         <field>
@@ -1584,12 +1537,17 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                                                 <name>CPU load</name>
                                             </value>
                                         </field>
+                                        <field>
+                                            <type>STRING</type>
+                                            <name>reference</name>
+                                            <value>AAAPW</value>
+                                        </field>
                                     </fields>
                                 </widget>
                                 <widget>
                                     <type>graph</type>
                                     <y>5</y>
-                                    <width>12</width>
+                                    <width>36</width>
                                     <height>6</height>
                                     <fields>
                                         <field>
@@ -1600,12 +1558,17 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                                                 <name>CPU usage</name>
                                             </value>
                                         </field>
+                                        <field>
+                                            <type>STRING</type>
+                                            <name>reference</name>
+                                            <value>AAAPX</value>
+                                        </field>
                                     </fields>
                                 </widget>
                                 <widget>
                                     <type>graph</type>
-                                    <x>12</x>
-                                    <width>12</width>
+                                    <x>36</x>
+                                    <width>36</width>
                                     <height>5</height>
                                     <fields>
                                         <field>
@@ -1617,6 +1580,11 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                                             </value>
                                         </field>
                                         <field>
+                                            <type>STRING</type>
+                                            <name>reference</name>
+                                            <value>AAAPY</value>
+                                        </field>
+                                        <field>
                                             <type>INTEGER</type>
                                             <name>source_type</name>
                                             <value>1</value>
@@ -1625,9 +1593,9 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                                 </widget>
                                 <widget>
                                     <type>graph</type>
-                                    <x>12</x>
+                                    <x>36</x>
                                     <y>5</y>
-                                    <width>12</width>
+                                    <width>36</width>
                                     <height>6</height>
                                     <fields>
                                         <field>
@@ -1637,6 +1605,11 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
                                                 <host>Template OS Linux</host>
                                                 <key>vm.memory.size[available]</key>
                                             </value>
+                                        </field>
+                                        <field>
+                                            <type>STRING</type>
+                                            <name>reference</name>
+                                            <value>AAAPZ</value>
                                         </field>
                                         <field>
                                             <type>INTEGER</type>
@@ -1661,15 +1634,15 @@ Shorter resource keep time so we don't lose ourselves in old rook-ceph filesyste
         </trigger>
         <trigger>
             <uuid>1748c249c9e848df9b07ca4bfe726e2f</uuid>
-            <expression>{$DISABLE_MEMORY}&lt;&gt;1 and last(/Template OS Linux/vm.memory.size[pavailable])&lt;{$LIMIT_MEM_FREE_DISASTER} and last(/Template OS Linux/vm.memory.size[available])&lt;{$MIN_MEMORY_BYTES_FREE}</expression>
-            <name>Less than {$LIMIT_MEM_FREE_DISASTER}% available memory on server {HOST.NAME}</name>
+            <expression>{$DISABLE_MEMORY}&lt;&gt;1 and last(/Template OS Linux/vm.memory.size[pavailable])&lt;{$LIMIT_MEM_FREE_HIGH} and last(/Template OS Linux/vm.memory.size[available])&lt;{$MIN_MEMORY_BYTES_FREE}</expression>
+            <name>Less than {$LIMIT_MEM_FREE_HIGH}% available memory on server {HOST.NAME}</name>
             <priority>HIGH</priority>
         </trigger>
         <trigger>
             <uuid>170cae4e17e14f95bea98487800ba2bd</uuid>
             <expression>last(/Template OS Linux/vfs.file.regmatch[/proc/mdstat,raid])&gt;0 and last(/Template OS Linux/vfs.file.regmatch[/proc/mdstat,_])&gt;0</expression>
             <name>Software RAID is degraded on {HOST.NAME}</name>
-            <priority>HIGH</priority>
+            <priority>DISASTER</priority>
         </trigger>
     </triggers>
     <graphs>

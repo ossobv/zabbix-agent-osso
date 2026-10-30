@@ -1,6 +1,6 @@
 -- SELECT 'INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES ('||globalmacroid||', '''||REPLACE(macro, '''', '''''')||''', '''||REPLACE(value, '''', '''''')||''', '''||REPLACE(description, '''', '''''')||''', '||type||');' AS sql FROM globalmacro ORDER BY globalmacroid;
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (2, '{$SNMP_COMMUNITY}', 'public', '', 0);
-INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (3, '{$OFFICE_HOURS_BEGIN}', '090000', 'HHMMSS office-hours start', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (3, '{$OFFICE_HOURS_BEGIN}', '091500', 'HHMMSS office-hours start', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (4, '{$OFFICE_HOURS_END}', '180000', 'HHMMSS office-hours end', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (5, '{$HAS_DISASTER}', '1', '1=disaster, 0=no_disaster, 9to5=office-hours-disaster', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (6, '{$ENABLE_CPU_COUNT_TRIGGER}', '0', '0 = disabled, 1 = enabled, Triggers if {$CPU_COUNT_WANTED} does not match the CPU count', 0);
@@ -42,3 +42,13 @@ INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (41,
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (42, '{$DISABLE_ZBXNOHW}', '0', 'Set to 1 to disable the "Needs hardware template" for hardware machines (or wrongly detected virtual machines)', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (43, '{$DISABLE_FIREWALL}', '0', 'Set to 1 to disable firewall triggers', 0);
 INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (44, '{$KERNEL_SLABPCT}', '20', 'Expect less than N% kernel slab usage (increase on ZFS systems)', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (45, '{$NIGHTTIME_HOURS_BEGIN}', '230000', 'HHMMSS - Some alerts are silenced during the night time. Those will then generate a HIGH trigger instead of a CRITICAL', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (46, '{$NIGHTTIME_HOURS_END}', '070000', 'HHMMSS - Some alerts are silenced during the night time. Those will then generate a HIGH trigger instead of a CRITICAL', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (47, '{$DISABLE_ALLOY}', '0', 'Set to 1 to disable Alloy related triggers', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (48, '{$DISABLE_TETRAGON}', '0', 'Set to 1 to disable Tetragon related triggers', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (49, '{$RABBITMQ.MESSAGES.MAX}', '1000000', 'Critical alert when queue contains more than this amount of messages', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (50, '{$RABBITMQ.MESSAGES.WARN}', '250000', 'Warn alert when queue contains more than this amount of messages', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (51, '{$DISABLE_FAIL2BAN}', '0', 'Set to 1 to disable fail2ban triggers', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (52, '{$DISABLE_AIDE}', '0', 'Set to 1 to disable AIDE triggers', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (53, '{$GRAFANA_LOGSIZE_HIGH}', '1048576', 'High alert when logfile of Alloy grows large', 0);
+INSERT INTO regexps (globalmacroid, macro, value, description, type) VALUES (54, '{$DISABLE_ZFS_SPACE_TRIGGERS}', '0', 'Set to 1 to disable ZFS zpool less than x triggers', 0);
