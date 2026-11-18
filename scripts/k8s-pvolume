@@ -39,7 +39,7 @@ get_rookceph_pv_name() {
     subvolumegroup=$3   # used in spec key ("csi")
     subvolume=$4        # used in subvolumeName value
 
-    name='{{.spec.'$subvolumegroup'.volumeAttributes.subvolumeName}}'
+    name='{{(index .spec "'$subvolumegroup'").volumeAttributes.subvolumeName}}'
     tpl="{{range .items}}{{.metadata.name}} $name{{\"\\n\"}}{{end}}"
 
     kubectl --context "$context" get persistentvolumes \
