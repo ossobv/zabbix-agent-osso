@@ -70,12 +70,13 @@ elif test "$bin" = list_instances; then
                 instance=${cnf##*/mysql.}
             fi
             instance=${instance%.cnf}
-            echo $instance
+            echo "$instance"
             notfirst=1
         fi
     done
     test -z "$notfirst" && test -s /etc/zabbix/mysql/.my.cnf &&
         echo default
+    exit 0
 elif test "$bin" = no-v2-conf; then
     for cnf in /etc/zabbix/config/mysql2.*.cnf \
                /etc/zabbix/config/mysql.*.cnf; do
