@@ -1,3 +1,10 @@
+zabbix-agent-osso (0.96) stable; urgency=low
+
+  * k8s-pvolume: Cope with dashes in subvolumegroup name
+  * scripts/mysql2: fix exit code for list_instances
+
+ -- Walter Doekes (work) <wjdoekes@osso.nl>  Tue, 04 Nov 2026 12:58:13 +0100
+
 zabbix-agent-osso (0.95) stable; urgency=low
 
   * k8s-gpu: Fix broken sudoers
